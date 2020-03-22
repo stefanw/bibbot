@@ -1,6 +1,6 @@
 # VOEBBot
 
-Browser extension that uses your [VÖBB](https://www.voebb.de/) public library account (just 15 € a year!) to remove the paywall on print articles of German online news sites.
+Browser extension that uses your [VÖBB](https://www.voebb.de/) public library account (just 10 € / year!) to remove the paywall on print articles of German online news sites.
 
 ## How it works
 
