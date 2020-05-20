@@ -58,7 +58,7 @@ const converters = {
   }
 }
 
-const readers = []
+const readers = {}
 const storageItems = {}
 
 browser.storage.sync.get({username: '', password: ''}).then(function(items) {
@@ -67,24 +67,30 @@ browser.storage.sync.get({username: '', password: ''}).then(function(items) {
   }
 })
 
-function connected(p) {
+function connected(message, sender, sendResponse) {
   const reader = {
-    port: p,
+    postMessage: function(m) {
+      console.log('Sending message to', this.tabId, m)
+      sendResponse(m)
+    },
     step: 0,
-    phase: 'login'
+    phase: 'login',
+    tabId: sender.tab.id,
   }
-  readers[p.sender.tab.id] = reader
-  p.onMessage.addListener(function(m) {
-      console.log('received message', m)
-      if (m.type === 'voebb-init') {
-        reader.provider = m.provider
-        reader.articleInfo = m.articleInfo
-        startProvider(reader)
-      }
-  })
+
+  readers[sender.tab.id] = reader
+  console.log('received message', message, 'from', sender.tab.id)
+  if (message.type === 'voebb-init') {
+    reader.provider = message.provider
+    reader.providerParams = message.providerParams
+    reader.articleInfo = message.articleInfo
+    startProvider(reader)
+  }
+  return true;
 }
 
-browser.runtime.onConnect.addListener(connected)
+// browser.runtime.onConnect.addListener(connected)
+browser.runtime.onMessage.addListener(connected)
 
 
 function startProvider (reader) {
@@ -150,19 +156,23 @@ function runStep (reader, provider) {
     }).then(function(result) {
       console.log('action', action, 'result', result)
       result = result[0]
+      if (result === undefined) {
+        // Firefox returns undefined, chrome empty array
+        result = []
+      }
       if (result.length > 0 && action.convert) {
         result = converters[action.convert](result)
       }
       if (isFinal) {
         if (result.length > 0) {
-          reader.port.postMessage({
+          reader.postMessage({
             type: "success",
             content: result
           })
           browser.tabs.remove(reader.tabId)
         } else {
           console.warn('failed to find')
-          reader.port.postMessage({
+          reader.postMessage({
             type: "failed",
             content: result
           })

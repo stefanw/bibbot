@@ -66,7 +66,10 @@ const loader = `
 
 
 var articleInfo = {}
-const port = browser.runtime.connect({name:"port-from-cs"});
+// const port = browser.runtime.connect({name:"port-from-cs"});
+// port.onDisconnect.addListener(function(p) {
+//   console.log('Port disconnected', p);
+// })
 
 function setupReader() {
   for (const key in reader.selectors) {
@@ -96,22 +99,21 @@ function setupReader() {
     reader.start()
   }
 
-  port.postMessage({
-    "type": "voebb-init",
-    "provider": reader.provider,
-    "articleInfo": articleInfo
-  });
-
   const main = document.querySelector(reader.selectors.main)
   main.innerHTML = main.innerHTML + loader
-  
-  port.onMessage.addListener(function(m) {
-    console.log(m);
-    if (m.type === 'failed') {
+    
+  chrome.runtime.sendMessage({
+    "type": "voebb-init",
+    "provider": reader.provider,
+    "providerParams": reader.providerParams,
+    "articleInfo": articleInfo
+  }, function finalizeReader (message) {
+    console.log(message);
+    if (message.type === 'failed') {
       paywall.style.display = "block"
-      return
+      return Promise.resolve()
     }
-    let content = m.content
+    let content = message.content.join('')
     if (reader.selectors.mimic) {
       const mimic = document.querySelector(reader.selectors.mimic)
       content = `<div class="${mimic.className}">${content}</div>`
@@ -120,15 +122,17 @@ function setupReader() {
     if (reader.cleanup) {
       reader.cleanup()
     }
-  });
-
+    return Promise.resolve()
+  })
 
 }
+
 
 const host = document.location.host
 const reader = readers[host]
 
 if (reader !== undefined) {
   console.log("setup reader!");
+
   setupReader()
 }
