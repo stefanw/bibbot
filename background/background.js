@@ -33,7 +33,7 @@ const providers = {
       ],
       search: [
         [
-          {url: "https://bib-voebb.genios.de/dosearch?explicitSearch=true&q=&dbShortcut=%3A5%3A1%3A2%3AZEIT&searchMask=5754&TI%2CUT%2CDZ%2CBT%2COT%2CSL={title}&AU=&KO=&MM%2COW%2CUF%2CMF%2CAO%2CTP%2CVM%2CNN%2CNJ%2CKV%2CZ2=&CT%2CDE%2CZ4%2CKW=&Z3%2CCN%2CCE%2CKC%2CTC%2CVC=&DT_from=&DT_to=&timeFilterType=selected&timeFilter=NONE&x=59&y=11"}
+          {url: "https://bib-voebb.genios.de/dosearch?explicitSearch=true&q=&dbShortcut={providerParams.dbShortcut}&searchMask={providerParams.searchMask}&TI%2CUT%2CDZ%2CBT%2COT%2CSL={title}&AU=&KO=&MM%2COW%2CUF%2CMF%2CAO%2CTP%2CVM%2CNN%2CNJ%2CKV%2CZ2=&CT%2CDE%2CZ4%2CKW=&Z3%2CCN%2CCE%2CKC%2CTC%2CVC=&DT_from=&DT_to=&timeFilterType=selected&timeFilter=NONE&x=59&y=11"}
         ],
         [
           {click: ".boxHeader"}
@@ -208,6 +208,11 @@ function getActionCode (reader, action) {
     let url = action.url
     for (let v of vars) {
       url = url.replace(new RegExp(`\{${v}\}`), encodeURIComponent(reader.articleInfo[v] || ''))
+    }
+    if (reader.providerParams) {
+      for (let v in reader.providerParams) {
+        url = url.replace(new RegExp(`\{providerParams.${v}\}`), encodeURIComponent(reader.providerParams[v] || ''))
+      }
     }
     return `document.location.href = '${url}';`
   } else if (action.extract) {
