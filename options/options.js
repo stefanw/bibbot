@@ -7,16 +7,15 @@ function restore() {
     })
 }
 
-function save() {
+function save(e) {
+    e.preventDefault()
     var username = document.getElementById("username").value
     var password = document.getElementById("password").value
     browser.storage.sync.set({
         username: username,
         password: password,
-    });
-    alert("test")
-    window.close()
+    })
 }
 
 document.addEventListener("DOMContentLoaded", restore);
-document.getElementById("save").addEventListener("click", save);
+document.querySelector("form").addEventListener("submit", save)
