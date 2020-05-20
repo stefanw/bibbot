@@ -19,7 +19,7 @@
   ],
   "background": {
     "scripts": [
-      "lib/browser-polyfill.min.js",
+      "lib/browser-polyfill.js",
       "background/background.js"
     ],
     "persistent": false
@@ -33,7 +33,7 @@
       ],
       "exclude_matches": [],
       "js": [
-        "lib/browser-polyfill.min.js",
+        "lib/browser-polyfill.js",
         "content/content.js"
       ],
       "run_at": "document_end",
