@@ -10,7 +10,7 @@ const readers = {
   },
   "www.spiegel.de": {
     selectors: {
-      title: ".leading-tight span:not(:first-child)",
+      title: ".leading-tight span:not(:first-child), .leading-none .leading-normal",
       overline: "article .text-primary-base",
       main: "article section .clearfix",
       mimic: "article section .clearfix .RichText",
@@ -30,8 +30,25 @@ const readers = {
     start: function () {
       document.querySelector('.paragraph.article__item').classList.remove('paragraph--faded')
     },
-    provider: "bib-voebb.genios.de"
-  }
+    provider: "bib-voebb.genios.de",
+    providerParams: {
+      dbShortcut: "%3A5%3A1%3A2%3AZEIT",
+      searchMask: "5754"
+    }
+  },
+  "www.wiwo.de": {
+    selectors: {
+      title: ".c-headline--article",
+      date: ".o-article__element time",
+      paywall: ".o-reco",
+      main: ".o-article__content .u-richtext",
+    },
+    provider: "bib-voebb.genios.de",
+    providerParams: {
+      dbShortcut: 'WWON',
+      searchMask: '5968'
+    }
+  },
 }
 
 const loader = `

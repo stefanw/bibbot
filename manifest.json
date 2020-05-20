@@ -29,9 +29,9 @@
       "matches": [
         "https://www.spiegel.de/*",
         "https://magazin.spiegel.de/*",
-        "https://www.zeit.de/*"
+        "https://www.zeit.de/*",
+        "https://www.wiwo.de/*"
       ],
-      "exclude_matches": [],
       "js": [
         "lib/browser-polyfill.js",
         "content/content.js"
