@@ -10,8 +10,7 @@ const readers = {
   },
   "www.spiegel.de": {
     selectors: {
-      title: ".leading-tight span:not(:first-child), .leading-none .leading-normal",
-      overline: "article .text-primary-base",
+      title: ".leading-tight span:not(:first-child), .leading-none .leading-normal, h2 span:not(:first-child) span:not(:first-child)",
       main: "article section .clearfix",
       mimic: "article section .clearfix .RichText",
       paywall: "div[data-component='Paywall']"
@@ -27,13 +26,30 @@ const readers = {
       main: ".article-page",
       mimic: ".article-page .paragraph"
     },
-    start: function () {
+    start: function (paywall) {
+      paywall.style.display = "none"
       document.querySelector('.paragraph.article__item').classList.remove('paragraph--faded')
     },
     provider: "bib-voebb.genios.de",
     providerParams: {
-      dbShortcut: "%3A5%3A1%3A2%3AZEIT",
-      searchMask: "5754"
+      dbShortcut: "ZEIT",
+      searchMask: "7499"
+    }
+  },
+  "www.welt.de": {
+    selectors: {
+      title: "h2.c-headline",
+      date: "time",
+      paywall: ".contains_walled_content",
+      main: ".c-article-text",
+    },
+    start: function () {
+      document.querySelector('.c-page-container.c-la-loading').remove()
+    },
+    provider: "bib-voebb.genios.de",
+    providerParams: {
+      dbShortcut: 'WEON',
+      searchMask: '6303'
     }
   },
   "www.wiwo.de": {
@@ -109,11 +125,12 @@ function setupReader() {
   if (paywall === null) {
     return
   }
-
-  paywall.style.display = "none"
+  console.log('Found paywall', articleInfo)
 
   if (reader.start) {
-    reader.start()
+    reader.start(paywall)
+  } else {
+    paywall.style.display = "none"
   }
 
   const main = document.querySelector(reader.selectors.main)

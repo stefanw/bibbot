@@ -30,7 +30,8 @@
         "https://www.spiegel.de/*",
         "https://magazin.spiegel.de/*",
         "https://www.zeit.de/*",
-        "https://www.wiwo.de/*"
+        "https://www.wiwo.de/*",
+        "https://www.welt.de/*"
       ],
       "js": [
         "lib/browser-polyfill.js",
