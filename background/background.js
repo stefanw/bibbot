@@ -156,7 +156,7 @@ function runStep (reader, provider) {
     }).then(function(result) {
       console.log('action', action, 'result', result)
       result = result[0]
-      if (result === undefined) {
+      if (result === undefined || result === null) {
         // Firefox returns undefined, chrome empty array
         result = []
       }
