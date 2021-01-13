@@ -50,7 +50,7 @@
       "38": "icons/voebbot38.png"
     },
     "default_popup": "popup/popup.html",
-    "default_title": "Popup Title"
+    "default_title": "VOEBBot"
   },
   "browser_specific_settings": {
     "gecko": {
