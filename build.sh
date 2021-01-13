@@ -1,3 +1,4 @@
 #!/bin/sh
-rm -f voebbot.zip
-zip -r -FS voebbot.zip * --exclude '*.git*' --exclude '*/.DS_Store' --exclude '*.zip' --exclude '*.sh'  --exclude '.github/*' --exclude 'screenshots/*'
+mkdir -p build
+rm -f build/voebbot.zip
+zip -r -FS build/voebbot.zip * --exclude '*.git*' --exclude '*/.DS_Store' --exclude 'build/*' --exclude '*.sh'  --exclude '.github/*' --exclude 'screenshots/*'
