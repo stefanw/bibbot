@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Set tag name in env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Build project
         run: "./build.sh"
       - name: Create Release
@@ -21,8 +23,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ env.RELEASE_VERSION }}
+          release_name: Release ${{ env.RELEASE_VERSION }}
           body: ""
           draft: false
           prerelease: false
@@ -34,9 +36,8 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           asset_path: ./build/voebbot.zip
-          asset_name: voebbot-${{ github.ref }}.zip
+          asset_name: voebbot-${{ env.RELEASE_VERSION }}.zip
           asset_content_type: application/zip
-
       - name: "web-ext sign"
         id: web-ext-sign
         uses: kewisch/action-web-ext@v1
@@ -46,12 +47,6 @@ jobs:
           apiKey: ${{ secrets.FIREFOX_API_KEY }}
           apiSecret: ${{ secrets.FIREFOX_API_SECRET }}
           timeout: 900000
-      - name: "Create Release"
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          files: ${{ steps.web-ext-sign.outputs.target }}
       - name: Upload Release XPI Asset
         id: upload-release-xpi-asset 
         uses: actions/upload-release-asset@v1
