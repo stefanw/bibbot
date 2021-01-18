@@ -29,7 +29,8 @@
         "https://magazin.spiegel.de/*",
         "https://www.zeit.de/*",
         "https://www.wiwo.de/*",
-        "https://www.welt.de/*"
+        "https://www.welt.de/*",
+        "https://plus.tagesspiegel.de/*"
       ],
       "js": [
         "lib/browser-polyfill.js",

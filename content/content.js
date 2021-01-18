@@ -17,6 +17,19 @@ const readers = {
     },
     provider: "www.munzinger.de"
   },
+  "plus.tagesspiegel.de": {
+    selectors: {
+      title: "h1 > span",
+      main: ".article--paid",
+      paywall: ".article--paid > p:first-child~div",
+      date: "time",
+    },
+    provider: "bib-voebb.genios.de",
+    providerParams: {
+      dbShortcut: "TSP",
+      searchMask: "5472"
+    }
+  },
   "www.zeit.de": {
     selectors: {
       title: ".article-heading__title",
