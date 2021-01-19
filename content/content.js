@@ -61,8 +61,63 @@ const readers = {
     },
     provider: "bib-voebb.genios.de",
     providerParams: {
-      dbShortcut: 'WEON',
-      searchMask: '6303'
+      dbShortcut: 'WEPL',
+      searchMask: '7425'
+    }
+  },
+  "www.sueddeutsche.de": {
+    selectors: {
+      title: "article > header > h2 > span:last-child",
+      date: "time",
+      paywall: "offer-page",
+      main: "div[itemprop='articleBody']",
+      mimic: ".sz-article-body__paragraph"
+    },
+    provider: "bib-voebb.genios.de",
+    providerParams: {
+      dbShortcut: 'SZ',
+      searchMask: '5441'
+    }
+  },
+  "www.handelsblatt.com": {
+    selectors: {
+      title: "span[itemprop='headline']",
+      date: "span[itemprop='datePublished']",
+      paywall: ".c-paywall",
+      main: "div[itemprop='articleBody']",
+    },
+    provider: "bib-voebb.genios.de",
+    providerParams: {
+      dbShortcut: 'HBON',
+      searchMask: '6111'
+    }
+  },
+  "www.berliner-zeitung.de": {
+    selectors: {
+      title: () => {
+        return document.querySelector('.a-paragraph span:not(:first-child)').innerText.split(' ').slice(0, 5).join(' ')
+      },
+      main: '.o-article',
+      paywall: '.paywall-dialog-box',
+    },
+    provider: "bib-voebb.genios.de",
+    providerParams: {
+      dbShortcut: 'BEZE',
+      searchMask: '5525'
+    }
+  },
+  "www.morgenpost.de": {
+    selectors: {
+      title: () => {
+        return document.querySelector('.article__body p').innerText.split(' ').slice(0, 8).join(' ')
+      },
+      main: "div[itemprop='articleBody']",
+      paywall: '#paywall-container',
+    },
+    provider: "bib-voebb.genios.de",
+    providerParams: {
+      dbShortcut: 'BMP',
+      searchMask: '5601'
     }
   },
   "www.wiwo.de": {
@@ -120,16 +175,21 @@ var articleInfo = {}
 function setupReader() {
   for (const key in reader.selectors) {
     if (reader.selectors[key]) {
-      const parts = reader.selectors[key].split('@')
-      const result = document.querySelector(parts[0])
-      if (result === null) {
-        articleInfo[key] = ''
-        continue
-      }
-      if (parts[1]) {
-        articleInfo[key] = result.attributes[parts[1]].value.trim()
+      const selector = reader.selectors[key]
+      if (typeof selector === "function") {
+        articleInfo[key] = selector()
       } else {
-        articleInfo[key] = result.textContent.trim()
+        const parts = reader.selectors[key].split('@')
+        const result = document.querySelector(parts[0])
+        if (result === null) {
+          articleInfo[key] = ''
+          continue
+        }
+        if (parts[1]) {
+          articleInfo[key] = result.attributes[parts[1]].value.trim()
+        } else {
+          articleInfo[key] = result.textContent.trim()
+        }
       }
     }
   }
@@ -163,7 +223,9 @@ function setupReader() {
     let content = message.content.join('')
     if (reader.selectors.mimic) {
       const mimic = document.querySelector(reader.selectors.mimic)
-      content = `<div class="${mimic.className}">${content}</div>`
+      if (mimic !== null) {
+        content = `<div class="${mimic.className}">${content}</div>`
+      }
     }
     main.innerHTML = content
     if (reader.cleanup) {

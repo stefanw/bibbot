@@ -30,7 +30,11 @@
         "https://www.zeit.de/*",
         "https://www.wiwo.de/*",
         "https://www.welt.de/*",
-        "https://plus.tagesspiegel.de/*"
+        "https://plus.tagesspiegel.de/*",
+        "https://www.sueddeutsche.de/*",
+        "https://www.handelsblatt.com/*",
+        "https://www.berliner-zeitung.de/*",
+        "https://www.morgenpost.de/*"
       ],
       "js": [
         "lib/browser-polyfill.js",
