@@ -67,11 +67,20 @@ const readers = {
   },
   "www.sueddeutsche.de": {
     selectors: {
-      title: "article > header > h2 > span:last-child",
+      // title: "article > header > h2 > span:last-child",
+      title: () => {
+        return document.querySelector('.sz-article-body__paragraph--reduced').innerText.split(' ').slice(0, 8).join(' ')
+      },
       date: "time",
       paywall: "offer-page",
       main: "div[itemprop='articleBody']",
       mimic: ".sz-article-body__paragraph"
+    },
+    start: () => {
+      const p = document.querySelector('.sz-article-body__paragraph--reduced')
+      if (p) {
+        p.className = 'sz-article-body__paragraph'
+      }
     },
     provider: "bib-voebb.genios.de",
     providerParams: {
