@@ -44,6 +44,7 @@ jobs:
         with:
           cmd: sign
           channel: unlisted
+          verbose: true
           apiKey: ${{ secrets.FIREFOX_API_KEY }}
           apiSecret: ${{ secrets.FIREFOX_API_SECRET }}
           timeout: 900000
