@@ -129,6 +129,18 @@ const readers = {
       searchMask: '5601'
     }
   },
+  "www.nordkurier.de": {
+    selectors: {
+      title: "article h1",
+      main: ".article-content",
+      paywall: '.nk-plus-subscription-options-breaker',
+    },
+    provider: "bib-voebb.genios.de",
+    providerParams: {
+      dbShortcut: 'NKU',
+      searchMask: '5949'
+    }
+  },
   "www.wiwo.de": {
     selectors: {
       title: ".c-headline--article",

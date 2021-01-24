@@ -21,6 +21,7 @@ Unless your browser autofills your credentials on the *various* VÖBB services, 
 - handelsblatt.com
 - www.spiegel.de
 - magazin.spiegel.de
+- nordkurier.de
 - sueddeutsche.de
 - plus.tagesspiegel.de
 - www.welt.de
