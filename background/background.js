@@ -39,7 +39,7 @@ const providers = {
           {click: ".boxHeader"}
         ],
         [
-          {extract: ".divDocument pre:nth-of-type(4), .divDocument pre:nth-of-type(5)", convert: "preToParagraph"},
+          {extract: ".divDocument pre.text", convert: "preToParagraph"},
         ]
       ]
     }
