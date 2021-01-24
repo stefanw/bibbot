@@ -212,7 +212,9 @@ function getActionCode (reader, action) {
     const vars = ['title', 'edition', 'overline']
     let url = action.url
     for (let v of vars) {
-      url = url.replace(new RegExp(`\{${v}\}`), encodeURIComponent(reader.articleInfo[v] || ''))
+      let q = reader.articleInfo[v] || ''
+      q = q.replace(/[!,\.:\?;'"\/\(\)]/g, '')
+      url = url.replace(new RegExp(`\{${v}\}`), encodeURIComponent(q))
     }
     if (reader.providerParams) {
       for (let v in reader.providerParams) {
