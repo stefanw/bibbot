@@ -1,3 +1,4 @@
 *.zip
 screenshots/*
 build/
+_site/
