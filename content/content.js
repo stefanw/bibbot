@@ -26,15 +26,14 @@ const readers = {
     },
     provider: "bib-voebb.genios.de",
     providerParams: {
-      dbShortcut: "TSP",
-      searchMask: "5472"
+      dbShortcut: "TSP,TPCP,TSPO",
     }
   },
   "www.zeit.de": {
     selectors: {
-      title: ".article-heading__title",
+      title: ".article-heading__title, .article-header__title, .headline__title",
       edition: ".zplus-badge__media-item@alt",
-      date: ".metadata__source.encoded-date",
+      date: ".metadata__source.encoded-date, time",
       paywall: ".gate.article__item",
       main: ".article-page",
       mimic: ".article-page .paragraph"
@@ -45,8 +44,8 @@ const readers = {
     },
     provider: "bib-voebb.genios.de",
     providerParams: {
-      dbShortcut: "ZEIT",
-      searchMask: "7499"
+      dbShortcut: "ZEIT,ZEIO,ZTCS,ZTGS,ZTWI",
+
     }
   },
   "www.welt.de": {
@@ -61,8 +60,7 @@ const readers = {
     },
     provider: "bib-voebb.genios.de",
     providerParams: {
-      dbShortcut: 'WEPL',
-      searchMask: '7425'
+      dbShortcut: 'WEPL,WAMS,WELT,WEON',
     }
   },
   "www.sueddeutsche.de": {
@@ -138,7 +136,18 @@ const readers = {
     provider: "bib-voebb.genios.de",
     providerParams: {
       dbShortcut: 'NKU',
-      searchMask: '5949'
+    }
+  },
+  "www.abendblatt.de": {
+    selectors: {
+      title: "[itemprop='headline']",
+      main: ".article__body",
+      date: "time",
+      paywall: "#paywall-container"
+    },
+    provider: "bib-voebb.genios.de",
+    providerParams: {
+      dbShortcut: 'HA,HABO',
     }
   },
   "www.wiwo.de": {

@@ -35,7 +35,8 @@
         "https://www.handelsblatt.com/*",
         "https://www.berliner-zeitung.de/*",
         "https://www.morgenpost.de/*",
-        "https://www.nordkurier.de/*"
+        "https://www.nordkurier.de/*",
+        "https://www.abendblatt.de/*"
       ],
       "js": [
         "lib/browser-polyfill.js",
