@@ -40,7 +40,7 @@ jobs:
           asset_content_type: application/zip
       - name: "web-ext sign"
         id: web-ext-sign
-        uses: kewisch/action-web-ext@v1
+        uses: kewisch/action-web-ext@d5376aebf5a5f167924728cf9b43d6e9e8ee10e0
         with:
           cmd: sign
           channel: unlisted
