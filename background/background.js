@@ -1,4 +1,5 @@
 const voebbLogin = [
+  {message: "VÖBB-Konto wird eingeloggt..."},
   {fill: {selector: 'input[name="L#AUSW"]', key: "username"}},
   {fill: {selector: 'input[name="LPASSW"]', key: "password"}},
   {click: 'input[name="LLOGIN"]'},
@@ -18,6 +19,7 @@ const providers = {
         ],
         search: [
           [
+              {message: "Suche wird durchgeführt..."},
               {url: "https://www.munzinger.de/search/query?template=%2Fpublikationen%2Fspiegel%2Fresult.jsp&query.id=query-spiegel&query.key=gQynwrIS&query.commit=yes&query.scope=spiegel&query.index-order=personen&query.facets=yes&facet.path=%2Fspiegel&facet.activate=yes&hitlist.highlight=yes&hitlist.sort=-field%3Aisort&query.Titel={title}&query.Ausgabe={edition}&query.Ressort=&query.Signatur=&query.Person=&query.K%C3%B6rperschaft=&query.Ort=&query.Text={overline}"},
           ],
           [
@@ -149,6 +151,13 @@ function loginTest (reader, provider) {
   return Promise.resolve(false)
 }
 
+function sendStatusMessage(reader, text) {
+  // reader.postMessage({
+  //   type: "message",
+  //   text: text
+  // })
+}
+
 
 function runStep (reader, provider) {
   const actions = provider[reader.phase][reader.step]
@@ -160,6 +169,9 @@ function runStep (reader, provider) {
       code: actionCode
     }).then(function(result) {
       console.log('action', action, 'result', result)
+      if (!isFinal) {
+        return
+      }
       result = result[0]
       if (result === undefined || result === null) {
         // Firefox returns undefined, chrome empty array
@@ -168,20 +180,18 @@ function runStep (reader, provider) {
       if (result.length > 0 && action.convert) {
         result = converters[action.convert](result)
       }
-      if (isFinal) {
-        if (result.length > 0) {
-          reader.postMessage({
-            type: "success",
-            content: result
-          })
-          browser.tabs.remove(reader.tabId)
-        } else {
-          console.warn('failed to find')
-          reader.postMessage({
-            type: "failed",
-            content: result
-          })
-        }
+      if (result.length > 0) {
+        reader.postMessage({
+          type: "success",
+          content: result
+        })
+        browser.tabs.remove(reader.tabId)
+      } else {
+        console.warn('failed to find')
+        reader.postMessage({
+          type: "failed",
+          content: result
+        })
       }
     }, function(err) {
       console.warn('Error after action', action, err)
@@ -200,7 +210,10 @@ function runStep (reader, provider) {
 }
 
 function getActionCode (reader, action) {
-  if (action.fill) {
+  if (action.message) {
+    sendStatusMessage(reader, action.message)
+    return `undefined`
+  } else if (action.fill) {
     if (storageItems[action.fill.key]) {
       return `document.querySelector('${action.fill.selector}').value = '${storageItems[action.fill.key]}'`
     } else {
