@@ -1,7 +1,7 @@
 const readers = {
   "magazin.spiegel.de": {
     selectors: {
-      title: "#articles > article > header h1",
+      query: "#articles > article > header h1",
       main: "#articles > article > main .paragraph",
       edition: "body > footer > span.pvi",
       paywall: "#preview"
@@ -10,16 +10,20 @@ const readers = {
   },
   "www.spiegel.de": {
     selectors: {
-      title: ".leading-tight span:not(:first-child), .leading-none .leading-normal, h2 span:not(:first-child) span:not(:first-child)",
+      query: ".leading-tight span:not(:first-child), .leading-none .leading-normal, h2 span:not(:first-child) span:not(:first-child)",
       main: "article section .clearfix",
       mimic: "article section .clearfix .RichText",
       paywall: "div[data-component='Paywall']"
     },
-    provider: "www.munzinger.de"
+    // provider: "www.munzinger.de"
+    provider: "bib-voebb.genios.de",
+    providerParams: {
+      dbShortcut: "SPII,KULS,SPIE,SPON,SSPE,UNIS,LISP,SPBE",
+    }
   },
   "plus.tagesspiegel.de": {
     selectors: {
-      title: "h1 > span",
+      query: "h1 > span",
       main: ".article--paid",
       paywall: ".article--paid > p:first-child~div",
       date: "time",
@@ -31,7 +35,7 @@ const readers = {
   },
   "www.zeit.de": {
     selectors: {
-      title: ".article-heading__title, .article-header__title, .headline__title",
+      query: ".article-heading__title, .article-header__title, .headline__title",
       edition: ".zplus-badge__media-item@alt",
       date: ".metadata__source.encoded-date, time",
       paywall: ".gate.article__item",
@@ -50,7 +54,7 @@ const readers = {
   },
   "www.welt.de": {
     selectors: {
-      title: "h2.c-headline",
+      query: "h2.c-headline",
       date: "time",
       paywall: ".contains_walled_content",
       main: ".c-article-text",
@@ -65,8 +69,8 @@ const readers = {
   },
   "www.sueddeutsche.de": {
     selectors: {
-      // title: "article > header > h2 > span:last-child",
-      title: () => {
+      // query: "article > header > h2 > span:last-child",
+      query: () => {
         return document.querySelector('.sz-article-body__paragraph--reduced').innerText.split(' ').slice(0, 8).join(' ')
       },
       date: "time",
@@ -88,7 +92,7 @@ const readers = {
   },
   "www.handelsblatt.com": {
     selectors: {
-      title: "span[itemprop='headline']",
+      query: "span[itemprop='headline']",
       date: "span[itemprop='datePublished']",
       paywall: ".c-paywall",
       main: "div[itemprop='articleBody']",
@@ -101,7 +105,7 @@ const readers = {
   },
   "www.berliner-zeitung.de": {
     selectors: {
-      title: () => {
+      query: () => {
         return document.querySelector('.a-paragraph span:not(:first-child)').innerText.split(' ').slice(0, 5).join(' ')
       },
       main: '.o-article',
@@ -115,7 +119,7 @@ const readers = {
   },
   "www.morgenpost.de": {
     selectors: {
-      title: () => {
+      query: () => {
         return document.querySelector('.article__body p').innerText.split(' ').slice(0, 8).join(' ')
       },
       main: "div[itemprop='articleBody']",
@@ -152,7 +156,7 @@ const readers = {
   },
   "www.wiwo.de": {
     selectors: {
-      title: ".c-headline--article",
+      query: ".c-headline--article",
       date: ".o-article__element time",
       paywall: ".o-reco",
       main: ".o-article__content .u-richtext",
