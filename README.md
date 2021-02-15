@@ -12,16 +12,19 @@ When you browse the websites of German news sites the extension will detect the 
 
 This extension is in beta development. You can [download a release](https://github.com/stefanw/voebbot/releases) and load it in your browser.
 
-Unless your browser autofills your credentials on the *various* VÖBB services, you can give the extension your 11-digit user id and password via its options page.
+Unless your browser autofills your credentials on the VÖBB partner sites, you can give the extension your 11-digit user id and password via its options page.
 
 ## Currently supported sites
 
+- abendblatt.de
 - berliner-zeitung.de
 - morgenpost.de
 - handelsblatt.com
+- moz.de
+- nordkurier.de
+- noz.de
 - www.spiegel.de
 - magazin.spiegel.de
-- nordkurier.de
 - sueddeutsche.de
 - plus.tagesspiegel.de
 - www.welt.de

@@ -36,7 +36,9 @@
         "https://www.berliner-zeitung.de/*",
         "https://www.morgenpost.de/*",
         "https://www.nordkurier.de/*",
-        "https://www.abendblatt.de/*"
+        "https://www.abendblatt.de/*",
+        "https://www.moz.de/*",
+        "https://www.noz.de/*"
       ],
       "js": [
         "lib/browser-polyfill.js",

@@ -131,9 +131,29 @@ const readers = {
       searchMask: '5601'
     }
   },
+  "www.moz.de": {
+    selectors: {
+      query: () => {
+        return document.querySelector('title').innerText.split('|')[0].trim()
+      },
+      main: ".article-content .article-text",
+      paywall: '.article-content.paywall .justify-content-center',
+    },
+    start: () => {
+      const p = document.querySelector('.article-content')
+      if (p) {
+        p.classList.remove('paywall')
+      }
+    },
+
+    provider: "bib-voebb.genios.de",
+    providerParams: {
+      dbShortcut: 'MOZ',
+    }
+  },
   "www.nordkurier.de": {
     selectors: {
-      title: "article h1",
+      query: "article h1",
       main: ".article-content",
       paywall: '.nk-plus-subscription-options-breaker',
     },
@@ -142,9 +162,31 @@ const readers = {
       dbShortcut: 'NKU',
     }
   },
+  "www.noz.de": {
+    selectors: {
+      query: () => {
+        return document.querySelector('.paywall-fadeout').innerText.split(' ').slice(0, 12).join(' ')
+      },
+      main: ".voebbot-main",
+      time: '[itemprop="datePublished"]',
+      paywall: '.paywall',
+    },
+    start: () => {
+      const p = document.querySelector('.paywall-fadeout')
+      if (p) {
+        p.classList.remove('paywall-fadeout')
+        p.classList.add('voebbot-main')
+      }
+    },
+
+    provider: "bib-voebb.genios.de",
+    providerParams: {
+      dbShortcut: 'NOZ',
+    }
+  },
   "www.abendblatt.de": {
     selectors: {
-      title: "[itemprop='headline']",
+      query: "[itemprop='headline']",
       main: ".article__body",
       date: "time",
       paywall: "#paywall-container"
