@@ -43,6 +43,7 @@ jobs:
         uses: kewisch/action-web-ext@d5376aebf5a5f167924728cf9b43d6e9e8ee10e0
         with:
           cmd: sign
+          source: ./build/voebbot/
           channel: unlisted
           verbose: true
           apiKey: ${{ secrets.FIREFOX_API_KEY }}
