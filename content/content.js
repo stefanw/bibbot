@@ -198,7 +198,7 @@ animation: voebbot-working 2s ease-in-out 0s infinite;
   }
 }
 </style>
-<div id="voebbot-loader" style="border: 5px solid ${COLOR}; padding: 10px; margin: 20px auto; text-align:center">
+<div id="voebbot-loader" style="border: 5px solid ${COLOR}; padding: 10px; margin: 20px auto; text-align:center; position:relative">
   <div style="color: ${COLOR}; font-family: sans-serif; font-size: 1.2rem">VÖBBot</div>
   <img id="voebbot-loading" src="${ICON}" alt="VOEBBot" height="40" width="30">
   <div id="${MESSAGE_ID}" style="font-family: sans-serif; font-size: 0.9rem; color: ${COLOR}">Artikel wird gesucht...</div>
