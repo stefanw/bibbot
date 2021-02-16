@@ -164,15 +164,16 @@ function sendStatusMessage(reader, text) {
 
 function runStep (reader, provider) {
   const actions = provider[reader.phase][reader.step]
-  const isFinal = reader.phase === 'search' && reader.step === provider[reader.phase].length - 1
-  actions.forEach(function(action) {
+  const isFinalStep = reader.phase === 'search' && reader.step === provider[reader.phase].length - 1
+  actions.forEach(function(action, actionIndex) {
     const actionCode = getActionCode(reader, action)
     console.log(actionCode)
     browser.tabs.executeScript(reader.tabId, {
       code: actionCode
     }).then(function(result) {
       console.log('action', action, 'result', result)
-      if (!isFinal) {
+      const isFinalAction = actionIndex === actions.length - 1
+      if (!isFinalStep || !isFinalAction) {
         return
       }
       result = result[0]
@@ -200,7 +201,7 @@ function runStep (reader, provider) {
       console.warn('Error after action', action, err)
     })
   })
-  if (isFinal) {
+  if (isFinalStep) {
     reader.done = true
   }
   reader.step += 1
