@@ -13,7 +13,7 @@ const readers = {
       query: ".leading-tight span:not(:first-child), .leading-none .leading-normal, h2 span:not(:first-child) span:not(:first-child)",
       main: "article section .clearfix",
       mimic: "article section .clearfix .RichText",
-      paywall: "div[data-component='Paywall']"
+      paywall: "div[data-component='Paywall'], div[data-target-id='paywall']"
     },
     // provider: "www.munzinger.de"
     provider: "bib-voebb.genios.de",
@@ -119,9 +119,10 @@ const readers = {
   },
   "www.morgenpost.de": {
     selectors: {
-      query: () => {
-        return document.querySelector('.article__body p').innerText.split(' ').slice(0, 8).join(' ')
-      },
+      query: '[itemprop="headline"]',
+      // query: () => {
+      //   return document.querySelector('.article__header__intro__text').innerText.split(' ').slice(0, 8).join(' ')
+      // },
       main: "div[itemprop='articleBody']",
       paywall: '#paywall-container',
     },
