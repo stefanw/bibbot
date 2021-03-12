@@ -220,7 +220,10 @@ const MESSAGE_ID = 'voebbot-message'
 const loader = `
 <style>
 #voebbot-loading {
-animation: voebbot-working 2s ease-in-out 0s infinite;
+  position:absolute;
+  left: 50%;
+  top: 50%;
+  animation: voebbot-working 2s ease-in-out 0s infinite;
 }
 
 @keyframes voebbot-working {
@@ -245,7 +248,7 @@ animation: voebbot-working 2s ease-in-out 0s infinite;
   }
 }
 </style>
-<div id="voebbot-loader" style="border: 5px solid ${COLOR}; padding: 10px; margin: 20px auto; text-align:center; position:relative">
+<div id="voebbot-loader" style="border: 5px solid ${COLOR}; padding: 10px 10px 60px; margin: 20px auto; text-align:center; position:relative;">
   <div style="color: ${COLOR}; font-family: sans-serif; font-size: 1.2rem">VÖBBot</div>
   <img id="voebbot-loading" src="${ICON}" alt="VOEBBot" height="40" width="30">
   <div id="${MESSAGE_ID}" style="font-family: sans-serif; font-size: 0.9rem; color: ${COLOR}">Artikel wird gesucht...</div>
