@@ -41,7 +41,7 @@ jobs:
           asset_content_type: application/zip
       - name: "web-ext build"
         id: web-ext-build
-        uses: kewisch/action-web-ext@
+        uses: kewisch/action-web-ext@d5376aebf5a5f167924728cf9b43d6e9e8ee10e0
         with:
           cmd: build
           source: ./build/voebbot
