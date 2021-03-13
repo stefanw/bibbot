@@ -238,19 +238,15 @@ const loader = `
   0% {
     transform: translate(-60px, 0) rotateY(180deg);
   }
-
   40% {
     transform: translate(60px, 0) rotateY(180deg) ;
   }
-
   50% {
     transform: translate(60px, 0) rotateY(0deg) ;
   }
-
   90% {
     transform: translate(-60px, 0) rotateY(0deg);
   }
-
   100% {
     transform: translate(-60px, 0) rotateY(180deg);
   }
@@ -271,10 +267,10 @@ FAILED_HTML = `<strong>Artikel konnte nicht gefunden werden</strong>
 
 
 var articleInfo = {}
-// const port = browser.runtime.connect({name:"port-from-cs"});
-// port.onDisconnect.addListener(function(p) {
-//   console.log('Port disconnected', p);
-// })
+const port = browser.runtime.connect({name: "port-from-cs"});
+port.onDisconnect.addListener(function(p) {
+  console.log('Port disconnected', p);
+})
 
 function setupReader() {
   for (const key in reader.selectors) {
@@ -313,37 +309,47 @@ function setupReader() {
   const main = document.querySelector(reader.selectors.main)
   main.innerHTML = main.innerHTML + loader
 
-  chrome.runtime.sendMessage({
+  sendMessage({
     "type": "voebb-init",
     "provider": reader.provider,
     "providerParams": reader.providerParams,
+    "domain": host,
     "articleInfo": articleInfo
-  }, function finalizeReader (message) {
-    console.log(message);
-    // if (message.type === 'message') {
-    //   document.querySelector(`#${MESSAGE_ID}`).innerText = message.text
-    //   return Promise.resolve()
-    // }
-    document.querySelector('#voebbot-loading').style.display = 'none'
-    if (message.type === 'failed') {
-      document.querySelector(`#${MESSAGE_ID}`).innerHTML = FAILED_HTML
-      paywall.style.display = "block"
-      return Promise.resolve()
-    }
-    let content = message.content.join('')
-    if (reader.selectors.mimic) {
-      const mimic = document.querySelector(reader.selectors.mimic)
-      if (mimic !== null) {
-        content = `<div class="${mimic.className}">${content}</div>`
-      }
-    }
-    main.innerHTML = content
-    if (reader.cleanup) {
-      reader.cleanup()
-    }
-    return Promise.resolve()
   })
+}
 
+function sendMessage (message) {
+  port.onMessage.addListener(onMessage)
+  port.postMessage(message)
+}
+
+function onMessage (message) {
+  console.log(message);
+  if (message.type === 'message') {
+    document.querySelector(`#${MESSAGE_ID}`).innerText = message.text
+    return Promise.resolve()
+  }
+
+  const main = document.querySelector(reader.selectors.main)
+
+  document.querySelector('#voebbot-loading').style.display = 'none'
+  if (message.type === 'failed') {
+    document.querySelector(`#${MESSAGE_ID}`).innerHTML = FAILED_HTML
+    paywall.style.display = "block"
+    return Promise.resolve()
+  }
+  let content = message.content.join('')
+  if (reader.selectors.mimic) {
+    const mimic = document.querySelector(reader.selectors.mimic)
+    if (mimic !== null) {
+      content = `<div class="${mimic.className}">${content}</div>`
+    }
+  }
+  main.innerHTML = content
+  if (reader.cleanup) {
+    reader.cleanup()
+  }
+  return Promise.resolve()
 }
 
 

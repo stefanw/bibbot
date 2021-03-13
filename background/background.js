@@ -1,3 +1,9 @@
+browser.runtime.onInstalled.addListener(function(details){
+  if (details.reason == "install"){
+    browser.runtime.openOptionsPage()
+  }
+});
+
 const voebbLogin = [
   {message: "VÖBB-Konto wird eingeloggt..."},
   {fill: {selector: 'input[name="L#AUSW"]', key: "username"}},
@@ -41,6 +47,7 @@ const providers = {
         ],
         [
           {message: "Artikel wird aufgerufen..."},
+          {failOnMissing: ".boxHeader", failure: "Artikel nicht gefunden"},
           {click: ".boxHeader"}
         ],
         [
@@ -71,13 +78,23 @@ const converters = {
 const readers = {}
 const storageItems = {}
 
-browser.storage.sync.get({username: '', password: ''}).then(function(items) {
-  for (var key in items) {
-    storageItems[key] = items[key]
-  }
-})
+function retrieveStorage() {
+  browser.storage.sync.get({username: '', password: '', keepStats: true}).then(function(items) {
+    for (var key in items) {
+      storageItems[key] = items[key]
+    }
+  })
+}
 
-function connected(message, sender, sendResponse) {
+
+function connected(port) {
+  port.onMessage.addListener(function(message) {
+    messageListener(message, port.sender, port.postMessage.bind(port))
+  });
+  retrieveStorage()
+}
+
+function messageListener(message, sender, sendResponse) {
   const reader = {
     postMessage: function(m) {
       console.log('Sending message to', this.tabId, m)
@@ -92,6 +109,7 @@ function connected(message, sender, sendResponse) {
   console.log('received message', message, 'from', sender.tab.id)
   if (message.type === 'voebb-init') {
     reader.provider = message.provider
+    reader.domain = message.domain
     reader.providerParams = message.providerParams
     reader.articleInfo = message.articleInfo
     startProvider(reader)
@@ -99,8 +117,7 @@ function connected(message, sender, sendResponse) {
   return true;
 }
 
-// browser.runtime.onConnect.addListener(connected)
-browser.runtime.onMessage.addListener(connected)
+browser.runtime.onConnect.addListener(connected)
 
 
 function startProvider (reader) {
@@ -117,14 +134,14 @@ function startProvider (reader) {
         return
       }
       if (tabId !== tab.id) {
-          return
+        return
       }
       if (changeInfo.status === 'complete') {
         console.log('good tab complete', tabId)
         initStep(reader)
       }
+    });
   });
-  }); 
 }
 
 function initStep (reader) {
@@ -155,53 +172,98 @@ function loginTest (reader, provider) {
 }
 
 function sendStatusMessage(reader, text) {
-  // reader.postMessage({
-  //   type: "message",
-  //   text: text
-  // })
+  reader.postMessage({
+    type: "message",
+    text: text
+  })
 }
 
-
-function runStep (reader, provider) {
-  const actions = provider[reader.phase][reader.step]
-  const isFinalStep = reader.phase === 'search' && reader.step === provider[reader.phase].length - 1
-  actions.forEach(function(action, actionIndex) {
-    const actionCode = getActionCode(reader, action)
-    console.log(actionCode)
-    browser.tabs.executeScript(reader.tabId, {
-      code: actionCode
-    }).then(function(result) {
-      console.log('action', action, 'result', result)
-      const isFinalAction = actionIndex === actions.length - 1
-      if (!isFinalStep || !isFinalAction) {
-        return
-      }
-      result = result[0]
-      if (result === undefined || result === null) {
-        // Firefox returns undefined, chrome empty array
-        result = []
-      }
-      if (result.length > 0 && action.convert) {
-        result = converters[action.convert](result)
-      }
-      if (result.length > 0) {
-        reader.postMessage({
-          type: "success",
-          content: result
-        })
-        browser.tabs.remove(reader.tabId)
-      } else {
-        console.warn('failed to find')
-        reader.postMessage({
-          type: "failed",
-          content: result
-        })
-      }
-    }, function(err) {
-      console.warn('Error after action', action, err)
+function updateStats (domain) {
+  if (!storageItems.keepStats) { return }
+  const isPrivate = browser.extension.inIncognitoContext;
+  if (isPrivate) { return }
+  browser.storage.sync.get({stats: {}}).then(function(items) {
+    items.stats[domain] = (items.stats[domain] || 0) + 1
+    browser.storage.sync.set({
+      stats: items.stats
     })
   })
-  if (isFinalStep) {
+}
+
+function runChain(tasks) {
+  return tasks.reduce(function(cur, next) {
+    return cur.then(next).catch()
+  }, Promise.resolve())
+}
+
+function checkBrowserResult(reader, action, finalAction) {
+  return function (result) {
+    if (reader.done) { return false }
+    console.log('action', action, 'result', result)
+    result = result[0]
+    if (result === undefined || result === null) {
+      // Firefox returns undefined, chrome empty array
+      result = []
+    }
+    if (action.failOnMissing && result.length === 0) {
+      reader.postMessage({
+        type: "failed",
+        message: action.failure
+      })
+      reader.done = true
+      return false
+    }
+    if (!finalAction) {
+      return true
+    }
+    if (result.length > 0 && action.convert) {
+      result = converters[action.convert](result)
+    }
+    if (result.length > 0) {
+      reader.postMessage({
+        type: "success",
+        content: result
+      })
+      updateStats(reader.domain)
+      browser.tabs.remove(reader.tabId)
+      return true
+    } else {
+      console.warn('failed to find')
+      reader.postMessage({
+        type: "failed",
+        content: result
+      })
+      return false
+    }
+  }
+}
+
+async function runStep (reader, provider) {
+  const actions = provider[reader.phase][reader.step]
+  const isFinalStep = reader.phase === 'search' && reader.step === provider[reader.phase].length - 1
+
+  const promises = actions.map(function(action, actionIndex) {
+    var actionCode = getActionCode(reader, action)
+    var isLastAction = actionIndex === actions.length - 1
+    var finalAction = isLastAction && isFinalStep
+    var checker = checkBrowserResult(reader, action, finalAction)
+    return async function() {
+      let result = await browser.tabs.executeScript(reader.tabId, {
+        code: actionCode
+      })
+      if (!checker(result)) {
+        throw new Error()
+      }
+    }
+  })
+  for (let promise of promises) {
+    try {
+      await promise()
+    } catch (e) {
+      reader.done = true
+    }
+  }
+  if (isFinalStep ) {
     reader.done = true
   }
   reader.step += 1
@@ -223,6 +285,8 @@ function getActionCode (reader, action) {
     } else {
       return `undefined`
     }
+  } else if (action.failOnMissing) {
+    return `document.querySelector('${action.failOnMissing}')`
   } else if (action.click) {
     return `document.querySelector('${action.click}').click()`
   } else if (action.url) {
@@ -231,7 +295,8 @@ function getActionCode (reader, action) {
     for (let v of vars) {
       let q = reader.articleInfo[v] || ''
       if (v === 'query') {
-        q = q.replace(/[!,\.:\?;'"\/\(\)]/g, '')
+        q = q.replace(/[!,\.:\?;'\/\(\)]/g, '')
+        q = q.replace(/(.)"(.)/g, "$1$2")
       }
       url = url.replace(new RegExp(`\{${v}\}`), encodeURIComponent(q))
     }
