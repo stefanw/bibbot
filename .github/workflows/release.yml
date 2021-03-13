@@ -52,7 +52,6 @@ jobs:
           cmd: sign
           source: ${{ steps.web-ext-build.outputs.target }}
           channel: unlisted
-          verbose: true
           apiKey: ${{ secrets.FIREFOX_API_KEY }}
           apiSecret: ${{ secrets.FIREFOX_API_SECRET }}
           timeout: 900000
@@ -64,5 +63,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
           asset_path: ${{ steps.web-ext-sign.outputs.target }}
-          asset_name: voebbot-${{ github.ref }}.xpi
+          asset_name: voebbot-${{ env.RELEASE_VERSION }}.xpi
           asset_content_type: application/x-xpinstall
