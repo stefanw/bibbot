@@ -1,16 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="style.css">
-    <script type="application/javascript" src="../lib/browser-polyfill.min.js"></script>
+    <link rel="stylesheet" href="../assets/mvp.css">
+    <link rel="stylesheet" href="popup.css">
+    <script type="application/javascript" src="../lib/browser-polyfill.js"></script>
 </head>
 
 <body>
-    <h3>VOEBBot</h3>
-    
-
-    <!-- this should be put at the end so the page is ready when it loads -->
+    <h3>
+      <img src="../icons/voebbot.svg" alt="Schematischer Roboter im Stil des VÖBB-Logos" style="transform: translate(0, 5px); height:40px"/>
+      VÖBBot
+    </h3>
+    <p>
+      <a href="#" id="settings">Einstellungen</a>
+    </p>
+    <p id="stats" style="display: none;">
+      <strong>Gefundene Artikel:</strong>
+    </p>
     <script src="popup.js"></script> 
 </body>
 

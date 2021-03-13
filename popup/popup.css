@@ -1,0 +1,25 @@
+body {
+  padding: 10px;
+  min-width: 160px;
+}
+
+h3 {
+  margin-top: 3px;
+  margin-bottom: 5px;
+}
+
+a {
+  text-decoration: underline;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 10px;
+  margin-top: 0;
+  max-height: 200px;
+  overflow-y: scroll;
+}
