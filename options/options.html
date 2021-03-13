@@ -1,23 +1,121 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
   <head>
     <meta charset="utf-8"/>
-    <title>Einstellungen</title>
-    <script type="application/javascript" src="../lib/browser-polyfill.min.js"></script>
+    <title>VÖBBot - Einstellungen</title>
+    <link rel="stylesheet" href="../assets/mvp.css">
   </head>
   <body>
-    <form>
-        <p>Wenn Ihr Browser Ihre voebb.de Zugangsdaten nicht automatisch ausfüllt, können Sie hier die Daten hinterlegen.</p>
-        <p>
-            Geben Sie den Nutzernamen (11 Ziffern) und Passwort von voebb.de ein.
-        </p>
-        <p><label>Username: <input type="text" id="username"/></label></p>
-        <p><label>Password: <input type="text" id="password"/></label></p>
-        <p>
-            <strong>Ihr Passwort wird im Klartext gespeichert, so dass es automatisch ausgefüllt werden kann.</strong>
-        </p>
-        <p><button type="submit">Speichern</button></p>
-    </form>
+    <header>
+      <h1>
+        <img src="../icons/voebbot.svg" alt="Schematischer Roboter im Stil des VÖBB-Logos" style="transform: translate(0, 15px)"/>
+        VÖBBot
+      </h1>
+      <p>
+        Paywalls deutscher Nachrichtenseiten umgehen
+      </p>
+    </header>
+    <main>
+      <section>
+        <div>
+          <details id="setup">
+           <summary>Notwendige Einrichtung des Add-Ons</summary>
+            <p>
+              Sie benötigen ein Benutzerkonto bei <a href="https://www.voebb.de/">VÖBB.de – dem Verbund der öffentlichen Bibliotheken Berlins.</a>
+              Das Konto kostet nur <b>10 Euro im Jahr</b> – das ist <i>wesentlich günstiger</i> als jedes einzelne Abo bei einer Nachrichtenseite und dafür bekommen Sie Zugang zu den Texten einer Vielzahl von Nachrichtenseiten + viele weitere digitale Medien.
+            </p>
+            <p>
+              <mark>
+                Momentan ist das VÖBB-Konto aufgrund der Corona-Pandemie für 3 Monate kostenfrei!
+              </mark>
+            </p>
+            <h4>Noch kein VÖBB-Konto?</h4>
+            <p>
+              &rarr; Gehen Sie auf <a href="https://www.voebb.de/">voebb.de</a> und erstellen Sie dort ein Konto. Bezahlen können Sie per Lastschrift.
+            </p>
+            
+            <h4>VÖBB-Konto erstellt?</h4>
+            <p>
+              &rarr; Geben Sie Ihre VÖBB-Zugangsdaten weiter unten in <a href="#settings">den Einstellungen ein.</a>
+            </p>
+          </details>
+          <details>
+            <summary>So funktioniert das Add-On</summary>
+            <p>Wenn die Extension einen Artikel mit Paywall auf einer der unterstützten Nachrichtenseiten findet, dann:</p>
+            <ol>
+              <li>Öffnet sich im Hintergrund ein neues Tab, wo sich falls nötig bei VÖBB eingeloggt wird</li>
+              <li>Beim Pressedatenbank-Partner der VÖBB (z.B. Genios oder Munzinger) wird automatisch im Hintergrund der Artikel gesucht</li>
+              <li>Wird der Artikel in der Pressedatenbank gefunden, dann wird der Artikeltext in das Layout der Nachrichtenseite eingesetzt.</li>
+            </ol>
+            <p>Der Vorgang dauert im Regelfall wenige Sekunden.</p>
+            </details>
+            <details>
+              <summary>Das kann schief gehen</summary>
+              <p>Es kann passieren, dass VÖBBot den Artikel nicht findet. Folgende Gründe sind möglich:</p>
+              <ul>
+                <li>
+                  ggf. ist der Artikel online-exklusiv und nicht über die Pressedatenbank verfügbar
+                </li>
+                <li>
+                  Der Titel des Online-Artikels kann sich von der Druckausgabe unterscheiden, das macht das Auffinden schwierig. <br/>&rarr; Nutzen Sie das neue Tab am Ende Ihrer Tableiste um selbst nach Stichworten zum Artikel zu suchen.
+                </li>
+                <li>
+                  Artikel aus der gedruckten Ausgabe sind ggf. erst später in der Pressedatenbank verfügbar. <br/>&rarr; Da müssen Sie leider Geduld haben.
+                </li>
+              </ul>
+              <p>Außerdem kann es sein, dass Ihre gewünschte Nachrichtenseite noch nicht unterstützt wird. Eine Liste der unterstützten Seiten finden Sie im nächsten Abschnitt.</p>
+            </details>
+            <details>
+              <summary>Aktuell unterstützte Nachrichtenseiten</summary>
+              <ul id="newssites"></ul>
+              <p>
+                Fehlt Ihnen eine Seite? Dann können Sie auf der <a href="https://github.com/stefanw/voebbot/issues/new?assignees=&labels=&template=neue-nachrichtenseite.md&title=">Entwicklungsplattform GitHub einen Vorschlag machen.</a>
+              </p>
+            </details>
+          </div>
+        </details>
+      </section>
+      <hr/>
+      <section>
+        <form id="settings">
+          <header>
+            <h2>Einstellungen</h2>
+          </header>
+          <fieldset>
+            <legend>VÖBB-Zugangsdaten</legend>
+            <p>Wenn Ihr Browser Ihre voebb.de Zugangsdaten nicht automatisch ausfüllt, können Sie hier die Daten hinterlegen.</p>
+            <p>
+                Geben Sie den Nutzernamen (11 Ziffern) und Passwort von voebb.de ein.
+            </p>
+            <label for="username">Nutzername:</label>
+            <input type="text" id="username"/>
+            <label for="password">Passwort:</label>
+            <input type="password" id="password"/>
+            <p>
+              <small>Hinweis: Ihr Passwort wird im Klartext gespeichert, so dass es automatisch ausgefüllt werden kann.</small>
+            </p>
+            <p>
+              Kurz gucken, ob es funktioniert?
+              <a href="https://www.zeit.de/2021/11/soziale-ungleichheit-identitaetspolitik-diskriminierung-armut-bildung" target="_blank">
+                Klicken Sie hier, um als Test einen Paywall-Artikel zu öffnen.
+              </a>
+            </p>
+          </fieldset>
+          <fieldset>
+            <legend>Wollen Sie wissen, ob sich Ihr VÖBB-Konto lohnt?</legend>
+            <p>
+              Die Anzahl der erfolgreich in der Bibliothek gefundenen Artikel können pro Nachrichtenseite gezählt werden.
+              <strong>Diese Daten werden nur für Sie im Browser gespeichert.</strong>
+            </p>
+            <label>
+              <input type="checkbox" id="keepStats">
+              Ja, diese Statistik führen
+            </label>
+          </fieldset>
+        </form>
+      </section>
+    </main>
+    <script src="../lib/browser-polyfill.js"></script>
     <script src="options.js"></script>
   </body>
 </html>
