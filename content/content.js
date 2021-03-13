@@ -1,3 +1,5 @@
+const extractQuery = (node) => `"${node.innerText.split(' ').slice(0, 8).join(' ')}"`
+
 const readers = {
   "magazin.spiegel.de": {
     selectors: {
@@ -23,7 +25,10 @@ const readers = {
   },
   "plus.tagesspiegel.de": {
     selectors: {
-      query: "h1 > span",
+      // query: "h1 > span",
+      query: () => {
+        return extractQuery(document.querySelector('.article--paid > p'))
+      },
       main: ".article--paid",
       paywall: ".article--paid > p:first-child~div",
       date: "time",
@@ -35,7 +40,10 @@ const readers = {
   },
   "www.zeit.de": {
     selectors: {
-      query: ".article-heading__title, .article-header__title, .headline__title",
+      // query: ".article-heading__title, .article-header__title, .headline__title",
+      query: () => {
+        return extractQuery(document.querySelector('.paragraph.article__item'))
+      },
       edition: ".zplus-badge__media-item@alt",
       date: ".metadata__source.encoded-date, time",
       paywall: ".gate.article__item",
@@ -71,7 +79,7 @@ const readers = {
     selectors: {
       // query: "article > header > h2 > span:last-child",
       query: () => {
-        return document.querySelector('.sz-article-body__paragraph--reduced').innerText.split(' ').slice(0, 8).join(' ')
+        return extractQuery(document.querySelector('.sz-article-body__paragraph--reduced'))
       },
       date: "time",
       paywall: "offer-page",
@@ -106,7 +114,7 @@ const readers = {
   "www.berliner-zeitung.de": {
     selectors: {
       query: () => {
-        return document.querySelector('.a-paragraph span:not(:first-child)').innerText.split(' ').slice(0, 5).join(' ')
+        return extractQuery(document.querySelector('.a-paragraph span:not(:first-child)'))
       },
       main: '.o-article',
       paywall: '.paywall-dialog-box',
@@ -166,7 +174,7 @@ const readers = {
   "www.noz.de": {
     selectors: {
       query: () => {
-        return document.querySelector('.paywall-fadeout').innerText.split(' ').slice(0, 12).join(' ')
+        return extractQuery(document.querySelector('.paywall-fadeout'))
       },
       main: ".voebbot-main",
       time: '[itemprop="datePublished"]',
