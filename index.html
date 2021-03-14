@@ -16,14 +16,14 @@
         VÖBBot
       </h1>
       <p>
-        Browser Extension, um Paywalls deutscher Nachrichtenseiten zu umgehen.
+        Browser-Erweiterung, um Paywalls deutscher Nachrichtenseiten zu umgehen.
       </p>
       <!--
       {% assign release = site.github.releases | first %}
       {% assign short_version = release.tag_name | remove_first:'v' %}
       -->
       <p>
-        <a href="https://github.com/stefanw/voebbot/releases/download/v{{ short_version }}/voebbot-v{{ short_version }}.zip">
+        <a id="chrome-download" href="https://github.com/stefanw/voebbot/releases/download/v{{ short_version }}/voebbot-v{{ short_version }}.zip">
           <b>Download für Chrome</b>
         </a>
         <a href="https://github.com/stefanw/voebbot/releases/download/v{{ short_version }}/voebbot-v{{ short_version }}.xpi">
@@ -31,6 +31,20 @@
         </a>
       </p>
     </header>
+    <section id="chrome-instructions" style="display: none;">
+      <aside>
+        <p>
+          Die Browser-Erweiterung als ZIP-Datei wird nun heruntergeladen.<br/>
+          Zur Installation gehen Sie so vor:
+        </p>
+        <ul>
+          <li>Öffnen Sie die Erweiterungen-Seite Ihres Browsers:<br/>Dreipunkt-Menü ⋮ &rarr; Weitere Tools &rarr; Erweiterungen.</li>
+          <li>Ziehen Sie die heruntergeladene ZIP-Datei auf die Erweiterungen-Seite.</li>
+          <li>Die Erweiterung ist nun installiert, folgen Sie den Anweisungen zur Einrichtung.</li>
+        </ul>
+        <p><small>VÖBBot sollte bald im Chrome Webstore verfügbar sein.</small></p>
+      </aside>
+    </section>
     <main>
       <section>
         <div>
@@ -122,6 +136,9 @@
           ul.appendChild(li)
         });
       });
+      document.getElementById('chrome-download').addEventListener('click', function(){
+        document.getElementById('chrome-instructions').style.display = 'flex'
+      })
     </script>
   </body>
 </html>
