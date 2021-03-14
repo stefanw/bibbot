@@ -65,3 +65,12 @@ jobs:
           asset_path: ${{ steps.web-ext-sign.outputs.target }}
           asset_name: voebbot-${{ env.RELEASE_VERSION }}.xpi
           asset_content_type: application/x-xpinstall
+      - name: trigger GitHub pages build after release
+        id: ghpages-rebuild
+        uses: octokit/request-action@v2.x
+        with:
+          route: POST /repos/{owner}/{repo}/pages/builds
+          owner: stefanw
+          repo: voebbot
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
