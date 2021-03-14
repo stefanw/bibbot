@@ -29,7 +29,7 @@ const providers = {
               {url: "https://www.munzinger.de/search/query?template=%2Fpublikationen%2Fspiegel%2Fresult.jsp&query.id=query-spiegel&query.key=gQynwrIS&query.commit=yes&query.scope=spiegel&query.index-order=personen&query.facets=yes&facet.path=%2Fspiegel&facet.activate=yes&hitlist.highlight=yes&hitlist.sort=-field%3Aisort&query.Titel={query}&query.Ausgabe={edition}&query.Ressort=&query.Signatur=&query.Person=&query.K%C3%B6rperschaft=&query.Ort=&query.Text={overline}"},
           ],
           [
-              {click: '.gdprcookie-buttons button'},
+              {click: '.gdprcookie-buttons button', optional: true},
               {extract: ".mitte-text"}
           ]
         ]
@@ -119,56 +119,47 @@ function messageListener(message, sender, sendResponse) {
 
 browser.runtime.onConnect.addListener(connected)
 
-
-function startProvider (reader) {
+async function startProvider (reader) {
   const provider = providers[reader.provider]
-  var creating = browser.tabs.create({
+  let tab = await browser.tabs.create({
     url: provider.init,
     active: false,
   });
-  creating.then(function tabCreated(tab) {
-    reader.tabId = tab.id
-    console.log('tab created', tab.id)
-    browser.tabs.onUpdated.addListener(function onTabUpdated (tabId, changeInfo, tabInfo) {
-      if (reader.done) {
-        return
-      }
-      if (tabId !== tab.id) {
-        return
-      }
-      if (changeInfo.status === 'complete') {
-        console.log('good tab complete', tabId)
-        initStep(reader)
-      }
-    });
+  reader.tabId = tab.id
+  console.log('tab created', tab.id)
+  browser.tabs.onUpdated.addListener(function onTabUpdated (tabId, changeInfo, tabInfo) {
+    if (reader.done) {
+      return
+    }
+    if (tabId !== tab.id) {
+      return
+    }
+    if (changeInfo.status === 'complete') {
+      console.log('good tab complete', tabId)
+      initStep(reader)
+    }
   });
 }
 
-function initStep (reader) {
+async function initStep (reader) {
   const provider = providers[reader.provider]
-  loginTest(reader, provider).then(function(loggedIn) {
-    if (loggedIn) {
-      reader.step = 0
-      reader.phase = 'search'
-    }
-    runStep(reader, provider)
-  })
+  let loggedIn = await loginTest(reader, provider)
+  if (loggedIn) {
+    reader.step = 0
+    reader.phase = 'search'
+  }
+  await runStep(reader, provider)
 }
 
-function loginTest (reader, provider) {
+async function loginTest (reader, provider) {
   if (reader.phase === 'login' && reader.step === 0) {
-    return new Promise(function(resolve) {
-      browser.tabs.executeScript(reader.tabId, {
+    let result = await browser.tabs.executeScript(reader.tabId, {
         code: `document.querySelector("${provider.loggedIn}") !== null`
-      }).then(function(result) {
-        console.log('loggedin?', result);
-        resolve(result[0])
-      }, function(err) {
-        console.warn('Error after action', action, err)
-      })
     })
+    console.log('loggedin?', result);
+    return result[0]
   }
-  return Promise.resolve(false)
+  return false
 }
 
 function sendStatusMessage(reader, text) {
@@ -190,35 +181,27 @@ function updateStats (domain) {
   })
 }
 
-function runChain(tasks) {
-  return tasks.reduce(function(cur, next) {
-    return cur.then(next).catch()
-  }, Promise.resolve())
-}
+async function runStep (reader, provider) {
+  const actions = provider[reader.phase][reader.step]
+  const isFinalStep = reader.phase === 'search' && reader.step === provider[reader.phase].length - 1
 
-function checkBrowserResult(reader, action, finalAction) {
-  return function (result) {
-    if (reader.done) { return false }
-    console.log('action', action, 'result', result)
-    result = result[0]
-    if (result === undefined || result === null) {
-      // Firefox returns undefined, chrome empty array
-      result = []
-    }
-    if (action.failOnMissing && result.length === 0) {
+  let result
+  for (let action of actions) {
+    console.log('Running', action)
+    let actionCode = getActionCode(reader, action)
+    try {
+      result = await runScript(reader, actionCode)
+    } catch (e) {
+      reader.done = true
       reader.postMessage({
         type: "failed",
-        message: action.failure
+        content: e.toString()
       })
-      reader.done = true
-      return false
+      return
     }
-    if (!finalAction) {
-      return true
-    }
-    if (result.length > 0 && action.convert) {
-      result = converters[action.convert](result)
-    }
+  }
+  if (isFinalStep ) {
+    reader.done = true
     if (result.length > 0) {
       reader.postMessage({
         type: "success",
@@ -226,45 +209,14 @@ function checkBrowserResult(reader, action, finalAction) {
       })
       updateStats(reader.domain)
       browser.tabs.remove(reader.tabId)
-      return true
     } else {
       console.warn('failed to find')
       reader.postMessage({
         type: "failed",
         content: result
       })
-      return false
     }
-  }
-}
-
-async function runStep (reader, provider) {
-  const actions = provider[reader.phase][reader.step]
-  const isFinalStep = reader.phase === 'search' && reader.step === provider[reader.phase].length - 1
-
-  const promises = actions.map(function(action, actionIndex) {
-    var actionCode = getActionCode(reader, action)
-    var isLastAction = actionIndex === actions.length - 1
-    var finalAction = isLastAction && isFinalStep
-    var checker = checkBrowserResult(reader, action, finalAction)
-    return async function() {
-      let result = await browser.tabs.executeScript(reader.tabId, {
-        code: actionCode
-      })
-      if (!checker(result)) {
-        throw new Error()
-      }
-    }
-  })
-  for (let promise of promises) {
-    try {
-      await promise()
-    } catch (e) {
-      reader.done = true
-    }
-  }
-  if (isFinalStep ) {
-    reader.done = true
+    return
   }
   reader.step += 1
   if (reader.step > provider[reader.phase].length - 1) {
@@ -275,20 +227,50 @@ async function runStep (reader, provider) {
   }
 }
 
+async function runScript (reader, actionCode) {
+  if (actionCode.length === 0) {
+    return
+  }
+  let result = await browser.tabs.executeScript(reader.tabId, {
+    code: actionCode[0]
+  })
+  result = result[0]
+  if (actionCode.length === 1) {
+    return result
+  }
+  return actionCode[1](result)
+}
+
 function getActionCode (reader, action) {
   if (action.message) {
     sendStatusMessage(reader, action.message)
-    return `undefined`
+    return []
   } else if (action.fill) {
     if (storageItems[action.fill.key]) {
-      return `document.querySelector('${action.fill.selector}').value = '${storageItems[action.fill.key]}'`
+      return [`document.querySelector('${action.fill.selector}').value = '${storageItems[action.fill.key]}'`]
     } else {
-      return `undefined`
+      return []
     }
   } else if (action.failOnMissing) {
-    return `document.querySelector('${action.failOnMissing}')`
+    return [
+      `document.querySelector('${action.failOnMissing}') !== null`,
+      function (result) {
+        if (result === true) {
+          return result
+        }
+        reader.postMessage({
+          type: "failed",
+          message: action.failure
+        })
+        throw new Error('Element not found')
+      }
+    ]
   } else if (action.click) {
-    return `document.querySelector('${action.click}').click()`
+    if (action.optional) {
+      return [`var el = document.querySelector('${action.click}'); el && el.click()`]
+    } else {
+      return [`document.querySelector('${action.click}').click()`]
+    }
   } else if (action.url) {
     const vars = ['query', 'edition', 'overline']
     let url = action.url
@@ -305,12 +287,17 @@ function getActionCode (reader, action) {
         url = url.replace(new RegExp(`\{providerParams.${v}\}`), encodeURIComponent(reader.providerParams[v] || ''))
       }
     }
-    return `document.location.href = '${url}';`
+    return [`document.location.href = '${url}';`]
   } else if (action.extract) {
-    return `
-    Array.from(document.querySelectorAll('${action.extract}')).map(function(el) {
-      return el.outerHTML
-    })
-    `
+    return [
+      `Array.from(document.querySelectorAll('${action.extract}')).map(function(el) {
+        return el.outerHTML
+      })`,
+    function (result) {
+      if (result.length > 0 && action.convert) {
+        result = converters[action.convert](result)
+      }
+      return result
+    }]
   }
 }
