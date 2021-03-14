@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "VOEBBot",
-  "version": "0.9",
+  "version": "0.10",
   "description": "Entfernt die Paywall in Artikeln deutscher Online-Medien via VÖBB",
   "icons": {
     "48": "icons/voebbot48.png",
