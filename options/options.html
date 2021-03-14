@@ -80,38 +80,38 @@
           <header>
             <h2>Einstellungen</h2>
           </header>
-          <fieldset>
-            <legend>VÖBB-Zugangsdaten</legend>
-            <p>Wenn Ihr Browser Ihre voebb.de Zugangsdaten nicht automatisch ausfüllt, können Sie hier die Daten hinterlegen.</p>
-            <p>
-                Geben Sie den Nutzernamen (11 Ziffern) und Passwort von voebb.de ein.
-            </p>
-            <label for="username">Nutzername:</label>
-            <input type="text" id="username"/>
-            <label for="password">Passwort:</label>
-            <input type="password" id="password"/>
-            <p>
-              <small>Hinweis: Ihr Passwort wird im Klartext gespeichert, so dass es automatisch ausgefüllt werden kann.</small>
-            </p>
-            <p>
-              Kurz gucken, ob es funktioniert?
-              <a href="https://www.zeit.de/2021/11/soziale-ungleichheit-identitaetspolitik-diskriminierung-armut-bildung" target="_blank">
-                Klicken Sie hier, um als Test einen Paywall-Artikel zu öffnen.
-              </a>
-            </p>
-          </fieldset>
-          <fieldset>
-            <legend>Wollen Sie wissen, ob sich Ihr VÖBB-Konto lohnt?</legend>
-            <p>
-              Die Anzahl der erfolgreich in der Bibliothek gefundenen Artikel können pro Nachrichtenseite gezählt werden.
-              <strong>Diese Daten werden nur für Sie im Browser gespeichert.</strong>
-            </p>
-            <label>
-              <input type="checkbox" id="keepStats">
-              Ja, diese Statistik führen
-            </label>
-          </fieldset>
+          <h3>VÖBB-Zugangsdaten</h3>
+          <p>Wenn Ihr Browser Ihre voebb.de Zugangsdaten nicht automatisch ausfüllt, können Sie hier die Daten hinterlegen.</p>
+          <p>
+              Geben Sie den Nutzernamen (11 Ziffern) und Passwort von voebb.de ein.
+          </p>
+          <label for="username">Nutzername:</label>
+          <input type="text" id="username"/>
+          <label for="password">Passwort:</label>
+          <input type="password" id="password"/>
+          <p>
+            <small>Hinweis: Ihr Passwort wird im Klartext gespeichert, so dass es automatisch ausgefüllt werden kann.</small>
+          </p>
+          <h3>Wollen Sie wissen, ob sich Ihr VÖBB-Konto lohnt?</h3>
+          <p>
+            Die Anzahl der erfolgreich in der Bibliothek gefundenen Artikel können pro Nachrichtenseite gezählt werden.
+            <strong>Diese Daten werden nur für Sie im Browser gespeichert.</strong>
+          </p>
+          <label>
+            <input type="checkbox" id="keepStats">
+            Ja, diese Statistik führen
+          </label>
+          <button id="save" type="submit">
+            Speichern
+          </button>
+          <sup id="saved-note" style="display:none">Gespeichert!</sup>
         </form>
+        <p>
+          Kurz gucken, ob es funktioniert?
+          <a href="https://www.zeit.de/2021/11/soziale-ungleichheit-identitaetspolitik-diskriminierung-armut-bildung" target="_blank">
+            Klicken Sie hier, um als Test einen Paywall-Artikel zu öffnen.
+          </a>
+        </p>
       </section>
     </main>
     <script src="../lib/browser-polyfill.js"></script>

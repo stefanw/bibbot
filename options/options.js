@@ -48,14 +48,18 @@ function save() {
     browser.storage.sync.set(values)
 }
 
-var allInputs = document.querySelectorAll('input')
-for (var i = 0; i < allInputs.length; i += 1) {
-    allInputs[i].addEventListener('input', save)
-    allInputs[i].addEventListener('change', save)
-}
+var animTimeout
+
 document.querySelector('form').addEventListener('submit', function(e) {
     e.preventDefault()
+
     save()
+
+    var savedNote = document.querySelector('#saved-note')
+    savedNote.style.display = 'inline'
+    savedNote.classList.remove('fade')
+    void savedNote.offsetWidth; // triggers reflow, restarts animation
+    savedNote.classList.add('fade')
 })
 
 document.addEventListener("DOMContentLoaded", restore);

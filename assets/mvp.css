@@ -469,3 +469,16 @@ div {
 p a {
   display: inline;
 }
+
+sup {
+  font-size: small;
+}
+
+@keyframes fade {
+  0%,100% { opacity: 0; }
+  20% { opacity: 1; }
+}
+
+.fade {
+  animation: fade 3s linear forwards;
+}
