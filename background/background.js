@@ -277,7 +277,7 @@ function getActionCode (reader, action) {
     for (let v of vars) {
       let q = reader.articleInfo[v] || ''
       if (v === 'query') {
-        q = q.replace(/[!,\.:\?;'\/\(\)]/g, '')
+        q = q.replace(/[!,:\?;'\/\(\)]/g, '')
         q = q.replace(/(.)"(.)/g, "$1$2")
       }
       url = url.replace(new RegExp(`\{${v}\}`), encodeURIComponent(q))

@@ -1,4 +1,4 @@
-const extractQuery = (node) => `"${node.innerText.split(' ').slice(0, 8).join(' ')}"`
+const extractQuery = (node) => `"${node.innerText.split(' ').slice(2, 10).join(' ')}"`
 
 const readers = {
   "magazin.spiegel.de": {
@@ -114,7 +114,7 @@ const readers = {
   "www.berliner-zeitung.de": {
     selectors: {
       query: () => {
-        return extractQuery(document.querySelector('.a-paragraph span:not(:first-child)'))
+        return extractQuery(document.querySelector('.a-paragraph span:not(:first-child), .a-paragraph'))
       },
       main: '.o-article',
       paywall: '.paywall-dialog-box',
