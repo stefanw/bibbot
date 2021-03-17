@@ -136,7 +136,7 @@ const readers = {
     },
     provider: "bib-voebb.genios.de",
     providerParams: {
-      dbShortcut: 'BMP',
+      dbShortcut: 'BMP,BMPO',
       searchMask: '5601'
     }
   },
