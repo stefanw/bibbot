@@ -205,6 +205,18 @@ const readers = {
       dbShortcut: 'HA,HABO',
     }
   },
+  "www.waz.de": {
+    selectors: {
+      query: '[itemprop="headline"]',
+      date: "time",
+      paywall: "#paywall-container",
+      main: ".article__header__intro",
+    },
+    provider: "bib-voebb.genios.de",
+    providerParams: {
+      dbShortcut: 'WAZ',
+    }
+  },
   "www.wiwo.de": {
     selectors: {
       query: ".c-headline--article",

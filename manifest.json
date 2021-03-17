@@ -38,7 +38,8 @@
         "https://www.nordkurier.de/*",
         "https://www.abendblatt.de/*",
         "https://www.moz.de/*",
-        "https://www.noz.de/*"
+        "https://www.noz.de/*",
+        "https://www.waz.de/*"
       ],
       "js": [
         "lib/browser-polyfill.js",
