@@ -352,6 +352,9 @@ function onMessage (message) {
       content = `<div class="${mimic.className}">${content}</div>`
     }
   }
+  if (reader.paragraphStyle) {
+    content = content.replace(/<p>/g, `<p class="${reader.paragraphStyle}">`)
+  }
   main.innerHTML = content
   if (reader.cleanup) {
     reader.cleanup()
