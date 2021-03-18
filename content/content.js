@@ -95,7 +95,6 @@ const readers = {
     provider: "bib-voebb.genios.de",
     providerParams: {
       dbShortcut: 'SZ',
-      searchMask: '5441'
     }
   },
   "www.handelsblatt.com": {
@@ -107,8 +106,7 @@ const readers = {
     },
     provider: "bib-voebb.genios.de",
     providerParams: {
-      dbShortcut: 'HBON',
-      searchMask: '6111'
+      dbShortcut: 'HBON'
     }
   },
   "www.berliner-zeitung.de": {
@@ -121,8 +119,7 @@ const readers = {
     },
     provider: "bib-voebb.genios.de",
     providerParams: {
-      dbShortcut: 'BEZE',
-      searchMask: '5525'
+      dbShortcut: 'BEZE'
     }
   },
   "www.morgenpost.de": {
@@ -136,8 +133,7 @@ const readers = {
     },
     provider: "bib-voebb.genios.de",
     providerParams: {
-      dbShortcut: 'BMP,BMPO',
-      searchMask: '5601'
+      dbShortcut: 'BMP,BMPO'
     }
   },
   "www.moz.de": {
@@ -227,7 +223,6 @@ const readers = {
     provider: "bib-voebb.genios.de",
     providerParams: {
       dbShortcut: 'WWON',
-      searchMask: '5968'
     }
   },
 }
