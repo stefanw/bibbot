@@ -74,3 +74,11 @@ jobs:
           repo: voebbot
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: "Publish to Chrome Web Store"
+        uses: trmcnvn/chrome-addon@7fc5a5ad3ff597dc64d6a13de7dcaa8515328be7
+        with:
+          extension: edafomjglmkfbiieocpflnhfdmikkhbo
+          zip: ./build/voebbot.zip
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
