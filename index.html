@@ -67,7 +67,7 @@
           <p>
             &rarr; Gehen Sie auf <a href="https://www.voebb.de/registrieren" target="_blank">voebb.de</a> und erstellen Sie dort ein Konto. Bezahlen können Sie per Lastschrift.
           </p>
-          <details>
+          <details id="register-tips">
             <summary>Tipps zum Einrichten des VÖBB-Kontos</summary>
             <p>
               Die VÖBB-Seite hat leider einige ungewöhnliche Eigenheiten:
@@ -87,7 +87,7 @@
               </li>
             </ul>
           </details>
-          <details>
+          <details id="how">
             <summary>So funktioniert das Add-On</summary>
             <p>Wenn die Extension einen Artikel mit Paywall auf einer der unterstützten Nachrichtenseiten findet, dann:</p>
             <ol>
@@ -97,7 +97,7 @@
             </ol>
             <p>Der Vorgang dauert im Regelfall wenige Sekunden.</p>
           </details>
-          <details>
+          <details id="failure">
             <summary>Das kann schief gehen</summary>
             <p>Es kann passieren, dass VÖBBot den Artikel nicht findet. Folgende Gründe sind möglich:</p>
             <ul>
@@ -113,7 +113,7 @@
             </ul>
             <p>Außerdem kann es sein, dass Ihre gewünschte Nachrichtenseite noch nicht unterstützt wird. Eine Liste der unterstützten Seiten finden Sie im nächsten Abschnitt.</p>
           </details>
-          <details>
+          <details id="supported">
             <summary>Aktuell unterstützte Nachrichtenseiten</summary>
             <ul id="newssites"></ul>
             <p>
@@ -134,6 +134,12 @@
       </p>
     </footer>
     <script>
+      window.setTimeout(function() {
+        var selectedDetails = document.querySelector('details:target')
+        if (selectedDetails) {
+          selectedDetails.setAttribute('open', true)
+        }
+      }, 100)
       fetch('manifest.json').then(response => response.json()).then(data => {
         var domains = data.content_scripts[0].matches.map(url => url.replace('https://', '').replace('/*', ''))
         var ul = document.getElementById('newssites')

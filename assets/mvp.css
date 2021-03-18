@@ -482,3 +482,7 @@ sup {
 .fade {
   animation: fade 3s linear forwards;
 }
+
+details:target {
+  outline: 1px solid darkred;
+}
