@@ -36,26 +36,21 @@
         VÖBBot
       </h1>
       <p>
-        Browser-Erweiterung, um Paywalls deutscher Nachrichtenseiten zu umgehen.
+        Browser-Erweiterung, um <s>Paywalls deutscher Nachrichtenseiten zu umgehen</s>.
       </p>
       <!--
       {% assign release = site.github.releases | first %}
       {% assign short_version = release.tag_name | remove_first:'v' %}
       -->
-      <p>
-        <a href="https://chrome.google.com/webstore/detail/voebbot/edafomjglmkfbiieocpflnhfdmikkhbo?hl=de">
-          <b>Download für Chrome</b>
-        </a>
-        <a href="https://github.com/stefanw/voebbot/releases/download/v{{ short_version }}/voebbot-v{{ short_version }}.xpi">
-          <b>Download für Firefox</b>
-        </a>
-      </p>
+      <h2>
+        <strong>Leider steht der Download aus Gründen zur Zeit nicht zur Verfügung.</strong>
+      </h2>
     </header>
     <main>
       <section>
         <div>
           <p>
-            Für die Nutzung des Add-Ons benötigen Sie ein Benutzerkonto bei <a href="https://www.voebb.de/" target="_blank">VÖBB.de – dem Verbund der öffentlichen Bibliotheken Berlins.</a>
+            Für die Nutzung des Add-Ons würden Sie ein Benutzerkonto bei <a href="https://www.voebb.de/" target="_blank">VÖBB.de – dem Verbund der öffentlichen Bibliotheken Berlins benötigen.</a>
             Das Konto kostet nur <b>10&nbsp;Euro im Jahr</b> – das ist <i>wesentlich günstiger</i> als jedes einzelne Abo bei einer Nachrichtenseite und dafür bekommen Sie Zugang zu den Texten einer Vielzahl von Nachrichtenseiten + viele weitere digitale Medien.
           </p>
           <p>
@@ -88,7 +83,7 @@
             </ul>
           </details>
           <details id="how">
-            <summary>So funktioniert das Add-On</summary>
+            <summary>So würde das Add-On funktionieren</summary>
             <p>Wenn die Extension einen Artikel mit Paywall auf einer der unterstützten Nachrichtenseiten findet, dann:</p>
             <ol>
               <li>Öffnet sich im Hintergrund ein neues Tab, wo sich falls nötig bei VÖBB eingeloggt wird</li>
@@ -113,12 +108,19 @@
             </ul>
             <p>Außerdem kann es sein, dass Ihre gewünschte Nachrichtenseite noch nicht unterstützt wird. Eine Liste der unterstützten Seiten finden Sie im nächsten Abschnitt.</p>
           </details>
+          <details id="fail">
+            <summary>Das ging schief</summary>
+            <ul>
+              <li>
+                Informationen einfacher zugänglich machen.
+              </li>
+            </ul>
+          </details>
           <details id="supported">
             <summary>Aktuell unterstützte Nachrichtenseiten</summary>
-            <ul id="newssites"></ul>
-            <p>
-              Fehlt Ihnen eine Seite? Dann können Sie auf der <a href="https://github.com/stefanw/voebbot/issues/new?assignees=&labels=&template=neue-nachrichtenseite.md&title=">Entwicklungsplattform GitHub einen Vorschlag machen.</a>
-            </p>
+            <ul>
+              <li>🤡</li>
+            </ul>
           </details>
         </div>
       </section>
@@ -128,7 +130,6 @@
       <p>
         <small>
           <a href="https://stefanwehrmeyer.com/">Stefan Wehrmeyer</a> -
-          <a href="https://github.com/stefanw/voebbot/issues">Feedback / Bugs</a> -
           <a href="https://stefanwehrmeyer.com/impressum/">Impressum</a>
         </small>
       </p>
