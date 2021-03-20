@@ -14,10 +14,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: actions/setup-node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install build environment
+        run: npm install
       - name: Set tag name in env
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - name: Build project
-        run: "./build.sh"
+      - name: Build project and create dist files
+        run: "./dist.sh"
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -36,7 +42,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./build/voebbot.zip
+          asset_path: ./dist/voebbot.zip
           asset_name: voebbot-${{ env.RELEASE_VERSION }}.zip
           asset_content_type: application/zip
       - name: "web-ext build"
@@ -44,7 +50,7 @@ jobs:
         uses: kewisch/action-web-ext@d5376aebf5a5f167924728cf9b43d6e9e8ee10e0
         with:
           cmd: build
-          source: ./build/voebbot
+          source: ./dist/voebbot
       - name: "web-ext sign"
         id: web-ext-sign
         uses: kewisch/action-web-ext@d5376aebf5a5f167924728cf9b43d6e9e8ee10e0
@@ -78,7 +84,7 @@ jobs:
         uses: trmcnvn/chrome-addon@7fc5a5ad3ff597dc64d6a13de7dcaa8515328be7
         with:
           extension: edafomjglmkfbiieocpflnhfdmikkhbo
-          zip: ./build/voebbot.zip
+          zip: ./dist/voebbot.zip
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}

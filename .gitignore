@@ -1,5 +1,6 @@
 *.zip
 screenshots/*
 build/
+dist/
 _site/
 node_modules/
