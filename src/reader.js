@@ -1,4 +1,3 @@
-import sources from './sources.js'
 import { increaseStats } from './stats.js'
 import { INIT_MESSAGE, SUCCES_MESSAGE, FAILED_MESSAGE, STATUS_MESSAGE, DEFAULT_PROVIDER } from './const.js'
 import SourceBot from './sourcebot.js'
@@ -61,7 +60,7 @@ class Reader {
     this.sourceId = message.source
     this.domain = message.domain
     this.sourceBot = new SourceBot(
-      sources[message.source],
+      message.source,
       storageItems.provider,
       message.sourceParams,
       message.articleInfo,

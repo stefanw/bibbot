@@ -1,27 +1,39 @@
 import converters from './converters.js'
 import providers from './providers.js'
+import sources from './sources.js'
 import { SUCCES_MESSAGE, FAILED_MESSAGE, STATUS_MESSAGE } from './const.js'
+import { interpolate } from './utils.js'
 
 const PHASE_LOGIN = 'login'
 const PHASE_SEARCH = 'search'
 
 class SourceBot {
-  constructor (source, provider, params, articleInfo, userData, callback) {
+  constructor (sourceId, providerId, params, articleInfo, userData, callback) {
     this.step = 0
     this.phase = PHASE_LOGIN
 
-    this.source = source
-    this.provider = provider
+    this.sourceId = sourceId
+    this.source = sources[sourceId]
+
+    this.providerId = providerId
+    this.provider = providers[providerId]
+
     this.params = params
     this.articleInfo = articleInfo
     this.userData = userData
     this.callback = callback
+
     this.onTabUpdated = this.onTabUpdated.bind(this)
   }
 
   async run () {
+    const url = interpolate(
+      this.source.start,
+      this.provider.params[this.sourceId],
+      'provider', encodeURIComponent
+    )
     const tab = await browser.tabs.create({
-      url: this.source.login[this.provider].start,
+      url: url,
       active: false
     })
     this.tabId = tab.id
@@ -69,25 +81,26 @@ class SourceBot {
   }
 
   getActionList () {
-    let item
-    if (this.phase === PHASE_LOGIN) {
-      item = this.source.login[this.provider].login
+    const actionList = this.source[this.phase]
+    const actions = actionList[this.step]
+    if (Array.isArray(actions)) {
+      return actions
     }
-    item = this.source.search
-    if (Array.isArray(item)) {
-      return item
-    }
-    if (item.provider) {
-      return providers[this.provider][item.provider]
+    if (actions.provider) {
+      return this.provider[actions.provider]
     }
     throw new Error('Unknown action in source')
   }
 
+  isFinalStep () {
+    return (
+      this.phase === PHASE_SEARCH &&
+      this.step === this.source[this.phase][this.step].length - 1
+    )
+  }
+
   async runActionsOfCurrentStep () {
-    const actionList = this.getActionList()
-    const actions = actionList[this.step]
-    const isFinalStep = this.phase === PHASE_SEARCH &&
-                        this.step === actionList.length - 1
+    const actions = this.getActionList()
 
     let result
     for (const action of actions) {
@@ -100,10 +113,12 @@ class SourceBot {
         return
       }
     }
+    const isFinalStep = this.isFinalStep()
     if (isFinalStep) {
       this.finalize(result)
       return
     }
+    // Move to next step and wait for tab update event
     this.step += 1
     if (this.step > this.source[this.phase].length - 1) {
       if (this.phase === PHASE_LOGIN) {
@@ -198,18 +213,9 @@ class SourceBot {
   }
 
   makeUrl (url) {
-    const vars = ['query', 'edition', 'overline']
-    for (const v of vars) {
-      const q = this.articleInfo[v] || ''
-      url = url.replace(new RegExp(`{${v}}`), encodeURIComponent(q))
-    }
+    url = interpolate(url, this.articleInfo, '', encodeURIComponent)
     if (this.params) {
-      for (const v in this.params) {
-        url = url.replace(
-          new RegExp(`{sourceParams.${v}}`),
-          encodeURIComponent(this.params[v] || '')
-        )
-      }
+      url = interpolate(url, this.params, 'source', encodeURIComponent)
     }
     return url
   }
