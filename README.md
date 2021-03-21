@@ -2,20 +2,36 @@
 
 [Official website](https://stefanw.github.io/voebbot/)
 
-## Summary in English
+## Development
 
-Browser extension that uses your [VÖBB](https://www.voebb.de/) public library account (just 10 € / year!) to remove the paywall on print articles of German online news sites.
+This uses rollup to build the extension files. Install and run like this:
 
-### How it works
+```
+npm install
+npm start
+```
 
-Your VÖBB account includes access to [genios](https://www.genios.de/) and [Munzinger](https://www.munzinger.de/) which gives you access to the print editions of most German newspapers.
+## Extension overview
 
-When you browse the websites of German news sites the extension will detect the paywall and in the background log in to the library service, search for the article and inject the content of the article into the news site.
+The extension has four different entry points:
 
-### Setup
+- The content script in `src/content.js` runs on the news article page, communicates with background script
+- the background script in `src/background.js` which opens new tabs, navigates them around and scrapes the content
+- the options page in `src/options.js` is the options page for the extension
+- the popup in `popup/` is opened when the extension icon in the toolbar is clicked
 
-This extension is in beta development. You can [download a release](https://stefanw.github.io/voebbot/) and load it in your browser.
+These are the data pieces inside:
 
-Unless your browser autofills your credentials on the VÖBB partner sites, you can give the extension your 11-digit user id and password via its options page.
+- `src/providers.js` contains entities that you authenticate against and that grant access
+- `src/sources.js` contains databases that you can get access to through providers
+- `src/sites.js` contains news sites, how to extract their meta data and which source could provide access
 
-Many more sites are possible, please help to add more.
+Additionally user data like credentials and chosen provider is stored via `browser.storage.sync`.
+
+
+## Release
+
+1. Update version number in `package.json` and `manifest.json` and commit.
+2. `git tag vX.Y.Z`
+3. `git push --tags origin main`
+4. GitHub release Action will build, create release, sign Firefox extension, submit to Chrome Web Store and update website.
