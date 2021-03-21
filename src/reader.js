@@ -11,7 +11,7 @@ function retrieveStorage () {
     keepStats: true,
     provider: DEFAULT_PROVIDER
   }
-  browser.storage.sync.get(defaults).then(function (items) {
+  return browser.storage.sync.get(defaults).then(function (items) {
     for (const key in items) {
       storageItems[key] = items[key]
     }
@@ -32,14 +32,16 @@ class Reader {
   }
 
   start () {
-    retrieveStorage()
+    this.storageUpdated = retrieveStorage()
     this.port.onMessage.addListener(this.onMessage)
     this.port.onDisconnect.addListener(this.onDisconnect)
   }
 
   onMessage (message) {
     if (message.type === INIT_MESSAGE) {
-      this.setupArticle(message)
+      this.storageUpdated.then(() => {
+        this.retrieveArticle(message)
+      })
     }
   }
 
@@ -56,7 +58,7 @@ class Reader {
     }
   }
 
-  setupArticle (message) {
+  retrieveArticle (message) {
     this.sourceId = message.source
     this.domain = message.domain
     this.sourceBot = new SourceBot(
