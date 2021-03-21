@@ -1,6 +1,6 @@
-import converters from './converters.js'
 import providers from './providers.js'
 import sources from './sources.js'
+import TabRunner from './tabrunner.js'
 import { SUCCES_MESSAGE, FAILED_MESSAGE, STATUS_MESSAGE } from './const.js'
 import { interpolate } from './utils.js'
 
@@ -26,10 +26,18 @@ class SourceBot {
     this.onTabUpdated = this.onTabUpdated.bind(this)
   }
 
+  getParams () {
+    return Object.assign(
+      {},
+      this.source.defaultParams || {},
+      this.provider.params[this.sourceId]
+    )
+  }
+
   async run () {
     const url = interpolate(
       this.source.start,
-      this.provider.params[this.sourceId],
+      this.getParams(),
       'provider', encodeURIComponent
     )
     const tab = await browser.tabs.create({
@@ -38,7 +46,7 @@ class SourceBot {
     })
     this.tabId = tab.id
     console.log('tab created', tab.id)
-
+    this.tabRunner = new TabRunner(tab.id, this.userData)
     browser.tabs.onUpdated.addListener(this.onTabUpdated)
   }
 
@@ -80,7 +88,7 @@ class SourceBot {
     return false
   }
 
-  getActionList () {
+  getActions () {
     const actionList = this.source[this.phase]
     const actions = actionList[this.step]
     if (Array.isArray(actions)) {
@@ -99,15 +107,32 @@ class SourceBot {
     )
   }
 
+  handleAction (action) {
+    if (action.message) {
+      // message does not need to run through tabrunner
+      this.callback({
+        type: STATUS_MESSAGE,
+        message: action.message
+      })
+      return null
+    }
+    if (action.url) {
+      // recreate action.url with interpolated url
+      action = Object.assign({}, action)
+      action.url = this.makeUrl(action.url)
+    }
+    return action
+  }
+
   async runActionsOfCurrentStep () {
-    const actions = this.getActionList()
+    const actions = this.getActions()
 
     let result
-    for (const action of actions) {
-      console.log('Running', action)
-      const actionCode = this.getActionCode(action)
+    for (let action of actions) {
+      action = this.handleAction(action)
+      if (action === null) { continue }
       try {
-        result = await this.runScript(actionCode)
+        result = await this.tabRunner.runAction(action)
       } catch (e) {
         this.fail(e.toString())
         return
@@ -144,6 +169,7 @@ class SourceBot {
   }
 
   fail (message) {
+    console.error(message)
     this.callback({
       type: FAILED_MESSAGE,
       message: message
@@ -151,72 +177,10 @@ class SourceBot {
     this.cleanUp()
   }
 
-  async runScript (actionCode) {
-    if (actionCode.length === 0) {
-      return
-    }
-    let result = await browser.tabs.executeScript(
-      this.tabId, {
-        code: actionCode[0]
-      })
-    result = result[0]
-    if (actionCode.length === 1) {
-      return result
-    }
-    return actionCode[1](result)
-  }
-
-  getActionCode (action) {
-    if (action.message) {
-      this.callback({
-        type: STATUS_MESSAGE,
-        message: action.message
-      })
-      return []
-    } else if (action.fill) {
-      if (this.userData[action.fill.key]) {
-        return [`document.querySelector('${action.fill.selector}').value = '${this.userData[action.fill.key]}'`]
-      } else {
-        return []
-      }
-    } else if (action.failOnMissing) {
-      return [
-        `document.querySelector('${action.failOnMissing}') !== null`,
-        function (result) {
-          if (result === true) {
-            return result
-          }
-          throw new Error(action.failure)
-        }
-      ]
-    } else if (action.click) {
-      if (action.optional) {
-        return [`var el = document.querySelector('${action.click}'); el && el.click()`]
-      } else {
-        return [`document.querySelector('${action.click}').click()`]
-      }
-    } else if (action.url) {
-      const url = this.makeUrl(action.url)
-      return [`document.location.href = '${url}';`]
-    } else if (action.extract) {
-      return [
-        `Array.from(document.querySelectorAll('${action.extract}')).map(function(el) {
-          return el.outerHTML
-        })`,
-        function (result) {
-          if (result.length > 0 && action.convert) {
-            result = converters[action.convert](result)
-          }
-          return result
-        }]
-    }
-  }
-
   makeUrl (url) {
     url = interpolate(url, this.articleInfo, '', encodeURIComponent)
-    if (this.params) {
-      url = interpolate(url, this.params, 'source', encodeURIComponent)
-    }
+    const params = this.getParams()
+    url = interpolate(url, params, 'site', encodeURIComponent)
     return url
   }
 }
