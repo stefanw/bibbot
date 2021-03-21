@@ -9,7 +9,7 @@ export default {
         portalId: '50158'
       },
       'genios.de': {
-        subDomain: 'bib-voebb'
+        domain: 'bib-voebb.genios.de'
       }
     },
     login: [
@@ -17,6 +17,22 @@ export default {
       { fill: { selector: 'input[name="L#AUSW"]', key: 'username' } },
       { fill: { selector: 'input[name="LPASSW"]', key: 'password' } },
       { click: 'input[name="LLOGIN"]' }
+    ]
+  },
+  'wiso-net.de': {
+    name: 'WISO – Die Datenbank für Hochschulen',
+    web: 'https://www.wiso-net.de/',
+    params: {
+      'genios.de': {
+        domain: 'www.wiso-net.de'
+      }
+    },
+    login: [
+      { message: 'WISO-Konto wird eingeloggt...' },
+      { click: '#customLoginLink' },
+      { fill: { selector: 'input[name="loginBlock.username"]', key: 'username' } },
+      { fill: { selector: 'input[name="loginBlock.password"]', key: 'password' } },
+      { click: '#loginBlock_c1' }
     ]
   }
 }

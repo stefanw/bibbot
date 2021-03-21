@@ -18,7 +18,7 @@ export default {
       paywall: "div[data-component='Paywall'], div[data-target-id='paywall']"
     },
     // source: "www.munzinger.de"
-    source: 'bib-voebb.genios.de',
+    source: 'genios.de',
     sourceParams: {
       dbShortcut: 'SPII,KULS,SPIE,SPON,SSPE,UNIS,LISP,SPBE'
     }
@@ -33,7 +33,7 @@ export default {
       paywall: '.article--paid > p:first-child~div',
       date: 'time'
     },
-    source: 'bib-voebb.genios.de',
+    source: 'genios.de',
     sourceParams: {
       dbShortcut: 'TSP,TPCP,TSPO'
     }
@@ -54,7 +54,7 @@ export default {
       paywall.style.display = 'none'
       root.querySelector('.paragraph.article__item').classList.remove('paragraph--faded')
     },
-    source: 'bib-voebb.genios.de',
+    source: 'genios.de',
     sourceParams: {
       dbShortcut: 'ZEIT,ZEIO,ZTCS,ZTGS,ZTWI'
 
@@ -70,7 +70,7 @@ export default {
     start: (root) => {
       root.querySelector('.c-page-container.c-la-loading').remove()
     },
-    source: 'bib-voebb.genios.de',
+    source: 'genios.de',
     sourceParams: {
       dbShortcut: 'WEPL,WAMS,WELT,WEON'
     }
@@ -92,7 +92,7 @@ export default {
         p.className = 'sz-article-body__paragraph'
       }
     },
-    source: 'bib-voebb.genios.de',
+    source: 'genios.de',
     sourceParams: {
       dbShortcut: 'SZ'
     }
@@ -104,7 +104,7 @@ export default {
       paywall: '.c-paywall',
       main: "div[itemprop='articleBody']"
     },
-    source: 'bib-voebb.genios.de',
+    source: 'genios.de',
     sourceParams: {
       dbShortcut: 'HBON'
     }
@@ -117,7 +117,7 @@ export default {
       main: '.o-article',
       paywall: '.paywall-dialog-box'
     },
-    source: 'bib-voebb.genios.de',
+    source: 'genios.de',
     sourceParams: {
       dbShortcut: 'BEZE'
     }
@@ -131,7 +131,7 @@ export default {
       main: "div[itemprop='articleBody']",
       paywall: '#paywall-container'
     },
-    source: 'bib-voebb.genios.de',
+    source: 'genios.de',
     sourceParams: {
       dbShortcut: 'BMP,BMPO'
     }
@@ -151,7 +151,7 @@ export default {
       }
     },
 
-    source: 'bib-voebb.genios.de',
+    source: 'genios.de',
     sourceParams: {
       dbShortcut: 'MOZ'
     }
@@ -162,7 +162,7 @@ export default {
       main: '.article-content',
       paywall: '.nk-plus-subscription-options-breaker'
     },
-    source: 'bib-voebb.genios.de',
+    source: 'genios.de',
     sourceParams: {
       dbShortcut: 'NKU'
     }
@@ -184,7 +184,7 @@ export default {
       }
     },
 
-    source: 'bib-voebb.genios.de',
+    source: 'genios.de',
     sourceParams: {
       dbShortcut: 'NOZ'
     }
@@ -196,7 +196,7 @@ export default {
       date: 'time',
       paywall: '#paywall-container'
     },
-    source: 'bib-voebb.genios.de',
+    source: 'genios.de',
     sourceParams: {
       dbShortcut: 'HA,HABO'
     }
@@ -208,7 +208,7 @@ export default {
       paywall: '#paywall-container',
       main: '.article__header__intro'
     },
-    source: 'bib-voebb.genios.de',
+    source: 'genios.de',
     sourceParams: {
       dbShortcut: 'WAZ'
     }
@@ -220,7 +220,7 @@ export default {
       paywall: '.o-reco',
       main: '.o-article__content .u-richtext'
     },
-    source: 'bib-voebb.genios.de',
+    source: 'genios.de',
     sourceParams: {
       dbShortcut: 'WWON'
     }
