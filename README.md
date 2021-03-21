@@ -6,8 +6,10 @@
 
 This uses rollup to build the extension files. Install and run like this:
 
-```
+```sh
 npm install
+
+# Run this during development
 npm start
 ```
 
