@@ -58,12 +58,14 @@ function restore () {
 function save () {
   const username = document.getElementById('username').value
   const password = document.getElementById('password').value
+  const provider = document.getElementById('provider').value
   const keepStats = document.getElementById('keepStats').checked
 
   const values = {
     username: username,
     password: password,
-    keepStats: keepStats
+    keepStats: keepStats,
+    provider: provider
   }
   if (!keepStats) {
     values.stats = {}
