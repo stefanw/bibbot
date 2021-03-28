@@ -6,10 +6,9 @@ const storageItems = {}
 
 function retrieveStorage () {
   const defaults = {
-    username: '',
-    password: '',
     keepStats: true,
-    provider: DEFAULT_PROVIDER
+    provider: DEFAULT_PROVIDER,
+    providerOptions: {}
   }
   return browser.storage.sync.get(defaults).then(function (items) {
     for (const key in items) {
