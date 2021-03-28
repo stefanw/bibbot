@@ -42,5 +42,26 @@ export default {
       { id: 'username', display: "Nutzername:", type: 'text'},
       { id: 'password', display: "Passwort:", type: 'password'},
     ]
+  },
+  'sso.wiso-net.de': {
+    name: 'WISO – Die Datenbank für Hochschulen (SSO)',
+    web: 'https://www.wiso-net.de/',
+    params: {
+      'genios.de': {
+        domain: 'www.wiso-net.de'
+      }
+    },
+    login: [
+      { message: 'WISO-Konto wird eingeloggt (SSO)...' },
+      { fill: { selector: '#shibbolethForm_selectedCity', providerKey: 'sso.wiso-net.de.options.city' } },
+      { event: { selector:'#shibbolethForm_selectedCity', event: 'change' } },
+      { wait: 2000 },
+      { fill: { selector: '#shibbolethForm_selectedName', providerKey: 'sso.wiso-net.de.options.name'} },
+      { click: '#shibbolethForm_shLoginLink'}
+    ],
+    options: [
+      { id: 'city', display: 'Stadt der Hochschule/Uni:', type: 'text'},
+      { id: 'name', display: 'Name der Hochschule/Uni:', type: 'text'}
+    ]
   }
 }

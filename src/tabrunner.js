@@ -45,6 +45,12 @@ class TabRunner {
       } else {
         return []
       }
+    } else if (action.event) {
+      return [`document.querySelector('${action.event.selector}').dispatchEvent(new Event('${action.event.event}'))`]
+    } else if (action.wait) {
+      var start = new Date().getTime(), expire = start + action.wait;
+      while (new Date().getTime() < expire) { }
+      return [];
     } else if (action.failOnMissing) {
       return [
         `document.querySelector('${action.failOnMissing}') !== null`,
