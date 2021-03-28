@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "VÖBBot",
-  "version": "0.10",
-  "description": "Entfernt die Paywall in Artikeln deutscher Online-Medien via VÖBB",
+  "version": "0.11.0",
+  "description": "Vereinfacht die Suche nach Artikeln in der Bibliothek",
   "icons": {
     "48": "icons/voebbot48.png",
     "96": "icons/voebbot96.png"
