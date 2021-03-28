@@ -75,9 +75,7 @@ jobs:
         id: ghpages-rebuild
         uses: octokit/request-action@v2.x
         with:
-          route: POST /repos/{owner}/{repo}/pages/builds
-          owner: stefanw
-          repo: voebbot
+          route: POST /repos/stefanw/voebbot/pages/builds
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: "Publish to Chrome Web Store"
