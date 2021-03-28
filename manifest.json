@@ -13,7 +13,8 @@
     "storage",
     "https://www.munzinger.de/*",
     "https://www.voebb.de/*",
-    "https://bib-voebb.genios.de/*"
+    "https://*.genios.de/*",
+    "https://www.wiso-net.de/*"
   ],
   "background": {
     "scripts": [
