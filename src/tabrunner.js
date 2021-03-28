@@ -1,4 +1,5 @@
 import converters from './converters.js'
+import { STATUS_MESSAGE } from './const.js'
 
 class TabRunner {
   constructor (tabId, userData) {
@@ -60,6 +61,22 @@ class TabRunner {
       }
     } else if (action.url) {
       return [`document.location.href = '${action.url}';`]
+    } else if (action.href) {
+      return [`document.location.href = document.querySelector('${action.href}').href;`]
+    } else if (action.captcha) {
+      return [`document.querySelector('${action.captcha}') === null`,
+        function (result) {
+          if (result === true) {
+            return result
+          }
+          return function (sourceBot) {
+            sourceBot.callback({
+              type: STATUS_MESSAGE,
+              action: 'interaction_required'
+            })
+            return false
+          }
+        }]
     } else if (action.extract) {
       return [
         `Array.from(document.querySelectorAll('${action.extract}')).map(function(el) {

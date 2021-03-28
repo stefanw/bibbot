@@ -1,5 +1,5 @@
 import { LOADER_HTML, LOADER_ID, MESSAGE_ID, FAILED_HTML } from './ui.js'
-import { FAILED_MESSAGE, INIT_MESSAGE, STATUS_MESSAGE, SUCCES_MESSAGE, PORT_NAME } from './const.js'
+import { FAILED_MESSAGE, INIT_MESSAGE, GOTOTAB_MESSAGE, STATUS_MESSAGE, SUCCES_MESSAGE, PORT_NAME } from './const.js'
 
 class SiteBot {
   constructor (site, root, domain = null) {
@@ -68,6 +68,19 @@ class SiteBot {
     this.root.querySelector(`#${MESSAGE_ID}`).innerText = text
   }
 
+  showInteractionRequired () {
+    this.hideLoading()
+    const btnId = 'voebbot-goto'
+    const html = `<button id="${btnId}">Bitte gehen Sie zum geöffneten Tab.</button>`
+    this.root.querySelector(`#${MESSAGE_ID}`).innerHTML = html
+    this.root.querySelector(`#${btnId}`).addEventListener('click', (e) => {
+      e.preventDefault()
+      this.postMessage({
+        type: GOTOTAB_MESSAGE
+      })
+    })
+  }
+
   collectArticleInfo () {
     const articleInfo = {}
     for (const key in this.site.selectors) {
@@ -115,21 +128,25 @@ class SiteBot {
     this.port.onDisconnect.removeListener(this.onDisconnect)
   }
 
-  onMessage (message) {
-    console.log(message)
-    if (message.type === STATUS_MESSAGE) {
-      this.showUpdate(message.text)
+  onMessage (event) {
+    console.log(event)
+    if (event.type === STATUS_MESSAGE) {
+      if (event.action === 'interaction_required') {
+        this.showInteractionRequired()
+      } else if (event.message) {
+        this.showUpdate(event.message)
+      }
       return
     }
 
     this.hideLoading()
 
-    if (message.type === FAILED_MESSAGE) {
+    if (event.type === FAILED_MESSAGE) {
       this.fail()
       return
     }
-    if (message.type === SUCCES_MESSAGE) {
-      this.showArticle(message.content)
+    if (event.type === SUCCES_MESSAGE) {
+      this.showArticle(event.content)
     }
 
     throw new Error('Unknown message type')

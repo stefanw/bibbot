@@ -1,5 +1,6 @@
 export const PORT_NAME = 'port-from-cs'
 export const INIT_MESSAGE = 'init'
+export const GOTOTAB_MESSAGE = 'gototab'
 export const SUCCES_MESSAGE = 'success'
 export const FAILED_MESSAGE = 'failed'
 export const STATUS_MESSAGE = 'status'

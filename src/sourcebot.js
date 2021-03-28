@@ -8,7 +8,7 @@ const PHASE_LOGIN = 'login'
 const PHASE_SEARCH = 'search'
 
 class SourceBot {
-  constructor (sourceId, providerId, params, articleInfo, userData, callback) {
+  constructor (sourceId, providerId, sourceParams, articleInfo, userData, callback) {
     this.step = 0
     this.phase = PHASE_LOGIN
 
@@ -18,7 +18,7 @@ class SourceBot {
     this.providerId = providerId
     this.provider = providers[providerId]
 
-    this.params = params
+    this.sourceParams = sourceParams
     this.articleInfo = articleInfo
     this.userData = userData
     this.callback = callback
@@ -30,16 +30,13 @@ class SourceBot {
     return Object.assign(
       {},
       this.source.defaultParams || {},
-      this.provider.params[this.sourceId]
+      this.provider.params[this.sourceId],
+      this.sourceParams
     )
   }
 
   async run () {
-    const url = interpolate(
-      this.source.start,
-      this.getParams(),
-      'provider', encodeURIComponent
-    )
+    const url = this.makeUrl(this.source.start)
     const tab = await browser.tabs.create({
       url: url,
       active: false
@@ -103,7 +100,7 @@ class SourceBot {
   isFinalStep () {
     return (
       this.phase === PHASE_SEARCH &&
-      this.step === this.source[this.phase][this.step].length - 1
+      this.step === this.source[this.phase].length - 1
     )
   }
 
@@ -136,6 +133,12 @@ class SourceBot {
       } catch (e) {
         this.fail(e.toString())
         return
+      }
+      if (typeof result === 'function') {
+        if (!result(this)) {
+          this.cleanUp()
+          return
+        }
       }
     }
     const isFinalStep = this.isFinalStep()
@@ -180,8 +183,14 @@ class SourceBot {
   makeUrl (url) {
     url = interpolate(url, this.articleInfo, '', encodeURIComponent)
     const params = this.getParams()
-    url = interpolate(url, params, 'site', encodeURIComponent)
+    url = interpolate(url, params, 'source', encodeURIComponent)
     return url
+  }
+
+  activateTab () {
+    browser.tabs.update(this.tabId, {
+      active: true
+    })
   }
 }
 
