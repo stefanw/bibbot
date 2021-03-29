@@ -217,7 +217,7 @@ export default {
     selectors: {
       query: '.c-headline--article',
       date: '.o-article__element time',
-      paywall: '.o-reco',
+      paywall: '.c-label--premium',
       main: '.o-article__content .u-richtext'
     },
     source: 'genios.de',
