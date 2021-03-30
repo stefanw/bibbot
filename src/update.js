@@ -12,7 +12,7 @@ export default {
 
             browser.storage.sync.get(defaults).then((items) => {
                 if (items.username && items.password) {
-                    console.log("Found credentials:", items.username, items.password)
+                    console.log("Found credentials")
 
                     const newStorage = {
                         providerOptions: {}
