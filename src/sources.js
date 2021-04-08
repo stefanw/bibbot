@@ -23,7 +23,7 @@ export default {
     ]
   },
   'genios.de': {
-    loggedIn: ".boxLogin a[href='/openIdConnectClient/logout']",
+    loggedIn: ".boxLogin a[href='/openIdConnectClient/logout'], .moduleLogoPersonal",
     start: 'https://{source.domain}/',
     defaultParams: {
       domain: 'www.genios.de'

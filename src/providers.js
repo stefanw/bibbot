@@ -14,9 +14,13 @@ export default {
     },
     login: [
       { message: 'VÖBB-Konto wird eingeloggt...' },
-      { fill: { selector: 'input[name="L#AUSW"]', key: 'username' } },
-      { fill: { selector: 'input[name="LPASSW"]', key: 'password' } },
+      { fill: { selector: 'input[name="L#AUSW"]', providerKey: 'voebb.de.options.username' } },
+      { fill: { selector: 'input[name="LPASSW"]', providerKey: 'voebb.de.options.password' } },
       { click: 'input[name="LLOGIN"]' }
+    ],
+    options: [
+      { id: 'username', display: "Nutzername:", type: 'text'},
+      { id: 'password', display: "Passwort:", type: 'password'},
     ]
   },
   'wiso-net.de': {
@@ -30,9 +34,34 @@ export default {
     login: [
       { message: 'WISO-Konto wird eingeloggt...' },
       { click: '#customLoginLink' },
-      { fill: { selector: 'input[name="loginBlock.username"]', key: 'username' } },
-      { fill: { selector: 'input[name="loginBlock.password"]', key: 'password' } },
+      { fill: { selector: 'input[name="loginBlock.username"]', providerKey: 'wiso-net.de.options.username' } },
+      { fill: { selector: 'input[name="loginBlock.password"]', providerKey: 'wiso-net.de.options.password' } },
       { click: '#loginBlock_c1' }
+    ],
+    options: [
+      { id: 'username', display: "Nutzername:", type: 'text'},
+      { id: 'password', display: "Passwort:", type: 'password'},
+    ]
+  },
+  'sso.wiso-net.de': {
+    name: 'WISO – Die Datenbank für Hochschulen (SSO)',
+    web: 'https://www.wiso-net.de/',
+    params: {
+      'genios.de': {
+        domain: 'www.wiso-net.de'
+      }
+    },
+    login: [
+      { message: 'WISO-Konto wird eingeloggt (SSO)...' },
+      { fill: { selector: '#shibbolethForm_selectedCity', providerKey: 'sso.wiso-net.de.options.city' } },
+      { event: { selector:'#shibbolethForm_selectedCity', event: 'change' } },
+      { wait: 2000 },
+      { fill: { selector: '#shibbolethForm_selectedName', providerKey: 'sso.wiso-net.de.options.name'} },
+      { click: '#shibbolethForm_shLoginLink'}
+    ],
+    options: [
+      { id: 'city', display: 'Stadt der Hochschule/Uni:', type: 'text'},
+      { id: 'name', display: 'Name der Hochschule/Uni:', type: 'text'}
     ]
   }
 }

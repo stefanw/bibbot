@@ -40,9 +40,17 @@ class TabRunner {
     if (action.fill) {
       if (this.userData[action.fill.key]) {
         return [`document.querySelector('${action.fill.selector}').value = '${this.userData[action.fill.key]}'`]
+      } else if (action.fill.providerKey) {
+        return [`document.querySelector('${action.fill.selector}').value = '${this.userData.providerOptions[action.fill.providerKey]}'`]
       } else {
         return []
       }
+    } else if (action.event) {
+      return [`document.querySelector('${action.event.selector}').dispatchEvent(new Event('${action.event.event}'))`]
+    } else if (action.wait) {
+      var start = new Date().getTime(), expire = start + action.wait;
+      while (new Date().getTime() < expire) { }
+      return [];
     } else if (action.failOnMissing) {
       return [
         `document.querySelector('${action.failOnMissing}') !== null`,

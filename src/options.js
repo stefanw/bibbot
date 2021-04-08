@@ -4,19 +4,35 @@ import providers from './providers.js'
 const defaults = {
   installDate: null,
   provider: DEFAULT_PROVIDER,
-  username: '',
-  password: '',
   keepStats: true,
-  stats: {}
+  stats: {},
+  providerOptions: {}
+}
+
+function showOptions() {
+  const provider = document.getElementById('provider').value
+  Array.from(document.getElementsByClassName('provider-options-container')).forEach(el => el.hidden = 'hidden')
+  document.getElementById(provider + '.options').hidden = null
 }
 
 function restore () {
   browser.storage.sync.get(defaults).then(function (items) {
     document.getElementById('provider').value = items.provider
-    document.getElementById('username').value = items.username
-    document.getElementById('password').value = items.password
     document.getElementById('keepStats').checked = items.keepStats
 
+    if (items.providerOptions)
+    {
+      for (const providerKey in providers) {
+        const provider = providers[providerKey]
+        for (const optionKey in provider.options) {
+          const option = provider.options[optionKey]
+          const input = document.getElementById(providerKey + '.options.' + option.id)
+          input.value = items.providerOptions[providerKey + '.options.' + option.id] || ''
+        }
+      }
+    }
+    showOptions()
+    
     if (items.installDate === null) {
       // first run
       browser.storage.sync.set({
@@ -28,6 +44,7 @@ function restore () {
 
   const providerSelect = document.getElementById('provider')
   const providerList = document.getElementById('providers')
+  const providerOptions = document.getElementById('provider-options')
   for (const providerKey in providers) {
     const provider = providers[providerKey]
     const option = document.createElement('option')
@@ -41,6 +58,25 @@ function restore () {
     listItemA.innerText = provider.name
     listItem.appendChild(listItemA)
     providerList.appendChild(listItem)
+
+    const optionsContainer = document.createElement('div')
+    optionsContainer.classList = 'provider-options-container'
+    optionsContainer.id = providerKey + '.options'
+    optionsContainer.hidden = 'hidden'
+    for (const optionKey in provider.options) {
+      const option = provider.options[optionKey]
+
+      const label = document.createElement('label')
+      label.innerText = option.display
+      const input = document.createElement('input')
+      input.type = option.type
+      input.name = providerKey + '.options.' + option.id
+      input.id = providerKey + '.options.' + option.id
+
+      optionsContainer.appendChild(label)
+      optionsContainer.appendChild(input)
+    }
+    providerOptions.appendChild(optionsContainer)
   }
 
   window.fetch('/manifest.json').then(response => response.json())
@@ -56,21 +92,28 @@ function restore () {
 }
 
 function save () {
-  const username = document.getElementById('username').value
-  const password = document.getElementById('password').value
   const provider = document.getElementById('provider').value
   const keepStats = document.getElementById('keepStats').checked
 
+  const providerOptions = {}
+  for (const providerKey in providers) {
+    const provider = providers[providerKey]
+    for (const optionKey in provider.options) {
+      const option = provider.options[optionKey]
+      const input = document.getElementById(providerKey + '.options.' + option.id)
+      providerOptions[providerKey + '.options.' + option.id] = input.value
+    }
+  }
+
   const values = {
-    username: username,
-    password: password,
     keepStats: keepStats,
-    provider: provider
+    provider: provider,
+    providerOptions: providerOptions
   }
   if (!keepStats) {
     values.stats = {}
   }
-
+  
   browser.storage.sync.set(values)
 }
 
@@ -87,4 +130,5 @@ document.querySelector('form').addEventListener('submit', function (e) {
   savedNote.classList.add('fade')
 })
 
+document.getElementById('provider').addEventListener('change', showOptions)
 document.addEventListener('DOMContentLoaded', restore)
