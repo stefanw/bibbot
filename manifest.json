@@ -11,9 +11,11 @@
   "permissions": [
     "tabs",
     "storage",
+    "https://*.genios.de/*"
+  ],
+  "optional_permissions": [
     "https://www.munzinger.de/*",
     "https://www.voebb.de/*",
-    "https://*.genios.de/*",
     "https://www.wiso-net.de/*"
   ],
   "background": {
