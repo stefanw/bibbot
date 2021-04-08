@@ -11,7 +11,9 @@ const defaults = {
 
 function showOptions () {
   const provider = document.getElementById('provider').value
-  Array.from(document.getElementsByClassName('provider-options-container')).forEach(el => el.hidden = 'hidden')
+  Array.from(document.getElementsByClassName('provider-options-container')).forEach(el => {
+    el.hidden = 'hidden'
+  })
   document.getElementById(provider + '.options').hidden = null
 }
 
