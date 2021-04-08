@@ -43,7 +43,13 @@ class SourceBot {
     })
     this.tabId = tab.id
     console.log('tab created', tab.id)
-    this.tabRunner = new TabRunner(tab.id, this.userData)
+    const userData = Object.assign({}, this.userData);
+    ['options.username', 'options.password'].forEach(key => {
+      if (userData.providerOptions[`${this.providerId}.${key}`] !== undefined) {
+        userData[key] = userData.providerOptions[`${this.providerId}.${key}`]
+      }
+    })
+    this.tabRunner = new TabRunner(tab.id, userData)
     browser.tabs.onUpdated.addListener(this.onTabUpdated)
   }
 
@@ -86,13 +92,10 @@ class SourceBot {
   }
 
   getActions () {
-    const actionList = this.source[this.phase]
+    const actionList = this.provider[this.phase] || this.source[this.phase]
     const actions = actionList[this.step]
     if (Array.isArray(actions)) {
       return actions
-    }
-    if (actions.provider) {
-      return this.provider[actions.provider]
     }
     throw new Error('Unknown action in source')
   }

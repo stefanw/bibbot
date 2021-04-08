@@ -4,11 +4,10 @@ export default {
     start: 'https://www.munzinger.de/search/go/spiegel/aktuell.jsp?portalid={source.portalId}',
     login: [
       [
-        { click: '#redirect' }
-      ],
-      { provider: 'login' },
-      [
-        { click: 'input[name="CLOGIN"]' }
+        { click: '.gdprcookie-buttons button', optional: true },
+        { fill: { selector: '#user-input', key: 'options.username' } },
+        { fill: { selector: '#pwd-bezeichnung', key: 'options.password' } },
+        { click: 'input[src="/grafiken/button-login.gif"]' }
       ]
     ],
     search: [
@@ -23,13 +22,19 @@ export default {
     ]
   },
   'genios.de': {
-    loggedIn: ".boxLogin a[href='/openIdConnectClient/logout'], .moduleLogoPersonal",
+    loggedIn: '.boxMyGeniosLink',
     start: 'https://{source.domain}/',
     defaultParams: {
       domain: 'www.genios.de'
     },
     login: [
-      { provider: 'login' }
+      [
+        { fill: { selector: '#bibLoginLayer_number', key: 'options.username' } },
+        { fill: { selector: '#bibLoginLayer_password', key: 'options.password' } },
+        { click: '#bibLoginLayer_terms' },
+        { click: '#bibLoginLayer_gdpr' },
+        { click: '#bibLoginLayer_c0' }
+      ]
     ],
     search: [
       [

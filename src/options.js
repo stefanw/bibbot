@@ -9,7 +9,7 @@ const defaults = {
   providerOptions: {}
 }
 
-function showOptions() {
+function showOptions () {
   const provider = document.getElementById('provider').value
   Array.from(document.getElementsByClassName('provider-options-container')).forEach(el => el.hidden = 'hidden')
   document.getElementById(provider + '.options').hidden = null
@@ -20,8 +20,7 @@ function restore () {
     document.getElementById('provider').value = items.provider
     document.getElementById('keepStats').checked = items.keepStats
 
-    if (items.providerOptions)
-    {
+    if (items.providerOptions) {
       for (const providerKey in providers) {
         const provider = providers[providerKey]
         for (const optionKey in provider.options) {
@@ -32,7 +31,7 @@ function restore () {
       }
     }
     showOptions()
-    
+
     if (items.installDate === null) {
       // first run
       browser.storage.sync.set({
@@ -113,7 +112,7 @@ function save () {
   if (!keepStats) {
     values.stats = {}
   }
-  
+
   browser.storage.sync.set(values)
 }
 
