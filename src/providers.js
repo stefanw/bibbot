@@ -18,6 +18,24 @@ export default {
       { id: 'password', display: 'Passwort:', type: 'password' }
     ]
   },
+  'bibliothek.erfurt.de': {
+    name: 'Stadt- und Regionalbibliothek Erfurt',
+    web: 'https://erfurt.de/bibliothek',
+    loginHint: '',
+    params: {
+      'www.munzinger.de': {
+        portalId: '57251'
+      },
+      'genios.de': {
+        domain: 'bib-erfurt.genios.de'
+      }
+    },
+    login: null,
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ]
+  },
   'voebb.de': {
     name: 'VÖBB - Verbund der öffenlichen Bibliotheken Berlins',
     web: 'https://voebb.de/',
