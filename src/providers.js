@@ -36,6 +36,24 @@ export default {
       { id: 'password', display: 'Passwort:', type: 'password' }
     ]
   },
+  'buecherhallen.de': {
+    name: 'Bücherhalle Hamburg',
+    web: 'https://www.buecherhallen.de/',
+    loginHint: '',
+    params: {
+      'www.munzinger.de': {
+        portalId: '51440'
+      },
+      'genios.de': {
+        domain: 'buecherhallen.genios.de'
+      }
+    },
+    login: null,
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ]
+  },
   'voebb.de': {
     name: 'VÖBB - Verbund der öffenlichen Bibliotheken Berlins',
     web: 'https://voebb.de/',
