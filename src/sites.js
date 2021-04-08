@@ -8,7 +8,10 @@ export default {
       edition: 'body > footer > span.pvi',
       paywall: '#preview'
     },
-    source: 'www.munzinger.de'
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'SPIE'
+    }
   },
   'www.spiegel.de': {
     selectors: {
@@ -17,7 +20,6 @@ export default {
       mimic: 'article section .clearfix .RichText',
       paywall: "div[data-component='Paywall'], div[data-target-id='paywall']"
     },
-    // source: "www.munzinger.de"
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'SPII,KULS,SPIE,SPON,SSPE,UNIS,LISP,SPBE'
