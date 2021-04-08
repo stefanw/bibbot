@@ -74,12 +74,14 @@ export default {
       }
     },
     login: [
-      { message: 'WISO-Konto wird eingeloggt (SSO)...' },
-      { fill: { selector: '#shibbolethForm_selectedCity', providerKey: 'sso.wiso-net.de.options.city' } },
-      { event: { selector: '#shibbolethForm_selectedCity', event: 'change' } },
-      { wait: 2000 },
-      { fill: { selector: '#shibbolethForm_selectedName', providerKey: 'sso.wiso-net.de.options.name' } },
-      { click: '#shibbolethForm_shLoginLink' }
+      [
+        { message: 'WISO-Konto wird eingeloggt (SSO)...' },
+        { fill: { selector: '#shibbolethForm_selectedCity', providerKey: 'sso.wiso-net.de.options.city' } },
+        { event: { selector: '#shibbolethForm_selectedCity', event: 'change' } },
+        { wait: 2000 },
+        { fill: { selector: '#shibbolethForm_selectedName', providerKey: 'sso.wiso-net.de.options.name' } },
+        { click: '#shibbolethForm_shLoginLink' }
+      ]
     ],
     options: [
       { id: 'city', display: 'Stadt der Hochschule/Uni:', type: 'text' },
