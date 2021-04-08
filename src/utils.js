@@ -13,6 +13,13 @@ function interpolate (str, params, prefix = '', converter = ident, fallback = ''
   return str
 }
 
+function makeTimeout (ms) {
+  return function timeout () {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
+}
+
 export {
-  interpolate
+  interpolate,
+  makeTimeout
 }

@@ -1,5 +1,6 @@
 import converters from './converters.js'
 import { STATUS_MESSAGE } from './const.js'
+import { makeTimeout } from './utils.js'
 
 class TabRunner {
   constructor (tabId, userData) {
@@ -25,11 +26,16 @@ class TabRunner {
     if (actionCode.length === 0) {
       return
     }
-    let result = await browser.tabs.executeScript(
-      this.tabId, {
-        code: actionCode[0]
-      })
-    result = result[0]
+    let result
+    if (typeof actionCode[0] === 'function') {
+      result = await actionCode[0](this)
+    } else {
+      result = await browser.tabs.executeScript(
+        this.tabId, {
+          code: actionCode[0]
+        })
+      result = result[0]
+    }
     if (actionCode.length === 1) {
       return result
     }
@@ -48,9 +54,7 @@ class TabRunner {
     } else if (action.event) {
       return [`document.querySelector('${action.event.selector}').dispatchEvent(new Event('${action.event.event}'))`]
     } else if (action.wait) {
-      var start = new Date().getTime(), expire = start + action.wait;
-      while (new Date().getTime() < expire) { }
-      return [];
+      return [makeTimeout(action.wait)]
     } else if (action.failOnMissing) {
       return [
         `document.querySelector('${action.failOnMissing}') !== null`,
