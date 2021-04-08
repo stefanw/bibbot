@@ -1,5 +1,23 @@
 
 export default {
+  'bibliothek.potsdam.de': {
+    name: 'Stadt- und Landesbibliothek im Bildungsforum Potsdam',
+    web: 'https://bibliothek.potsdam.de/',
+    loginHint: '',
+    params: {
+      'www.munzinger.de': {
+        portalId: '50307'
+      },
+      'genios.de': {
+        domain: 'bib-potsdam.genios.de'
+      }
+    },
+    login: null,
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ]
+  },
   'voebb.de': {
     name: 'VÖBB - Verbund der öffenlichen Bibliotheken Berlins',
     web: 'https://voebb.de/',
