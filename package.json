@@ -1,6 +1,6 @@
 {
   "name": "voebbot",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "VÖBBot removes paywalls of German media sites",
   "dependencies": {},
   "devDependencies": {
