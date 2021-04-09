@@ -48,6 +48,8 @@ class TabRunner {
         return [`document.querySelector('${action.fill.selector}').value = '${this.userData[action.fill.key]}'`]
       } else if (action.fill.providerKey) {
         return [`document.querySelector('${action.fill.selector}').value = '${this.userData.providerOptions[action.fill.providerKey]}'`]
+      } else if (action.fill.value) {
+        return [`document.querySelector('${action.fill.selector}').value = '${action.fill.value}'`]
       } else {
         return []
       }
