@@ -1,15 +1,116 @@
+const geniosDefaultData = [
+  {
+    id: 'www.stadtbibliothek-aschaffenburg.de',
+    name: 'Stadtbibliothek Aschaffenburg',
+    web: 'https://bib-aschaffenbg.genios.de',
+    domain: 'bib-aschaffenbg.genios.de'
+  },
+  {
+    id: 'www.lib.bonn.de',
+    name: 'Stadtbibliothek Bonn',
+    web: 'https://www.lib.bonn.de/',
+    domain: 'bib-bonn.genios.de'
+  },
+  {
+    id: 'www.braunschweig.de',
+    name: 'Stadtbibliothek Braunschweig',
+    web: 'https://www.braunschweig.de/kultur/bibliotheken_archive/stadtbibliothek/index.php',
+    domain: 'bib-braunschweig.genios.de'
+  },
+  {
+    id: 'www.stadtbibliothek-chemnitz.de',
+    name: 'Stadtbibliothek Chemnitz',
+    web: 'https://www.stadtbibliothek-chemnitz.de/',
+    domain: 'bib-chemnitz.genios.de'
+  },
+  {
+    id: 'bib-open-stadtbibliothek.darmstadt.de',
+    name: 'Stadtbibliothek Darmstadt',
+    web: 'https://www.darmstadt.de/leben-in-darmstadt/bildung/stadtbibliothek/',
+    domain: 'bib-darmstadt.genios.de'
+  },
+  {
+    id: 'www.erfurt.de',
+    name: 'Stadt- und Regionalbibliothek Erfurt',
+    web: 'https://www.erfurt.de/ef/de/leben/bildung/sturb/index.html',
+    domain: 'bib-erfurt.genios.de'
+  },
+  {
+    id: 'www.stadtbibliothek-essen.de',
+    name: 'Stadtbibliothek Essen',
+    web: 'https://www.stadtbibliothek-essen.de/sbbtke_startseite/startseite.de.html',
+    domain: 'bib-essen.genios.de'
+  },
+  {
+    id: 'stadtbibliothek.goeppingen.de',
+    name: 'Stadtbibliothek Göppingen',
+    web: 'https://stadtbibliothek.goeppingen.de/',
+    domain: 'bib-goeppingen.genios.de'
+  },
+  {
+    id: 'www.stadtbibliothek-halle.de',
+    name: 'Stadtbibliothek Halle',
+    web: 'https://www.stadtbibliothek-halle.de',
+    domain: 'bib-halle.genios.de'
+  },
+  {
+    id: 'bibliothek.hannover-stadt.de',
+    name: 'Stadtbibliothek Hannover',
+    web: 'https://bibliothek.hannover-stadt.de',
+    domain: 'bib-hannover.genios.de'
+  },
+  {
+    id: 'stadtbibliothek.heilbronn.de',
+    name: 'Stadtbibliothek Heilbronn',
+    web: 'https://stadtbibliothek.heilbronn.de/stadtbibliothek-heilbronn.html',
+    domain: 'bib-heilbronn.genios.de'
+  },
+  {
+    id: 'www.stadtbibliothek-jena.de',
+    name: 'Ernst-Abbe-Bücherei Jena',
+    web: 'https://www.stadtbibliothek-jena.de/',
+    domain: 'bib-jena.genios.de'
+  },
+  {
+    id: 'stabi.ludwigsburg.de',
+    name: 'Stadtbibliothek Ludwigsburg',
+    web: 'https://stabi.ludwigsburg.de/',
+    domain: 'bib-ludwigsburg.genios.de'
+  },
+  {
+    id: 'bibliothek.potsdam.de',
+    name: 'Stadt- und Landesbibliothek Potsdam',
+    web: 'https://bib-potsdam.genios.de',
+    domain: 'bib-potsdam.genios.de'
+  },
+  {
+    id: 'www.salzgitter.de',
+    name: 'Stadtbibliothek Salzgitter',
+    web: 'https://www.salzgitter.de/bildung/stabi/stadtbibliothek.php',
+    domain: 'bib-salzgitter.genios.de'
+  },
+  {
+    id: 'stuttgart.de',
+    name: 'Stadtbibliothek Stuttgart',
+    web: 'http://www1.stuttgart.de/stadtbibliothek/',
+    domain: 'bib-stuttgart.genios.de'
+  },
+  {
+    id: 'www.buecherhallen.de',
+    name: 'Bücherhallen Hamburg',
+    web: 'https://www.buecherhallen.de/',
+    domain: 'buecherhallen.genios.de'
+  }
+]
 
-export default {
-  'bibliothek.potsdam.de': {
-    name: 'Stadt- und Landesbibliothek im Bildungsforum Potsdam',
-    web: 'https://bibliothek.potsdam.de/',
+function geniosFactory (provider) {
+  return {
+    name: provider.name,
+    web: provider.web,
     loginHint: '',
     params: {
-      'www.munzinger.de': {
-        portalId: '50307'
-      },
       'genios.de': {
-        domain: 'bib-potsdam.genios.de'
+        domain: provider.domain
       }
     },
     login: null,
@@ -17,7 +118,16 @@ export default {
       { id: 'username', display: 'Nutzername:', type: 'text' },
       { id: 'password', display: 'Passwort:', type: 'password' }
     ]
-  },
+  }
+}
+
+const geniosDefaultProviders = {}
+geniosDefaultData.forEach(d => {
+  geniosDefaultProviders[d.id] = geniosFactory(d)
+})
+
+export default {
+  ...geniosDefaultProviders,
   'voebb.de': {
     name: 'VÖBB - Verbund der öffenlichen Bibliotheken Berlins',
     web: 'https://voebb.de/',
