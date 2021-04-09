@@ -454,6 +454,281 @@ export default {
       { id: 'password', display: 'Passwort:', type: 'password' }
     ]
   },
+  'stadtbibliothek-bautzen.de': {
+    name: 'Stadtbibliothek Bautzen',
+    web: 'https://www.stadtbibliothek-bautzen.de/',
+    loginHint: '',
+    params: {
+      'genios.de': {
+        domain: 'bib-oberlausitz.genios.de'
+      }
+    },
+    login: [
+      [
+        { click: '#cookie-bar p a.cb-enable', optional: true },
+        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 20 } },
+        { fill: { selector: '#bibLoginLayer_number',providerKey: 'stadtbibliothek-bautzen.de.options.username' } },
+        { fill: { selector: '#bibLoginLayer_password', providerKey: 'stadtbibliothek-bautzen.de.options.password' } },
+        { click: '#bibLoginLayer_terms' },
+        { click: '#bibLoginLayer_gdpr' },
+        { click: '#bibLoginLayer_c0' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ]
+  },
+  'bibliothek.bischofswerda.de': {
+    name: 'Stadtbibliothek Bischofswerda',
+    web: 'http://www.bischofswerda.de/kultur-freizeit-und-tourismus/bibliothek.html',
+    loginHint: '',
+    params: {
+      'genios.de': {
+        domain: 'bib-oberlausitz.genios.de'
+      }
+    },
+    login: [
+      [
+        { click: '#cookie-bar p a.cb-enable', optional: true },
+        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 9 } },
+        { fill: { selector: '#bibLoginLayer_number',providerKey: 'bibliothek.bischofswerda.de.options.username' } },
+        { fill: { selector: '#bibLoginLayer_password', providerKey: 'bibliothek.bischofswerda.de.options.password' } },
+        { click: '#bibLoginLayer_terms' },
+        { click: '#bibLoginLayer_gdpr' },
+        { click: '#bibLoginLayer_c0' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ]
+  },
+  'bibliothek.ebersbach-neugersdorf.de': {
+    name: 'Stadtbibliothek Ebersbach-Neugersdorf',
+    web: 'https://bibliothek.ebersbach-neugersdorf.de/',
+    loginHint: '',
+    params: {
+      'genios.de': {
+        domain: 'bib-oberlausitz.genios.de'
+      }
+    },
+    login: [
+      [
+        { click: '#cookie-bar p a.cb-enable', optional: true },
+        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 19 } },
+        { fill: { selector: '#bibLoginLayer_number',providerKey: 'bibliothek.ebersbach-neugersdorf.de.options.username' } },
+        { fill: { selector: '#bibLoginLayer_password', providerKey: 'bibliothek.ebersbach-neugersdorf.de.options.password' } },
+        { click: '#bibLoginLayer_terms' },
+        { click: '#bibLoginLayer_gdpr' },
+        { click: '#bibLoginLayer_c0' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ]
+  },
+  'stadtbibliothek.goerlitz.de': {
+    name: 'Stadtbibliothek Görlitz',
+    web: 'https://www.stadtbibliothek.goerlitz.de/',
+    loginHint: '',
+    params: {
+      'genios.de': {
+        domain: 'bib-oberlausitz.genios.de'
+      }
+    },
+    login: [
+      [
+        { click: '#cookie-bar p a.cb-enable', optional: true },
+        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 18 } },
+        { fill: { selector: '#bibLoginLayer_number',providerKey: 'stadtbibliothek.goerlitz.de.options.username' } },
+        { fill: { selector: '#bibLoginLayer_password', providerKey: 'stadtbibliothek.goerlitz.de.options.password' } },
+        { click: '#bibLoginLayer_terms' },
+        { click: '#bibLoginLayer_gdpr' },
+        { click: '#bibLoginLayer_c0' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ]
+  },
+  'bibliothek-hy.de': {
+    name: 'Brigitte-Reimann-Stadtbibliothek Hoyerswerda',
+    web: 'https://bibliothek-hy.de/',
+    loginHint: '',
+    params: {
+      'genios.de': {
+        domain: 'bib-oberlausitz.genios.de'
+      }
+    },
+    login: [
+      [
+        { click: '#cookie-bar p a.cb-enable', optional: true },
+        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 17 } },
+        { fill: { selector: '#bibLoginLayer_number',providerKey: 'bibliothek-hy.de.options.username' } },
+        { fill: { selector: '#bibLoginLayer_password', providerKey: 'bibliothek-hy.de.options.password' } },
+        { click: '#bibLoginLayer_terms' },
+        { click: '#bibLoginLayer_gdpr' },
+        { click: '#bibLoginLayer_c0' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ]
+  },
+  'kamenz.bibliotheca-open.de': {
+    name: 'Stadtbibliothek Kamenz',
+    web: 'https://kamenz.bibliotheca-open.de/',
+    loginHint: '',
+    params: {
+      'genios.de': {
+        domain: 'bib-oberlausitz.genios.de'
+      }
+    },
+    login: [
+      [
+        { click: '#cookie-bar p a.cb-enable', optional: true },
+        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 16 } },
+        { fill: { selector: '#bibLoginLayer_number',providerKey: 'kamenz.bibliotheca-open.de.options.username' } },
+        { fill: { selector: '#bibLoginLayer_password', providerKey: 'kamenz.bibliotheca-open.de.options.password' } },
+        { click: '#bibLoginLayer_terms' },
+        { click: '#bibLoginLayer_gdpr' },
+        { click: '#bibLoginLayer_c0' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ]
+  },
+  'bibliothek-loebau.de': {
+    name: 'Stadtbibliothek Löbau',
+    web: 'https://bibliothek-loebau.de/',
+    loginHint: '',
+    params: {
+      'genios.de': {
+        domain: 'bib-oberlausitz.genios.de'
+      }
+    },
+    login: [
+      [
+        { click: '#cookie-bar p a.cb-enable', optional: true },
+        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 15 } },
+        { fill: { selector: '#bibLoginLayer_number',providerKey: 'bibliothek-loebau.de.options.username' } },
+        { fill: { selector: '#bibLoginLayer_password', providerKey: 'bibliothek-loebau.de.options.password' } },
+        { click: '#bibLoginLayer_terms' },
+        { click: '#bibLoginLayer_gdpr' },
+        { click: '#bibLoginLayer_c0' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ]
+  },
+  'bibliothek-niesky.de': {
+    name: 'Stadtbibliothek Niesky',
+    web: 'https://www.bibliothek-niesky.de/',
+    loginHint: '',
+    params: {
+      'genios.de': {
+        domain: 'bib-oberlausitz.genios.de'
+      }
+    },
+    login: [
+      [
+        { click: '#cookie-bar p a.cb-enable', optional: true },
+        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 14 } },
+        { fill: { selector: '#bibLoginLayer_number',providerKey: 'bibliothek-niesky.de.options.username' } },
+        { fill: { selector: '#bibLoginLayer_password', providerKey: 'bibliothek-niesky.de.options.password' } },
+        { click: '#bibLoginLayer_terms' },
+        { click: '#bibLoginLayer_gdpr' },
+        { click: '#bibLoginLayer_c0' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ]
+  },
+  'sb-radeberg.lmscloud.net': {
+    name: 'Stadtbibliothek Radeberg',
+    web: 'https://sb-radeberg.lmscloud.net/',
+    loginHint: '',
+    params: {
+      'genios.de': {
+        domain: 'bib-oberlausitz.genios.de'
+      }
+    },
+    login: [
+      [
+        { click: '#cookie-bar p a.cb-enable', optional: true },
+        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 13 } },
+        { fill: { selector: '#bibLoginLayer_number',providerKey: 'sb-radeberg.lmscloud.net.options.username' } },
+        { fill: { selector: '#bibLoginLayer_password', providerKey: 'sb-radeberg.lmscloud.net.options.password' } },
+        { click: '#bibLoginLayer_terms' },
+        { click: '#bibLoginLayer_gdpr' },
+        { click: '#bibLoginLayer_c0' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ]
+  },
+  'stadtbibliothek-weisswasser.de': {
+    name: 'Stadtbibliothek Weißwasser',
+    web: 'http://www.stadtbibliothek-weisswasser.de/',
+    loginHint: '',
+    params: {
+      'genios.de': {
+        domain: 'bib-oberlausitz.genios.de'
+      }
+    },
+    login: [
+      [
+        { click: '#cookie-bar p a.cb-enable', optional: true },
+        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 12 } },
+        { fill: { selector: '#bibLoginLayer_number',providerKey: 'stadtbibliothek-weisswasser.de.options.username' } },
+        { fill: { selector: '#bibLoginLayer_password', providerKey: 'stadtbibliothek-weisswasser.de.options.password' } },
+        { click: '#bibLoginLayer_terms' },
+        { click: '#bibLoginLayer_gdpr' },
+        { click: '#bibLoginLayer_c0' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ]
+  },
+  'christian-weise-bibliothek-zittau.de': {
+    name: 'Christian-Weise-Bibliothek Zittau',
+    web: 'https://christian-weise-bibliothek-zittau.de/',
+    loginHint: '',
+    params: {
+      'genios.de': {
+        domain: 'bib-oberlausitz.genios.de'
+      }
+    },
+    login: [
+      [
+        { click: '#cookie-bar p a.cb-enable', optional: true },
+        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 11 } },
+        { fill: { selector: '#bibLoginLayer_number',providerKey: 'christian-weise-bibliothek-zittau.de.options.username' } },
+        { fill: { selector: '#bibLoginLayer_password', providerKey: 'christian-weise-bibliothek-zittau.de.options.password' } },
+        { click: '#bibLoginLayer_terms' },
+        { click: '#bibLoginLayer_gdpr' },
+        { click: '#bibLoginLayer_c0' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ]
+  },
   'voebb.de': {
     name: 'VÖBB - Verbund der öffenlichen Bibliotheken Berlins',
     web: 'https://voebb.de/',
