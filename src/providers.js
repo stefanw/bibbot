@@ -333,7 +333,7 @@ function geniosAssociationFactory (provider) {
       [
         { click: '#cookie-bar p a.cb-enable', optional: true },
         { fill: { selector: '#bibLoginLayer_externalAuthId', value: provider.bibId } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: provider.id + '.options.username' } },
+        { fill: { selector: '#bibLoginLayer_number', providerKey: provider.id + '.options.username' } },
         { fill: { selector: '#bibLoginLayer_password', providerKey: provider.id + '.options.password' } },
         { click: '#bibLoginLayer_terms' },
         { click: '#bibLoginLayer_gdpr' },
