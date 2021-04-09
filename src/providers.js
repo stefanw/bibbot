@@ -109,6 +109,198 @@ const geniosDefaultData = [
   }
 ]
 
+const geniosAssociationData = [
+  {
+    id: 'stadtbuecherei.waiblingen.de',
+    name: 'Stadtbücherei Waiblingen',
+    web: 'https://stadtbuecherei.waiblingen.de/',
+    domain: 'bib-bawue.genios.de',
+    bibId: '46'
+  },
+  {
+    id: 'stadtbuecherei.tuebingen.de',
+    name: 'Stadtbücherei Tübingen',
+    web: 'https://www.tuebingen.de/stadtbuecherei/',
+    domain: 'bib-bawue.genios.de',
+    bibId: '45'
+  },
+  {
+    id: 'stadtbuecherei-nuertingen.de',
+    name: 'Stadtbücherei Nürtingen',
+    web: 'https://www.stadtbuecherei-nuertingen.de/startseite',
+    domain: 'bib-bawue.genios.de',
+    bibId: '78'
+  },
+  {
+    id: 'stadtbuecherei.fellbach.de',
+    name: 'Stadtbücherei Fellbach',
+    web: 'https://www.fellbach.de/start/kultur/stadtbuecherei.html',
+    domain: 'nan',
+    bibId: 'bib-bawue.genios.de'
+  },
+  {
+    id: 'medienzentrum-biberach.de',
+    name: 'Stadtbücherei Biberach',
+    web: 'https://www.medienzentrum-biberach.de/',
+    domain: 'bib-bawue.genios.de',
+    bibId: '82'
+  },
+  {
+    id: 'backnang.bibliothek.komm.one',
+    name: 'Stadtbücherei Backnang',
+    web: 'https://bibliothek.komm.one/backnang/',
+    domain: 'bib-bawue.genios.de',
+    bibId: '68'
+  },
+  {
+    id: 'stadtbuecherei.albstadt.de',
+    name: 'Stadtbücherei Albstadt',
+    web: 'https://www.albstadt.de/stadtbuecherei',
+    domain: 'bib-bawue.genios.de',
+    bibId: '42'
+  },
+  {
+    id: 'stadtbibliothek.schwaebischhall.de',
+    name: 'Stadtbibliothek Schwäbisch Hall',
+    web: 'https://www.schwaebischhall.de/de/bildung-betreuung/stadtbibliothek/',
+    domain: 'bib-bawue.genios.de',
+    bibId: '86'
+  },
+  {
+    id: 'stadtbibliothek-reutlingen.de',
+    name: 'Stadtbibliothek Reutlingen',
+    web: 'https://stadtbibliothek-reutlingen.de',
+    domain: 'bib-bawue.genios.de',
+    bibId: '44'
+  },
+  {
+    id: 'stadtbibliothek.offenburg.de',
+    name: 'Stadtbibliothek Offenburg',
+    web: 'https://www.stadtbibliothek.offenburg.de/',
+    domain: 'bib-bawue.genios.de',
+    bibId: '84'
+  },
+  {
+    id: 'stabi.ludwigsburg.de',
+    name: 'Stadtbibliothek Ludwigsburg',
+    web: 'https://stabi.ludwigsburg.de/',
+    domain: 'bib-bawue.genios.de',
+    bibId: '36'
+  },
+  {
+    id: 'stadtbibliothek.heilbronn.de',
+    name: 'Stadtbibliothek Heilbronn',
+    web: 'https://stadtbibliothek.heilbronn.de/',
+    domain: 'bib-bawue.genios.de',
+    bibId: '85'
+  },
+  {
+    id: 'stadtbibliothek.freiburg.de',
+    name: 'Stadtbibliothek Freiburg',
+    web: 'https://www.stadtbibliothek.freiburg.de/',
+    domain: 'bib-bawue.genios.de',
+    bibId: '80'
+  },
+  {
+    id: 'stadtbibliothek-aalen.de',
+    name: 'Stadtbibliothek Aalen',
+    web: 'https://www.stadtbibliothek-aalen.de/',
+    domain: 'bib-bawue.genios.de',
+    bibId: '41'
+  },
+  {
+    id: 'balingen.bibliothek.komm.one',
+    name: 'Mediothek Balingen',
+    web: 'https://bibliothek.komm.one/balingen/',
+    domain: 'bib-bawue.genios.de',
+    bibId: '50'
+  },
+  {
+    id: 'mediathek-neckarsulm.de',
+    name: 'Mediathek Neckarsulm',
+    web: 'https://www.mediathek-neckarsulm.de/',
+    domain: 'bib-bawue.genios.de',
+    bibId: '79'
+  },
+  {
+    id: 'stadtbibliothek-bautzen.de',
+    name: 'Stadtbibliothek Bautzen',
+    web: 'https://www.stadtbibliothek-bautzen.de/',
+    domain: 'bib-oberlausitz.genios.de',
+    bibId: '20'
+  },
+  {
+    id: 'bibliothek.bischofswerda.de',
+    name: 'Stadtbibliothek Bischofswerda',
+    web: 'http://www.bischofswerda.de/kultur-freizeit-und-tourismus/bibliothek.html',
+    domain: 'bib-oberlausitz.genios.de',
+    bibId: '9'
+  },
+  {
+    id: 'bibliothek.ebersbach-neugersdorf.de',
+    name: 'Stadtbibliothek Ebersbach-Neugersdorf',
+    web: 'https://bibliothek.ebersbach-neugersdorf.de/',
+    domain: 'bib-oberlausitz.genios.de',
+    bibId: '19'
+  },
+  {
+    id: 'stadtbibliothek.goerlitz.de',
+    name: 'Stadtbibliothek Görlitz',
+    web: 'https://www.stadtbibliothek.goerlitz.de/',
+    domain: 'bib-oberlausitz.genios.de',
+    bibId: '18'
+  },
+  {
+    id: 'bibliothek-hy.de',
+    name: 'Brigitte-Reimann-Stadtbibliothek Hoyerswerda',
+    web: 'https://bibliothek-hy.de/',
+    domain: 'bib-oberlausitz.genios.de',
+    bibId: '17'
+  },
+  {
+    id: 'kamenz.bibliotheca-open.de',
+    name: 'Stadtbibliothek Kamenz',
+    web: 'https://kamenz.bibliotheca-open.de/',
+    domain: 'bib-oberlausitz.genios.de',
+    bibId: '16'
+  },
+  {
+    id: 'bibliothek-loebau.de',
+    name: 'Stadtbibliothek Löbau',
+    web: 'https://bibliothek-loebau.de/',
+    domain: 'bib-oberlausitz.genios.de',
+    bibId: '15'
+  },
+  {
+    id: 'bibliothek-niesky.de',
+    name: 'Stadtbibliothek Niesky',
+    web: 'https://www.bibliothek-niesky.de/',
+    domain: 'bib-oberlausitz.genios.de',
+    bibId: '14'
+  },
+  {
+    id: 'sb-radeberg.lmscloud.net',
+    name: 'Stadtbibliothek Radeberg',
+    web: 'https://sb-radeberg.lmscloud.net/',
+    domain: 'bib-oberlausitz.genios.de',
+    bibId: '13'
+  },
+  {
+    id: 'stadtbibliothek-weisswasser.de',
+    name: 'Stadtbibliothek Weißwasser',
+    web: 'http://www.stadtbibliothek-weisswasser.de/',
+    domain: 'bib-oberlausitz.genios.de',
+    bibId: '12'
+  },
+  {
+    id: 'christian-weise-bibliothek-zittau.de',
+    name: 'Christian-Weise-Bibliothek Zittau',
+    web: 'https://christian-weise-bibliothek-zittau.de/',
+    domain: 'bib-oberlausitz.genios.de',
+    bibId: '11'
+  }
+]
+
 function geniosFactory (provider) {
   return {
     name: provider.name,
@@ -127,688 +319,47 @@ function geniosFactory (provider) {
   }
 }
 
+function geniosAssociationFactory (provider) {
+  return {
+    name: provider.name,
+    web: provider.web,
+    loginHint: '',
+    params: {
+      'genios.de': {
+        domain: provider.domain
+      }
+    },
+    login: [
+      [
+        { click: '#cookie-bar p a.cb-enable', optional: true },
+        { fill: { selector: '#bibLoginLayer_externalAuthId', value: provider.bibId } },
+        { fill: { selector: '#bibLoginLayer_number',providerKey: provider.id + '.options.username' } },
+        { fill: { selector: '#bibLoginLayer_password', providerKey: provider.id + '.options.password' } },
+        { click: '#bibLoginLayer_terms' },
+        { click: '#bibLoginLayer_gdpr' },
+        { click: '#bibLoginLayer_c0' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ]
+  }
+}
+
 const geniosDefaultProviders = {}
 geniosDefaultData.forEach(d => {
   geniosDefaultProviders[d.id] = geniosFactory(d)
 })
 
+const geniosAssociationProviders = {}
+geniosAssociationData.forEach(d => {
+  geniosDefaultProviders[d.id] = geniosAssociationFactory(d)
+})
+
 export default {
   ...geniosDefaultProviders,
-  'mediathek-neckarsulm.de': {
-    name: 'Mediathek Neckarsulm',
-    web: 'https://www.mediathek-neckarsulm.de/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-bawue.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 79 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'mediathek-neckarsulm.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'mediathek-neckarsulm.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'balingen.bibliothek.komm.one': {
-    name: 'Mediothek Balingen',
-    web: 'https://bibliothek.komm.one/balingen/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-bawue.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 50 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'balingen.bibliothek.komm.one.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'balingen.bibliothek.komm.one.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'stadtbibliothek-aalen.de': {
-    name: 'Stadtbibliothek Aalen',
-    web: 'https://www.stadtbibliothek-aalen.de/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-bawue.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 41 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'stadtbibliothek-aalen.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'stadtbibliothek-aalen.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'stadtbibliothek.freiburg.de': {
-    name: 'Stadtbibliothek Freiburg',
-    web: 'https://www.stadtbibliothek.freiburg.de/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-bawue.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 80 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'stadtbibliothek.freiburg.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'stadtbibliothek.freiburg.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'stadtbibliothek.heilbronn.de': {
-    name: 'Stadtbibliothek Heilbronn',
-    web: 'https://stadtbibliothek.heilbronn.de/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-bawue.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 85 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'stadtbibliothek.heilbronn.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'stadtbibliothek.heilbronn.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'stabi.ludwigsburg.de': {
-    name: 'Stadtbibliothek Ludwigsburg',
-    web: 'https://stabi.ludwigsburg.de/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-bawue.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 36 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'stabi.ludwigsburg.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'stabi.ludwigsburg.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'stadtbibliothek.offenburg.de': {
-    name: 'Stadtbibliothek Offenburg',
-    web: 'https://www.stadtbibliothek.offenburg.de/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-bawue.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 84 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'stadtbibliothek.offenburg.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'stadtbibliothek.offenburg.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'stadtbibliothek-reutlingen.de': {
-    name: 'Stadtbibliothek Reutlingen',
-    web: 'https://stadtbibliothek-reutlingen.de',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-bawue.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 44 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'stadtbibliothek-reutlingen.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'stadtbibliothek-reutlingen.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'stadtbibliothek.schwaebischhall.de': {
-    name: 'Stadtbibliothek Schwäbisch Hall',
-    web: 'https://www.schwaebischhall.de/de/bildung-betreuung/stadtbibliothek/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-bawue.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 86 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'stadtbibliothek.schwaebischhall.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'stadtbibliothek.schwaebischhall.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'stadtbuecherei.albstadt.de': {
-    name: 'Stadtbücherei Albstadt',
-    web: 'https://www.albstadt.de/stadtbuecherei',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-bawue.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 42 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'stadtbuecherei.albstadt.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'stadtbuecherei.albstadt.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'backnang.bibliothek.komm.one': {
-    name: 'Stadtbücherei Backnang',
-    web: 'https://bibliothek.komm.one/backnang/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-bawue.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 68 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'backnang.bibliothek.komm.one.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'backnang.bibliothek.komm.one.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'medienzentrum-biberach.de': {
-    name: 'Stadtbücherei Biberach',
-    web: 'https://www.medienzentrum-biberach.de/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-bawue.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 82 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'medienzentrum-biberach.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'medienzentrum-biberach.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'stadtbuecherei.fellbach.de': {
-    name: 'Stadtbücherei Fellbach',
-    web: 'https://www.fellbach.de/start/kultur/stadtbuecherei.html',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-bawue.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 66 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'stadtbuecherei.fellbach.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'stadtbuecherei.fellbach.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'stadtbuecherei-nuertingen.de': {
-    name: 'Stadtbücherei Nürtingen',
-    web: 'https://www.stadtbuecherei-nuertingen.de/startseite',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-bawue.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 78 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'stadtbuecherei-nuertingen.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'stadtbuecherei-nuertingen.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'stadtbuecherei.tuebingen.de': {
-    name: 'Stadtbücherei Tübingen',
-    web: 'https://www.tuebingen.de/stadtbuecherei/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-bawue.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 45 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'stadtbuecherei.tuebingen.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'stadtbuecherei.tuebingen.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'stadtbuecherei.waiblingen.de': {
-    name: 'Stadtbücherei Waiblingen',
-    web: 'https://stadtbuecherei.waiblingen.de/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-bawue.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 46 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'stadtbuecherei.waiblingen.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'stadtbuecherei.waiblingen.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'stadtbibliothek-bautzen.de': {
-    name: 'Stadtbibliothek Bautzen',
-    web: 'https://www.stadtbibliothek-bautzen.de/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-oberlausitz.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 20 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'stadtbibliothek-bautzen.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'stadtbibliothek-bautzen.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'bibliothek.bischofswerda.de': {
-    name: 'Stadtbibliothek Bischofswerda',
-    web: 'http://www.bischofswerda.de/kultur-freizeit-und-tourismus/bibliothek.html',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-oberlausitz.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 9 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'bibliothek.bischofswerda.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'bibliothek.bischofswerda.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'bibliothek.ebersbach-neugersdorf.de': {
-    name: 'Stadtbibliothek Ebersbach-Neugersdorf',
-    web: 'https://bibliothek.ebersbach-neugersdorf.de/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-oberlausitz.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 19 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'bibliothek.ebersbach-neugersdorf.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'bibliothek.ebersbach-neugersdorf.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'stadtbibliothek.goerlitz.de': {
-    name: 'Stadtbibliothek Görlitz',
-    web: 'https://www.stadtbibliothek.goerlitz.de/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-oberlausitz.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 18 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'stadtbibliothek.goerlitz.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'stadtbibliothek.goerlitz.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'bibliothek-hy.de': {
-    name: 'Brigitte-Reimann-Stadtbibliothek Hoyerswerda',
-    web: 'https://bibliothek-hy.de/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-oberlausitz.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 17 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'bibliothek-hy.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'bibliothek-hy.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'kamenz.bibliotheca-open.de': {
-    name: 'Stadtbibliothek Kamenz',
-    web: 'https://kamenz.bibliotheca-open.de/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-oberlausitz.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 16 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'kamenz.bibliotheca-open.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'kamenz.bibliotheca-open.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'bibliothek-loebau.de': {
-    name: 'Stadtbibliothek Löbau',
-    web: 'https://bibliothek-loebau.de/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-oberlausitz.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 15 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'bibliothek-loebau.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'bibliothek-loebau.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'bibliothek-niesky.de': {
-    name: 'Stadtbibliothek Niesky',
-    web: 'https://www.bibliothek-niesky.de/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-oberlausitz.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 14 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'bibliothek-niesky.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'bibliothek-niesky.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'sb-radeberg.lmscloud.net': {
-    name: 'Stadtbibliothek Radeberg',
-    web: 'https://sb-radeberg.lmscloud.net/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-oberlausitz.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 13 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'sb-radeberg.lmscloud.net.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'sb-radeberg.lmscloud.net.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'stadtbibliothek-weisswasser.de': {
-    name: 'Stadtbibliothek Weißwasser',
-    web: 'http://www.stadtbibliothek-weisswasser.de/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-oberlausitz.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 12 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'stadtbibliothek-weisswasser.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'stadtbibliothek-weisswasser.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
-  'christian-weise-bibliothek-zittau.de': {
-    name: 'Christian-Weise-Bibliothek Zittau',
-    web: 'https://christian-weise-bibliothek-zittau.de/',
-    loginHint: '',
-    params: {
-      'genios.de': {
-        domain: 'bib-oberlausitz.genios.de'
-      }
-    },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: 11 } },
-        { fill: { selector: '#bibLoginLayer_number',providerKey: 'christian-weise-bibliothek-zittau.de.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: 'christian-weise-bibliothek-zittau.de.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
-  },
+  ...geniosAssociationProviders,
   'voebb.de': {
     name: 'VÖBB - Verbund der öffenlichen Bibliotheken Berlins',
     web: 'https://voebb.de/',
