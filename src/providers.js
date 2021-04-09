@@ -729,6 +729,36 @@ export default {
       { id: 'password', display: 'Passwort:', type: 'password' }
     ]
   },
+  'ebibo-dresden.de': {
+    name: 'Städtischen Bibliotheken Dresden eBibo',
+    web: 'https://www.ebibo-dresden.de/',
+    loginHint: '',
+    params: {
+      'genios.de': {
+        domain: 'sbdresden.genios.de'
+      }
+    },
+    login: null,
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ]
+  },
+  'stadtbibliothek-chemnitz.de': {
+    name: 'Stadtbibliothek Chemnitz',
+    web: 'https://www.stadtbibliothek-chemnitz.de/',
+    loginHint: '',
+    params: {
+      'genios.de': {
+        domain: 'bib-chemnitz.genios.de'
+      }
+    },
+    login: null,
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ]
+  },
   'voebb.de': {
     name: 'VÖBB - Verbund der öffenlichen Bibliotheken Berlins',
     web: 'https://voebb.de/',
