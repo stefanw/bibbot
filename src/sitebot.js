@@ -23,8 +23,13 @@ class SiteBot {
     }
 
     this.showLoading()
-
-    const articleInfo = this.collectArticleInfo()
+    let articleInfo
+    try {
+      articleInfo = this.collectArticleInfo()
+    } catch (e) {
+      this.showUpdate('Beim Extrahieren der Artikeldaten trat ein Fehler auf.')
+      return
+    }
     this.connectPort()
     this.postMessage({
       type: INIT_MESSAGE,
