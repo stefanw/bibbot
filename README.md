@@ -33,7 +33,6 @@ Additionally user data like credentials and chosen provider is stored via `brows
 
 ## Release
 
-1. Update version number in `package.json` and `manifest.json` and commit.
-2. `git tag vX.Y.Z`
-3. `git push --tags origin main`
-4. GitHub release Action will build, create release, sign Firefox extension, submit to Chrome Web Store and update website.
+1. Run `npm version <major|minor|patch>`
+2. `git push --tags origin main`
+3. GitHub release Action will build, create release, sign Firefox extension, submit to Chrome Web Store and update website.

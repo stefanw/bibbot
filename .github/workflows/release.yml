@@ -71,11 +71,15 @@ jobs:
           asset_path: ${{ steps.web-ext-sign.outputs.target }}
           asset_name: voebbot-${{ env.RELEASE_VERSION }}.xpi
           asset_content_type: application/x-xpinstall
-      # - name: Request GitHub pages build after release
-      #   id: ghpages-rebuild
-      #   uses: lomocc/request-page-build@10a269bc53cdfe0ba41ac4a221adc01cd03c846e
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Trigger GitHub pages rebuild
+        run: |
+          curl --fail --request POST \
+            --url https://api.github.com/repos/${{ github.repository }}/pages/builds \
+            --header "Authorization: Bearer $USER_TOKEN"
+        env:
+          # You must create a personal token with repo access as GitHub does
+          # not yet support server-to-server page builds.
+          USER_TOKEN: ${{ secrets.USER_TOKEN }}
       - name: "Publish to Chrome Web Store"
         uses: trmcnvn/chrome-addon@7fc5a5ad3ff597dc64d6a13de7dcaa8515328be7
         with:
