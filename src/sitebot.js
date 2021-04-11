@@ -61,8 +61,15 @@ class SiteBot {
   }
 
   showLoading () {
-    const main = this.getMainContentArea()
-    main.innerHTML = main.innerHTML + LOADER_HTML
+    if (this.site.selectors.loader) {
+      const div = document.createElement('div')
+      div.innerHTML = LOADER_HTML
+      const el = this.root.querySelector(this.site.selectors.loader)
+      el.parentNode.insertBefore(div, el.nextSibling)
+    } else {
+      const main = this.getMainContentArea()
+      main.innerHTML = main.innerHTML + LOADER_HTML
+    }
   }
 
   hideLoading () {

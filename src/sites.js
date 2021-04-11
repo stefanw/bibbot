@@ -237,11 +237,13 @@ export default {
       },
       date: 'time',
       paywall: 'a-paid-content-teaser',
-      main: '.article-content'
+      main: '.article-content',
+      loader: '.article-content p:last-of-type'
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'MACI,TERE,CT,CTFO,IX,MAKE'
-    }
+    },
+    waitOnLoad: true
   }
 }
