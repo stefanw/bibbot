@@ -81,7 +81,7 @@ export default {
     selectors: {
       // query: "article > header > h2 > span:last-child",
       query: () => {
-        return extractQuery(document.querySelector('.sz-article-body__paragraph'))
+        return extractQuery(document.querySelector("[class^='sz-article-body__paragraph']"))
       },
       date: 'time',
       paywall: 'offer-page',
@@ -89,7 +89,7 @@ export default {
       mimic: '.sz-article-body__paragraph'
     },
     start: (root) => {
-      const p = root.querySelector('.sz-article-body__paragraph--reduced')
+      const p = root.querySelector("[class^='sz-article-body__paragraph']")
       if (p) {
         p.className = 'sz-article-body__paragraph'
       }
