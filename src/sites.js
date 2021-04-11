@@ -163,7 +163,10 @@ export default {
   },
   'www.maz-online.de': {
     selectors: {
-      query: '.pdb-article-teaser-breadcrumb-headline-title',
+      // query: '.pdb-article-teaser-breadcrumb-headline-title',
+      query: () => {
+        return extractQuery(document.querySelector('.pdb-article-body-paidcontentintro p'))
+      },
       paywall: '.pdb-article-paidcontent-registration',
       main: '.pdb-article-body'
     },
