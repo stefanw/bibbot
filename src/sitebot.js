@@ -171,7 +171,7 @@ class SiteBot {
       }
     }
     if (this.site.paragraphStyle) {
-      content = content.replace(/<p>/g, `<p class="${this.site.paragraphStyle}">`)
+      content = content.replace(/<p>/g, `<p class="${this.site.paragraphStyle.className || ''}" style="${this.site.paragraphStyle.style || ''}">`)
     }
 
     const main = this.getMainContentArea()

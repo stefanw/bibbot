@@ -81,7 +81,7 @@ export default {
     selectors: {
       // query: "article > header > h2 > span:last-child",
       query: () => {
-        return extractQuery(document.querySelector('.sz-article-body__paragraph--reduced'))
+        return extractQuery(document.querySelector('.sz-article-body__paragraph'))
       },
       date: 'time',
       paywall: 'offer-page',
@@ -93,6 +93,9 @@ export default {
       if (p) {
         p.className = 'sz-article-body__paragraph'
       }
+    },
+    paragraphStyle: {
+      style: 'margin-bottom: 1rem'
     },
     source: 'genios.de',
     sourceParams: {
