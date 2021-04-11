@@ -1,8 +1,7 @@
 {
   "name": "voebbot",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "VÖBBot removes paywalls of German media sites",
-  "dependencies": {},
   "devDependencies": {
     "eslint": "^7.22.0",
     "eslint-config-standard": "^16.0.2",
