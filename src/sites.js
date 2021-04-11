@@ -229,5 +229,19 @@ export default {
     sourceParams: {
       dbShortcut: 'WWON'
     }
+  },
+  'www.heise.de': {
+    selectors: {
+      query: () => {
+        return extractQuery(document.querySelector('.article-content p'))
+      },
+      date: 'time',
+      paywall: 'a-paid-content-teaser',
+      main: '.article-content'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'MACI,TERE,CT,CTFO,IX,MAKE'
+    }
   }
 }
