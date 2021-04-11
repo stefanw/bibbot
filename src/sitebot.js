@@ -159,6 +159,7 @@ class SiteBot {
     }
     if (event.type === SUCCES_MESSAGE) {
       this.showArticle(event.content)
+      return
     }
 
     throw new Error('Unknown message type')
