@@ -14,7 +14,8 @@
   "scripts": {
     "start": "rollup -c -w",
     "build": "rollup -c",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "version": "gsed -i '4s/\"version\": \".*\",/\"version\": \"'\"$(jq -r .version package.json)\"'\",/' manifest.json && git add manifest.json"
   },
   "repository": {
     "type": "git",
