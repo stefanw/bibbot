@@ -161,6 +161,20 @@ export default {
       dbShortcut: 'MOZ'
     }
   },
+  'www.maz-online.de': {
+    selectors: {
+      query: '.pdb-article-teaser-breadcrumb-headline-title',
+      paywall: '.pdb-article-paidcontent-registration',
+      main: '.pdb-article-body'
+    },
+    start: (root) => {
+      root.querySelector('.pdb-article-paidcontent-registration').remove()
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'MAER'
+    }
+  },
   'www.nordkurier.de': {
     selectors: {
       query: 'article h1',
