@@ -116,6 +116,25 @@ function save () {
   }
 
   browser.storage.sync.set(values)
+  checkPermissions(provider)
+}
+
+function checkPermissions (key) {
+  const provider = providers[key]
+  if (provider.permissions) {
+    browser.permissions.getAll().then((permissions) => {
+      const neededPermissions = []
+      console.log(provider.permissions, permissions.origins)
+      provider.permissions.forEach(p => {
+        if (!permissions.origins.includes(p)) {
+          neededPermissions.push(p)
+        }
+      })
+      if (neededPermissions.length > 0) {
+        browser.permissions.request({ origins: neededPermissions })
+      }
+    })
+  }
 }
 
 document.querySelector('form').addEventListener('submit', function (e) {

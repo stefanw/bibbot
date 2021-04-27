@@ -383,7 +383,8 @@ export default {
     options: [
       { id: 'username', display: 'Nutzername:', type: 'text' },
       { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
+    ],
+    permissions: ['https://www.voebb.de/*']
   },
   'wiso-net.de': {
     name: 'WISO – Die Datenbank für Hochschulen',
@@ -405,7 +406,8 @@ export default {
     options: [
       { id: 'username', display: 'Nutzername:', type: 'text' },
       { id: 'password', display: 'Passwort:', type: 'password' }
-    ]
+    ],
+    permissions: ['https://www.wiso-net.de/*']
   },
   'sso.wiso-net.de': {
     name: 'WISO – Die Datenbank für Hochschulen (SSO)',
@@ -428,6 +430,7 @@ export default {
     options: [
       { id: 'city', display: 'Stadt der Hochschule/Uni:', type: 'text' },
       { id: 'name', display: 'Name der Hochschule/Uni:', type: 'text' }
-    ]
+    ],
+    permissions: ['https://www.wiso-net.de/*']
   }
 }
