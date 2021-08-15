@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "VÖBBot",
-  "version": "0.17.0",
+  "version": "0.17.1",
   "description": "Vereinfacht die Suche nach Artikeln in der Bibliothek",
   "icons": {
     "48": "icons/voebbot48.png",
