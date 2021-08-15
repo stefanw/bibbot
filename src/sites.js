@@ -16,8 +16,16 @@ export default {
   'www.spiegel.de': {
     selectors: {
       query: '.leading-tight span:not(:first-child), .leading-none .leading-normal, h2 span:not(:first-child) span:not(:first-child)',
-      main: 'article section .clearfix',
-      mimic: 'article section .clearfix .RichText',
+      main: 'article section.relative',
+      mimic: (content) => {
+        return `
+        <div class="lg:mt-32 md:mt-32 sm:mt-24 md:mb-48 lg:mb-48 sm:mb-32">
+          <div class="RichText RichText--iconLinks lg:w-8/12 md:w-10/12 lg:mx-auto md:mx-auto lg:px-24 md:px-24 sm:px-16 break-words word-wrap">
+          ${content}
+          </div>
+        </div>
+        `
+      },
       paywall: "div[data-component='Paywall'], div[data-target-id='paywall']"
     },
     source: 'genios.de',

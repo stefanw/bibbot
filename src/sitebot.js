@@ -173,9 +173,13 @@ class SiteBot {
   showArticle (content) {
     content = content.join('')
     if (this.site.selectors.mimic) {
-      const mimic = this.root.querySelector(this.site.selectors.mimic)
-      if (mimic !== null) {
-        content = `<div class="${mimic.className}">${content}</div>`
+      if (typeof this.site.selectors.mimic === 'function') {
+        content = this.site.selectors.mimic(content)
+      } else {
+        const mimic = this.root.querySelector(this.site.selectors.mimic)
+        if (mimic !== null) {
+          content = `<div class="${mimic.className}">${content}</div>`
+        }
       }
     }
     if (this.site.paragraphStyle) {
