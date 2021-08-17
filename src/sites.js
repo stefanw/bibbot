@@ -192,6 +192,24 @@ export default {
       dbShortcut: 'MAER'
     }
   },
+  'www.lr-online.de': {
+    selectors: {
+      query: () => {
+        return extractQuery(document.querySelector('.article-text .text'))
+      },
+      paywall: '.paywall .row .flex-wrap',
+      main: '.article-text'
+    },
+    start: (root) => {
+      root.querySelector('.paywall .row .flex-wrap').remove()
+      root.querySelector('.paywall').classList.remove('paywall')
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'LR'
+    }
+  },
+
   'www.nordkurier.de': {
     selectors: {
       query: 'article h1',
