@@ -17,16 +17,16 @@ export default {
     selectors: {
       query: '.leading-tight span:not(:first-child), .leading-none .leading-normal, h2 span:not(:first-child) span:not(:first-child)',
       main: 'article section.relative',
-      mimic: (content) => {
-        return `
-        <div class="lg:mt-32 md:mt-32 sm:mt-24 md:mb-48 lg:mb-48 sm:mb-32">
-          <div class="RichText RichText--iconLinks lg:w-8/12 md:w-10/12 lg:mx-auto md:mx-auto lg:px-24 md:px-24 sm:px-16 break-words word-wrap">
-          ${content}
-          </div>
-        </div>
-        `
-      },
       paywall: "div[data-component='Paywall'], div[data-target-id='paywall']"
+    },
+    mimic: (content) => {
+      return `
+      <div class="lg:mt-32 md:mt-32 sm:mt-24 md:mb-48 lg:mb-48 sm:mb-32">
+        <div class="RichText RichText--iconLinks lg:w-8/12 md:w-10/12 lg:mx-auto md:mx-auto lg:px-24 md:px-24 sm:px-16 break-words word-wrap">
+        ${content}
+        </div>
+      </div>
+      `
     },
     source: 'genios.de',
     sourceParams: {
@@ -52,17 +52,23 @@ export default {
     selectors: {
       // query: ".article-heading__title, .article-header__title, .headline__title",
       query: () => {
-        return extractQuery(document.querySelector('.paragraph.article__item'))
+        return extractQuery(document.querySelector('.article__item .paragraph'))
       },
       edition: '.zplus-badge__media-item@alt',
       date: '.metadata__source.encoded-date, time',
       paywall: '.gate.article__item',
-      main: '.article-page',
-      mimic: '.article-page .paragraph'
+      main: '.article-page'
     },
     start: (root, paywall) => {
       paywall.style.display = 'none'
-      root.querySelector('.paragraph.article__item').classList.remove('paragraph--faded')
+      try {
+        root.querySelector('.paragraph--faded')?.classList.remove('paragraph--faded')
+      } catch {
+        console.error('Could not unfade article')
+      }
+    },
+    mimic: (content) => {
+      return content.replace(/<p>/g, '<p class="paragraph article__item">')
     },
     source: 'genios.de',
     sourceParams: {
@@ -93,8 +99,7 @@ export default {
       },
       date: 'time',
       paywall: 'offer-page',
-      main: "div[itemprop='articleBody']",
-      mimic: '.sz-article-body__paragraph'
+      main: "div[itemprop='articleBody']"
     },
     start: (root) => {
       const p = root.querySelector('.sz-article-body__paragraph--reduced')
@@ -102,6 +107,7 @@ export default {
         p.className = 'sz-article-body__paragraph'
       }
     },
+    mimic: '.sz-article-body__paragraph',
     paragraphStyle: {
       style: 'margin-bottom: 1rem'
     },

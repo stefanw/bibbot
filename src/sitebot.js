@@ -172,11 +172,11 @@ class SiteBot {
 
   showArticle (content) {
     content = content.join('')
-    if (this.site.selectors.mimic) {
-      if (typeof this.site.selectors.mimic === 'function') {
-        content = this.site.selectors.mimic(content)
+    if (this.site.mimic) {
+      if (typeof this.site.mimic === 'function') {
+        content = this.site.mimic(content)
       } else {
-        const mimic = this.root.querySelector(this.site.selectors.mimic)
+        const mimic = this.root.querySelector(this.site.mimic)
         if (mimic !== null) {
           content = `<div class="${mimic.className}">${content}</div>`
         }
