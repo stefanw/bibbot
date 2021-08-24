@@ -9,6 +9,8 @@ const defaults = {
   providerOptions: {}
 }
 
+let currentPermissions = null
+
 function showOptions () {
   const provider = document.getElementById('provider').value
   Array.from(document.getElementsByClassName('provider-options-container')).forEach(el => {
@@ -90,6 +92,8 @@ function restore () {
         ul.appendChild(li)
       })
     })
+
+  getPermissions()
 }
 
 function save () {
@@ -116,23 +120,30 @@ function save () {
   }
 
   browser.storage.sync.set(values)
-  checkPermissions(provider)
+  requestPermissions(providers[provider].permissions)
 }
 
-function checkPermissions (key) {
-  const provider = providers[key]
-  if (provider.permissions) {
-    browser.permissions.getAll().then((permissions) => {
-      const neededPermissions = []
-      console.log(provider.permissions, permissions.origins)
-      provider.permissions.forEach(p => {
-        if (!permissions.origins.includes(p)) {
-          neededPermissions.push(p)
-        }
-      })
-      if (neededPermissions.length > 0) {
-        browser.permissions.request({ origins: neededPermissions })
-      }
+function getPermissions () {
+  browser.permissions.getAll().then((permissions) => {
+    currentPermissions = permissions
+    return permissions
+  })
+}
+
+function requestPermissions (providerPermissions) {
+  if (!providerPermissions) {
+    return
+  }
+  const neededPermissions = []
+  console.log(providerPermissions, currentPermissions.origins)
+  providerPermissions.forEach(p => {
+    if (!currentPermissions.origins.includes(p)) {
+      neededPermissions.push(p)
+    }
+  })
+  if (neededPermissions.length > 0) {
+    browser.permissions.request({ origins: neededPermissions }).then(() => {
+      getPermissions()
     })
   }
 }
