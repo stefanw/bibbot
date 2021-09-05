@@ -6,7 +6,8 @@ const defaults = {
   provider: DEFAULT_PROVIDER,
   keepStats: true,
   stats: {},
-  providerOptions: {}
+  providerOptions: {},
+  saveArticle: null
 }
 
 let currentPermissions = null
@@ -23,6 +24,7 @@ function restore () {
   browser.storage.sync.get(defaults).then(function (items) {
     document.getElementById('provider').value = items.provider
     document.getElementById('keepStats').checked = items.keepStats
+    document.getElementById('saveArticle').value = items.saveArticle || ''
 
     if (items.providerOptions) {
       for (const providerKey in providers) {
@@ -106,6 +108,7 @@ function restore () {
 function save () {
   const provider = document.getElementById('provider').value
   const keepStats = document.getElementById('keepStats').checked
+  const saveArticle = document.getElementById('saveArticle').value
 
   const providerOptions = {}
   for (const providerKey in providers) {
@@ -120,7 +123,8 @@ function save () {
   const values = {
     keepStats: keepStats,
     provider: provider,
-    providerOptions: providerOptions
+    providerOptions: providerOptions,
+    saveArticle: saveArticle
   }
   if (!keepStats) {
     values.stats = {}

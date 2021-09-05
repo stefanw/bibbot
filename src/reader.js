@@ -8,7 +8,8 @@ function retrieveStorage () {
   const defaults = {
     keepStats: true,
     provider: DEFAULT_PROVIDER,
-    providerOptions: {}
+    providerOptions: {},
+    saveArticle: null
   }
   return browser.storage.sync.get(defaults).then(function (items) {
     for (const key in items) {
@@ -98,7 +99,8 @@ class Reader {
     }
     this.postMessage({
       type: SUCCES_MESSAGE,
-      content: event.message
+      content: event.message,
+      saveArticle: storageItems.saveArticle
     })
   }
 

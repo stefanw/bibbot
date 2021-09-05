@@ -1,6 +1,8 @@
 import { LOADER_HTML, BOT_ID, LOADER_ID, MESSAGE_ID, FAILED_HTML } from './ui.js'
 import { FAILED_MESSAGE, INIT_MESSAGE, GOTOTAB_MESSAGE, STATUS_MESSAGE, SUCCES_MESSAGE, PORT_NAME } from './const.js'
 
+import { addSharingButton } from './services.js'
+
 class SiteBot {
   constructor (site, root, domain = null) {
     this.site = site
@@ -207,7 +209,7 @@ class SiteBot {
       return
     }
     if (event.type === SUCCES_MESSAGE) {
-      this.showArticle(event.content)
+      this.showArticle(event.content, event.saveArticle)
       return
     }
 
@@ -219,7 +221,7 @@ class SiteBot {
     this.showPaywall()
   }
 
-  showArticle (content) {
+  showArticle (content, saveArticleUrl) {
     const main = this.getMainContentArea()
     content = content.join('')
     if (this.site.mimic) {
@@ -240,6 +242,9 @@ class SiteBot {
       this.site.insertContent(this, main, content)
     } else {
       main.innerHTML = content
+    }
+    if (saveArticleUrl) {
+      addSharingButton(main, content, saveArticleUrl)
     }
   }
 }
