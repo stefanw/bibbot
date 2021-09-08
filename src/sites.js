@@ -1,5 +1,12 @@
 const extractQuery = (node) => `"${node.innerText.split(' ').slice(2, 10).join(' ')}"`
 
+const removeClass = (node, className) => {
+  const el = node.querySelector(`.${className}`)
+  if (el) {
+    el.classList.remove(className)
+  }
+}
+
 export default {
   'magazin.spiegel.de': {
     selectors: {
@@ -106,6 +113,7 @@ export default {
       if (p) {
         p.className = 'sz-article-body__paragraph'
       }
+      root.querySelector('.offerpage-container').style.display = 'none'
     },
     mimic: '.sz-article-body__paragraph',
     paragraphStyle: {
@@ -114,6 +122,29 @@ export default {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'SZ'
+    }
+  },
+  'sz-magazin.sueddeutsche.de': {
+    selectors: {
+      query: () => {
+        return extractQuery(document.querySelector('.articlemain__content'))
+      },
+      date: 'time',
+      paywall: '.offerpage-container',
+      main: '.articlemain__content'
+    },
+    start: (root) => {
+      removeClass(root, 'paragraph--reduced')
+      removeClass(root, 'articlemain__inner--reduced')
+      root.querySelector('.offerpage-container').style.display = 'none'
+    },
+    mimic: (content) => {
+      return content.replace(/<p>/g, '<p class="paragraph text__normal">')
+    },
+    waitOnLoad: true,
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'SZMA'
     }
   },
   'www.handelsblatt.com': {
