@@ -1,4 +1,4 @@
-import { LOADER_HTML, LOADER_ID, MESSAGE_ID, FAILED_HTML } from './ui.js'
+import { LOADER_HTML, BOT_ID, LOADER_ID, MESSAGE_ID, FAILED_HTML } from './ui.js'
 import { FAILED_MESSAGE, INIT_MESSAGE, GOTOTAB_MESSAGE, STATUS_MESSAGE, SUCCES_MESSAGE, PORT_NAME } from './const.js'
 
 class SiteBot {
@@ -27,6 +27,7 @@ class SiteBot {
     try {
       articleInfo = this.collectArticleInfo()
     } catch (e) {
+      console.error(e)
       this.showUpdate('Beim Extrahieren der Artikeldaten trat ein Fehler auf.')
       return
     }
@@ -74,6 +75,10 @@ class SiteBot {
 
   hideLoading () {
     this.root.getElementById(LOADER_ID).style.display = 'none'
+  }
+
+  hideBot () {
+    this.root.getElementById(BOT_ID).style.display = 'none'
   }
 
   showUpdate (text) {
@@ -187,7 +192,11 @@ class SiteBot {
     }
 
     const main = this.getMainContentArea()
-    main.innerHTML = content
+    if (this.site.insertContent) {
+      this.site.insertContent(this, main, content)
+    } else {
+      main.innerHTML = content
+    }
   }
 }
 

@@ -325,5 +325,42 @@ export default {
       dbShortcut: 'MACI,TERE,CT,CTFO,IX,MAKE'
     },
     waitOnLoad: true
+  },
+  'ga.de': {
+    selectors: {
+      query: () => {
+        return extractQuery(document.querySelector('.park-article__intro.park-article__content'))
+      },
+      date: 'time',
+      paywall: '.park-article-paywall',
+      main: '.park-article__body'
+    },
+    insertContent: (siteBot, main, content) => {
+      siteBot.hideBot()
+      const div = document.createElement('div')
+      div.style.maxWidth = '640px'
+      div.style.margin = '0 auto'
+      div.innerHTML = content
+      main.appendChild(div)
+    },
+    start: (root) => {
+      const article = root.querySelector('.park-article--reduced')
+      if (article) {
+        article.classList.remove('park-article--reduced')
+      }
+      const widget = root.querySelector('.park-widget--paywall-article')
+      if (widget) {
+        widget.remove()
+      }
+      const garbage = root.querySelector('.park-article-content')
+      if (garbage) {
+        garbage.remove()
+      }
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'GAZ'
+    },
+    waitOnLoad: true
   }
 }
