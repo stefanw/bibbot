@@ -326,6 +326,32 @@ export default {
     },
     waitOnLoad: true
   },
+  'www.nachrichten.at': {
+    selectors: {
+      query: '.artDetail__headline',
+      date: '.artDetail__header__infoline--datum',
+      paywall: '.oonplusOverlay',
+      main: '#artikeldetailText'
+    },
+    start: (root) => {
+      if (typeof oonObj == 'undefined') {
+        root.querySelector('.oonplusOverlay')?.remove();
+      } else {
+        oonObj.isGaa = function() { return true; };
+      }
+      const p = root.querySelector('#artikeldetailText')
+      if (p) {
+        p.classList.remove('plusTextFadeout')
+      }
+    },
+    paragraphStyle: {
+      className: 'ArtikelText'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'OOEN'
+    }
+  },
   'ga.de': {
     selectors: {
       query: () => {
