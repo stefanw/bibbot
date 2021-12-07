@@ -149,14 +149,20 @@ export default {
   },
   'www.handelsblatt.com': {
     selectors: {
-      query: "span[itemprop='headline']",
-      date: "span[itemprop='datePublished']",
+      query: '.vhb-article-area--read > p',
+      // date: "span[itemprop='datePublished']",
       paywall: '.c-paywall',
-      main: "div[itemprop='articleBody']"
+      main: '.vhb-article-area--read'
     },
+    start: (root) => {
+      Array.from(root.querySelectorAll('.c-paywall')).forEach(el => {
+        el.style.display = 'none'
+      })
+    },
+    waitOnLoad: true,
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'HBON'
+      dbShortcut: 'HB,HBON,HBGM,HBLI,HBMA,HBMB,HBZ'
     }
   },
   'www.berliner-zeitung.de': {
