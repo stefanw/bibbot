@@ -47,7 +47,8 @@
         "https://www.heise.de/*",
         "https://www.maz-online.de/*",
         "https://www.lr-online.de/*",
-        "https://www.nachrichten.at/*"
+        "https://www.nachrichten.at/*",
+        "https://ga.de/*"
       ],
       "js": [
         "lib/browser-polyfill.js",
