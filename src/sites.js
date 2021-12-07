@@ -334,10 +334,10 @@ export default {
       main: '#artikeldetailText'
     },
     start: (root) => {
-      if (typeof oonObj == 'undefined') {
-        root.querySelector('.oonplusOverlay')?.remove();
+      if (typeof window.oonObj === 'undefined') {
+        root.querySelector('.oonplusOverlay')?.remove()
       } else {
-        oonObj.isGaa = function() { return true; };
+        window.oonObj.isGaa = function () { return true }
       }
       const p = root.querySelector('#artikeldetailText')
       if (p) {
