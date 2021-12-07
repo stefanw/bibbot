@@ -48,7 +48,8 @@
         "https://www.maz-online.de/*",
         "https://www.lr-online.de/*",
         "https://www.nachrichten.at/*",
-        "https://ga.de/*"
+        "https://ga.de/*",
+        "https://www.ksta.de/*"
       ],
       "js": [
         "lib/browser-polyfill.js",

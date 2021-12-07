@@ -17,7 +17,11 @@ class SiteBot {
     }
 
     if (this.site.start) {
-      this.site.start(this.root, this.getPaywall())
+      const result = this.site.start(this.root, this.getPaywall())
+      if (result) {
+        // determined not worth it
+        return
+      }
     } else {
       this.hidePaywall()
     }
