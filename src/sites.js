@@ -436,6 +436,28 @@ export default {
     sourceParams: {
       dbShortcut: 'RP'
     }
+  },
+  'www.tagesanzeiger.ch': {
+    selectors: {
+      query: 'article > p span',
+      date: 'time',
+      paywall: '#piano-premium',
+      main: 'article'
+    },
+    mimic: (content, main) => {
+      const className = main.parentNode.querySelector('article > p').className
+      return content.replace(/<p>/g, `<p class="${className}">`)
+    },
+    insertContent: (siteBot, main, content) => {
+      siteBot.hideBot()
+      const paras = main.parentNode.querySelectorAll('article figure + p, article p + p')
+      Array.from(paras).forEach(p => p.remove())
+      main.innerHTML += content
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'TAG,TAS'
+    }
   }
 
 }

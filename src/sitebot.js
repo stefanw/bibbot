@@ -180,10 +180,11 @@ class SiteBot {
   }
 
   showArticle (content) {
+    const main = this.getMainContentArea()
     content = content.join('')
     if (this.site.mimic) {
       if (typeof this.site.mimic === 'function') {
-        content = this.site.mimic(content)
+        content = this.site.mimic(content, main)
       } else {
         const mimic = this.root.querySelector(this.site.mimic)
         if (mimic !== null) {
@@ -195,7 +196,6 @@ class SiteBot {
       content = content.replace(/<p>/g, `<p class="${this.site.paragraphStyle.className || ''}" style="${this.site.paragraphStyle.style || ''}">`)
     }
 
-    const main = this.getMainContentArea()
     if (this.site.insertContent) {
       this.site.insertContent(this, main, content)
     } else {
