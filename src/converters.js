@@ -15,7 +15,10 @@ export default {
       }
 
       const parts = html.split(paragrahBreak)
-      return `<p>${parts.join('</p><p>')}</p>`
+      let content = `<p>${parts.join('</p><p>')}</p>`
+      // Replace empty paragraphs
+      content = content.replace(/<p><\/p>/g, '')
+      return content
     })
   }
 }
