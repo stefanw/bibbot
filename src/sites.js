@@ -7,6 +7,25 @@ const removeClass = (node, className) => {
   }
 }
 
+const KSTA = {
+  selectors: {
+    date: 'time',
+    paywall: '.dm_premium_container #c1-template-platzhalter',
+    main: '.dm_article_text'
+  },
+  start: (root) => {
+    const paywall = root.querySelector('#c1-template-platzhalter')
+    if (paywall) {
+      paywall.remove()
+    }
+    const articleText = root.querySelector('.hide-paid-content')
+    if (articleText) {
+      articleText.classList.remove('hide-paid-content')
+    }
+    return true
+  }
+}
+
 export default {
   'magazin.spiegel.de': {
     selectors: {
@@ -396,25 +415,18 @@ export default {
     waitOnLoad: true
   },
   'www.ksta.de': {
-    selectors: {
-      date: 'time',
-      paywall: '.dm_premium_container #c1-template-platzhalter',
-      main: '.dm_article_text'
-    },
-    start: (root) => {
-      const paywall = root.querySelector('#c1-template-platzhalter')
-      if (paywall) {
-        paywall.remove()
-      }
-      const articleText = root.querySelector('.hide-paid-content')
-      if (articleText) {
-        articleText.classList.remove('hide-paid-content')
-      }
-      return true
-    },
+    ...KSTA,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'KSTA'
     }
+  },
+  'www.rundschau-online.de': {
+    ...KSTA,
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'KR'
+    }
   }
+
 }
