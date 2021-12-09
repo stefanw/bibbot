@@ -7,6 +7,41 @@ const removeClass = (node, className) => {
   }
 }
 
+const GA = {
+  selectors: {
+    query: () => {
+      return extractQuery(document.querySelector('.park-article__intro.park-article__content'))
+    },
+    date: 'time',
+    paywall: '.park-article-paywall',
+    main: '.park-article__body'
+  },
+  insertContent: (siteBot, main, content) => {
+    siteBot.hideBot()
+    const div = document.createElement('div')
+    div.style.maxWidth = '640px'
+    div.style.margin = '0 auto'
+    div.innerHTML = content
+    main.appendChild(div)
+  },
+  start: (root) => {
+    const article = root.querySelector('.park-article--reduced')
+    if (article) {
+      article.classList.remove('park-article--reduced')
+    }
+    const widget = root.querySelector('.park-widget--paywall-article')
+    if (widget) {
+      widget.remove()
+    }
+    const garbage = root.querySelector('.park-article-content')
+    if (garbage) {
+      garbage.remove()
+    }
+  },
+  source: 'genios.de',
+  waitOnLoad: true
+}
+
 const KSTA = {
   selectors: {
     date: 'time',
@@ -23,7 +58,8 @@ const KSTA = {
       articleText.classList.remove('hide-paid-content')
     }
     return true
-  }
+  },
+  source: 'genios.de'
 }
 
 export default {
@@ -378,54 +414,27 @@ export default {
     }
   },
   'ga.de': {
-    selectors: {
-      query: () => {
-        return extractQuery(document.querySelector('.park-article__intro.park-article__content'))
-      },
-      date: 'time',
-      paywall: '.park-article-paywall',
-      main: '.park-article__body'
-    },
-    insertContent: (siteBot, main, content) => {
-      siteBot.hideBot()
-      const div = document.createElement('div')
-      div.style.maxWidth = '640px'
-      div.style.margin = '0 auto'
-      div.innerHTML = content
-      main.appendChild(div)
-    },
-    start: (root) => {
-      const article = root.querySelector('.park-article--reduced')
-      if (article) {
-        article.classList.remove('park-article--reduced')
-      }
-      const widget = root.querySelector('.park-widget--paywall-article')
-      if (widget) {
-        widget.remove()
-      }
-      const garbage = root.querySelector('.park-article-content')
-      if (garbage) {
-        garbage.remove()
-      }
-    },
-    source: 'genios.de',
+    ...GA,
     sourceParams: {
       dbShortcut: 'GAZ'
-    },
-    waitOnLoad: true
+    }
   },
   'www.ksta.de': {
     ...KSTA,
-    source: 'genios.de',
     sourceParams: {
       dbShortcut: 'KSTA'
     }
   },
   'www.rundschau-online.de': {
     ...KSTA,
-    source: 'genios.de',
     sourceParams: {
       dbShortcut: 'KR'
+    }
+  },
+  'rp-online.de': {
+    ...GA,
+    sourceParams: {
+      dbShortcut: 'RP'
     }
   }
 

@@ -50,7 +50,8 @@
         "https://www.nachrichten.at/*",
         "https://ga.de/*",
         "https://www.ksta.de/*",
-        "https://www.rundschau-online.de/*"
+        "https://www.rundschau-online.de/*",
+        "https://rp-online.de/*"
       ],
       "js": [
         "lib/browser-polyfill.js",
