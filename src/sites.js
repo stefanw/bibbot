@@ -63,21 +63,9 @@ const KSTA = {
 }
 
 export default {
-  'magazin.spiegel.de': {
-    selectors: {
-      query: '#articles > article > header h1',
-      main: '#articles > article > main .paragraph',
-      edition: 'body > footer > span.pvi',
-      paywall: '#preview'
-    },
-    source: 'genios.de',
-    sourceParams: {
-      dbShortcut: 'SPIE'
-    }
-  },
   'www.spiegel.de': {
     selectors: {
-      query: '.leading-tight span:not(:first-child), .leading-none .leading-normal, h2 span:not(:first-child) span:not(:first-child)',
+      query: ['.leading-loose', '.leading-tight span:not(:first-child), .leading-none .leading-normal, h2 span:not(:first-child) span:not(:first-child)'],
       main: 'article section.relative',
       paywall: "div[data-component='Paywall'], div[data-target-id='paywall']"
     },
