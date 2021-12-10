@@ -102,26 +102,42 @@ class SiteBot {
     })
   }
 
+  runSelectorQuery (selector) {
+    if (typeof selector === 'function') {
+      return selector(this.root)
+    }
+    let result = ''
+    if (Array.isArray(selector)) {
+      for (const s of selector) {
+        result = this.runSelectorQuery(s)
+        if (result !== '') {
+          return result
+        }
+      }
+      return ''
+    }
+
+    const parts = selector.split('@')
+    const hasAttribute = parts.length > 1
+
+    result = this.root.querySelector(parts[0])
+    if (result === null) {
+      return ''
+    }
+
+    if (hasAttribute) {
+      return result.attributes[parts[1]].value.trim()
+    } else {
+      return result.textContent.trim()
+    }
+  }
+
   collectArticleInfo () {
     const articleInfo = {}
     for (const key in this.site.selectors) {
       if (this.site.selectors[key]) {
         const selector = this.site.selectors[key]
-        if (typeof selector === 'function') {
-          articleInfo[key] = selector(this.root)
-        } else {
-          const parts = this.site.selectors[key].split('@')
-          const result = this.root.querySelector(parts[0])
-          if (result === null) {
-            articleInfo[key] = ''
-            continue
-          }
-          if (parts[1]) {
-            articleInfo[key] = result.attributes[parts[1]].value.trim()
-          } else {
-            articleInfo[key] = result.textContent.trim()
-          }
-        }
+        articleInfo[key] = this.runSelectorQuery(selector)
       }
     }
     let q = articleInfo.query
