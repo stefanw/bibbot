@@ -34,7 +34,7 @@ export const LOADER_HTML = `
 <div id="${BOT_ID}" style="border: 5px solid ${COLOR}; padding: 10px 10px 60px; margin: 20px auto; text-align:center; position:relative;">
   <div style="color: ${COLOR}; font-family: sans-serif; font-size: 1.2rem">VÖBBot</div>
   <img id="voebbot-loading" src="${ICON}" alt="VOEBBot" height="40" width="30">
-  <div id="${MESSAGE_ID}" style="font-family: sans-serif; font-size: 0.9rem; color: ${COLOR}">Artikel wird gesucht...</div>
+  <div id="${MESSAGE_ID}" style="font-family: sans-serif; font-size: 0.9rem; color: ${COLOR}">Pressedatenbank wird aufgerufen...</div>
 </div>`
 
 export const FAILED_HTML = `<strong>Artikel konnte nicht gefunden werden</strong>
