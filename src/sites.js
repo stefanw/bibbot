@@ -163,7 +163,10 @@ export default {
       if (p) {
         p.className = 'sz-article-body__paragraph'
       }
-      root.querySelector('.offerpage-container').style.display = 'none'
+      const offer = root.querySelector('offer-page')
+      if (offer) {
+        offer.style.display = 'none'
+      }
     },
     mimic: '.sz-article-body__paragraph',
     paragraphStyle: {
