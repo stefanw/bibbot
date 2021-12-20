@@ -104,7 +104,7 @@ class SiteBot {
 
   runSelectorQuery (selector) {
     if (typeof selector === 'function') {
-      return selector(this.root)
+      return selector(this.root, this)
     }
     let result = ''
     if (Array.isArray(selector)) {

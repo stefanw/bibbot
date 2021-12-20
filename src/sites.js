@@ -1,4 +1,5 @@
-const extractQuery = (node) => `"${node.innerText.split(' ').slice(2, 10).join(' ')}"`
+const extractQuery = (node) => `"${createQuery(node.innerText)}"`
+const createQuery = (text) => `"${text.split(' ').slice(2, 10).join(' ')}"`
 
 const removeClass = (node, className) => {
   const el = node.querySelector(`.${className}`)
@@ -65,7 +66,13 @@ const KSTA = {
 export default {
   'www.spiegel.de': {
     selectors: {
-      query: ['.leading-loose', '.leading-tight span:not(:first-child), .leading-none .leading-normal, h2 span:not(:first-child) span:not(:first-child)'],
+      query: (root, siteBot) => {
+        const text = siteBot.runSelectorQuery([
+          '.leading-loose',
+          '.leading-tight span:not(:first-child), .leading-none .leading-normal, h2 span:not(:first-child) span:not(:first-child)'
+        ])
+        return createQuery(text)
+      },
       main: 'article section.relative',
       paywall: "div[data-component='Paywall'], div[data-target-id='paywall']"
     },
