@@ -54,12 +54,6 @@ const geniosDefaultData = [
     domain: 'bib-halle.genios.de'
   },
   {
-    id: 'bibliothek.hannover-stadt.de',
-    name: 'Stadtbibliothek Hannover',
-    web: 'https://bibliothek.hannover-stadt.de',
-    domain: 'bib-hannover.genios.de'
-  },
-  {
     id: 'stadtbibliothek.heilbronn.de',
     name: 'Stadtbibliothek Heilbronn',
     web: 'https://stadtbibliothek.heilbronn.de/stadtbibliothek-heilbronn.html',
@@ -301,6 +295,16 @@ const geniosAssociationData = [
   }
 ]
 
+const geniosOclcData = [
+  {
+    id: 'bibliothek.hannover-stadt.de',
+    name: 'Stadtbibliothek Hannover',
+    web: 'https://bibliothek.hannover-stadt.de',
+    oclcId: 'stbhannover',
+    geniosDomain: 'bib-hannover-genios-de'
+  }
+]
+
 function geniosFactory (provider) {
   return {
     name: provider.name,
@@ -347,6 +351,31 @@ function geniosAssociationFactory (provider) {
   }
 }
 
+function geniosOclcFactory (provider) {
+  return {
+    name: provider.name,
+    web: provider.web,
+    loginHint: '',
+    params: {
+      'genios.de': {
+        domain: `${provider.geniosDomain}.${provider.oclcId}.idm.oclc.org`
+      }
+    },
+    login: [
+      [
+        { fill: { selector: 'input[name="user"]', providerKey: provider.id + '.options.username' } },
+        { fill: { selector: 'input[name="pass"]', providerKey: provider.id + '.options.password' } },
+        { click: 'input[type="submit"]' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ],
+    permissions: [`https://*.${provider.oclcId}.idm.oclc.org/*`]
+  }
+}
+
 const geniosDefaultProviders = {}
 geniosDefaultData.forEach(d => {
   geniosDefaultProviders[d.id] = geniosFactory(d)
@@ -357,9 +386,15 @@ geniosAssociationData.forEach(d => {
   geniosDefaultProviders[d.id] = geniosAssociationFactory(d)
 })
 
+const geniosOclcProviders = {}
+geniosOclcData.forEach(d => {
+  geniosOclcProviders[d.id] = geniosOclcFactory(d)
+})
+
 export default {
   ...geniosDefaultProviders,
   ...geniosAssociationProviders,
+  ...geniosOclcProviders,
   'voebb.de': {
     name: 'VÖBB - Verbund der öffenlichen Bibliotheken Berlins',
     web: 'https://voebb.de/',
