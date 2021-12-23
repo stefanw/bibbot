@@ -295,13 +295,19 @@ const geniosAssociationData = [
   }
 ]
 
-const geniosOclcData = [
+const oclcData = [
   {
     id: 'bibliothek.hannover-stadt.de',
     name: 'Stadtbibliothek Hannover',
     web: 'https://bibliothek.hannover-stadt.de',
     oclcId: 'stbhannover',
-    geniosDomain: 'bib-hannover-genios-de'
+    'genios.de': {
+      subdomain: 'bib-hannover-genios-de'
+    },
+    'www.munzinger.de': {
+      subdomain: 'www-munzinger-de',
+      portalId: 51488 // not used in original requests, obtained from logo: https://www.munzinger.de/logos/51488.gif
+    }
   }
 ]
 
@@ -351,14 +357,26 @@ function geniosAssociationFactory (provider) {
   }
 }
 
-function geniosOclcFactory (provider) {
+function oclcFactory (provider) {
   return {
     name: provider.name,
     web: provider.web,
     loginHint: '',
     params: {
-      'genios.de': {
-        domain: `${provider.geniosDomain}.${provider.oclcId}.idm.oclc.org`
+      ...(provider['genios.de']) && {
+        'genios.de': {
+          domain: `${provider['genios.de'].subdomain}.${provider.oclcId}.idm.oclc.org`
+        }
+      },
+      ...(provider['www.munzinger.de']) && {
+        'www.munzinger.de': {
+          ...(provider['www.munzinger.de'].portalId) && {
+            portalId: provider['www.munzinger.de'].portalId
+          },
+          ...(provider['www.munzinger.de'].subdomain) && {
+            domain: `${provider['www.munzinger.de'].subdomain}.${provider.oclcId}.idm.oclc.org`
+          }
+        }
       }
     },
     login: [
@@ -386,15 +404,15 @@ geniosAssociationData.forEach(d => {
   geniosDefaultProviders[d.id] = geniosAssociationFactory(d)
 })
 
-const geniosOclcProviders = {}
-geniosOclcData.forEach(d => {
-  geniosOclcProviders[d.id] = geniosOclcFactory(d)
+const oclcProviders = {}
+oclcData.forEach(d => {
+  oclcProviders[d.id] = oclcFactory(d)
 })
 
 export default {
   ...geniosDefaultProviders,
   ...geniosAssociationProviders,
-  ...geniosOclcProviders,
+  ...oclcProviders,
   'voebb.de': {
     name: 'VÖBB - Verbund der öffenlichen Bibliotheken Berlins',
     web: 'https://voebb.de/',
