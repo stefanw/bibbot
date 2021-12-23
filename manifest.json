@@ -16,7 +16,8 @@
   "optional_permissions": [
     "https://www.munzinger.de/*",
     "https://www.voebb.de/*",
-    "https://www.wiso-net.de/*"
+    "https://www.wiso-net.de/*",
+    "https://*.stbhannover.idm.oclc.org/*"
   ],
   "background": {
     "scripts": [
