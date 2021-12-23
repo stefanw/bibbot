@@ -1,7 +1,13 @@
 export default {
   'www.munzinger.de': {
     loggedIn: ".metanav-a[href='/search/logout']",
-    start: 'https://www.munzinger.de/search/go/spiegel/aktuell.jsp?portalid={source.portalId}',
+    start: 'https://{source.domain}/search/go/spiegel/aktuell.jsp?portalid={source.portalId}',
+    defaultParams: {
+      domain: 'www.munzinger.de',
+      // reverse-proxied portals such as www-munzinger-de.stbhannover.idm.oclc.org may not use portalId,
+      // adding an empty ?portalid= parameter works in these cases
+      portalId: ''
+    },
     login: [
       [
         { click: '.gdprcookie-buttons button', optional: true },
@@ -13,7 +19,7 @@ export default {
     search: [
       [
         { message: 'Suche wird durchgeführt...' },
-        { url: 'https://www.munzinger.de/search/query?template=%2Fpublikationen%2Fspiegel%2Fresult.jsp&query.id=query-spiegel&query.key=gQynwrIS&query.commit=yes&query.scope=spiegel&query.index-order=personen&query.facets=yes&facet.path=%2Fspiegel&facet.activate=yes&hitlist.highlight=yes&hitlist.sort=-field%3Aisort&query.Titel={query}&query.Ausgabe={edition}&query.Ressort=&query.Signatur=&query.Person=&query.K%C3%B6rperschaft=&query.Ort=&query.Text={overline}' }
+        { url: 'https://{source.domain}/search/query?template=%2Fpublikationen%2Fspiegel%2Fresult.jsp&query.id=query-spiegel&query.key=gQynwrIS&query.commit=yes&query.scope=spiegel&query.index-order=personen&query.facets=yes&facet.path=%2Fspiegel&facet.activate=yes&hitlist.highlight=yes&hitlist.sort=-field%3Aisort&query.Titel={query}&query.Ausgabe={edition}&query.Ressort=&query.Signatur=&query.Person=&query.K%C3%B6rperschaft=&query.Ort=&query.Text={overline}' }
       ],
       [
         { click: '.gdprcookie-buttons button', optional: true },
