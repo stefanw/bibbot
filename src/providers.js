@@ -311,6 +311,19 @@ const oclcData = [
   }
 ]
 
+const hanData = [
+  {
+    id: 'landesbibliothek.at',
+    name: 'OÖ Landesbibliothek',
+    web: 'https://www.landesbibliothek.at',
+    hanserver: 'han.landesbibliothek.at',
+    'genios.de': {
+      hanid: 'wisonet',
+      domain: 'www.wiso-net.de'
+    }
+  }
+]
+
 function geniosFactory (provider) {
   return {
     name: provider.name,
@@ -394,6 +407,33 @@ function oclcFactory (provider) {
   }
 }
 
+function hanFactory (provider) {
+  return {
+    name: provider.name,
+    web: provider.web,
+    loginHint: '',
+    params: {
+      ...(provider['genios.de']) && {
+        'genios.de': {
+          domain: `${provider.hanserver}/han/${provider['genios.de'].hanid}/${provider['genios.de'].domain}`
+        }
+      }
+    },
+    login: [
+      [
+        { fill: { selector: 'input[name="plainuser"]', providerKey: provider.id + '.options.username' } },
+        { fill: { selector: 'input[name="password"]', providerKey: provider.id + '.options.password' } },
+        { click: 'button[type="submit"]' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ],
+    permissions: [`https://*.${provider.hanserver}/*`]
+  }
+}
+
 const geniosDefaultProviders = {}
 geniosDefaultData.forEach(d => {
   geniosDefaultProviders[d.id] = geniosFactory(d)
@@ -409,10 +449,16 @@ oclcData.forEach(d => {
   oclcProviders[d.id] = oclcFactory(d)
 })
 
+const hanProviders = {}
+hanData.forEach(d => {
+  hanProviders[d.id] = hanFactory(d)
+})
+
 export default {
   ...geniosDefaultProviders,
   ...geniosAssociationProviders,
   ...oclcProviders,
+  ...hanProviders,
   'voebb.de': {
     name: 'VÖBB - Verbund der öffenlichen Bibliotheken Berlins',
     web: 'https://voebb.de/',

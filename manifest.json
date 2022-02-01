@@ -17,7 +17,8 @@
     "https://www.munzinger.de/*",
     "https://www.voebb.de/*",
     "https://www.wiso-net.de/*",
-    "https://*.stbhannover.idm.oclc.org/*"
+    "https://*.stbhannover.idm.oclc.org/*",
+    "https://*.han.landesbibliothek.at/*"
   ],
   "background": {
     "scripts": [
