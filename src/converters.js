@@ -8,7 +8,7 @@ export default {
       html = html.replace(/\/\/\//g, '\n\n<em>')
       html = html.replace(/\s+\/\/\s+\./g, '</em>\n\n')
 
-      const doubleBreakCount = (html.match(/\\n\\n/g) || []).length
+      const doubleBreakCount = (html.match(/\n\n/g) || []).length
       let paragrahBreak = '\n\n'
       if (doubleBreakCount < 2) {
         paragrahBreak = '\n'
