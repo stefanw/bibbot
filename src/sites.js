@@ -456,6 +456,33 @@ export default {
     sourceParams: {
       dbShortcut: 'TAG,TAS'
     }
+  },
+  'www.falter.at': {
+    selectors: {
+      query: '.head-content h2',
+      date: 'time',
+      paywall: '.paywall-info',
+      main: '.paywall-content'
+    },
+    start: (root) => {
+      const div = root.querySelector('.paywall-info')
+      if (div) {
+        div.parentNode.parentNode.style.display = 'none'
+      }
+    },
+    mimic: (content) => {
+      const parRegex = new RegExp(/<p>/)
+      let parNo = 1
+      while (parRegex.test(content)) {
+        content = content.replace(parRegex, `<p class="par${parNo} article-p storycontent-article">`)
+        parNo++
+      }
+      return content
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'FALT'
+    }
   }
 
 }
