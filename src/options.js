@@ -45,10 +45,17 @@ function restore () {
     }
   })
 
+  let sortedProviders = []
+  for (const providerKey in providers) {
+    sortedProviders.push({ key: providerKey, name: providers[providerKey].name })
+  }
+  sortedProviders.sort((a, b) => a.name.localeCompare(b.name))
+
   const providerSelect = document.getElementById('provider')
   const providerList = document.getElementById('providers')
   const providerOptions = document.getElementById('provider-options')
-  for (const providerKey in providers) {
+  for (const sortedProvider of sortedProviders) {
+    const providerKey = sortedProvider.key
     const provider = providers[providerKey]
     const option = document.createElement('option')
     option.value = providerKey
