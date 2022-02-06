@@ -19,5 +19,12 @@ export default [
       file: 'build/options.js',
       format: 'cjs'
     }
+  },
+  {
+    input: 'tests/content_test.js',
+    output: {
+      file: 'test_build/content_test.js',
+      format: 'cjs'
+    }
   }
 ]

@@ -31,6 +31,43 @@ These are the data pieces inside:
 Additionally user data like credentials and chosen provider is stored via `browser.storage.sync`.
 
 
+## Tests
+
+There is a test setup for sites using [Jest](https://jestjs.io/) and [Puppeteer](https://puppeteer.github.io/puppeteer/) that can be run with:
+
+```bash
+# install dependencies
+npm ci
+# Build extension scripts
+npm build
+# Run tests
+npm test
+# Run tests with actual browser window for one domain
+HEADLESS=false npm test -- -t "test www.zeit.de"
+```
+
+Add testing data to site objects like this:
+
+```javascript
+// ...
+  'www.example.com': {
+    examples: [
+      {
+        url: 'http://example.com/article.html',
+        selectors: {
+          query: 'The string resulting from query selector'
+        }
+      }
+    ],
+    // optional setup async function
+    testSetup: async (page) => {
+        // page is pupeteer page
+        // use this for initial page setup
+    },
+// ...
+```
+
+
 ## Release
 
 1. Run `npm version <major|minor|patch>`

@@ -1,6 +1,8 @@
 *.zip
+.vscode/
 screenshots/*
 build/
+test_build/
 dist/
 _site/
 node_modules/

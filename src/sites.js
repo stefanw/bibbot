@@ -1,3 +1,5 @@
+import { consentCdnSetup } from './test_utils.js'
+
 const extractQuery = (node) => `"${createQuery(node.innerText)}"`
 const createQuery = (text) => `"${text.split(' ').slice(2, 10).join(' ')}"`
 
@@ -106,12 +108,21 @@ export default {
     }
   },
   'www.zeit.de': {
+    testSetup: consentCdnSetup,
+    examples: [
+      {
+        url: 'https://www.zeit.de/2021/11/soziale-ungleichheit-identitaetspolitik-diskriminierung-armut-bildung',
+        selectors: {
+          query: '"Sie das schon – der Begriff allein Ganz"'
+        }
+      }
+    ],
     selectors: {
       // query: ".article-heading__title, .article-header__title, .headline__title",
       query: () => {
         return extractQuery(document.querySelector('.article__item .paragraph'))
       },
-      edition: '.zplus-badge__media-item@alt',
+      edition: '.metadata__source',
       date: '.metadata__source.encoded-date, time',
       paywall: '.gate.article__item',
       main: '.article-page'
@@ -149,6 +160,13 @@ export default {
     }
   },
   'www.sueddeutsche.de': {
+    testSetup: consentCdnSetup,
+    examples: [{
+      url: 'https://www.sueddeutsche.de/kultur/milch-ernaehrung-klimawandel-1.5521054?reduced=true',
+      selectors: {
+        query: '"Zeit um die Mitte der Sechziger hörte die"'
+      }
+    }],
     selectors: {
       // query: "article > header > h2 > span:last-child",
       query: () => {

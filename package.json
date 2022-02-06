@@ -3,17 +3,25 @@
   "version": "0.18.7",
   "description": "VÖBBot removes paywalls of German media sites",
   "devDependencies": {
+    "@babel/core": "^7.17.0",
+    "@babel/preset-env": "^7.16.11",
+    "babel-jest": "^27.5.0",
     "eslint": "^7.22.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.3.1",
+    "jest": "^27.5.0",
+    "jest-puppeteer": "^6.1.0",
+    "node-fetch": "^3.2.0",
+    "puppeteer-core": "^13.1.3",
     "rollup": "^2.42.0"
   },
   "scripts": {
     "start": "rollup -c -w",
     "build": "rollup -c",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint",
+    "test": "jest",
     "version": "gsed -i '4s/\"version\": \".*\",/\"version\": \"'\"$(jq -r .version package.json)\"'\",/' manifest.json && git add manifest.json"
   },
   "repository": {
