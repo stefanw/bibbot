@@ -30,6 +30,6 @@ jobs:
       - name: Running lint
         run: npm run lint src tests
       - name: Create build of test content script
-        run: npm build
+        run: npm run build
       - name: Run the tests
-        run: npm test
+        run: npm run test -- --runInBand

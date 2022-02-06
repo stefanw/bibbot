@@ -15,7 +15,13 @@ class SiteBot {
     if (!this.hasPaywall()) {
       return
     }
+    const articleInfo = this.startInfoExtraction()
+    if (articleInfo) {
+      this.startBackgroundConnection(articleInfo)
+    }
+  }
 
+  startInfoExtraction () {
     if (this.site.start) {
       const result = this.site.start(this.root, this.getPaywall())
       if (result) {
@@ -27,14 +33,16 @@ class SiteBot {
     }
 
     this.showLoading()
-    let articleInfo
     try {
-      articleInfo = this.collectArticleInfo()
+      return this.collectArticleInfo()
     } catch (e) {
       console.error(e)
       this.showUpdate('Beim Extrahieren der Artikeldaten trat ein Fehler auf.')
-      return
+      return null
     }
+  }
+
+  startBackgroundConnection (articleInfo) {
     this.connectPort()
     this.postMessage({
       type: INIT_MESSAGE,

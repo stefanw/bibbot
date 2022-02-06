@@ -38,12 +38,12 @@ There is a test setup for sites using [Jest](https://jestjs.io/) and [Puppeteer]
 ```bash
 # install dependencies
 npm ci
-# Build extension scripts
-npm build
+# Always run build before tests, as test uses build files!
+npm run build
 # Run tests
-npm test
+npm run test
 # Run tests with actual browser window for one domain
-HEADLESS=false npm test -- -t "test www.zeit.de"
+HEADLESS=false npm run test -- -t "test www.zeit.de"
 ```
 
 Add testing data to site objects like this:

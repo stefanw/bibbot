@@ -1,4 +1,4 @@
-import { consentCdnSetup } from './test_utils.js'
+import { getConsentCdnSetup } from './test_utils.js'
 
 const extractQuery = (node) => `"${createQuery(node.innerText)}"`
 const createQuery = (text) => `"${text.split(' ').slice(2, 10).join(' ')}"`
@@ -108,7 +108,7 @@ export default {
     }
   },
   'www.zeit.de': {
-    testSetup: consentCdnSetup,
+    testSetup: getConsentCdnSetup({ pageChanges: true }),
     examples: [
       {
         url: 'https://www.zeit.de/2021/11/soziale-ungleichheit-identitaetspolitik-diskriminierung-armut-bildung',
@@ -160,7 +160,7 @@ export default {
     }
   },
   'www.sueddeutsche.de': {
-    testSetup: consentCdnSetup,
+    testSetup: getConsentCdnSetup({ pageChanges: false }),
     examples: [{
       url: 'https://www.sueddeutsche.de/kultur/milch-ernaehrung-klimawandel-1.5521054?reduced=true',
       selectors: {
