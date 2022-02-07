@@ -54,7 +54,7 @@ class SiteBot {
   }
 
   getPaywall () {
-    return this.root.querySelector(this.site.selectors.paywall)
+    return this.runSelectorQueryElement(this.site.selectors.paywall)
   }
 
   hasPaywall () {
@@ -70,7 +70,7 @@ class SiteBot {
   }
 
   getMainContentArea () {
-    return this.root.querySelector(this.site.selectors.main)
+    return this.runSelectorQueryElement(this.site.selectors.main)
   }
 
   showLoading () {
@@ -108,6 +108,22 @@ class SiteBot {
         type: GOTOTAB_MESSAGE
       })
     })
+  }
+
+  runSelectorQueryElement (selector) {
+    if (typeof selector === 'function') {
+      return selector(this.root, this)
+    }
+    let result = null
+    if (Array.isArray(selector)) {
+      for (const s of selector) {
+        result = this.runSelectorQueryElement(s)
+        if (result !== null) {
+          return result
+        }
+      }
+    }
+    return this.root.querySelector(selector)
   }
 
   runSelectorQuery (selector) {
