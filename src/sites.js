@@ -166,15 +166,33 @@ export default {
       selectors: {
         query: '"Zeit um die Mitte der Sechziger hörte die"'
       }
+    }, {
+      url: 'https://www.sueddeutsche.de/projekte/artikel/politik/lkw-unfaelle-beim-abbiegen-im-toten-winkel-e744638/?reduced=true',
+      selectors: {
+        query: '"Lastwagen in die Konstanzer Straße biegt obwohl er"'
+      }
     }],
     selectors: {
       // query: "article > header > h2 > span:last-child",
       query: () => {
-        return extractQuery(document.querySelector('.sz-article-body__paragraph'))
+        const normalArticle = document.querySelector('.sz-article-body__paragraph')
+        if (normalArticle) {
+          return extractQuery(normalArticle)
+        }
+        const reportage = document.querySelector('.module-text .text p')
+        if (reportage) {
+          return extractQuery(reportage)
+        }
       },
       date: 'time',
       paywall: 'offer-page',
-      main: "div[itemprop='articleBody']"
+      main: () => {
+        const normalMain = document.querySelector("div[itemprop='articleBody']")
+        if (normalMain) {
+          return normalMain
+        }
+        return document.querySelector('.module-text .text')
+      }
     },
     start: (root) => {
       const p = root.querySelector('.sz-article-body__paragraph--reduced')
@@ -489,7 +507,7 @@ export default {
       }
     },
     mimic: (content) => {
-      const parRegex = new RegExp(/<p>/)
+      const parRegex = /<p>/
       let parNo = 1
       while (parRegex.test(content)) {
         content = content.replace(parRegex, `<p class="par${parNo} article-p storycontent-article">`)
