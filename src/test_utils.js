@@ -2,6 +2,9 @@ const getConsentCdnSetup = ({ pageChanges }) => {
   return async (page) => {
     console.log('consent setup: find frame')
     const frame = page.frames().find(frame => frame.url().indexOf('consent-cdn') !== -1)
+    if (!frame) {
+      return
+    }
     console.log('consent setup: find element')
     const element = await frame.waitForSelector('#notice button', { timeout: 5000 })
     if (!element) {
