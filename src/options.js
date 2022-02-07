@@ -45,7 +45,7 @@ function restore () {
     }
   })
 
-  let sortedProviders = []
+  const sortedProviders = []
   for (const providerKey in providers) {
     sortedProviders.push({ key: providerKey, name: providers[providerKey].name })
   }
