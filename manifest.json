@@ -54,7 +54,8 @@
         "https://www.rundschau-online.de/*",
         "https://rp-online.de/*",
         "https://www.tagesanzeiger.ch/*",
-        "https://www.falter.at/*"
+        "https://www.falter.at/*",
+        "https://www.stuttgarter-zeitung.de/*"
       ],
       "js": [
         "lib/browser-polyfill.js",

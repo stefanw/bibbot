@@ -519,6 +519,26 @@ export default {
     sourceParams: {
       dbShortcut: 'FALT'
     }
+  },
+  'www.stuttgarter-zeitung.de': {
+    testSetup: getConsentCdnSetup({ pageChanges: false }),
+    examples: [
+      {
+        url: 'https://www.stuttgarter-zeitung.de/inhalt.probleme-bei-der-abrechnung-warum-ein-stuttgarter-impfarzt-schlaflose-naechte-hatte.98bea27d-f195-4bda-899b-8221d3d7f901.html?reduced=true',
+        selectors: {
+          query: 'Der Stuttgarter Arzt Christian Schweninger impft gegen Corona und musste wegen Zahlungsverzögerungen beinahe einen Kredit aufnehmen. Wie kam es so weit'
+        }
+      }
+    ],
+    selectors: {
+      query: '.intro-text p',
+      date: 'div[itemprop="datePublished"]',
+      paywall: '.c1-offers-target',
+      main: '.article-body > p'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'STZ'
+    }
   }
-
 }
