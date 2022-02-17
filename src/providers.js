@@ -125,20 +125,22 @@ const geniosAssociationData = [
     domain: 'bib-bawue.genios.de',
     bibId: '78'
   },
-  {
-    id: 'stadtbuecherei.fellbach.de',
-    name: 'Stadtbücherei Fellbach',
-    web: 'https://www.fellbach.de/start/kultur/stadtbuecherei.html',
-    domain: 'nan',
-    bibId: 'bib-bawue.genios.de'
-  },
-  {
-    id: 'medienzentrum-biberach.de',
-    name: 'Stadtbücherei Biberach',
-    web: 'https://www.medienzentrum-biberach.de/',
-    domain: 'bib-bawue.genios.de',
-    bibId: '82'
-  },
+  // No longer seems to have genios
+  // {
+  //   id: 'stadtbuecherei.fellbach.de',
+  //   name: 'Stadtbücherei Fellbach',
+  //   web: 'https://www.fellbach.de/start/kultur/stadtbuecherei.html',
+  //   domain: 'nan',
+  //   bibId: 'bib-bawue.genios.de'
+  // },
+  // No longer seems to have genios
+  // {
+  //   id: 'medienzentrum-biberach.de',
+  //   name: 'Stadtbücherei Biberach',
+  //   web: 'https://www.medienzentrum-biberach.de/',
+  //   domain: 'bib-bawue.genios.de',
+  //   bibId: '82'
+  // },
   {
     id: 'backnang.bibliothek.komm.one',
     name: 'Stadtbücherei Backnang',
@@ -174,13 +176,14 @@ const geniosAssociationData = [
     domain: 'bib-bawue.genios.de',
     bibId: '84'
   },
-  {
-    id: 'stabi.ludwigsburg.de',
-    name: 'Stadtbibliothek Ludwigsburg',
-    web: 'https://stabi.ludwigsburg.de/',
-    domain: 'bib-bawue.genios.de',
-    bibId: '36'
-  },
+  // No longer seems to have genios
+  // {
+  //   id: 'stabi.ludwigsburg.de',
+  //   name: 'Stadtbibliothek Ludwigsburg',
+  //   web: 'https://stabi.ludwigsburg.de/',
+  //   domain: 'bib-bawue.genios.de',
+  //   bibId: '36'
+  // },
   {
     id: 'stadtbibliothek.heilbronn.de',
     name: 'Stadtbibliothek Heilbronn',
@@ -215,6 +218,34 @@ const geniosAssociationData = [
     web: 'https://www.mediathek-neckarsulm.de/',
     domain: 'bib-bawue.genios.de',
     bibId: '79'
+  },
+  {
+    id: 'stadtbibliothek.ulm.de',
+    name: 'Stadtbibliothek Ulm',
+    web: 'https://stadtbibliothek.ulm.de/',
+    domain: 'bib-bawue.genios.de',
+    bibId: '60'
+  },
+  {
+    id: 'backnang.de',
+    name: 'Stadtbücherei Backnang',
+    web: 'https://stadtbibliothek.ulm.de/',
+    domain: 'bib-bawue.genios.de',
+    bibId: '68'
+  },
+  {
+    id: 'winnenden.de',
+    name: 'Stadtbücherei Winnenden',
+    web: 'https://www.winnenden.de/,Lde/start/kultur-sport-tourismus/Stadtbuecherei.html',
+    domain: 'bib-bawue.genios.de',
+    bibId: '93'
+  },
+  {
+    id: 'bibliothek-heidenheim.de',
+    name: 'Stadtbibliothek Heidenheim',
+    web: 'https://www.bibliothek-heidenheim.de/startseite',
+    domain: 'bib-bawue.genios.de',
+    bibId: '97'
   },
   {
     id: 'stadtbibliothek-bautzen.de',
