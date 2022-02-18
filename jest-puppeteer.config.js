@@ -4,5 +4,6 @@ module.exports = {
     headless: process.env.HEADLESS !== 'false',
     product: 'chrome'
   },
-  browserContext: 'default'
+  browserContext: 'default',
+  exitOnPageError: false
 }
