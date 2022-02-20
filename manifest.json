@@ -55,7 +55,8 @@
         "https://rp-online.de/*",
         "https://www.tagesanzeiger.ch/*",
         "https://www.falter.at/*",
-        "https://www.stuttgarter-zeitung.de/*"
+        "https://www.stuttgarter-zeitung.de/*",
+        "https://www.stuttgarter-nachrichten.de/*"
       ],
       "js": [
         "lib/browser-polyfill.js",
