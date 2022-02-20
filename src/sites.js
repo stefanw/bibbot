@@ -540,5 +540,26 @@ export default {
     sourceParams: {
       dbShortcut: 'STZ'
     }
+  },
+  'www.stuttgarter-nachrichten.de': {
+    testSetup: getConsentCdnSetup({ pageChanges: false }),
+    examples: [
+      {
+        url: 'https://www.stuttgarter-nachrichten.de/inhalt.e-mobilitaet-in-stuttgart-zahl-privater-e-ladestellen-waechst-deutlich.a3a5609d-b274-4ac3-a2b1-2558da9a1d69.html?reduced=true',
+        selectors: {
+          query: 'Die Ladekapazitäten für E-Autos zu Hause haben in den vergangenen drei Jahren in Stuttgart stark zugelegt – der Zuwachs in den einzelnen Bezirken ist dabei heterogen. Das zeigen Daten des lokalen Stromnetzbetreibers.'
+        }
+      }
+    ],
+    selectors: {
+      query: '.intro-text p',
+      date: 'div[itemprop="datePublished"]',
+      paywall: '.c1-offers-target',
+      main: '.article-body > p'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'STN'
+    }
   }
 }
