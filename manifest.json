@@ -56,7 +56,8 @@
         "https://www.tagesanzeiger.ch/*",
         "https://www.falter.at/*",
         "https://www.stuttgarter-zeitung.de/*",
-        "https://www.stuttgarter-nachrichten.de/*"
+        "https://www.stuttgarter-nachrichten.de/*",
+        "https://www.ostsee-zeitung.de/*"
       ],
       "js": [
         "lib/browser-polyfill.js",
