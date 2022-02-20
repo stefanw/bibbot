@@ -38,7 +38,7 @@ export const LOADER_HTML = `
 </div>`
 
 export const FAILED_HTML = `<strong>Artikel konnte nicht gefunden werden</strong>
-<ul style="text-align:left">
+<ul style="text-align:left;margin-left:1rem">
 <li>Titel können sich von der Druckausgabe unterscheiden. Nutzen Sie das offene Tab um nach Stichworten zu suchen.</li>
 <li>ggf. ist der Artikel online exklusiv oder das Medium nicht über Ihre Bibliothek verfügbar</li>
 <li>Artikel aus der gedruckten Ausgabe sind ggf. erst später verfügbar.</li>
