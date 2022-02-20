@@ -540,5 +540,26 @@ export default {
     sourceParams: {
       dbShortcut: 'STZ'
     }
+  },
+  'www.ostsee-zeitung.de': {
+    testSetup: getConsentCdnSetup({ pageChanges: false, framePart: 'cmp-sp' }),
+    examples: [
+      {
+        url: 'https://www.ostsee-zeitung.de/Mecklenburg/Rostock/Zu-gefaehrlich-fuer-Radfahrer-Kommt-Tempo-30-fuer-die-Rostocker-Dethardingstrasse',
+        selectors: {
+          query: 'Eine der wichtigsten Ost-West-Achsen in der Rostocker Innenstadt könnte in eine Tempo-30-Zone umgewandelt werden Die aktuelle Situation für Radler in...'
+        }
+      }
+    ],
+    selectors: {
+      query: '.pdb-article-body-paidcontentintro p',
+      date: '.pdb-article-publicationdate-part',
+      paywall: '.pdb-article-paidcontent-registration',
+      main: '.pdb-article-body'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'OSZ'
+    }
   }
 }

@@ -1,7 +1,7 @@
-const getConsentCdnSetup = ({ pageChanges }) => {
+const getConsentCdnSetup = ({ pageChanges, framePart = 'consent-cdn' }) => {
   return async (page) => {
     console.log('consent setup: find frame')
-    const frame = page.frames().find(frame => frame.url().indexOf('consent-cdn') !== -1)
+    const frame = page.frames().find(frame => frame.url().indexOf(framePart) !== -1)
     if (!frame) {
       return
     }
