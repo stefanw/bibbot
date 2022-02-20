@@ -140,7 +140,7 @@ export default {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'ZEIT,ZEIO,ZTCS,ZTGS,ZTWI'
+      dbShortcut: 'ZEIT,ZEIO,ZTCS,ZTGS,ZTWI,CUW'
 
     }
   },
