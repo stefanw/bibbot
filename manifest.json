@@ -57,7 +57,8 @@
         "https://www.falter.at/*",
         "https://www.stuttgarter-zeitung.de/*",
         "https://www.stuttgarter-nachrichten.de/*",
-        "https://www.ostsee-zeitung.de/*"
+        "https://www.ostsee-zeitung.de/*",
+        "https://www.stimme.de/*"
       ],
       "js": [
         "lib/browser-polyfill.js",

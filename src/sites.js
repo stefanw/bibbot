@@ -582,5 +582,36 @@ export default {
     sourceParams: {
       dbShortcut: 'OSZ'
     }
+  },
+  'www.stimme.de': {
+    testSetup: async (page) => {
+      await page.click('.cmp_button.cmp_button_bg.cmp_button_font_color')
+    },
+    examples: [
+      {
+        url: 'https://www.stimme.de/regional/region/informationsfreiheit-wenn-in-akten-blaettern-10000-euro-kostet-art-4598515',
+        selectors: {
+          query: '"was eine Behörde tut ist irgendwo verzeichnet in"'
+        }
+      }
+    ],
+    start: (root) => {
+      const div = root.querySelector('.fadeOut')
+      if (div) {
+        div.classList.remove('fadeOut')
+      }
+    },
+    selectors: {
+      query: () => {
+        return extractQuery(document.querySelector('.art-text p'))
+      },
+      date: 'time',
+      paywall: '.paywall-product-box',
+      main: '.art-text p'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'HST'
+    }
   }
 }
