@@ -268,12 +268,20 @@ export default {
     }
   },
   'www.morgenpost.de': {
+    examples: [
+      {
+        url: 'https://www.morgenpost.de/bezirke/pankow/article234644603/Hindernisstrecke-Schoenhauser-Allee.html',
+        selectors: {
+          query: 'So gefährlich ist Berlins gefährlichste Straße für Radfahrer'
+        }
+      }
+    ],
     selectors: {
-      query: '[itemprop="headline"]',
+      query: '.article__header__headline',
       // query: () => {
       //   return document.querySelector('.article__header__intro__text').innerText.split(' ').slice(0, 8).join(' ')
       // },
-      main: "div[itemprop='articleBody']",
+      main: '.article__body',
       paywall: '#paywall-container'
     },
     source: 'genios.de',
