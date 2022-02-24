@@ -54,7 +54,7 @@ export default {
       ],
       [
         { captcha: '#layer_captcha' },
-        { extract: '.divDocument pre.text', convert: 'preToParagraph' }
+        { extract: '.divDocument pre.text, .divDocument pre.textCompact', convert: 'preToParagraph' }
       ]
     ]
   }
