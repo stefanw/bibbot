@@ -10,6 +10,8 @@ zip -r -FS dist/voebbot.zip * --exclude '*.git*' \
   --exclude 'node_modules/*' \
   --exclude 'dist/*' \
   --exclude 'src/*' \
+  --exclude 'test_build/*' \
+  --exclude 'tests/*' \
   --exclude '*.sh' \
   --exclude '*.config.js' \
   --exclude 'package*.json' \
