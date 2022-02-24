@@ -58,7 +58,13 @@
         "https://www.stuttgarter-zeitung.de/*",
         "https://www.stuttgarter-nachrichten.de/*",
         "https://www.ostsee-zeitung.de/*",
-        "https://www.stimme.de/*"
+        "https://www.stimme.de/*",
+        "https://kurier.at/*",
+        "https://freizeit.at/*",
+        "https://www.diepresse.com/*",
+        "https://www.sn.at/*",
+        "https://www.kleinezeitung.at/*",
+        "https://www.vn.at/*"
       ],
       "js": [
         "lib/browser-polyfill.js",

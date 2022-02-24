@@ -10,6 +10,10 @@ const removeClass = (node, className) => {
   }
 }
 
+const findCommentNode = (parentNode, comment) => {
+  return [...parentNode.childNodes].find(n => n.nodeType === window.Node.COMMENT_NODE && n.nodeValue === comment)
+}
+
 const GA = {
   selectors: {
     query: () => {
@@ -422,6 +426,14 @@ export default {
     waitOnLoad: true
   },
   'www.nachrichten.at': {
+    examples: [
+      {
+        url: 'https://www.nachrichten.at/meinung/kommentare/eine-mahnung;art210749,3586439',
+        selectors: {
+          query: 'Eine Mahnung'
+        }
+      }
+    ],
     selectors: {
       query: '.artDetail__headline',
       date: '.artDetail__header__infoline--datum',
@@ -494,6 +506,14 @@ export default {
     }
   },
   'www.falter.at': {
+    examples: [
+      {
+        url: 'https://www.falter.at/zeitung/20220223/sie-reden-vom-krieg/_27de9dfaf4',
+        selectors: {
+          query: 'Wie kann ein Frieden für die Ukraine aussehen Wo liegt die Zukunft Russlands Und was sollte Österreichs Außenpolitik in der jetzigen Situation leisten'
+        }
+      }
+    ],
     selectors: {
       query: '.head-content h2',
       date: 'time',
@@ -612,6 +632,162 @@ export default {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'HST'
+    }
+  },
+  'kurier.at': {
+    selectors: {
+      query: (root) => {
+        return extractQuery(root.querySelector('.article-paragraphs .paragraph p:nth-of-type(2)'))
+      },
+      date: '.article-header-intro-right span',
+      paywall: (root, sitebot) => {
+        const paywall = '.plusContent app-paywall'
+        if (window.voebbot_observer === undefined) {
+          window.voebbot_observer = new window.MutationObserver((mutations, observer) => {
+            // The single page application simply swaps HTML contents instead of navigating to a new page, so we try to detect when the article content is replaced by a new one
+            const switchedArticle = mutations.find(m => [...m.addedNodes.values()].find(n => n.nodeName === 'ARTICLECOMP' && n.className === 'ng-star-inserted') !== undefined) !== undefined
+            if (switchedArticle) {
+              sitebot.start()
+            }
+          })
+          window.voebbot_observer.observe(root, { subtree: true, childList: true })
+        }
+        return root.querySelector(paywall)
+      },
+      main: '.article-paragraphs paragraph:first-of-type .paragraph'
+    },
+    start: (root, paywall) => {
+      const div = root.querySelector('.article-paragraphs')
+      if (div) {
+        div.querySelectorAll('.article-paragraphs > .ng-star-inserted').forEach(e => {
+          e.classList.add('visible')
+        })
+        paywall.remove()
+        // kurier.at delivers the whole article, just hidden; we don't have to query Genios for it
+        return true
+      } else {
+        paywall.style.display = 'none'
+      }
+      return false
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'KUR'
+    },
+    waitOnLoad: true
+  },
+  'freizeit.at': {
+    examples: [
+      {
+        url: 'https://freizeit.at/zeitgeist/will-smith-als-tennisvater-koeniginnen-des-tenniscourts/401915917',
+        selectors: {
+          query: '"sie Venus und Serena Williams sind moderne Amazonen"'
+        }
+      }
+    ],
+    selectors: {
+      query: (root) => {
+        return extractQuery(root.querySelector('.article-main .paragraph p:nth-of-type(2)'))
+      },
+      date: '.headerComp-author-date',
+      paywall: '#cfs-paywall-container',
+      main: '.article-main .paragraph'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'KUR'
+    }
+  },
+  'www.diepresse.com': {
+    examples: [
+      {
+        url: 'https://www.diepresse.com/6103269/das-home-office-gesetz-laesst-vieles-im-dunkeln',
+        selectors: {
+          query: '"praxistauglich ist das Home-Office-Gesetz Schon vor einem Jahr"'
+        }
+      }
+    ],
+    selectors: {
+      query: (root) => {
+        return extractQuery(root.querySelector('#article-body p:not(.lead)'))
+      },
+      date: '.meta__date',
+      paywall: '.vued--premium-content',
+      main: '#article-body'
+    },
+    insertContent: (siteBot, main, content) => {
+      siteBot.hideBot()
+
+      const div = document.createElement('div')
+      div.innerHTML = content
+      div.querySelector('p:first-of-type').classList.add('lead')
+      const contentArray = Array.from(div.childNodes)
+
+      main.querySelectorAll('#article-body > p').forEach(p => p.remove())
+      main.prepend(...contentArray)
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'PRE'
+    }
+  },
+  'www.sn.at': {
+    examples: [
+      {
+        url: 'https://www.sn.at/salzburg/chronik/nach-toedlichem-unfall-mit-polizeibus-im-lungau-verfahren-gegen-lenker-eingestellt-117530491',
+        selectors: {
+          query: '"nach dem Unfalldrama im Lungau bei dem ein"'
+        }
+      }
+    ],
+    selectors: {
+      query: (root) => {
+        return extractQuery(root.querySelector('.article__bodytext p'))
+      },
+      date: '.article-aside__publishdate time',
+      paywall: '.article__premium-bar',
+      main: '.article__bodytext'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'SN'
+    }
+  },
+  'www.kleinezeitung.at': {
+    examples: [
+      {
+        url: 'https://www.kleinezeitung.at/steiermark/weiz/6100137/Gefaehrlicher-Trend_Uebelkeit-Herzrasen_Nikotinbeutel-machen-bei',
+        selectors: {
+          query: '""Skruf "Faro "Lyft und Velo riechen nach Menthol"'
+        }
+      }
+    ],
+    selectors: {
+      query: (root) => {
+        return extractQuery(findCommentNode(root.querySelector('.article__content'), '- - - body of article - - - ')?.nextSibling)
+      },
+      date: "meta[property='article:published_time']",
+      paywall: '.paidblocker--article',
+      main: '.article__content'
+    },
+    start: (root, paywall) => {
+      const blocker = root.querySelector('.blocker')
+      blocker.classList.remove('blocker')
+    },
+    insertContent: (siteBot, main, content) => {
+      siteBot.hideBot()
+
+      main.querySelectorAll('.article__content > p, .article__content > div').forEach(e => {
+        if (e.className === '') {
+          e.remove()
+        }
+      })
+      const mainContentComment = findCommentNode(main, '- - - body of article - - - ')
+      mainContentComment.nextElementSibling.insertAdjacentHTML('beforebegin', content)
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'KLEI'
     }
   }
 }
