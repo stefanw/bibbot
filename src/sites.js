@@ -394,10 +394,18 @@ export default {
     }
   },
   'www.wiwo.de': {
+    examples: [
+      {
+        url: 'https://www.wiwo.de/my/unternehmen/industrie/mischkonzern-zeppelin-ein-ausschluss-russlands-aus-swift-wuerde-eine-weltwirtschaftskrise-ausloesen/28091946.html',
+        selectors: {
+          query: 'Mischkonzern Zeppelin „Ein Ausschluss Russlands aus Swift würde eine Weltwirtschaftskrise auslösen“'
+        }
+      }
+    ],
     selectors: {
       query: '.c-headline--article',
       date: '.o-article__element time',
-      paywall: '.c-label--premium',
+      paywall: '.o-paywall',
       main: '.o-article__content .u-richtext'
     },
     source: 'genios.de',
