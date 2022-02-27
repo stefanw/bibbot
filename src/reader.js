@@ -68,9 +68,9 @@ class Reader {
     this.sourceBot = new SourceBot(
       message.source,
       storageItems.provider,
+      storageItems.providerOptions,
       message.sourceParams,
       message.articleInfo,
-      storageItems,
       this.botCallback
     )
     this.sourceBot.run()

@@ -8,7 +8,7 @@ const PHASE_LOGIN = 'login'
 const PHASE_SEARCH = 'search'
 
 class SourceBot {
-  constructor (sourceId, providerId, sourceParams, articleInfo, userData, callback) {
+  constructor (sourceId, providerId, providerOptions, sourceParams, articleInfo, callback) {
     this.step = 0
     this.phase = PHASE_LOGIN
 
@@ -20,7 +20,7 @@ class SourceBot {
 
     this.sourceParams = sourceParams
     this.articleInfo = articleInfo
-    this.userData = userData
+    this.providerOptions = providerOptions
     this.callback = callback
 
     this.onTabUpdated = this.onTabUpdated.bind(this)
@@ -43,10 +43,11 @@ class SourceBot {
     })
     this.tabId = tab.id
     console.log('tab created', tab.id)
-    const userData = Object.assign({}, this.userData);
+    const userData = Object.assign({}, this.providerOptions);
     ['options.username', 'options.password'].forEach(key => {
-      if (userData.providerOptions[`${this.providerId}.${key}`] !== undefined) {
-        userData[key] = userData.providerOptions[`${this.providerId}.${key}`]
+      const confValue = userData[`${this.providerId}.${key}`]
+      if (confValue !== undefined) {
+        userData[key] = confValue
       }
     })
     this.tabRunner = new TabRunner(tab.id, userData)
