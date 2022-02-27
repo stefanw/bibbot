@@ -272,6 +272,10 @@ export default {
     }
   },
   'www.morgenpost.de': {
+    testSetup: async (page) => {
+      // Paywall loads async and slow
+      await page.waitForSelector('#paywall-container')
+    },
     examples: [
       {
         url: 'https://www.morgenpost.de/bezirke/pankow/article234644603/Hindernisstrecke-Schoenhauser-Allee.html',
