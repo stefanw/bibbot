@@ -1,6 +1,6 @@
 {
   "name": "voebbot",
-  "version": "0.19.3",
+  "version": "0.20.0",
   "description": "VÖBBot removes paywalls of German media sites",
   "devDependencies": {
     "@babel/core": "^7.17.0",
