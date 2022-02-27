@@ -159,11 +159,16 @@ class SiteBot {
   }
 
   collectArticleInfo () {
+    const articleInfoSelectors = ['query', 'edition', 'date']
     const articleInfo = {}
-    for (const key in this.site.selectors) {
+    for (const key of articleInfoSelectors) {
       if (this.site.selectors[key]) {
         const selector = this.site.selectors[key]
-        articleInfo[key] = this.runSelectorQuery(selector)
+        let result = this.runSelectorQuery(selector)
+        if (result instanceof window.HTMLElement) {
+          result = result.innerText
+        }
+        articleInfo[key] = result
       }
     }
     let q = articleInfo.query
