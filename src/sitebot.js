@@ -158,6 +158,47 @@ class SiteBot {
     }
   }
 
+  extractDateQuery (dateValue, range = 1) {
+    const defaultValue = {
+      date_start: '', date_end: ''
+    }
+    if (!dateValue) {
+      return defaultValue
+    }
+    let date = new Date(dateValue)
+    if (isNaN(date)) {
+      let match = dateValue.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/)
+      if (!match) {
+        match = dateValue.match(/(\d{1,2})\. (\w+) (\d{4})/)
+        if (match) {
+          const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+            'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
+          ]
+          const monthIndex = monthNames.findIndex((x) => x === match[2])
+          if (monthIndex === -1) {
+            return defaultValue
+          }
+          date = new Date(`${match[3]}-${monthIndex + 1}-${match[1]}`)
+        } else {
+          return defaultValue
+        }
+      } else {
+        date = new Date(`${match[3]}-${match[2]}-${match[1]}`)
+      }
+      if (isNaN(date)) {
+        return defaultValue
+      }
+    }
+    const formatDate = (d) => `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`
+    const day = 24 * 60 * 60 * 1000
+    const dateStart = new Date(date.getTime() - day * range)
+    const dateEnd = new Date(date.getTime() + day * range)
+    return {
+      date_start: formatDate(dateStart),
+      date_end: formatDate(dateEnd)
+    }
+  }
+
   collectArticleInfo () {
     const articleInfoSelectors = ['query', 'edition', 'date']
     const articleInfo = {}
@@ -177,7 +218,10 @@ class SiteBot {
     // remove non-leading/trailing quotes
     q = q.replace(/(.)"(.)/g, '$1$2')
     articleInfo.query = q
-    return articleInfo
+    return {
+      ...articleInfo,
+      ...this.extractDateQuery(articleInfo.date)
+    }
   }
 
   connectPort () {
