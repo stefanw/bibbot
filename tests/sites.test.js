@@ -43,6 +43,14 @@ describe.each(siteTests)('test $siteDomain', ({ site, siteDomain, example }) => 
     })
     expect(result).toBe(true)
   })
+  test(`Detect main area for ${siteDomain}`, async () => {
+    // await jestPuppeteer.debug()
+    console.log('main area', siteDomain)
+    const result = await page.evaluate(async () => {
+      return window.siteBot.getMainContentArea() !== null
+    })
+    expect(result).toBe(true)
+  })
   test(`Check info extraction for ${siteDomain}`, async () => {
     // await jestPuppeteer.debug()
     console.log('info extraction', siteDomain)
