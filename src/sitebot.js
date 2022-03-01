@@ -64,7 +64,9 @@ class SiteBot {
   }
 
   hidePaywall () {
-    this.getPaywall().style.display = 'none'
+    if (this.hasPaywall()) {
+      this.getPaywall().style.display = 'none'
+    }
   }
 
   showPaywall () {

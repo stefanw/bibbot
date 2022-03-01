@@ -273,12 +273,15 @@ export default {
   },
   'www.morgenpost.de': {
     testSetup: async (page) => {
-      // Paywall loads async and slow
-      await page.waitForSelector('#paywall-container')
+      const consent = '.cmpboxbtn.cmpboxbtnyes'
+      await page.waitForSelector(consent)
+      await page.click(consent)
     },
     examples: [
       {
         url: 'https://www.morgenpost.de/bezirke/pankow/article234644603/Hindernisstrecke-Schoenhauser-Allee.html',
+        // Paywall seems to be gone
+        noPaywall: true,
         selectors: {
           query: 'So gefährlich ist Berlins gefährlichste Straße für Radfahrer'
         }

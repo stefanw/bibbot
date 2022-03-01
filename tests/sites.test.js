@@ -38,10 +38,12 @@ describe.each(siteTests)('test $siteDomain', ({ site, siteDomain, example }) => 
   test(`Detect paywall for ${siteDomain}`, async () => {
     // await jestPuppeteer.debug()
     console.log('paywall', siteDomain)
-    const result = await page.evaluate(async () => {
-      return window.siteBot.hasPaywall()
-    })
-    expect(result).toBe(true)
+    if (!example.noPaywall) {
+      const result = await page.evaluate(async () => {
+        return window.siteBot.hasPaywall()
+      })
+      expect(result).toBe(true)
+    }
   })
   test(`Detect main area for ${siteDomain}`, async () => {
     // await jestPuppeteer.debug()
