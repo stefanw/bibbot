@@ -329,6 +329,13 @@ const geniosAssociationData = [
     web: 'https://christian-weise-bibliothek-zittau.de/',
     domain: 'bib-oberlausitz.genios.de',
     bibId: '11'
+  },
+  {
+    id: 'www.duesseldorf.de',
+    name: 'Stadtbibliothek Düsseldorf',
+    web: 'https://www.duesseldorf.de/stadtbuechereien.html',
+    domain: 'bib-duesseldorf.genios.de',
+    bibId: '69'
   }
 ]
 
