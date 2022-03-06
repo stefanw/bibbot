@@ -68,11 +68,11 @@ class SourceBot {
     }
     if (changeInfo.status === 'complete') {
       console.log('tab load complete', tabId)
-      this.runNextsourcestep()
+      this.runNextSourceStep()
     }
   }
 
-  async runNextsourcestep () {
+  async runNextSourceStep () {
     const loggedIn = await this.isLoggedIn()
     if (loggedIn) {
       this.step = 0
