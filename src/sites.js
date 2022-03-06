@@ -150,7 +150,10 @@ export default {
   },
   'www.welt.de': {
     selectors: {
-      query: 'h2.c-headline',
+      query: () => {
+        return extractQuery(document.querySelector('.c-article-text > p'))
+      },
+      headline: 'h2.c-headline',
       date: 'time',
       paywall: '.contains_walled_content',
       main: '.c-article-text'
