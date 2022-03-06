@@ -13,7 +13,10 @@ class SiteBot {
     this.onMessage = this.onMessage.bind(this)
   }
 
-  start () {
+  start (delay) {
+    if (Number.isInteger(delay)) {
+      window.setTimeout(() => this.start(), delay)
+    }
     if (!this.hasPaywall()) {
       return
     }

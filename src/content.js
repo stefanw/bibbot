@@ -8,10 +8,10 @@ if (site !== undefined) {
   const siteBot = new SiteBot(site, document, domain)
   if (siteBot.site.waitOnLoad) {
     if (document.readyState === 'complete') {
-      siteBot.start()
+      siteBot.start(siteBot.site.waitOnLoad)
     } else {
       window.addEventListener('load', () => {
-        siteBot.start()
+        siteBot.start(siteBot.site.waitOnLoad)
       })
     }
   } else {
