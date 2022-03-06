@@ -548,6 +548,30 @@ export default {
       'https://stadtbibliothek.leipzig.de/*'
     ]
   },
+  'www.duesseldorf.de': {
+    name: 'Stadtbibliothek Düsseldorf',
+    web: 'https://www.duesseldorf.de/stadtbuechereien/onlinebibliothek.html',
+    params: {
+      'genios.de': {
+        domain: 'bib-duesseldorf-genios-de.ezp-lhd.itk-rheinland.de/'
+      }
+    },
+    login: [
+      [
+        { message: 'Bibliotheks-Konto wird eingeloggt...' },
+        { fill: { selector: 'input[name="user"]', providerKey: 'www.duesseldorf.de.options.username' } },
+        { fill: { selector: 'input[name="pass"]', providerKey: 'www.duesseldorf.de.options.password' } },
+        { click: '.buttong_l' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ],
+    permissions: [
+      'https://*.ezp-lhd.itk-rheinland.de/*'
+    ]
+  },
   'wiso-net.de': {
     name: 'WISO – Die Datenbank für Hochschulen',
     web: 'https://www.wiso-net.de/',

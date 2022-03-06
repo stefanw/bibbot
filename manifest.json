@@ -19,7 +19,8 @@
     "https://www.wiso-net.de/*",
     "https://*.stbhannover.idm.oclc.org/*",
     "https://*.han.landesbibliothek.at/*",
-    "https://*.stadtbibliothek.leipzig.de/*"
+    "https://*.stadtbibliothek.leipzig.de/*",
+    "https://*.ezp-lhd.itk-rheinland.de/*"
   ],
   "background": {
     "scripts": [
