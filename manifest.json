@@ -68,7 +68,8 @@
         "https://www.sn.at/*",
         "https://www.kleinezeitung.at/*",
         "https://www.vn.at/*",
-        "https://www.thueringer-allgemeine.de/*"
+        "https://www.thueringer-allgemeine.de/*",
+        "https://www.mopo.de/*"
       ],
       "js": [
         "lib/browser-polyfill.js",

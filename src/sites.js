@@ -835,5 +835,38 @@ export default {
     sourceParams: {
       dbShortcut: 'TA'
     }
+  },
+  'www.mopo.de': {
+    examples: [
+      {
+        url: 'https://www.mopo.de/hamburg/vor-29-jahren-stillgelegt-das-wird-jetzt-aus-dem-schellfischtunnel/?reduced=true',
+        selectors: {
+          query: '"und knarzt als Ines Hinrichs vom Landesbetrieb Straßen"'
+        }
+      }
+    ],
+    selectors: {
+      query: (root) => {
+        return extractQuery(root.querySelector('.elementor-widget-theme-post-content'))
+      },
+      date: '.elementor-post-info__item--type-date',
+      paywall: '.elementor-widget-theme-post-content > .elementor-widget-container > div > div[data-elementor-type="section"]',
+      main: '.elementor-widget-theme-post-content > .elementor-widget-container > div > div'
+    },
+    start: (root) => {
+      const p = root.querySelector('.paywall-fade')
+      if (p) {
+        p.classList.remove('paywall-fade')
+      }
+      const paywall = root.querySelector('.elementor-widget-theme-post-content > .elementor-widget-container > div > div[data-elementor-type="section"]')
+      if (paywall) {
+        paywall.style.display = 'none'
+      }
+    },
+    waitOnLoad: 1000,
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'MOPO'
+    }
   }
 }
