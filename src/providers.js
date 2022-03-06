@@ -525,11 +525,7 @@ export default {
   'stadtbibliothek.leipzig.de': {
     name: 'Leipziger Städtische Bibliotheken',
     web: 'https://stadtbibliothek.leipzig.de/',
-    loginHint: 'Geben Sie den Nutzernamen (11 Ziffern) und Passwort von voebb.de ein.',
     params: {
-      'www.munzinger.de': {
-        portalId: '50158'
-      },
       'genios.de': {
         domain: 'genios.stadtbibliothek.leipzig.de'
       }
