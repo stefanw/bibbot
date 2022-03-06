@@ -64,7 +64,8 @@
         "https://www.diepresse.com/*",
         "https://www.sn.at/*",
         "https://www.kleinezeitung.at/*",
-        "https://www.vn.at/*"
+        "https://www.vn.at/*",
+        "https://www.thueringer-allgemeine.de/*"
       ],
       "js": [
         "lib/browser-polyfill.js",

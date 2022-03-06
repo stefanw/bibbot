@@ -815,5 +815,25 @@ export default {
     sourceParams: {
       dbShortcut: 'KLEI'
     }
+  },
+  'www.thueringer-allgemeine.de': {
+    examples: [
+      {
+        url: 'https://www.thueringer-allgemeine.de/sport/kommentar-von-wegen-sportstadt-erfurt-id234487935.html',
+        selectors: {
+          query: 'Kommentar: Von wegen Sportstadt Erfurt'
+        }
+      }
+    ],
+    selectors: {
+      query: '.article__header__headline',
+      date: 'time',
+      paywall: '#paywall-container',
+      main: '.article__body'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'TA'
+    }
   }
 }
