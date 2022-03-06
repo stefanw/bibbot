@@ -18,7 +18,8 @@
     "https://www.voebb.de/*",
     "https://www.wiso-net.de/*",
     "https://*.stbhannover.idm.oclc.org/*",
-    "https://*.han.landesbibliothek.at/*"
+    "https://*.han.landesbibliothek.at/*",
+    "https://*.stadtbibliothek.leipzig.de/*"
   ],
   "background": {
     "scripts": [

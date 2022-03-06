@@ -522,6 +522,36 @@ export default {
     ],
     permissions: ['https://www.voebb.de/*']
   },
+  'stadtbibliothek.leipzig.de': {
+    name: 'Leipziger Städtische Bibliotheken',
+    web: 'https://stadtbibliothek.leipzig.de/',
+    loginHint: 'Geben Sie den Nutzernamen (11 Ziffern) und Passwort von voebb.de ein.',
+    params: {
+      'www.munzinger.de': {
+        portalId: '50158'
+      },
+      'genios.de': {
+        domain: 'genios.stadtbibliothek.leipzig.de'
+      }
+    },
+    login: [
+      [
+        { message: 'Bibliotheks-Konto wird eingeloggt...' },
+        { url: '/online-angebote/login-online-angebote' },
+        { fill: { selector: '#user', providerKey: 'stadtbibliothek.leipzig.de.options.username' } },
+        { fill: { selector: 'input[name="LPASSW"]', providerKey: 'stadtbibliothek.leipzig.de.options.password' } },
+        { click: '#permalogin' },
+        { click: '.powermail_submit' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ],
+    permissions: [
+      'https://stadtbibliothek.leipzig.de/*'
+    ]
+  },
   'wiso-net.de': {
     name: 'WISO – Die Datenbank für Hochschulen',
     web: 'https://www.wiso-net.de/',
