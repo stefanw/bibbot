@@ -572,6 +572,30 @@ export default {
       'https://*.ezp-lhd.itk-rheinland.de/*'
     ]
   },
+  'fernuni-hagen.de': {
+    name: 'FernUni Hagen',
+    web: 'https://www.ub.fernuni-hagen.de/datenbankenlieferdienste/showdatabase.html?id=868',
+    params: {
+      'genios.de': {
+        domain: 'www-wiso-net-de.ub-proxy.fernuni-hagen.de'
+      }
+    },
+    login: [
+      [
+        { message: 'Bibliotheks-Konto wird eingeloggt...' },
+        { fill: { selector: 'input[name="user"]', providerKey: 'fernuni-hagen.de.options.username' } },
+        { fill: { selector: 'input[name="pass"]', providerKey: 'fernuni-hagen.de.options.password' } },
+        { click: 'input[type="submit"]' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ],
+    permissions: [
+      'https://*.ub-proxy.fernuni-hagen.de/*'
+    ]
+  },
   'wiso-net.de': {
     name: 'WISO – Die Datenbank für Hochschulen',
     web: 'https://www.wiso-net.de/',

@@ -20,7 +20,8 @@
     "https://*.stbhannover.idm.oclc.org/*",
     "https://*.han.landesbibliothek.at/*",
     "https://*.stadtbibliothek.leipzig.de/*",
-    "https://*.ezp-lhd.itk-rheinland.de/*"
+    "https://*.ezp-lhd.itk-rheinland.de/*",
+    "https://*.ub-proxy.fernuni-hagen.de/*"
   ],
   "background": {
     "scripts": [
