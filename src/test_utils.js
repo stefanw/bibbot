@@ -1,4 +1,4 @@
-const getConsentCdnSetup = ({ pageChanges, framePart = 'consent-cdn' }) => {
+const getConsentCdnSetup = ({ pageChanges = false, framePart = 'consent-cdn', button = '#notice button' }) => {
   return async (page) => {
     console.log('consent setup: find frame')
     const frame = page.frames().find(frame => frame.url().indexOf(framePart) !== -1)
@@ -6,13 +6,13 @@ const getConsentCdnSetup = ({ pageChanges, framePart = 'consent-cdn' }) => {
       return
     }
     console.log('consent setup: find element')
-    const element = await frame.waitForSelector('#notice button', { timeout: 5000 })
+    const element = await frame.waitForSelector(button, { timeout: 5000 })
     if (!element) {
       return
     }
     console.log('consent setup: click button')
     const finalStep = [
-      frame.click('#notice button')
+      frame.click(button)
     ]
     if (pageChanges) {
       finalStep.push(page.waitForNavigation())
