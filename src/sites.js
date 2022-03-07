@@ -387,7 +387,7 @@ export default {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'HA,HABO'
+      dbShortcut: 'HA,HABO,BEZG'
     }
   },
   'www.waz.de': {
