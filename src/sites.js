@@ -794,7 +794,7 @@ export default {
       {
         url: 'https://www.thueringer-allgemeine.de/sport/kommentar-von-wegen-sportstadt-erfurt-id234487935.html',
         selectors: {
-          query: 'Kommentar: Von wegen Sportstadt Erfurt'
+          query: 'Kommentar Von wegen Sportstadt Erfurt'
         }
       }
     ],
