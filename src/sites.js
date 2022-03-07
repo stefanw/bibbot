@@ -2,6 +2,9 @@ import { getConsentCdnSetup } from './test_utils.js'
 
 const extractQuery = (node) => `"${createQuery(node.innerText)}"`
 const createQuery = (text) => `"${text.split(' ').slice(2, 10).join(' ')}"`
+const makeQueryFunc = (selector) => {
+  return (node) => extractQuery(node.querySelector(selector))
+}
 
 const removeClass = (node, className) => {
   const el = node.querySelector(`.${className}`)
@@ -16,9 +19,7 @@ const findCommentNode = (parentNode, comment) => {
 
 const GA = {
   selectors: {
-    query: () => {
-      return extractQuery(document.querySelector('.park-article__intro.park-article__content'))
-    },
+    query: makeQueryFunc('.park-article__intro.park-article__content'),
     date: 'time',
     paywall: '.park-article-paywall',
     main: '.park-article__body'
@@ -99,9 +100,7 @@ export default {
   'plus.tagesspiegel.de': {
     selectors: {
       // query: "h1 > span",
-      query: (root) => {
-        return extractQuery(root.querySelector('.article--paid > p'))
-      },
+      query: makeQueryFunc('.article--paid > p'),
       main: '.article--paid',
       paywall: '.article--paid > p:first-child~div',
       date: 'time'
@@ -123,9 +122,7 @@ export default {
     ],
     selectors: {
       // query: ".article-heading__title, .article-header__title, .headline__title",
-      query: () => {
-        return extractQuery(document.querySelector('.article__item .paragraph'))
-      },
+      query: makeQueryFunc('.article__item .paragraph'),
       edition: '.metadata__source',
       date: '.metadata__source.encoded-date, time',
       paywall: '.gate.article__item',
@@ -150,9 +147,7 @@ export default {
   },
   'www.welt.de': {
     selectors: {
-      query: () => {
-        return extractQuery(document.querySelector('.c-article-text > p'))
-      },
+      query: makeQueryFunc('.c-article-text > p'),
       headline: 'h2.c-headline',
       date: 'time',
       paywall: '.contains_walled_content',
@@ -222,9 +217,7 @@ export default {
   },
   'sz-magazin.sueddeutsche.de': {
     selectors: {
-      query: () => {
-        return extractQuery(document.querySelector('.articlemain__content'))
-      },
+      query: makeQueryFunc('.articlemain__content'),
       date: 'time',
       paywall: '.offerpage-container',
       main: '.articlemain__content'
@@ -263,9 +256,7 @@ export default {
   },
   'www.berliner-zeitung.de': {
     selectors: {
-      query: () => {
-        return extractQuery(document.querySelector('.a-paragraph span:not(:first-child), .a-paragraph'))
-      },
+      query: makeQueryFunc('.a-paragraph span:not(:first-child), .a-paragraph'),
       main: '.o-article',
       paywall: '.paywall-dialog-box'
     },
@@ -326,9 +317,7 @@ export default {
   'www.maz-online.de': {
     selectors: {
       // query: '.pdb-article-teaser-breadcrumb-headline-title',
-      query: () => {
-        return extractQuery(document.querySelector('.pdb-article-body-paidcontentintro p'))
-      },
+      query: makeQueryFunc('.pdb-article-body-paidcontentintro p'),
       paywall: '.pdb-article-paidcontent-registration',
       main: '.pdb-article-body'
     },
@@ -342,9 +331,7 @@ export default {
   },
   'www.lr-online.de': {
     selectors: {
-      query: () => {
-        return extractQuery(document.querySelector('.article-text .text'))
-      },
+      query: makeQueryFunc('.article-text .text'),
       paywall: '.paywall .row .flex-wrap',
       main: '.article-text'
     },
@@ -371,9 +358,7 @@ export default {
   },
   'www.noz.de': {
     selectors: {
-      query: () => {
-        return extractQuery(document.querySelector('.paywall-fadeout'))
-      },
+      query: makeQueryFunc('.paywall-fadeout'),
       main: '.voebbot-main',
       time: '[itemprop="datePublished"]',
       paywall: '.paywall'
@@ -437,9 +422,7 @@ export default {
   },
   'www.heise.de': {
     selectors: {
-      query: () => {
-        return extractQuery(document.querySelector('.article-content p'))
-      },
+      query: makeQueryFunc('.article-content p'),
       date: 'time',
       paywall: 'a-paid-content-teaser',
       main: '.article-content',
@@ -648,9 +631,7 @@ export default {
       }
     },
     selectors: {
-      query: () => {
-        return extractQuery(document.querySelector('.art-text p'))
-      },
+      query: makeQueryFunc('.art-text p'),
       date: 'time',
       paywall: '.paywall-product-box',
       main: '.art-text p'
@@ -662,9 +643,7 @@ export default {
   },
   'kurier.at': {
     selectors: {
-      query: (root) => {
-        return extractQuery(root.querySelector('.article-paragraphs .paragraph p:nth-of-type(2)'))
-      },
+      query: makeQueryFunc('.article-paragraphs .paragraph p:nth-of-type(2)'),
       date: '.article-header-intro-right span',
       paywall: (root, sitebot) => {
         const paywall = '.plusContent app-paywall'
@@ -712,9 +691,7 @@ export default {
       }
     ],
     selectors: {
-      query: (root) => {
-        return extractQuery(root.querySelector('.article-main .paragraph p:nth-of-type(2)'))
-      },
+      query: makeQueryFunc('.article-main .paragraph p:nth-of-type(2)'),
       date: '.headerComp-author-date',
       paywall: '#cfs-paywall-container',
       main: '.article-main .paragraph'
@@ -734,9 +711,7 @@ export default {
       }
     ],
     selectors: {
-      query: (root) => {
-        return extractQuery(root.querySelector('#article-body p:not(.lead)'))
-      },
+      query: makeQueryFunc('#article-body p:not(.lead)'),
       date: '.meta__date',
       paywall: '.vued--premium-content',
       main: '#article-body'
@@ -767,9 +742,7 @@ export default {
       }
     ],
     selectors: {
-      query: (root) => {
-        return extractQuery(root.querySelector('.article__bodytext p'))
-      },
+      query: makeQueryFunc('.article__bodytext p'),
       date: '.article-aside__publishdate time',
       paywall: '.article__premium-bar',
       main: '.article__bodytext'
@@ -846,9 +819,7 @@ export default {
       }
     ],
     selectors: {
-      query: (root) => {
-        return extractQuery(root.querySelector('.elementor-widget-theme-post-content'))
-      },
+      query: makeQueryFunc('.elementor-widget-theme-post-content'),
       date: '.elementor-post-info__item--type-date',
       paywall: '.elementor-widget-theme-post-content > .elementor-widget-container > div > div[data-elementor-type="section"]',
       main: '.elementor-widget-theme-post-content > .elementor-widget-container > div > div'
