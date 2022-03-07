@@ -80,6 +80,7 @@ export default {
         ])
         return createQuery(text)
       },
+      date: 'time',
       main: 'article section.relative',
       paywall: "div[data-component='Paywall'], div[data-target-id='paywall']"
     },
@@ -92,6 +93,7 @@ export default {
       </div>
       `
     },
+    dateRange: [7, 1], // search from 7 days before to one day after given date
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'SPII,KULS,SPIE,SPON,SSPE,UNIS,LISP,SPBE'

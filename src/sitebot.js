@@ -163,7 +163,7 @@ class SiteBot {
     }
   }
 
-  extractDateQuery (dateValue, range = 1) {
+  extractDateQuery (dateValue, range = [1, 1]) {
     const defaultValue = {
       date_start: '', date_end: ''
     }
@@ -194,8 +194,8 @@ class SiteBot {
     }
     const formatDate = (d) => `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`
     const day = 24 * 60 * 60 * 1000
-    const dateStart = new Date(date.getTime() - day * range)
-    const dateEnd = new Date(date.getTime() + day * range)
+    const dateStart = new Date(date.getTime() - day * range[0])
+    const dateEnd = new Date(date.getTime() + day * range[1])
     return {
       date_start: formatDate(dateStart),
       date_end: formatDate(dateEnd)
@@ -223,7 +223,7 @@ class SiteBot {
     articleInfo.query = q
     return {
       ...articleInfo,
-      ...this.extractDateQuery(articleInfo.date)
+      ...this.extractDateQuery(articleInfo.date, this.site.dateRange || [1, 1])
     }
   }
 
