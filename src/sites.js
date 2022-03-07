@@ -176,24 +176,24 @@ export default {
     }],
     selectors: {
       // query: "article > header > h2 > span:last-child",
-      query: () => {
-        const normalArticle = document.querySelector('.sz-article-body__paragraph')
+      query: (root) => {
+        const normalArticle = root.querySelector('.sz-article-body__paragraph')
         if (normalArticle) {
           return extractQuery(normalArticle)
         }
-        const reportage = document.querySelector('.module-text .text p')
+        const reportage = root.querySelector('.module-text .text p')
         if (reportage) {
           return extractQuery(reportage)
         }
       },
       date: 'time',
       paywall: 'offer-page',
-      main: () => {
-        const normalMain = document.querySelector("div[itemprop='articleBody']")
+      main: (root) => {
+        const normalMain = root.querySelector("div[itemprop='articleBody']")
         if (normalMain) {
           return normalMain
         }
-        return document.querySelector('.module-text .text')
+        return root.querySelector('.module-text .text')
       }
     },
     start: (root) => {
@@ -283,8 +283,8 @@ export default {
     ],
     selectors: {
       query: '.article__header__headline',
-      // query: () => {
-      //   return document.querySelector('.article__header__intro__text').innerText.split(' ').slice(0, 8).join(' ')
+      // query: (root) => {
+      //   return root.querySelector('.article__header__intro__text').innerText.split(' ').slice(0, 8).join(' ')
       // },
       main: '.article__body',
       paywall: '#paywall-container'
@@ -296,14 +296,14 @@ export default {
   },
   'www.moz.de': {
     selectors: {
-      query: () => {
-        return document.querySelector('title').innerText.split('|')[0].trim()
+      query: (root) => {
+        return root.querySelector('title').innerText.split('|')[0].trim()
       },
       main: '.article-content .article-text',
       paywall: '.article-content.paywall .justify-content-center'
     },
-    start: () => {
-      const p = document.querySelector('.article-content')
+    start: (root) => {
+      const p = root.querySelector('.article-content')
       if (p) {
         p.classList.remove('paywall')
       }
