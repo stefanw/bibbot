@@ -614,7 +614,7 @@ export default {
   },
   'www.stimme.de': {
     testSetup: async (page) => {
-      await page.click('.cmp_button.cmp_button_bg.cmp_button_font_color')
+      await page.click('#cmpboxbtnyes')
     },
     examples: [
       {
