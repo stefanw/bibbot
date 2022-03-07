@@ -868,5 +868,38 @@ export default {
     sourceParams: {
       dbShortcut: 'MOPO'
     }
+  },
+  'www.saechsische.de': {
+    testSetup: getConsentCdnSetup({ framePart: 'privacy-mgmt.com', button: 'button[title="Akzeptieren"]' }),
+    examples: [
+      {
+        url: 'https://www.saechsische.de/sachsen/die-dresdner-lehrerin-und-ihre-radikale-sekte-5418484-plus.html',
+        selectors: {
+          query: 'Kommentar: Von wegen Sportstadt Erfurt'
+        }
+      }
+    ],
+    selectors: {
+      query: '.article-detail-title h2',
+      headline: '.article-detail-title h2',
+      date: 'time',
+      paywall: '#piano-inline',
+      main: '.article-detail-content'
+    },
+    start: (root) => {
+      const blur = root.querySelector('.plus-overlay-blur')
+      if (blur) {
+        blur.remove()
+      }
+      const paywall = root.querySelector('#piano-inline')
+      if (paywall) {
+        paywall.style.display = 'none'
+      }
+    },
+    waitOnLoad: true,
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'SZO'
+    }
   }
 }
