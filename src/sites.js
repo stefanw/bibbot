@@ -614,7 +614,8 @@ export default {
   },
   'www.stimme.de': {
     testSetup: async (page) => {
-      await page.click('#cmpboxbtnyes')
+      const buttonHandle = await page.evaluateHandle('document.querySelector("#cmpwrapper").shadowRoot.querySelector("#cmpwelcomebtnyes")')
+      await buttonHandle.click()
     },
     examples: [
       {
