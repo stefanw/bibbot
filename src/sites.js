@@ -846,7 +846,7 @@ export default {
       {
         url: 'https://www.saechsische.de/sachsen/die-dresdner-lehrerin-und-ihre-radikale-sekte-5418484-plus.html',
         selectors: {
-          query: 'Kommentar: Von wegen Sportstadt Erfurt'
+          query: 'Die Dresdner Lehrerin und ihre radikale Sekte'
         }
       }
     ],
