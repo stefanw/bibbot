@@ -74,11 +74,10 @@ export default {
   'www.spiegel.de': {
     selectors: {
       query: (root, siteBot) => {
-        const text = siteBot.runSelectorQuery([
-          '.leading-loose',
-          '.leading-tight span:not(:first-child), .leading-none .leading-normal, h2 span:not(:first-child) span:not(:first-child)'
+        return siteBot.runSelectorQuery([
+          '.leading-tight span:not(:first-child), .leading-none .leading-normal, h2 span:not(:first-child) span:not(:first-child)',
+          '.leading-loose'
         ])
-        return createQuery(text)
       },
       date: 'time',
       main: 'article section.relative',
