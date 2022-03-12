@@ -213,7 +213,7 @@ export default {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'SZ'
+      dbShortcut: 'SZ, SZDE, SZPT, SZPW, SZRE, SZW'
     }
   },
   'sz-magazin.sueddeutsche.de': {
