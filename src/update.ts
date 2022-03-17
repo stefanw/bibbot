@@ -1,5 +1,7 @@
+import * as browser from 'webextension-polyfill'
+
 export default {
-  run_update: function (previousVersion, currentVersion) {
+  run_update: (currentVersion, previousVersion) => {
     if (previousVersion <= '0.11.0') {
       // Storage of user options now is provider dependent
       // Move the options for VOEBB to provider specific storage

@@ -1,6 +1,14 @@
 {
-    "extends": "standard",
+    "root": true,
     "globals": {
         "browser": true
-    }
+    },
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "standard",
+      "plugin:@typescript-eslint/recommended"
+    ]
 }

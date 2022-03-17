@@ -1,14 +1,20 @@
+import * as browser from 'webextension-polyfill'
+import { Action, Actions } from './types.js'
+
 import converters from './converters.js'
 import { STATUS_MESSAGE } from './const.js'
 import { makeTimeout } from './utils.js'
 
 class TabRunner {
+  tabId: number
+  userData: object
+
   constructor (tabId, userData) {
     this.tabId = tabId
     this.userData = userData
   }
 
-  async runActions (actions) {
+  async runActions (actions: Actions) {
     let result
     for (const action of actions) {
       await this.runAction(action)
@@ -16,7 +22,7 @@ class TabRunner {
     return result
   }
 
-  async runAction (action) {
+  async runAction (action: Action) {
     console.log('Running', action)
     const actionCode = this.getActionCode(action)
     return await this.runScript(actionCode)
@@ -42,8 +48,8 @@ class TabRunner {
     return actionCode[1](result)
   }
 
-  getActionCode (action) {
-    if (action.fill) {
+  getActionCode (action: Action) {
+    if ('fill' in action) {
       if (action.fill.key && this.userData[action.fill.key]) {
         return [`document.querySelector('${action.fill.selector}').value = '${this.userData[action.fill.key]}'`]
       } else if (action.fill.providerKey) {
@@ -53,11 +59,11 @@ class TabRunner {
       } else {
         return []
       }
-    } else if (action.event) {
+    } else if ('event' in action) {
       return [`document.querySelector('${action.event.selector}').dispatchEvent(new Event('${action.event.event}'))`]
-    } else if (action.wait) {
+    } else if ('wait' in action) {
       return [makeTimeout(action.wait)]
-    } else if (action.failOnMissing) {
+    } else if ('failOnMissing' in action) {
       return [
         `document.querySelector('${action.failOnMissing}') !== null`,
         function (result) {
@@ -67,17 +73,17 @@ class TabRunner {
           throw new Error(action.failure)
         }
       ]
-    } else if (action.click) {
+    } else if ('click' in action) {
       if (action.optional) {
         return [`var el = document.querySelector('${action.click}'); el && el.click()`]
       } else {
         return [`document.querySelector('${action.click}').click()`]
       }
-    } else if (action.url) {
+    } else if ('url' in action) {
       return [`document.location.href = '${action.url}';`]
-    } else if (action.href) {
+    } else if ('href' in action) {
       return [`document.location.href = document.querySelector('${action.href}').href;`]
-    } else if (action.captcha) {
+    } else if ('captcha' in action) {
       return [`document.querySelector('${action.captcha}') === null`,
         function (result) {
           if (result === true) {
@@ -91,7 +97,7 @@ class TabRunner {
             return false
           }
         }]
-    } else if (action.extract) {
+    } else if ('extract' in action) {
       return [
         `Array.from(document.querySelectorAll('${action.extract}')).map(function(el) {
           return el.outerHTML

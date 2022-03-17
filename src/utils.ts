@@ -17,7 +17,7 @@ function interpolate (str, params, prefix = '', converter = ident, fallback = ''
   return str
 }
 
-function makeTimeout (ms) {
+function makeTimeout (ms: number) {
   return function timeout () {
     return new Promise(resolve => setTimeout(resolve, ms))
   }

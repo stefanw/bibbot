@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-/* global describe, test, expect, beforeAll, page, jest, jestPuppeteer */
+/* global describe, test, expect, beforeAll, page, jest */
 import fs from 'fs'
 import sites from '../src/sites.js'
 

@@ -1,8 +1,12 @@
+import * as browser from 'webextension-polyfill'
+import { Runtime } from 'webextension-polyfill'
+
 import { increaseStats } from './stats.js'
 import { INIT_MESSAGE, GOTOTAB_MESSAGE, SUCCES_MESSAGE, FAILED_MESSAGE, STATUS_MESSAGE, DEFAULT_PROVIDER } from './const.js'
 import SourceBot from './sourcebot.js'
+import { Message, VoebbotOptions } from './types.js'
 
-const storageItems = {}
+let storageItems: VoebbotOptions
 
 function retrieveStorage () {
   const defaults = {
@@ -12,13 +16,23 @@ function retrieveStorage () {
     saveArticle: null
   }
   return browser.storage.sync.get(defaults).then(function (items) {
-    for (const key in items) {
-      storageItems[key] = items[key]
+    storageItems = {
+      keepStats: items.keepStats,
+      provider: items.provider,
+      providerOptions: items.providerOptions,
+      saveArticle: items.saveArticle
     }
   })
 }
 
 class Reader {
+  port: Runtime.Port
+  senderTabId: number | null
+  storageUpdated?: Promise<void>
+  sourceBot?: SourceBot
+  sourceId?: string
+  domain?: string
+
   constructor (port) {
     this.port = port
 
@@ -37,7 +51,7 @@ class Reader {
     this.port.onDisconnect.addListener(this.onDisconnect)
   }
 
-  onMessage (message) {
+  onMessage (message: Message) {
     if (message.type === INIT_MESSAGE) {
       this.storageUpdated.then(() => {
         this.retrieveArticle(message)

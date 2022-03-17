@@ -1,10 +1,11 @@
 import { COLOR } from './ui.js'
-function escapeHTML (r) {
+
+function escapeHTML (html: string) {
   // eslint-disable-next-line no-control-regex
-  return r.replace(/[\x26\x0A<>'"]/g, function (r) { return '&#' + r.charCodeAt(0) + ';' })
+  return html.replace(/[\x26\x0A<>'"]/g, function (r) { return '&#' + r.charCodeAt(0) + ';' })
 }
 
-const addSharingButton = (main, content, postUrl) => {
+const addSharingButton = (main: HTMLElement, content: string, postUrl: string) => {
   const html = `<form id="bibbot-post-popup" method="POST" action="${postUrl}">
   <input type="hidden" name="title" value="${escapeHTML(document.title)}">
   <input type="hidden" name="url" value="${escapeHTML(document.location.href)}">
