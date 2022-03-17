@@ -1,16 +1,35 @@
+import * as browser from 'webextension-polyfill'
+
 import providers from './providers.js'
 import sources from './sources.js'
 import TabRunner from './tabrunner.js'
 import { SUCCES_MESSAGE, FAILED_MESSAGE, STATUS_MESSAGE } from './const.js'
 import { interpolate } from './utils.js'
+import { ArticleInfo, Source, Provider, SiteSourceParams, Message } from './types.js'
 
-const PHASE_LOGIN = 'login'
-const PHASE_SEARCH = 'search'
+enum PHASE {
+  LOGIN = 'login',
+  SEARCH = 'search',
+}
 
 class SourceBot {
+  step: number
+  phase: PHASE
+  sourceId: string
+  providerId: string
+  provider: Provider
+  source: Source
+  sourceParams: SiteSourceParams
+  articleInfo: ArticleInfo
+  providerOptions: object
+  callback: (message: Message) => void
+  tabId: number
+  tabRunner: TabRunner
+  done: boolean
+
   constructor (sourceId, providerId, providerOptions, sourceParams, articleInfo, callback) {
     this.step = 0
-    this.phase = PHASE_LOGIN
+    this.phase = PHASE.LOGIN
 
     this.sourceId = sourceId
     this.source = sources[sourceId]
@@ -24,6 +43,7 @@ class SourceBot {
     this.callback = callback
 
     this.onTabUpdated = this.onTabUpdated.bind(this)
+    this.done = false
   }
 
   getParams () {
@@ -76,13 +96,13 @@ class SourceBot {
     const loggedIn = await this.isLoggedIn()
     if (loggedIn) {
       this.step = 0
-      this.phase = PHASE_SEARCH
+      this.phase = PHASE.SEARCH
     }
     await this.runActionsOfCurrentStep()
   }
 
   async isLoggedIn () {
-    if (this.phase === PHASE_LOGIN && this.step === 0) {
+    if (this.phase === PHASE.LOGIN && this.step === 0) {
       const result = await browser.tabs.executeScript(this.tabId, {
         code: `document.querySelector("${this.source.loggedIn}") !== null`
       })
@@ -103,7 +123,7 @@ class SourceBot {
 
   isFinalStep () {
     return (
-      this.phase === PHASE_SEARCH &&
+      this.phase === PHASE.SEARCH &&
       this.step === this.source[this.phase].length - 1
     )
   }
@@ -153,8 +173,8 @@ class SourceBot {
     // Move to next step and wait for tab update event
     this.step += 1
     if (this.step > this.source[this.phase].length - 1) {
-      if (this.phase === PHASE_LOGIN) {
-        this.phase = PHASE_SEARCH
+      if (this.phase === PHASE.LOGIN) {
+        this.phase = PHASE.SEARCH
       }
       this.step = 0
     }

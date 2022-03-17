@@ -1,7 +1,17 @@
+import * as browser from 'webextension-polyfill'
+
 import { DEFAULT_PROVIDER } from './const.js'
 import providers from './providers.js'
 
-const defaults = {
+import { StorageItems } from './types.js'
+
+type InputOptions = {
+  provider?: HTMLInputElement
+  keepStats?: HTMLInputElement
+  saveArticle?: HTMLInputElement
+}
+
+const defaults: StorageItems = {
   installDate: null,
   provider: DEFAULT_PROVIDER,
   keepStats: true,
@@ -13,25 +23,34 @@ const defaults = {
 let currentPermissions = null
 
 function showOptions () {
-  const provider = document.getElementById('provider').value
-  Array.from(document.getElementsByClassName('provider-options-container')).forEach(el => {
-    el.hidden = 'hidden'
+  const provider = (<HTMLInputElement>document.getElementById('provider')).value;
+  (<HTMLElement[]>[...document.getElementsByClassName('provider-options-container')]).forEach(el => {
+    el.hidden = true
   })
   document.getElementById(provider + '.options').hidden = null
 }
 
+function getInputs () {
+  const inputs: InputOptions = {};
+  ['provider', 'keepStats', 'saveArticle'].forEach(id => {
+    inputs[id] = <HTMLInputElement>document.getElementById(id)
+  })
+  return inputs
+}
+
 function restore () {
   browser.storage.sync.get(defaults).then(function (items) {
-    document.getElementById('provider').value = items.provider
-    document.getElementById('keepStats').checked = items.keepStats
-    document.getElementById('saveArticle').value = items.saveArticle || ''
+    const inputs = getInputs()
+    inputs.provider.value = items.provider
+    inputs.keepStats.checked = items.keepStats
+    inputs.saveArticle.value = items.saveArticle || ''
 
     if (items.providerOptions) {
       for (const providerKey in providers) {
         const provider = providers[providerKey]
         for (const optionKey in provider.options) {
           const option = provider.options[optionKey]
-          const input = document.getElementById(providerKey + '.options.' + option.id)
+          const input = <HTMLInputElement>document.getElementById(providerKey + '.options.' + option.id)
           input.value = items.providerOptions[providerKey + '.options.' + option.id] || ''
         }
       }
@@ -43,7 +62,7 @@ function restore () {
       browser.storage.sync.set({
         installDate: new Date().getTime()
       })
-      document.querySelector('#setup').setAttribute('open', true)
+      document.querySelector('#setup').setAttribute('open', 'true')
     }
   })
 
@@ -71,10 +90,10 @@ function restore () {
     listItem.appendChild(listItemA)
     providerList.appendChild(listItem)
 
-    const optionsContainer = document.createElement('div')
-    optionsContainer.classList = 'provider-options-container'
+    const optionsContainer = document.createElement('div') as HTMLElement
+    optionsContainer.classList.add('provider-options-container')
     optionsContainer.id = providerKey + '.options'
-    optionsContainer.hidden = 'hidden'
+    optionsContainer.hidden = true
     for (const optionKey in provider.options) {
       const option = provider.options[optionKey]
 
@@ -106,27 +125,24 @@ function restore () {
 }
 
 function save () {
-  const provider = document.getElementById('provider').value
-  const keepStats = document.getElementById('keepStats').checked
-  const saveArticle = document.getElementById('saveArticle').value
-
   const providerOptions = {}
   for (const providerKey in providers) {
     const provider = providers[providerKey]
     for (const optionKey in provider.options) {
       const option = provider.options[optionKey]
-      const input = document.getElementById(providerKey + '.options.' + option.id)
+      const input = <HTMLInputElement>document.getElementById(providerKey + '.options.' + option.id)
       providerOptions[providerKey + '.options.' + option.id] = input.value
     }
   }
-
-  const values = {
-    keepStats: keepStats,
+  const inputs = getInputs()
+  const provider = inputs.provider.value
+  const values: StorageItems = {
+    keepStats: inputs.keepStats.checked,
     provider: provider,
     providerOptions: providerOptions,
-    saveArticle: saveArticle
+    saveArticle: inputs.saveArticle.value
   }
-  if (!keepStats) {
+  if (!values.keepStats) {
     values.stats = {}
   }
 
@@ -164,7 +180,7 @@ document.querySelector('form').addEventListener('submit', function (e) {
 
   save()
 
-  const savedNote = document.querySelector('#saved-note')
+  const savedNote: HTMLElement = document.querySelector('#saved-note')
   savedNote.style.display = 'inline'
   savedNote.classList.remove('fade')
   // eslint-disable-next-line no-void

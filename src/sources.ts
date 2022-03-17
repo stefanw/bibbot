@@ -1,4 +1,6 @@
-export default {
+import { Sources } from './types.js'
+
+const sources: Sources = {
   'www.munzinger.de': {
     loggedIn: ".metanav-a[href='/search/logout']",
     start: 'https://{source.domain.raw}/search/go/spiegel/aktuell.jsp?portalid={source.portalId}',
@@ -45,7 +47,7 @@ export default {
     search: [
       [
         { message: 'Suche wird durchgeführt...' },
-        { url: 'https://{source.domain.raw}/dosearch?explicitSearch=true&q={query}&dbShortcut={source.dbShortcut}&TI%2CUT%2CDZ%2CBT%2COT%2CSL=&AU=&KO=&MM%2COW%2CUF%2CMF%2CAO%2CTP%2CVM%2CNN%2CNJ%2CKV%2CZ2=&CT%2CDE%2CZ4%2CKW=&Z3%2CCN%2CCE%2CKC%2CTC%2CVC=&DT_from={date_start}&DT_to={date_end}&timeFilterType=selected&timeFilter=NONE&x=59&y=11' }
+        { url: 'https://{source.domain.raw}/dosearch?explicitSearch=true&q={query}&dbShortcut={source.dbShortcut}&TI%2CUT%2CDZ%2CBT%2COT%2CSL=&AU=&KO=&MM%2COW%2CUF%2CMF%2CAO%2CTP%2CVM%2CNN%2CNJ%2CKV%2CZ2=&CT%2CDE%2CZ4%2CKW=&Z3%2CCN%2CCE%2CKC%2CTC%2CVC=&DT_from={dateStart}&DT_to={dateEnd}&timeFilterType=selected&timeFilter=NONE&x=59&y=11' }
       ],
       [
         { message: 'Artikel wird aufgerufen...' },
@@ -59,3 +61,5 @@ export default {
     ]
   }
 }
+
+export default sources

@@ -1,23 +1,25 @@
 import { getConsentCdnSetup } from './test_utils.js'
 
-const extractQuery = (node) => `"${createQuery(node.innerText)}"`
-const createQuery = (text) => `"${text.split(' ').slice(2, 10).join(' ')}"`
-const makeQueryFunc = (selector) => {
+import { PartialSite, Sites } from './types.js'
+
+const extractQuery = (node: HTMLElement) => `"${createQuery(node.innerText)}"`
+const createQuery = (text: string) => `"${text.split(' ').slice(2, 10).join(' ')}"`
+const makeQueryFunc = (selector: string) => {
   return (node) => extractQuery(node.querySelector(selector))
 }
 
-const removeClass = (node, className) => {
+const removeClass = (node: HTMLElement, className: string) => {
   const el = node.querySelector(`.${className}`)
   if (el) {
     el.classList.remove(className)
   }
 }
 
-const findCommentNode = (parentNode, comment) => {
-  return [...parentNode.childNodes].find(n => n.nodeType === window.Node.COMMENT_NODE && n.nodeValue === comment)
+const findCommentNode = (parentNode: Node, comment: string) => {
+  return ([...parentNode.childNodes] as HTMLElement[]).find(n => n.nodeType === window.Node.COMMENT_NODE && n.nodeValue === comment)
 }
 
-const GA = {
+const GA: PartialSite = {
   selectors: {
     query: makeQueryFunc('.park-article__intro.park-article__content'),
     date: 'time',
@@ -50,8 +52,9 @@ const GA = {
   waitOnLoad: true
 }
 
-const KSTA = {
+const KSTA: PartialSite = {
   selectors: {
+    query: makeQueryFunc('.selectionShareable:not(.ortsmarke)'),
     date: 'time',
     paywall: '.dm_premium_container #c1-template-platzhalter',
     main: '.dm_article_text'
@@ -70,7 +73,7 @@ const KSTA = {
   source: 'genios.de'
 }
 
-export default {
+const sites: Sites = {
   'www.spiegel.de': {
     selectors: {
       query: (root, siteBot) => {
@@ -178,11 +181,11 @@ export default {
     selectors: {
       // query: "article > header > h2 > span:last-child",
       query: (root) => {
-        const normalArticle = root.querySelector('.sz-article-body__paragraph')
+        const normalArticle: HTMLElement = root.querySelector('.sz-article-body__paragraph')
         if (normalArticle) {
           return extractQuery(normalArticle)
         }
-        const reportage = root.querySelector('.module-text .text p')
+        const reportage: HTMLElement = root.querySelector('.module-text .text p')
         if (reportage) {
           return extractQuery(reportage)
         }
@@ -190,7 +193,7 @@ export default {
       date: 'time',
       paywall: 'offer-page',
       main: (root) => {
-        const normalMain = root.querySelector("div[itemprop='articleBody']")
+        const normalMain: HTMLElement = root.querySelector("div[itemprop='articleBody']")
         if (normalMain) {
           return normalMain
         }
@@ -198,11 +201,11 @@ export default {
       }
     },
     start: (root) => {
-      const p = root.querySelector('.sz-article-body__paragraph--reduced')
+      const p: HTMLElement = root.querySelector('.sz-article-body__paragraph--reduced')
       if (p) {
         p.className = 'sz-article-body__paragraph'
       }
-      const offer = root.querySelector('offer-page')
+      const offer: HTMLElement = root.querySelector('offer-page')
       if (offer) {
         offer.style.display = 'none'
       }
@@ -226,7 +229,8 @@ export default {
     start: (root) => {
       removeClass(root, 'paragraph--reduced')
       removeClass(root, 'articlemain__inner--reduced')
-      root.querySelector('.offerpage-container').style.display = 'none'
+      const paywall: HTMLElement = root.querySelector('.offerpage-container')
+      paywall.style.display = 'none'
     },
     mimic: (content) => {
       return content.replace(/<p>/g, '<p class="paragraph text__normal">')
@@ -245,7 +249,7 @@ export default {
       main: '.vhb-article-area--read'
     },
     start: (root) => {
-      Array.from(root.querySelectorAll('.c-paywall')).forEach(el => {
+      Array.from(root.querySelectorAll('.c-paywall')).forEach((el: HTMLElement) => {
         el.style.display = 'none'
       })
     },
@@ -531,9 +535,9 @@ export default {
       main: '.paywall-content'
     },
     start: (root) => {
-      const div = root.querySelector('.paywall-info')
+      const div: HTMLElement = root.querySelector('.paywall-info')
       if (div) {
-        div.parentNode.parentNode.style.display = 'none'
+        div.parentNode.parentElement.style.display = 'none'
       }
     },
     mimic: (content) => {
@@ -649,15 +653,15 @@ export default {
       date: '.article-header-intro-right span',
       paywall: (root, sitebot) => {
         const paywall = '.plusContent app-paywall'
-        if (window.bibbot_observer === undefined) {
-          window.bibbot_observer = new window.MutationObserver((mutations, observer) => {
+        if (window.bibbotObserver === undefined) {
+          window.bibbotObserver = new window.MutationObserver((mutations) => {
             // The single page application simply swaps HTML contents instead of navigating to a new page, so we try to detect when the article content is replaced by a new one
-            const switchedArticle = mutations.find(m => [...m.addedNodes.values()].find(n => n.nodeName === 'ARTICLECOMP' && n.className === 'ng-star-inserted') !== undefined) !== undefined
+            const switchedArticle = mutations.find(m => [...m.addedNodes.values()].find((n: HTMLElement) => n.nodeName === 'ARTICLECOMP' && n.className === 'ng-star-inserted') !== undefined) !== undefined
             if (switchedArticle) {
               sitebot.start()
             }
           })
-          window.bibbot_observer.observe(root, { subtree: true, childList: true })
+          window.bibbotObserver.observe(root, { subtree: true, childList: true })
         }
         return root.querySelector(paywall)
       },
@@ -765,13 +769,14 @@ export default {
     ],
     selectors: {
       query: (root) => {
-        return extractQuery(findCommentNode(root.querySelector('.article__content'), '- - - body of article - - - ')?.nextSibling)
+        const el = findCommentNode(root.querySelector('.article__content'), '- - - body of article - - - ')?.nextElementSibling
+        return extractQuery(el as HTMLElement)
       },
       date: "meta[property='article:published_time']",
       paywall: '.paidblocker--article',
       main: '.article__content'
     },
-    start: (root, paywall) => {
+    start: (root) => {
       const blocker = root.querySelector('.blocker')
       blocker.classList.remove('blocker')
     },
@@ -831,7 +836,7 @@ export default {
       if (p) {
         p.classList.remove('paywall-fade')
       }
-      const paywall = root.querySelector('.elementor-widget-theme-post-content > .elementor-widget-container > div > div[data-elementor-type="section"]')
+      const paywall: HTMLElement = root.querySelector('.elementor-widget-theme-post-content > .elementor-widget-container > div > div[data-elementor-type="section"]')
       if (paywall) {
         paywall.style.display = 'none'
       }
@@ -864,7 +869,7 @@ export default {
       if (blur) {
         blur.remove()
       }
-      const paywall = root.querySelector('#piano-inline')
+      const paywall: HTMLElement = root.querySelector('#piano-inline')
       if (paywall) {
         paywall.style.display = 'none'
       }
@@ -876,3 +881,5 @@ export default {
     }
   }
 }
+
+export default sites

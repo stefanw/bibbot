@@ -1,6 +1,6 @@
 export default {
-  preToParagraph: function (htmlArr) {
-    return htmlArr.map(function (html) {
+  preToParagraph: (htmlArr: string[]) => {
+    return htmlArr.map((html) => {
       html = html.replace(/<pre[^>]+>/, '').replace(/<\/pre>/, '')
       // Remove ems (highlighting query)
       html = html.replace(/<em class="hlt1">/g, '').replace(/<\/em>/g, '')

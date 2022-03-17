@@ -1,4 +1,13 @@
-const geniosDefaultData = [
+import { DefaultProvider, Provider, Providers } from './types.js'
+
+type PartialProviderData = {
+  id: string
+  name: string
+  web: string
+  domain: string
+}
+
+const geniosDefaultData: PartialProviderData[] = [
   {
     id: 'www.stadtbibliothek-aschaffenburg.de',
     name: 'Stadtbibliothek Aschaffenburg',
@@ -365,7 +374,6 @@ function geniosFactory (provider) {
   return {
     name: provider.name,
     web: provider.web,
-    loginHint: '',
     params: {
       'genios.de': {
         domain: provider.domain
@@ -383,7 +391,6 @@ function geniosAssociationFactory (provider) {
   return {
     name: provider.name,
     web: provider.web,
-    loginHint: '',
     params: {
       'genios.de': {
         domain: provider.domain
@@ -411,7 +418,6 @@ function oclcFactory (provider) {
   return {
     name: provider.name,
     web: provider.web,
-    loginHint: '',
     params: {
       ...(provider['genios.de']) && {
         'genios.de': {
@@ -473,25 +479,25 @@ function hanFactory (provider) {
 
 const geniosDefaultProviders = {}
 geniosDefaultData.forEach(d => {
-  geniosDefaultProviders[d.id] = geniosFactory(d)
+  geniosDefaultProviders[d.id] = <DefaultProvider>geniosFactory(d)
 })
 
 const geniosAssociationProviders = {}
 geniosAssociationData.forEach(d => {
-  geniosDefaultProviders[d.id] = geniosAssociationFactory(d)
+  geniosDefaultProviders[d.id] = <DefaultProvider>geniosAssociationFactory(d)
 })
 
 const oclcProviders = {}
 oclcData.forEach(d => {
-  oclcProviders[d.id] = oclcFactory(d)
+  oclcProviders[d.id] = <Provider>oclcFactory(d)
 })
 
 const hanProviders = {}
 hanData.forEach(d => {
-  hanProviders[d.id] = hanFactory(d)
+  hanProviders[d.id] = <Provider>hanFactory(d)
 })
 
-export default {
+const providers: Providers = {
   ...geniosDefaultProviders,
   ...geniosAssociationProviders,
   ...oclcProviders,
@@ -499,7 +505,6 @@ export default {
   'voebb.de': {
     name: 'VÖBB - Verbund der öffenlichen Bibliotheken Berlins',
     web: 'https://voebb.de/',
-    loginHint: 'Geben Sie den Nutzernamen (11 Ziffern) und Passwort von voebb.de ein.',
     params: {
       'www.munzinger.de': {
         portalId: '50158'
@@ -644,3 +649,5 @@ export default {
     permissions: ['https://www.wiso-net.de/*']
   }
 }
+
+export default providers

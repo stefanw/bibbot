@@ -1,7 +1,9 @@
-import Reader from '../src/reader.js'
+import * as browser from 'webextension-polyfill'
+
+import Reader from './reader.js'
 import update from './update.js'
 
-function openOptionsPage (details) {
+function openOptionsPage (details: browser.Runtime.OnInstalledDetailsType) {
   if (details.reason === 'install') {
     browser.runtime.openOptionsPage()
   } else if (details.reason === 'update' && details.previousVersion) {
@@ -15,7 +17,7 @@ function openOptionsPage (details) {
 
 browser.runtime.onInstalled.addListener(openOptionsPage)
 
-function portConnected (port) {
+function portConnected (port: browser.Runtime.Port) {
   const reader = new Reader(port)
   reader.start()
 }

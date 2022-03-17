@@ -1,4 +1,6 @@
-function increaseStats (domain) {
+import * as browser from 'webextension-polyfill'
+
+function increaseStats (domain: string) {
   const isPrivate = browser.extension.inIncognitoContext
   if (isPrivate) { return }
   browser.storage.sync.get({ stats: {} }).then(function (items) {

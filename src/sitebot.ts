@@ -1,9 +1,17 @@
+import * as browser from 'webextension-polyfill'
+
 import { LOADER_HTML, BOT_ID, LOADER_ID, MESSAGE_ID, FAILED_HTML } from './ui.js'
 import { FAILED_MESSAGE, INIT_MESSAGE, GOTOTAB_MESSAGE, STATUS_MESSAGE, SUCCES_MESSAGE, PORT_NAME } from './const.js'
 
 import { addSharingButton } from './services.js'
+import { Site, SiteBotInterface, FormattedDateRange, ArticleInfo, Message, InitMessage, GoToTabMessage } from './types.js'
 
-class SiteBot {
+class SiteBot implements SiteBotInterface {
+  site: Site
+  root: HTMLElement
+  domain: string | null
+  port?: browser.Runtime.Port | null
+
   constructor (site, root, domain = null) {
     this.site = site
     this.root = root
@@ -13,8 +21,8 @@ class SiteBot {
     this.onMessage = this.onMessage.bind(this)
   }
 
-  start (delay) {
-    if (Number.isInteger(delay)) {
+  start (delay?: boolean | number) {
+    if (typeof delay === 'number') {
       window.setTimeout(() => this.start(), delay)
     }
     if (!this.hasPaywall()) {
@@ -49,13 +57,14 @@ class SiteBot {
 
   startBackgroundConnection (articleInfo) {
     this.connectPort()
-    this.postMessage({
+    const message: InitMessage = {
       type: INIT_MESSAGE,
       source: this.site.source,
       sourceParams: this.site.sourceParams,
       domain: this.domain,
       articleInfo: articleInfo
-    })
+    }
+    this.postMessage(message)
   }
 
   getPaywall () {
@@ -84,7 +93,7 @@ class SiteBot {
     if (this.site.selectors.loader) {
       const div = document.createElement('div')
       div.innerHTML = LOADER_HTML
-      const el = this.root.querySelector(this.site.selectors.loader)
+      const el = this.runSelectorQueryElement(this.site.selectors.loader)
       el.parentNode.insertBefore(div, el.nextSibling)
     } else {
       const main = this.getMainContentArea()
@@ -93,15 +102,18 @@ class SiteBot {
   }
 
   hideLoading () {
-    this.root.getElementById(LOADER_ID).style.display = 'none'
+    const loader: HTMLElement = this.root.querySelector(`#${LOADER_ID}`)
+    loader.style.display = 'none'
   }
 
   hideBot () {
-    this.root.getElementById(BOT_ID).style.display = 'none'
+    const bot: HTMLElement = this.root.querySelector(`#${BOT_ID}`)
+    bot.style.display = 'none'
   }
 
   showUpdate (text) {
-    this.root.querySelector(`#${MESSAGE_ID}`).innerText = text
+    const message: HTMLElement = this.root.querySelector(`#${MESSAGE_ID}`)
+    message.innerText = text
   }
 
   showInteractionRequired () {
@@ -111,9 +123,10 @@ class SiteBot {
     this.root.querySelector(`#${MESSAGE_ID}`).innerHTML = html
     this.root.querySelector(`#${btnId}`).addEventListener('click', (e) => {
       e.preventDefault()
-      this.postMessage({
+      const message: GoToTabMessage = {
         type: GOTOTAB_MESSAGE
-      })
+      }
+      this.postMessage(message)
     })
   }
 
@@ -137,10 +150,9 @@ class SiteBot {
     if (typeof selector === 'function') {
       return selector(this.root, this)
     }
-    let result = ''
     if (Array.isArray(selector)) {
       for (const s of selector) {
-        result = this.runSelectorQuery(s)
+        const result = this.runSelectorQuery(s)
         if (result !== '') {
           return result
         }
@@ -151,7 +163,7 @@ class SiteBot {
     const parts = selector.split('@')
     const hasAttribute = parts.length > 1
 
-    result = this.root.querySelector(parts[0])
+    const result = this.root.querySelector(parts[0])
     if (result === null) {
       return ''
     }
@@ -164,8 +176,8 @@ class SiteBot {
   }
 
   extractDateQuery (dateValue, range = [1, 1]) {
-    const defaultValue = {
-      date_start: '', date_end: ''
+    const defaultValue: FormattedDateRange = {
+      dateStart: '', dateEnd: ''
     }
     if (!dateValue) {
       return defaultValue
@@ -196,15 +208,16 @@ class SiteBot {
     const day = 24 * 60 * 60 * 1000
     const dateStart = new Date(date.getTime() - day * range[0])
     const dateEnd = new Date(date.getTime() + day * range[1])
-    return {
-      date_start: formatDate(dateStart),
-      date_end: formatDate(dateEnd)
+    const dateRange: FormattedDateRange = {
+      dateStart: formatDate(dateStart),
+      dateEnd: formatDate(dateEnd)
     }
+    return dateRange
   }
 
   collectArticleInfo () {
     const articleInfoSelectors = ['query', 'edition', 'date']
-    const articleInfo = {}
+    const articleInfo: ArticleInfo = {}
     for (const key of articleInfoSelectors) {
       if (this.site.selectors[key]) {
         const selector = this.site.selectors[key]
@@ -234,7 +247,7 @@ class SiteBot {
     return this.port
   }
 
-  postMessage (message) {
+  postMessage (message: Message) {
     this.port.postMessage(message)
   }
 
