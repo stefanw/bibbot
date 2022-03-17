@@ -1,6 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-/* global describe, test, expect, beforeAll, page, jest */
-import fs from 'fs'
+import * as fs from 'fs'
 import sites from '../src/sites.js'
 
 const siteTests = []
@@ -21,12 +19,8 @@ describe.each(siteTests)('test $siteDomain', ({ site, siteDomain, example }) => 
   beforeAll(async () => {
     console.log('beforeall', siteDomain)
     // await jestPuppeteer.debug()
-    await page.goto(example.url)
-    console.log('wait for idle', siteDomain)
-    try {
-      // optionally wait for idle network max 2s
-      await page.waitForNetworkIdle({ timeout: 2000 })
-    } catch {}
+    await page.goto(example.url, { waitUntil: 'networkidle2' })
+
     // Run some site-specific test setup, like GDPR clicks
     if (site.testSetup) {
       console.log('test setup', siteDomain)
@@ -40,7 +34,7 @@ describe.each(siteTests)('test $siteDomain', ({ site, siteDomain, example }) => 
     console.log('paywall', siteDomain)
     if (!example.noPaywall) {
       const result = await page.evaluate(async () => {
-        return window.siteBot.hasPaywall()
+        return window.extractor.hasPaywall()
       })
       expect(result).toBe(true)
     }
@@ -49,7 +43,7 @@ describe.each(siteTests)('test $siteDomain', ({ site, siteDomain, example }) => 
     // await jestPuppeteer.debug()
     console.log('main area', siteDomain)
     const result = await page.evaluate(async () => {
-      return window.siteBot.getMainContentArea() !== null
+      return window.extractor.getMainContentArea() !== null
     })
     expect(result).toBe(true)
   })
@@ -57,7 +51,10 @@ describe.each(siteTests)('test $siteDomain', ({ site, siteDomain, example }) => 
     // await jestPuppeteer.debug()
     console.log('info extraction', siteDomain)
     const result = await page.evaluate(async () => {
-      return window.siteBot.startInfoExtraction()
+      if (!window.extractor.shouldExtract()) {
+        return null
+      }
+      return window.extractor.extractArticleInfo()
     })
     if (example.selectors) {
       for (const key in example.selectors) {
