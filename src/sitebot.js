@@ -106,7 +106,7 @@ class SiteBot {
 
   showInteractionRequired () {
     this.hideLoading()
-    const btnId = 'voebbot-goto'
+    const btnId = 'bibbot-goto'
     const html = `<button id="${btnId}">Bitte gehen Sie zum geöffneten Tab.</button>`
     this.root.querySelector(`#${MESSAGE_ID}`).innerHTML = html
     this.root.querySelector(`#${btnId}`).addEventListener('click', (e) => {

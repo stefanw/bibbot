@@ -360,7 +360,7 @@ export default {
   'www.noz.de': {
     selectors: {
       query: makeQueryFunc('.paywall-fadeout'),
-      main: '.voebbot-main',
+      main: '.bibbot-main',
       time: '[itemprop="datePublished"]',
       paywall: '.paywall'
     },
@@ -368,7 +368,7 @@ export default {
       const p = root.querySelector('.paywall-fadeout')
       if (p) {
         p.classList.remove('paywall-fadeout')
-        p.classList.add('voebbot-main')
+        p.classList.add('bibbot-main')
       }
     },
 
@@ -649,15 +649,15 @@ export default {
       date: '.article-header-intro-right span',
       paywall: (root, sitebot) => {
         const paywall = '.plusContent app-paywall'
-        if (window.voebbot_observer === undefined) {
-          window.voebbot_observer = new window.MutationObserver((mutations, observer) => {
+        if (window.bibbot_observer === undefined) {
+          window.bibbot_observer = new window.MutationObserver((mutations, observer) => {
             // The single page application simply swaps HTML contents instead of navigating to a new page, so we try to detect when the article content is replaced by a new one
             const switchedArticle = mutations.find(m => [...m.addedNodes.values()].find(n => n.nodeName === 'ARTICLECOMP' && n.className === 'ng-star-inserted') !== undefined) !== undefined
             if (switchedArticle) {
               sitebot.start()
             }
           })
-          window.voebbot_observer.observe(root, { subtree: true, childList: true })
+          window.bibbot_observer.observe(root, { subtree: true, childList: true })
         }
         return root.querySelector(paywall)
       },

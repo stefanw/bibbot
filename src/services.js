@@ -5,7 +5,7 @@ function escapeHTML (r) {
 }
 
 const addSharingButton = (main, content, postUrl) => {
-  const html = `<form id="voebbot-post-popup" method="POST" action="${postUrl}">
+  const html = `<form id="bibbot-post-popup" method="POST" action="${postUrl}">
   <input type="hidden" name="title" value="${escapeHTML(document.title)}">
   <input type="hidden" name="url" value="${escapeHTML(document.location.href)}">
   <input type="hidden" name="content" value="${escapeHTML(content)}">
@@ -15,10 +15,10 @@ const addSharingButton = (main, content, postUrl) => {
   </form>`
   main.innerHTML = html + main.innerHTML
   window.setTimeout(function () {
-    document.querySelector('#voebbot-post-popup').addEventListener('submit', function () {
+    document.querySelector('#bibbot-post-popup').addEventListener('submit', function () {
       console.log('Opening in popup')
-      window.open('', 'voebbot_postpopup', 'width=600,height=400,resizeable,scrollbars')
-      this.target = 'voebbot_postpopup'
+      window.open('', 'bibbot', 'width=600,height=400,resizeable,scrollbars')
+      this.target = 'bibbot_postpopup'
     })
   }, 100)
 }

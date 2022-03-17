@@ -8,7 +8,7 @@
         {% assign short_version = release.tag_name | remove_first:'v' %}
         {
           "version": "{{ short_version }}",
-          "update_link": "https://github.com/stefanw/voebbot/releases/download/v{{ short_version }}/voebbot-v{{ short_version }}.xpi"
+          "update_link": "https://github.com/stefanw/bibbot/releases/download/v{{ short_version }}/bibbot-v{{ short_version }}.xpi"
         }{% if forloop.last == false %},{% endif %}
       {% endfor %}
       ]

@@ -1,7 +1,7 @@
 {
-  "name": "voebbot",
+  "name": "bibbot",
   "version": "0.20.3",
-  "description": "VÖBBot removes paywalls of German media sites",
+  "description": "BibBot removes paywalls of German media sites",
   "devDependencies": {
     "@babel/core": "^7.17.0",
     "@babel/preset-env": "^7.16.11",
@@ -26,12 +26,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stefanw/voebbot.git"
+    "url": "git+https://github.com/stefanw/bibbot.git"
   },
   "author": "Stefan Wehrmeyer",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/stefanw/voebbot/issues"
+    "url": "https://github.com/stefanw/bibbot/issues"
   },
-  "homepage": "https://stefanw.github.io/voebbot/"
+  "homepage": "https://stefanw.github.io/bibbot/"
 }
