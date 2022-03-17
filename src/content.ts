@@ -5,7 +5,7 @@ const domain = document.location.host
 const site = sites[domain]
 
 if (site !== undefined) {
-  const siteBot = new SiteBot(site, document, domain)
+  const siteBot = new SiteBot(site, document.body, domain)
   if (siteBot.site.waitOnLoad) {
     if (document.readyState === 'complete') {
       siteBot.start(siteBot.site.waitOnLoad)

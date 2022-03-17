@@ -32,4 +32,4 @@ jobs:
       - name: Create build of test content script
         run: npm run build
       - name: Run the tests
-        run: npm run test -- --runInBand
+        run: npm run test

@@ -1,9 +1,9 @@
 import sites from '../src/sites.js'
-import SiteBot from '../src/sitebot.js'
+import Extractor from '../src/extractor.js'
 
 const domain = document.location.host
 const site = sites[domain]
 
 if (site !== undefined) {
-  window.siteBot = new SiteBot(site, document, domain)
+  window.extractor = new Extractor(site, document)
 }

@@ -4,18 +4,21 @@ import { LOADER_HTML, BOT_ID, LOADER_ID, MESSAGE_ID, FAILED_HTML } from './ui.js
 import { FAILED_MESSAGE, INIT_MESSAGE, GOTOTAB_MESSAGE, STATUS_MESSAGE, SUCCES_MESSAGE, PORT_NAME } from './const.js'
 
 import { addSharingButton } from './services.js'
-import { Site, SiteBotInterface, FormattedDateRange, ArticleInfo, Message, InitMessage, GoToTabMessage } from './types.js'
+import Extractor from './extractor.js'
+import { Site, SiteBotInterface, Message, InitMessage, GoToTabMessage } from './types.js'
 
 class SiteBot implements SiteBotInterface {
   site: Site
   root: HTMLElement
   domain: string | null
+  extractor: Extractor
   port?: browser.Runtime.Port | null
 
-  constructor (site, root, domain = null) {
+  constructor (site: Site, root: HTMLElement, domain = null) {
     this.site = site
     this.root = root
     this.domain = domain
+    this.extractor = new Extractor(site, root)
 
     this.onDisconnect = this.onDisconnect.bind(this)
     this.onMessage = this.onMessage.bind(this)
@@ -25,7 +28,7 @@ class SiteBot implements SiteBotInterface {
     if (typeof delay === 'number') {
       window.setTimeout(() => this.start(), delay)
     }
-    if (!this.hasPaywall()) {
+    if (!this.extractor.hasPaywall()) {
       return
     }
     const articleInfo = this.startInfoExtraction()
@@ -35,19 +38,13 @@ class SiteBot implements SiteBotInterface {
   }
 
   startInfoExtraction () {
-    if (this.site.start) {
-      const result = this.site.start(this.root, this.getPaywall())
-      if (result) {
-        // determined not worth it
-        return
-      }
-    } else {
-      this.hidePaywall()
+    if (!this.extractor.shouldExtract()) {
+      return
     }
 
     this.showLoading()
     try {
-      return this.collectArticleInfo()
+      return this.extractor.extractArticleInfo()
     } catch (e) {
       console.error(e)
       this.showUpdate('Beim Extrahieren der Artikeldaten trat ein Fehler auf.')
@@ -67,36 +64,24 @@ class SiteBot implements SiteBotInterface {
     this.postMessage(message)
   }
 
-  getPaywall () {
-    return this.runSelectorQueryElement(this.site.selectors.paywall)
-  }
-
-  hasPaywall () {
-    return this.getPaywall() !== null
-  }
-
   hidePaywall () {
-    if (this.hasPaywall()) {
-      this.getPaywall().style.display = 'none'
+    if (this.extractor.hasPaywall()) {
+      this.extractor.getPaywall().style.display = 'none'
     }
   }
 
   showPaywall () {
-    this.getPaywall().style.display = 'block'
-  }
-
-  getMainContentArea () {
-    return this.runSelectorQueryElement(this.site.selectors.main)
+    this.extractor.getPaywall().style.display = 'block'
   }
 
   showLoading () {
-    if (this.site.selectors.loader) {
+    const loadingArea = this.extractor.getLoadingArea()
+    if (loadingArea !== null) {
       const div = document.createElement('div')
       div.innerHTML = LOADER_HTML
-      const el = this.runSelectorQueryElement(this.site.selectors.loader)
-      el.parentNode.insertBefore(div, el.nextSibling)
+      loadingArea.parentNode.insertBefore(div, loadingArea.nextSibling)
     } else {
-      const main = this.getMainContentArea()
+      const main = this.extractor.getMainContentArea()
       main.innerHTML = main.innerHTML + LOADER_HTML
     }
   }
@@ -128,116 +113,6 @@ class SiteBot implements SiteBotInterface {
       }
       this.postMessage(message)
     })
-  }
-
-  runSelectorQueryElement (selector) {
-    if (typeof selector === 'function') {
-      return selector(this.root, this)
-    }
-    let result = null
-    if (Array.isArray(selector)) {
-      for (const s of selector) {
-        result = this.runSelectorQueryElement(s)
-        if (result !== null) {
-          return result
-        }
-      }
-    }
-    return this.root.querySelector(selector)
-  }
-
-  runSelectorQuery (selector) {
-    if (typeof selector === 'function') {
-      return selector(this.root, this)
-    }
-    if (Array.isArray(selector)) {
-      for (const s of selector) {
-        const result = this.runSelectorQuery(s)
-        if (result !== '') {
-          return result
-        }
-      }
-      return ''
-    }
-
-    const parts = selector.split('@')
-    const hasAttribute = parts.length > 1
-
-    const result = this.root.querySelector(parts[0])
-    if (result === null) {
-      return ''
-    }
-
-    if (hasAttribute) {
-      return result.attributes[parts[1]].value.trim()
-    } else {
-      return result.textContent.trim()
-    }
-  }
-
-  extractDateQuery (dateValue, range = [1, 1]) {
-    const defaultValue: FormattedDateRange = {
-      dateStart: '', dateEnd: ''
-    }
-    if (!dateValue) {
-      return defaultValue
-    }
-    let date
-    let match = dateValue.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/)
-    if (!match) {
-      match = dateValue.match(/(\d{1,2})\. (\w+) (\d{4})/)
-      if (match) {
-        const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-          'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
-        ]
-        const monthIndex = monthNames.findIndex((x) => x === match[2])
-        if (monthIndex === -1) {
-          return defaultValue
-        }
-        date = new Date(`${match[3]}-${monthIndex + 1}-${match[1]}`)
-      } else {
-        return defaultValue
-      }
-    } else {
-      date = new Date(`${match[3]}-${match[2]}-${match[1]}`)
-    }
-    if (isNaN(date)) {
-      return defaultValue
-    }
-    const formatDate = (d) => `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`
-    const day = 24 * 60 * 60 * 1000
-    const dateStart = new Date(date.getTime() - day * range[0])
-    const dateEnd = new Date(date.getTime() + day * range[1])
-    const dateRange: FormattedDateRange = {
-      dateStart: formatDate(dateStart),
-      dateEnd: formatDate(dateEnd)
-    }
-    return dateRange
-  }
-
-  collectArticleInfo () {
-    const articleInfoSelectors = ['query', 'edition', 'date']
-    const articleInfo: ArticleInfo = {}
-    for (const key of articleInfoSelectors) {
-      if (this.site.selectors[key]) {
-        const selector = this.site.selectors[key]
-        let result = this.runSelectorQuery(selector)
-        if (result instanceof window.HTMLElement) {
-          result = result.innerText
-        }
-        articleInfo[key] = result
-      }
-    }
-    let q = articleInfo.query
-    // remove some special chars
-    q = q.replace(/[!,:?;'/()]/g, '')
-    // remove non-leading/trailing quotes
-    q = q.replace(/(.)"(.)/g, '$1$2')
-    articleInfo.query = q
-    return {
-      ...articleInfo,
-      ...this.extractDateQuery(articleInfo.date, this.site.dateRange || [1, 1])
-    }
   }
 
   connectPort () {
@@ -287,7 +162,7 @@ class SiteBot implements SiteBotInterface {
   }
 
   showArticle (content, saveArticleUrl) {
-    const main = this.getMainContentArea()
+    const main = this.extractor.getMainContentArea()
     content = content.join('')
     if (this.site.mimic) {
       if (typeof this.site.mimic === 'function') {

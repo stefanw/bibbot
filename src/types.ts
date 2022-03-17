@@ -19,10 +19,26 @@ type ParagraphStyle = {
   className?: string
   style?: string
 }
+
+export type ArticleInfo = {
+  query?: string
+  edition?: string
+  date?: DateRange
+}
+
+export interface ExtractorInterface {
+  shouldExtract(): boolean
+  extractArticleInfo(): ArticleInfo
+  runSelectorQuery(StringSelector): string
+  getMainContentArea(): HTMLElement
+  hasPaywall(): boolean
+}
+
 export interface SiteBotInterface {
+  extractor: ExtractorInterface
   start(): void
   hideBot(): void
-  runSelectorQuery(selector: StringSelector): string
+  startInfoExtraction(): ArticleInfo
 }
 
 export interface PartialSite {
@@ -42,7 +58,7 @@ export interface PartialSite {
   paragraphStyle?: ParagraphStyle
   source: SourceIdentifier
   dateRange?: DateRange
-  testSetup?: (page: any) => Promise<void>
+  testSetup?: (page: PuppeteerPage) => Promise<void>
   examples?: TestExample[]
 }
 
@@ -57,12 +73,6 @@ export type Sites = {
 export type FormattedDateRange = {
   dateStart: string
   dateEnd: string
-}
-
-export type ArticleInfo = {
-  query?: string
-  edition?: string
-  date?: DateRange
 }
 
 export type ProviderField = 'username' | 'password' | 'city' | 'name'
