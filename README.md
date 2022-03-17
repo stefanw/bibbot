@@ -1,6 +1,6 @@
-# VOEBBot
+# BibBot
 
-[Official website](https://stefanw.github.io/voebbot/)
+[Official website](https://stefanw.github.io/bibbot/)
 
 ## Development
 

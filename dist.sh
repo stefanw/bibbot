@@ -2,9 +2,9 @@
 set -ex
 
 mkdir -p dist
-rm -f dist/voebbot.zip
+rm -f dist/bibbot.zip
 npm run build
-zip -r -FS dist/voebbot.zip * --exclude '*.git*' \
+zip -r -FS dist/bibbot.zip * --exclude '*.git*' \
   --exclude '*/.DS_Store' \
   --exclude '.*' \
   --exclude 'node_modules/*' \
@@ -21,5 +21,5 @@ zip -r -FS dist/voebbot.zip * --exclude '*.git*' \
   --exclude 'index.html' \
   --exclude 'web-ext-artifacts/*'
 
-rm -rf dist/voebbot
-unzip dist/voebbot.zip -d dist/voebbot
+rm -rf dist/bibbot
+unzip dist/bibbot.zip -d dist/bibbot
