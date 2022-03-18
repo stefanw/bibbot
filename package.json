@@ -33,7 +33,8 @@
   "scripts": {
     "start": "rollup -c -w",
     "build": "rollup -c",
-    "lint": "eslint",
+    "lint": "eslint src tests",
+    "check-types": "tsc --noemit",
     "test": "jest --runInBand",
     "version": "gsed -i '4s/\"version\": \".*\",/\"version\": \"'\"$(jq -r .version package.json)\"'\",/' manifest.json && git add manifest.json"
   },

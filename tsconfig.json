@@ -2,7 +2,9 @@
   "compilerOptions": {
     "outDir": "./build",
     "allowJs": true,
-    "target": "es6"
+    "target": "es6",
+    "skipLibCheck": true
   },
+  "moduleResolution": "node12",
   "include": ["./src/**/*", "./tests/**/*"]
 }

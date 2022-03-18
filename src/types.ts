@@ -39,6 +39,7 @@ export interface SiteBotInterface {
   start(): void
   hideBot(): void
   startInfoExtraction(): ArticleInfo
+  runSelectorQuery(StringSelector): string
 }
 
 export interface PartialSite {

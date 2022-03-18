@@ -64,6 +64,10 @@ class SiteBot implements SiteBotInterface {
     this.postMessage(message)
   }
 
+  runSelectorQuery (selector) {
+    return this.extractor.runSelectorQuery(selector)
+  }
+
   hidePaywall () {
     if (this.extractor.hasPaywall()) {
       this.extractor.getPaywall().style.display = 'none'

@@ -1,5 +1,3 @@
-import { LOADER_HTML, BOT_ID, LOADER_ID, MESSAGE_ID, FAILED_HTML } from './ui.js'
-
 import { ExtractorInterface, Site, FormattedDateRange, ArticleInfo } from './types.js'
 
 class Extractor implements ExtractorInterface {
