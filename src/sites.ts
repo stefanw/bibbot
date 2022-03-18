@@ -619,10 +619,10 @@ const sites: Sites = {
   },
   'www.stimme.de': {
     testSetup: async (page) => {
-      const buttonHandle = await page.evaluateHandle('document.querySelector("#cmpwrapper").shadowRoot.querySelector("#cmpwelcomebtnyes")')
-      if (buttonHandle !== null) {
+      const buttonHandle = await page.evaluateHandle('document.querySelector("#cmpwrapper")?.shadowRoot?.querySelector("#cmpwelcomebtnyes")')
+      if (buttonHandle) {
         const buttonElement = buttonHandle.asElement()
-        if (buttonElement !== null) {
+        if (buttonElement) {
           await buttonElement.click()
         }
       }
