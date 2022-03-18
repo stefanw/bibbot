@@ -129,6 +129,20 @@
           ul.appendChild(li)
         });
       });
+      // Harhar, horrible hack ahead to extract providers out of source code!
+      fetch('src/providers.ts').then(response => response.text()).then(data => {
+        const nameWeb = new RegExp(/name: '([^']+)',\s*web: '([^']+)',/g)
+        var ul = document.getElementById('providers')
+        for (const match of data.matchAll(nameWeb)) {
+          console.log(match)
+          var li = document.createElement('li')
+          var a = document.createElement('a')
+          a.href = match[2]
+          a.innerText = match[1]
+          li.appendChild(a)
+          ul.appendChild(li)
+        }
+      })
     </script>
   </body>
 </html>
