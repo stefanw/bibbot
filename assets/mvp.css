@@ -486,3 +486,8 @@ sup {
 details:target {
   outline: 1px solid darkred;
 }
+
+.logo {
+  transform: translate(0, 15px);
+  width: 2em;
+}
