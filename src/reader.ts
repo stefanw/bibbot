@@ -4,9 +4,9 @@ import { Runtime } from 'webextension-polyfill'
 import { increaseStats } from './stats.js'
 import { INIT_MESSAGE, GOTOTAB_MESSAGE, SUCCES_MESSAGE, FAILED_MESSAGE, STATUS_MESSAGE, DEFAULT_PROVIDER } from './const.js'
 import SourceBot from './sourcebot.js'
-import { Message, VoebbotOptions } from './types.js'
+import { Message, BibbotOptions } from './types.js'
 
-let storageItems: VoebbotOptions
+let storageItems: BibbotOptions
 
 function retrieveStorage () {
   const defaults = {

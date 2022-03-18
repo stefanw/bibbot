@@ -82,14 +82,14 @@ export type ProviderStorageOptions = {
   [key in ProviderField]?: string
 }
 
-export interface VoebbotOptions {
+export interface BibbotOptions {
   provider: string
   keepStats: boolean
   providerOptions: ProviderStorageOptions
   saveArticle: string | null
 }
 
-export interface StorageItems extends VoebbotOptions {
+export interface StorageItems extends BibbotOptions {
   installDate?: number | null
   stats?: {
     [key: string]: number
