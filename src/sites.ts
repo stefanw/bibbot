@@ -365,7 +365,7 @@ const sites: Sites = {
     selectors: {
       query: makeQueryFunc('.paywall-fadeout'),
       main: '.bibbot-main',
-      time: '[itemprop="datePublished"]',
+      date: '[itemprop="datePublished"]',
       paywall: '.paywall'
     },
     start: (root) => {
