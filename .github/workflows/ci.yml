@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: "16"
       - name: Cache node modules
@@ -27,8 +27,8 @@ jobs:
             ${{ runner.os }}-
       - name: Install Dependencies
         run: npm ci
-      - name: Running lint
-        run: npm run lint src tests
+      - name: Running lint and type check
+        run: npm run lint && npm run check-types
       - name: Create build of test content script
         run: npm run build
       - name: Run the tests
