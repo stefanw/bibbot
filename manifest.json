@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "BibBot",
-  "version": "0.20.3",
+  "version": "0.21.0",
   "description": "Vereinfacht die Suche nach Artikeln in der Bibliothek",
   "icons": {
     "48": "icons/bibbot48.png",
