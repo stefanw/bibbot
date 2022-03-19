@@ -17,16 +17,18 @@ npm start
 
 The extension has four different entry points:
 
-- The content script in `src/content.js` runs on the news article page, communicates with background script
-- the background script in `src/background.js` which opens new tabs, navigates them around and scrapes the content
-- the options page in `src/options.js` is the options page for the extension
+- The content script in `src/content.ts` runs on the news article page, communicates with background script
+- the background script in `src/background.ts` which opens new tabs, navigates them around and scrapes the content
+- the options page in `src/options.ts` is the options page for the extension
 - the popup in `popup/` is opened when the extension icon in the toolbar is clicked
 
-These are the data pieces inside:
+These are the relevant players:
 
-- `src/providers.js` contains entities that you authenticate against and that grant access
-- `src/sources.js` contains databases that you can get access to through providers
-- `src/sites.js` contains news sites, how to extract their meta data and which source could provide access
+- `src/providers.ts` contains libraries that you authenticate against and that grant access
+- `src/sources.ts` contains databases that you can get access to through providers
+- `src/sites.ts` contains news sites, how to extract their meta data and which source could provide access
+
+For details on how to construct any of these entities, have a look at `src/types.ts`
 
 Additionally user data like credentials and chosen provider is stored via `browser.storage.sync`.
 
