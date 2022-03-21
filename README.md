@@ -40,6 +40,9 @@ There is a test setup for sites using [Jest](https://jestjs.io/) and [Puppeteer]
 ```bash
 # install dependencies
 npm ci
+# Run linting and type checking
+npm run lint
+npm run check-types
 # Always run build before tests, as test uses build files!
 npm run build
 # Run tests
@@ -74,4 +77,4 @@ Add testing data to site objects like this:
 
 1. Run `npm version <major|minor|patch>`
 2. `git push --tags origin main`
-3. GitHub release Action will build, create release, sign Firefox extension, submit to Chrome Web Store and update website.
+3. GitHub release Action will build, test, create release, sign Firefox extension, submit to Chrome Web Store and update website.
