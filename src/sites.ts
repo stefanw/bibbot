@@ -75,6 +75,15 @@ const KSTA: PartialSite = {
 
 const sites: Sites = {
   'www.spiegel.de': {
+    testSetup: getConsentCdnSetup({ framePart: 'sp-spiegel-de', button: '.primary-button' }),
+    examples: [
+      {
+        url: 'https://www.spiegel.de/politik/deutschland/klara-geywitz-ueber-sanierungspflicht-von-immobilien-neuen-wohnraum-und-fluechtlinge-a-6aeb319e-fc25-4efa-a0cf-66e10ed49969',
+        selectors: {
+          query: '»Es wird nicht ohne Ordnungsrecht gehen wenn wir die Klimaziele erreichen wollen«'
+        }
+      }
+    ],
     selectors: {
       query: (root, siteBot) => {
         return siteBot.runSelectorQuery([
