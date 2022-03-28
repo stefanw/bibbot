@@ -107,7 +107,7 @@ const sites: Sites = {
     dateRange: [7, 1], // search from 7 days before to one day after given date
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'SPPL,SPII,KULS,SPIE,SPON,SSPE,UNIS,LISP,SPBE'
+      dbShortcut: 'SPPL,SPII,KULS,SPIE,SSPE,UNIS,LISP,SPBE'
     }
   },
   'plus.tagesspiegel.de': {
