@@ -371,16 +371,25 @@ const sites: Sites = {
     }
   },
   'www.noz.de': {
+    testSetup: getConsentCdnSetup({ pageChanges: false }),
+    examples: [
+      {
+        url: 'https://www.noz.de/lokales/hasbergen/artikel/im-angesicht-des-kriegs-ausstellung-am-augustaschacht-hasbergen-23451387',
+        selectors: {
+          query: 'Ist es angemessen in der Gedenkstätte Augustaschacht in Hasbergen eine Ausstellung zur Erinnerung an die sowjetischen Kriegsgefangenen des Zweiten Weltkrieges zu zeigen während russische Truppen einen Angriffskrieg gegen die Ukraine führen Mehr denn je sagen Landrätin Anna Kebschull und Ausstellungskuratorin Babette Quinkert.'
+        }
+      }
+    ],
     selectors: {
-      query: makeQueryFunc('.paywall-fadeout'),
-      main: '.bibbot-main',
+      query: 'p.w-600',
+      main: '.content--group',
       date: '[itemprop="datePublished"]',
       paywall: '.paywall'
     },
     start: (root) => {
-      const p = root.querySelector('.paywall-fadeout')
+      const p = root.querySelector('.p.w-600')
       if (p) {
-        p.classList.remove('paywall-fadeout')
+        p.classList.remove('p.w-600')
         p.classList.add('bibbot-main')
       }
     },
