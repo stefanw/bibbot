@@ -382,7 +382,7 @@ const sites: Sites = {
     ],
     selectors: {
       query: 'p.w-600',
-      main: '.content--group',
+      main: '.content--group__section:last-child',
       date: '[itemprop="datePublished"]',
       paywall: '.paywall'
     },
