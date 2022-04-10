@@ -69,7 +69,8 @@
         "https://www.vn.at/*",
         "https://www.thueringer-allgemeine.de/*",
         "https://www.mopo.de/*",
-        "https://www.saechsische.de/*"
+        "https://www.saechsische.de/*",
+        "https://www.freiepresse.de/*"
       ],
       "js": [
         "build/content.js"

@@ -902,6 +902,27 @@ const sites: Sites = {
     sourceParams: {
       dbShortcut: 'SZO'
     }
+  },
+  'www.freiepresse.de': {
+    testSetup: getConsentCdnSetup({ framePart: 'cmp2.freiepresse.de', button: 'button[title="Alle akzeptieren"]' }),
+    examples: [
+      {
+        url: 'https://www.freiepresse.de/chemnitz/neue-schau-im-wasserschloss-klaffenbach-tiere-musik-und-schokolade-artikel11437998',
+        selectors: {
+          query: 'Neue Schau im Wasserschloss Klaffenbach: Tiere, Musik und Schokolade'
+        }
+      }
+    ],
+    selectors: {
+      query: '.article-headlines h1',
+      headline: '.article-headlines h1',
+      paywall: '.pw-layer',
+      main: '.article-text:not(.m8)'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'FEPR'
+    }
   }
 }
 
