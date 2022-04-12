@@ -909,7 +909,7 @@ const sites: Sites = {
       {
         url: 'https://www.freiepresse.de/chemnitz/neue-schau-im-wasserschloss-klaffenbach-tiere-musik-und-schokolade-artikel11437998',
         selectors: {
-          query: 'Neue Schau im Wasserschloss Klaffenbach: Tiere, Musik und Schokolade'
+          query: 'Neue Schau im Wasserschloss Klaffenbach Tiere, Musik und Schokolade'
         }
       }
     ],
