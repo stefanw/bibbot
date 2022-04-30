@@ -112,8 +112,12 @@ class SourceBot {
     return false
   }
 
+  getActionList () {
+    return this.provider[this.phase] || this.source[this.phase]
+  }
+
   getActions () {
-    const actionList = this.provider[this.phase] || this.source[this.phase]
+    const actionList = this.getActionList()
     const actions = actionList[this.step]
     if (Array.isArray(actions)) {
       return actions
@@ -172,7 +176,8 @@ class SourceBot {
     }
     // Move to next step and wait for tab update event
     this.step += 1
-    if (this.step > this.source[this.phase].length - 1) {
+    const actionList = this.getActionList()
+    if (this.step > actionList.length - 1) {
       if (this.phase === PHASE.LOGIN) {
         this.phase = PHASE.SEARCH
       }
