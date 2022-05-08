@@ -620,16 +620,26 @@ const sites: Sites = {
       {
         url: 'https://www.ostsee-zeitung.de/Mecklenburg/Rostock/Zu-gefaehrlich-fuer-Radfahrer-Kommt-Tempo-30-fuer-die-Rostocker-Dethardingstrasse',
         selectors: {
-          query: 'Eine der wichtigsten Ost-West-Achsen in der Rostocker Innenstadt könnte in eine Tempo-30-Zone umgewandelt werden Die aktuelle Situation für Radler in...'
+          query: 'Zu gefährlich für Radfahrer Kommt Tempo 30 für die Rostocker Dethardingstraße'
         }
       }
     ],
     selectors: {
-      query: '.pdb-article-body-paidcontentintro p',
-      date: '.pdb-article-publicationdate-part',
-      paywall: '.pdb-article-paidcontent-registration',
-      main: '.pdb-article-body'
+      query: 'nav *[class*="Breadcrumbstyled__Title"]',
+      date: 'time',
+      paywall: '.paywall',
+      main: 'header div[class*="ArticleHeadstyled__ArticleTeaserContainer"] div:not([class])'
     },
+    waitOnLoad: true,
+    start: (root) => {
+      const main: HTMLElement = root.querySelector('header div[class*="ArticleHeadstyled__ArticleTeaserContainer"]')
+      main.style.height = 'auto'
+      main.style.overflow = 'auto'
+    //   const obj = JSON.parse(document.evaluate('//script[@type="application/ld+json" and contains(./text(), "mainEntityOfPage")]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.textContent)
+    //   paywall.textContent = obj.articleBody
+    //   return true
+    },
+    mimic: '*[class*="Textstyled__InlineText"]',
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'OSZ'
