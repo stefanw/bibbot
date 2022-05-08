@@ -914,8 +914,8 @@ const sites: Sites = {
       }
     ],
     selectors: {
-      query: '.article-headlines h1',
-      headline: '.article-headlines h1',
+      query: '.article-headlines > *',
+      headline: '.article-headlines > *',
       paywall: '.pw-layer',
       main: '.article-text:not(.m8)'
     },
