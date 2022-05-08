@@ -792,6 +792,7 @@ const sites: Sites = {
     }
   },
   'www.kleinezeitung.at': {
+    testSetup: getConsentCdnSetup({ pageChanges: false, framePart: 'cmp-consent', button: 'button#save' }),
     examples: [
       {
         url: 'https://www.kleinezeitung.at/steiermark/weiz/6100137/Gefaehrlicher-Trend_Uebelkeit-Herzrasen_Nikotinbeutel-machen-bei',
@@ -801,17 +802,16 @@ const sites: Sites = {
       }
     ],
     selectors: {
-      query: (root) => {
-        const el = findCommentNode(root.querySelector('.article__content'), '- - - body of article - - - ')?.nextElementSibling
-        return extractQuery(el as HTMLElement)
-      },
-      date: "meta[property='article:published_time']",
-      paywall: '.paidblocker--article',
-      main: '.article__content'
+      query: makeQueryFunc('.article-body div div'),
+      date: 'time',
+      paywall: '#pianoPaywall',
+      main: '.article-body'
     },
     start: (root) => {
       const blocker = root.querySelector('.blocker')
-      blocker.classList.remove('blocker')
+      if (blocker) {
+        blocker.classList.remove('blocker')
+      }
     },
     insertContent: (siteBot, main, content) => {
       siteBot.hideBot()
