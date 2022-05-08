@@ -871,7 +871,7 @@ const sites: Sites = {
     }
   },
   'www.saechsische.de': {
-    testSetup: getConsentCdnSetup({ framePart: 'privacy-mgmt.com', button: 'button[title="Akzeptieren"]' }),
+    testSetup: getConsentCdnSetup({ framePart: 'privacy-mgmt.com', button: 'button[title~="Akzeptieren"]' }),
     examples: [
       {
         url: 'https://www.saechsische.de/sachsen/die-dresdner-lehrerin-und-ihre-radikale-sekte-5418484-plus.html',
