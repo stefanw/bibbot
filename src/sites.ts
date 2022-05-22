@@ -225,7 +225,7 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'SZ,SZDE,SZPT,SZPW,SZRE,SZW,SZMA'
+      dbShortcut: 'SZ,SZDE,SZPT,SZPW,SZRE,SZW,SZMA,SZMO'
     }
   },
   'sz-magazin.sueddeutsche.de': {
