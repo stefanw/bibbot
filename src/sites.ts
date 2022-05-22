@@ -247,7 +247,7 @@ const sites: Sites = {
     waitOnLoad: true,
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'SZMA'
+      dbShortcut: 'SZMA,SZMO'
     }
   },
   'www.handelsblatt.com': {
