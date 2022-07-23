@@ -947,6 +947,7 @@ const sites: Sites = {
     selectors: {
       // query: '#article header h2',
       query: (root) => {
+        // this JS contains JSON meta data, disclosing the first words of the print article
         const metadataList = document.querySelectorAll('[type*="application/ld+json"]')
         let firstWords = ''
         metadataList.forEach(element => {
