@@ -940,42 +940,30 @@ const sites: Sites = {
       {
         url: 'https://www.dnn.de/lokales/dresden/laesst-dresden-800-wartehaeuschen-schreddern-FCEJWIVOHYVCWZ7OYHCO42YBVE.html',
         selectors: {
-          query: '"Werden in Dresden 800 Wartehäuschen an Straßenbahn- und Bushaltestellen abgerissen"'
+          query: 'Werden in Dresden 800 Wartehäuschen an Straßenbahn- und Bushaltestellen abgerissen Wenn des nach dem Willen von Grünen CDU und FDP geht beginnt bald der große Abriss. Die drei Fraktionen haben sich auf einen Antrag geeinigt der den Abriss der Fahrgastunterstände vorsieht. Unter anderem.'
         }
       }
     ],
     selectors: {
-      // query: '#article header h2',
-      query: (root) => {
-        // this JS contains JSON meta data, disclosing the first words of the print article
-        const metadataList = document.querySelectorAll('[type*="application/ld+json"]')
-        let firstWords = ''
-        metadataList.forEach(element => {
-          const data = JSON.parse(element.innerHTML)
-          if (data.articleBody) {
-            firstWords = data.articleBody.split(' ').slice(0, 10).join(' ')
-          }
-        })
-        if (firstWords !== '') {
-          return '"' + firstWords + '"'
-        } else {
-          root.querySelector('#article header h2')
-        }
-      },
+      query: 'span[class*="Textstyled__InlineText"]',
       headline: '#article header h2',
       paywall: '#piano-lightbox-article-dnn',
-      main: 'div[class*="ArticleHeadstyled__ArticleTeaserContainer"] > p'
+      main: 'div[class*="ArticleHeadstyled__ArticleTeaserContainer"] > div > p[class*="Textstyled__Text"]'
     },
     waitOnLoad: true,
     start: (root) => {
       const main: HTMLElement = root.querySelector('div[class*="ArticleHeadstyled__ArticleTeaserContainer"]')
       main.style.height = 'auto'
       main.style.overflow = 'auto'
-      // remove title from plus icon, because it addes "Kostenpflichtig" to the title
-      const plus: HTMLElement = root.querySelector('#paid-icon')
-      if (plus) {
-        plus.remove()
-      }
+    },
+    insertContent: (siteBot, main, content) => {
+      siteBot.hideBot()
+      main.querySelector('span[class*="Textstyled__InlineText"]').innerHTML = content
+      main.parentElement.childNodes.forEach((node, i) => {
+        if (i > 0) {
+          node.remove()
+        }
+      })
     },
     source: 'genios.de',
     sourceParams: {
