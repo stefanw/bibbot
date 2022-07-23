@@ -933,6 +933,53 @@ const sites: Sites = {
     sourceParams: {
       dbShortcut: 'FEPR'
     }
+  },
+  'www.dnn.de': {
+    testSetup: getConsentCdnSetup({ framePart: 'cmp-sp.dnn.de', button: 'button[title="Alle akzeptieren"]' }),
+    examples: [
+      {
+        url: 'https://www.dnn.de/lokales/dresden/laesst-dresden-800-wartehaeuschen-schreddern-FCEJWIVOHYVCWZ7OYHCO42YBVE.html',
+        selectors: {
+          query: '"Werden in Dresden 800 Wartehäuschen an Straßenbahn- und Bushaltestellen abgerissen"'
+        }
+      }
+    ],
+    selectors: {
+      // query: '#article header h2',
+      query: (root) => {
+        const metadataList = document.querySelectorAll('[type*="application/ld+json"]')
+        let firstWords = ''
+        metadataList.forEach(element => {
+          const data = JSON.parse(element.innerHTML)
+          if (data.articleBody) {
+            firstWords = data.articleBody.split(' ').slice(0, 10).join(' ')
+          }
+        })
+        if (firstWords !== '') {
+          return '"' + firstWords + '"'
+        } else {
+          root.querySelector('#article header h2')
+        }
+      },
+      headline: '#article header h2',
+      paywall: '#piano-lightbox-article-dnn',
+      main: 'div[class*="ArticleHeadstyled__ArticleTeaserContainer"] > p'
+    },
+    waitOnLoad: true,
+    start: (root) => {
+      const main: HTMLElement = root.querySelector('div[class*="ArticleHeadstyled__ArticleTeaserContainer"]')
+      main.style.height = 'auto'
+      main.style.overflow = 'auto'
+      // remove title from plus icon, because it addes "Kostenpflichtig" to the title
+      const plus: HTMLElement = root.querySelector('#paid-icon')
+      if (plus) {
+        plus.remove()
+      }
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'DNN'
+    }
   }
 }
 
