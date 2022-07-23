@@ -70,7 +70,8 @@
         "https://www.thueringer-allgemeine.de/*",
         "https://www.mopo.de/*",
         "https://www.saechsische.de/*",
-        "https://www.freiepresse.de/*"
+        "https://www.freiepresse.de/*",
+        "https://www.lvz.de/*"
       ],
       "js": [
         "build/content.js"
