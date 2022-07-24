@@ -975,6 +975,78 @@ const sites: Sites = {
     sourceParams: {
       dbShortcut: 'HAZ'
     }
+  },
+  'www.lvz.de': {
+    testSetup: getConsentCdnSetup({ framePart: 'cmp-sp.lvz.de', button: 'button[title="Alle akzeptieren"]' }),
+    examples: [
+      {
+        url: 'https://www.lvz.de/lokales/leipzig/lvb-letzte-xl-strassenbahn-ist-da-tatras-verabschieden-sich-aus-leipzig-KJTZK5LMTYO7SABWWZTM2CT37A.html',
+        selectors: {
+          query: 'In Heiterblick ist am Dienstag ein Großprojekt zu Ende gegangen. Die Leipziger Verkehrsbetriebe LVB nahmen dort in ihrem Technischen Zentrum ihre letzte XL-Straßenbahn in Empfang. Künftig setzt das Unternehmen auf eine neue Straßenbahn-Generation die rund 10 Zentimeter breiter ist und mehr Fahrgäste befördern kann. Das erste Fahrzeug dieses neuen Typs soll im Jahr 2024 eintreffen.'
+        }
+      }
+    ],
+    selectors: {
+      query: 'span[class*="Textstyled__InlineText"]',
+      headline: '#article header h2',
+      paywall: '#piano-lightbox-article-lvz',
+      main: 'div[class*="ArticleHeadstyled__ArticleTeaserContainer"] > div > p[class*="Textstyled__Text"]'
+    },
+    waitOnLoad: true,
+    start: (root) => {
+      const main: HTMLElement = root.querySelector('div[class*="ArticleHeadstyled__ArticleTeaserContainer"]')
+      main.style.height = 'auto'
+      main.style.overflow = 'auto'
+    },
+    insertContent: (siteBot, main, content) => {
+      siteBot.hideBot()
+      main.querySelector('span[class*="Textstyled__InlineText"]').innerHTML = content
+      main.parentElement.childNodes.forEach((node, i) => {
+        if (i > 0) {
+          node.remove()
+        }
+      })
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'LVZ'
+    }
+  },
+  'www.dnn.de': {
+    testSetup: getConsentCdnSetup({ framePart: 'cmp-sp.dnn.de', button: 'button[title="Alle akzeptieren"]' }),
+    examples: [
+      {
+        url: 'https://www.dnn.de/lokales/dresden/laesst-dresden-800-wartehaeuschen-schreddern-FCEJWIVOHYVCWZ7OYHCO42YBVE.html',
+        selectors: {
+          query: 'Werden in Dresden 800 Wartehäuschen an Straßenbahn- und Bushaltestellen abgerissen Wenn des nach dem Willen von Grünen CDU und FDP geht beginnt bald der große Abriss. Die drei Fraktionen haben sich auf einen Antrag geeinigt der den Abriss der Fahrgastunterstände vorsieht. Unter anderem.'
+        }
+      }
+    ],
+    selectors: {
+      query: 'span[class*="Textstyled__InlineText"]',
+      headline: '#article header h2',
+      paywall: '#piano-lightbox-article-dnn',
+      main: 'div[class*="ArticleHeadstyled__ArticleTeaserContainer"] > div > p[class*="Textstyled__Text"]'
+    },
+    waitOnLoad: true,
+    start: (root) => {
+      const main: HTMLElement = root.querySelector('div[class*="ArticleHeadstyled__ArticleTeaserContainer"]')
+      main.style.height = 'auto'
+      main.style.overflow = 'auto'
+    },
+    insertContent: (siteBot, main, content) => {
+      siteBot.hideBot()
+      main.querySelector('span[class*="Textstyled__InlineText"]').innerHTML = content
+      main.parentElement.childNodes.forEach((node, i) => {
+        if (i > 0) {
+          node.remove()
+        }
+      })
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'DNN'
+    }
   }
 }
 
