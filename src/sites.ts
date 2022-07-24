@@ -934,6 +934,48 @@ const sites: Sites = {
       dbShortcut: 'FEPR'
     }
   },
+  'www.haz.de': {
+    testSetup: getConsentCdnSetup({ framePart: 'cmp-sp.haz.de', button: 'button[title="Alle akzeptieren"]' }),
+    examples: [
+      {
+        url: 'https://www.haz.de/der-norden/tour-mit-9-euro-ticket-auf-dem-sofa-bei-hitzacker-ueber-die-elbe-schippern-UO2T7PN7TB73CND54EVFCMYVA4.html',
+        selectors: {
+          query: 'Hitzacker. Es ist der Moment in dem er den Motor ausmacht den Bernd am liebsten mag. „Dann ist nur noch das Plätschern des Wassers zu hören“ sagt der Mann mit der Schirmmütze „und vielleicht ein paar Gänse“. Oder Störche. Oder Kraniche. Bernd heißt mit Nachnamen Rübsam-Wassong doch wenn er über die Elbe schippert stellt er sich den Gästen einfach so vor „Ich bin Bernd der Skipper.“'
+        }
+      }
+    ],
+    selectors: {
+      query: 'div[class*="ArticleHeadstyled__ArticleTeaserContainer"] > div > p[class*="Textstyled__Text"]',
+      headline: '#article header h2',
+      paywall: '#piano-lightbox-article-haz',
+      main: 'div[class*="ArticleHeadstyled__ArticleTeaserContainer"]'
+    },
+    waitOnLoad: true,
+    start: (root) => {
+      const main: HTMLElement = root.querySelector('div[class*="ArticleHeadstyled__ArticleTeaserContainer"]')
+      main.style.height = 'auto'
+      main.style.overflow = 'auto'
+      /*
+      // remove location from search text
+      let location = root.querySelector('span[class*="LocationNamestyled__LocationName"]')
+      if (location) {
+        location.remove()
+      } */
+    },
+    insertContent: (siteBot, main, content) => {
+      siteBot.hideBot()
+      document.querySelector('div[class*="ArticleHeadstyled__ArticleTeaserContainer"] > div:not([class]) :first-child').innerHTML = content
+      document.querySelector('div[class*="ArticleHeadstyled__ArticleTeaserContainer"] > div:not([class])').childNodes.forEach((node, i) => {
+        if (i > 0) {
+          node.remove()
+        }
+      })
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'HAZ'
+    }
+  },
   'www.lvz.de': {
     testSetup: getConsentCdnSetup({ framePart: 'cmp-sp.lvz.de', button: 'button[title="Alle akzeptieren"]' }),
     examples: [
