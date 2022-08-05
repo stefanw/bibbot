@@ -73,7 +73,8 @@
         "https://www.freiepresse.de/*",
         "https://www.haz.de/*",
         "https://www.lvz.de/*",
-        "https://www.dnn.de/*"
+        "https://www.dnn.de/*",
+        "https://www.swp.de/*"
       ],
       "js": [
         "build/content.js"
