@@ -1047,6 +1047,31 @@ const sites: Sites = {
     sourceParams: {
       dbShortcut: 'DNN'
     }
+  },
+  'www.swp.de': {
+    testSetup: getConsentCdnSetup({ framePart: 'cmp2.freiepresse.de', button: 'button[title="Alle akzeptieren"]' }),
+    examples: [
+      {
+        url: 'https://www.swp.de/lokales/ulm/mobilitaet-in-ulm-verkehrswende-in-ulm_-es-ist-noch-viel-luft-nach-oben-65149611.html',
+        selectors: {
+          query: 'Was sich Autofahrer wünschen wurde nicht gefragt. Im Gegenteil Es ging um Konzepte der Zukunft bei denen das Auto hoffentlich kaum noch eine Rolle spielt. Sprich darum mehr Platz und Angebote für Fußgänger Radfahrer und den ÖPNV zu schaffen. Darum ging es bei einer Veranstaltung der Grüne...'
+        }
+      }
+    ],
+    start: (root) => {
+      const main: HTMLElement = root.querySelector('.paywall')
+      main.classList.remove('paywall')
+    },
+    selectors: {
+      query: 'article div.mb-3.text',
+      headline: 'article h2',
+      paywall: '#paywall-container',
+      main: 'article .article-text'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'SWP'
+    }
   }
 }
 
