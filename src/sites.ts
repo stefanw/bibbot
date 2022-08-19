@@ -19,6 +19,27 @@ const findCommentNode = (parentNode: Node, comment: string) => {
   return ([...parentNode.childNodes] as HTMLElement[]).find(n => n.nodeType === window.Node.COMMENT_NODE && n.nodeValue === comment)
 }
 
+const RND: PartialSite = {
+  selectors: {
+    query: makeQueryFunc('div[class*="ArticleHeadstyled__ArticleTeaserContainer"] > div > p[class*="Textstyled__Text"] span:not(:first-child)'),
+    headline: '#article header h2',
+    date: 'time',
+    paywall: 'div[class*="PianoContainerstyled__PianoContainer"]',
+    main: 'div[class*="ArticleHeadstyled__ArticleTeaserContainer"] > div:not([class])'
+  },
+  waitOnLoad: true,
+  start: (root) => {
+    const main: HTMLElement = root.querySelector('div[class*="ArticleHeadstyled__ArticleTeaserContainer"]')
+    main.style.height = 'auto'
+    main.style.overflow = 'auto'
+  },
+  mimic: (content) => {
+    const pClassName = document.querySelector('div[class*="ArticleHeadstyled__ArticleTeaserContainer"] > div:not([class]) :first-child').className
+    return content.replace(/<p>/g, `<p class="${pClassName}">`)
+  },
+  source: 'genios.de'
+}
+
 const GA: PartialSite = {
   selectors: {
     query: makeQueryFunc('.park-article__intro.park-article__content'),
@@ -329,16 +350,7 @@ const sites: Sites = {
     }
   },
   'www.maz-online.de': {
-    selectors: {
-      // query: '.pdb-article-teaser-breadcrumb-headline-title',
-      query: makeQueryFunc('.pdb-article-body-paidcontentintro p'),
-      paywall: '.pdb-article-paidcontent-registration',
-      main: '.pdb-article-body'
-    },
-    start: (root) => {
-      root.querySelector('.pdb-article-paidcontent-registration').remove()
-    },
-    source: 'genios.de',
+    ...RND,
     sourceParams: {
       dbShortcut: 'MAER'
     }
@@ -944,34 +956,7 @@ const sites: Sites = {
         }
       }
     ],
-    selectors: {
-      query: 'div[class*="ArticleHeadstyled__ArticleTeaserContainer"] > div > p[class*="Textstyled__Text"]',
-      headline: '#article header h2',
-      paywall: '#piano-lightbox-article-haz',
-      main: 'div[class*="ArticleHeadstyled__ArticleTeaserContainer"]'
-    },
-    waitOnLoad: true,
-    start: (root) => {
-      const main: HTMLElement = root.querySelector('div[class*="ArticleHeadstyled__ArticleTeaserContainer"]')
-      main.style.height = 'auto'
-      main.style.overflow = 'auto'
-      /*
-      // remove location from search text
-      let location = root.querySelector('span[class*="LocationNamestyled__LocationName"]')
-      if (location) {
-        location.remove()
-      } */
-    },
-    insertContent: (siteBot, main, content) => {
-      siteBot.hideBot()
-      document.querySelector('div[class*="ArticleHeadstyled__ArticleTeaserContainer"] > div:not([class]) :first-child').innerHTML = content
-      document.querySelector('div[class*="ArticleHeadstyled__ArticleTeaserContainer"] > div:not([class])').childNodes.forEach((node, i) => {
-        if (i > 0) {
-          node.remove()
-        }
-      })
-    },
-    source: 'genios.de',
+    ...RND,
     sourceParams: {
       dbShortcut: 'HAZ'
     }
