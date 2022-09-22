@@ -85,11 +85,6 @@ const KSTA: PartialSite = {
     if (paywall) {
       paywall.remove()
     }
-    const articleText = root.querySelector('.hide-paid-content')
-    if (articleText) {
-      articleText.classList.remove('hide-paid-content')
-    }
-    return true
   },
   source: 'genios.de'
 }
