@@ -27,6 +27,7 @@ class SiteBot implements SiteBotInterface {
   start (delay?: boolean | number) {
     if (typeof delay === 'number') {
       window.setTimeout(() => this.start(), delay)
+      return
     }
     if (!this.extractor.hasPaywall()) {
       return
