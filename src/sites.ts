@@ -131,7 +131,7 @@ const sites: Sites = {
       dbShortcut: 'SPPL,SPII,KULS,SPIE,SSPE,UNIS,LISP,SPBE'
     }
   },
-  'plus.tagesspiegel.de': {
+  'www.tagesspiegel.de': {
     selectors: {
       // query: "h1 > span",
       query: makeQueryFunc('.article--paid > p'),
