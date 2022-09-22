@@ -1062,6 +1062,20 @@ const sites: Sites = {
     sourceParams: {
       dbShortcut: 'RN'
     }
+  },
+  'www.businessinsider.de': {
+    testSetup: getConsentCdnSetup({ pageChanges: false, framePart: 'cdn.privacy-mgmt.com', button: 'sp_choice_type_11' }),
+    selectors: {
+      query: makeQueryFunc('.piano-article__content > p'),
+      headline: 'h2.entry-title',
+      date: 'time',
+      paywall: '.piano-article__paywall',
+      main: '.piano-article__content'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'BUIN'
+    }
   }
 }
 

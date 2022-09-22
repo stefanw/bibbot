@@ -75,7 +75,8 @@
         "https://www.lvz.de/*",
         "https://www.dnn.de/*",
         "https://www.swp.de/*",
-        "https://www.ruhrnachrichten.de/*"
+        "https://www.ruhrnachrichten.de/*",
+        "https://www.businessinsider.de/*"
       ],
       "js": [
         "build/content.js"
