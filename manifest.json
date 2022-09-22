@@ -74,7 +74,8 @@
         "https://www.haz.de/*",
         "https://www.lvz.de/*",
         "https://www.dnn.de/*",
-        "https://www.swp.de/*"
+        "https://www.swp.de/*",
+        "https://www.ruhrnachrichten.de/*"
       ],
       "js": [
         "build/content.js"

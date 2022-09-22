@@ -1,4 +1,4 @@
-import { getConsentCdnSetup } from './test_utils.js'
+import { getConsentCdnSetup, getCmpBoxConsent } from './test_utils.js'
 
 import { PartialSite, Sites } from './types.js'
 
@@ -296,11 +296,7 @@ const sites: Sites = {
     }
   },
   'www.morgenpost.de': {
-    testSetup: async (page) => {
-      const consent = '.cmpboxbtn.cmpboxbtnyes'
-      await page.waitForSelector(consent)
-      await page.click(consent)
-    },
+    testSetup: getCmpBoxConsent(),
     examples: [
       {
         url: 'https://www.morgenpost.de/bezirke/pankow/article234644603/Hindernisstrecke-Schoenhauser-Allee.html',
@@ -1051,6 +1047,20 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'SWP'
+    }
+  },
+  'www.ruhrnachrichten.de': {
+    testSetup: getCmpBoxConsent(),
+    selectors: {
+      query: makeQueryFunc('.entry__content > p'),
+      headline: 'h1.entry__title',
+      date: 'time',
+      paywall: '.PremiumContent',
+      main: '.entry__content'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'RN'
     }
   }
 }

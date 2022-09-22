@@ -21,6 +21,15 @@ const getConsentCdnSetup = ({ pageChanges = false, framePart = 'consent-cdn', bu
   }
 }
 
+const getCmpBoxConsent = () => {
+  return async (page) => {
+    const consent = '.cmpboxbtn.cmpboxbtnyes'
+    await page.waitForSelector(consent)
+    await page.click(consent)
+  }
+}
+
 export {
-  getConsentCdnSetup
+  getConsentCdnSetup,
+  getCmpBoxConsent
 }
