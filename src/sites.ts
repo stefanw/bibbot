@@ -864,7 +864,7 @@ const sites: Sites = {
     selectors: {
       query: makeQueryFunc('.elementor-widget-theme-post-content'),
       date: '.elementor-post-info__item--type-date',
-      paywall: '.elementor-widget-theme-post-content > .elementor-widget-container > div > div[data-elementor-type="section"]',
+      paywall: '#paywall',
       main: '.elementor-widget-theme-post-content > .elementor-widget-container > div > div'
     },
     start: (root) => {
