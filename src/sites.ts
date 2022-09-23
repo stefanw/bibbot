@@ -581,7 +581,7 @@ const sites: Sites = {
       {
         url: 'https://www.stuttgarter-zeitung.de/inhalt.probleme-bei-der-abrechnung-warum-ein-stuttgarter-impfarzt-schlaflose-naechte-hatte.98bea27d-f195-4bda-899b-8221d3d7f901.html?reduced=true',
         selectors: {
-          query: 'Der Stuttgarter Arzt Christian Schweninger impft gegen Corona und musste wegen Zahlungsverzögerungen beinahe einen Kredit aufnehmen. Wie kam es so weit'
+          query: '"Schlaflose Nächte hat Christian Schweninger hinter sich die"'
         }
       }
     ],
@@ -943,7 +943,7 @@ const sites: Sites = {
       {
         url: 'https://www.haz.de/der-norden/tour-mit-9-euro-ticket-auf-dem-sofa-bei-hitzacker-ueber-die-elbe-schippern-UO2T7PN7TB73CND54EVFCMYVA4.html',
         selectors: {
-          query: 'Hitzacker. Es ist der Moment in dem er den Motor ausmacht den Bernd am liebsten mag. „Dann ist nur noch das Plätschern des Wassers zu hören“ sagt der Mann mit der Schirmmütze „und vielleicht ein paar Gänse“. Oder Störche. Oder Kraniche. Bernd heißt mit Nachnamen Rübsam-Wassong doch wenn er über die Elbe schippert stellt er sich den Gästen einfach so vor „Ich bin Bernd der Skipper.“'
+          query: '"der Moment in dem er den Motor ausmacht"'
         }
       }
     ],
