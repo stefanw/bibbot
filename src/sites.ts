@@ -586,10 +586,10 @@ const sites: Sites = {
       }
     ],
     selectors: {
-      query: '.intro-text p',
-      date: 'div[itemprop="datePublished"]',
+      query: makeQueryFunc('.offerpage-wrapper .introText > p'),
+      date: 'span[itemprop="datePublished"]',
       paywall: '.c1-offers-target',
-      main: '.article-body > p'
+      main: '.offerpage-wrapper .introText'
     },
     source: 'genios.de',
     sourceParams: {
