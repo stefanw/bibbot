@@ -124,42 +124,42 @@ const geniosAssociationData = [
     bibId: '92',
     name: 'Stadtbücherei Donauwörth',
     web: 'https://www.donauwoerth.de/kultur/stadtbibliothek/',
-    domain: 'bib-bayern.genios.de',
+    domain: 'bib-bayern.genios.de'
   },
   {
     id: 'www.landshut.de',
     web: 'https://www.landshut.de/kultur-sport/stadtbuecherei',
     bibId: '57',
     name: 'Stadtbücherei Landshut',
-    domain: 'bib-bayern.genios.de',
+    domain: 'bib-bayern.genios.de'
   },
   {
     id: 'www.muehldorf.de',
     web: 'https://www.muehldorf.de/190-Buecherei.html',
     bibId: '52',
     name: 'Stadtbücherei Mühldorf',
-    domain: 'bib-bayern.genios.de',
+    domain: 'bib-bayern.genios.de'
   },
   {
     id: 'www.schweinfurt.de',
     web: 'https://www.schweinfurt.de/kultur-event/stadtbuecherei/index.html',
     bibId: '53',
     name: 'Stadtbücherei Schweinfurt',
-    domain: 'bib-bayern.genios.de',
+    domain: 'bib-bayern.genios.de'
   },
   {
     id: 'www.stadtbibliothek-straubing.de',
     web: 'https://www.stadtbibliothek-straubing.de/',
     bibId: '67',
     name: 'Stadtbücherei Straubing',
-    domain: 'bib-bayern.genios.de',
+    domain: 'bib-bayern.genios.de'
   },
   {
     id: 'www.forum-unterschleissheim.de',
     web: 'https://www.forum-unterschleissheim.de/bibliothek.html',
     bibId: '55',
     name: 'Stadtbücherei Unterschleißheim',
-    domain: 'bib-bayern.genios.de',
+    domain: 'bib-bayern.genios.de'
   },
   {
     id: 'stadtbuecherei.waiblingen.de',
