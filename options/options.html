@@ -2,6 +2,7 @@
 <html lang="de">
   <head>
     <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BibBot - Einstellungen</title>
     <link rel="icon" href="../icons/bibbot.svg">
     <link rel="stylesheet" href="../assets/mvp.css">
@@ -69,64 +70,62 @@
         </div>
       </section>
       <hr/>
-      <section>
-        <form id="settings">
-          <header>
-            <h2>Einstellungen</h2>
-          </header>
-          <h3>Bibliotheks-Zugangsdaten</h3>
-          <label for="provider">Bibliothek:</label>
-          <select id="provider">
-          </select>
-          <h3>Bibliotheks-Optionen</h3>
-          <div id="provider-options"></div>
+      <form id="settings">
+        <header>
+          <h2>Einstellungen</h2>
+        </header>
+        <h3>Bibliotheks-Zugangsdaten</h3>
+        <label for="provider">Bibliothek:</label>
+        <select id="provider">
+        </select>
+        <h3>Bibliotheks-Optionen</h3>
+        <div id="provider-options"></div>
+        <p>
+          <small>
+            Hinweis: Ihr Daten (inkl. Passwort) werden im Klartext gespeichert, so dass diese automatisch ausgefüllt werden können.<br/>
+          </small>
+        </p>
+        <h3>Wollen Sie wissen, ob sich ein direktes Abo bei einem Medium lohnt?</h3>
+        <p>
+          Die Anzahl der erfolgreich in der Bibliothek gefundenen Artikel können pro Nachrichtenseite gezählt werden.
+          <strong>Diese Daten werden nur für Sie im Browser gespeichert.</strong>
+        </p>
+        <label>
+          <input type="checkbox" id="keepStats">
+          Ja, diese Statistik führen
+        </label>
+
+        <details>
+          <summary>Weitere Einstellungen</summary>
+          <h3>Artikel später lesen</h3>
           <p>
-            <small>
-              Hinweis: Ihr Daten (inkl. Passwort) werden im Klartext gespeichert, so dass diese automatisch ausgefüllt werden können.<br/>
-            </small>
-          </p>
-          <h3>Wollen Sie wissen, ob sich ein direktes Abo bei einem Medium lohnt?</h3>
-          <p>
-            Die Anzahl der erfolgreich in der Bibliothek gefundenen Artikel können pro Nachrichtenseite gezählt werden.
-            <strong>Diese Daten werden nur für Sie im Browser gespeichert.</strong>
+            Wenn ein Artikel gefunden wurde, können Sie über den Button „Später lesen“ den Titel, die URL und den Artikelinhalt an eine URL per POST-Formular schicken.
+            Das können Sie zum Beispiel nutzen, um eine Privatkopie des Inhalts anzulegen zum späteren Lesen.
           </p>
           <label>
-            <input type="checkbox" id="keepStats">
-            Ja, diese Statistik führen
+            <input type="input" id="saveArticle" placeholder="https://...">
           </label>
+        </details>
 
-          <details>
-            <summary>Weitere Einstellungen</summary>
-            <h3>Artikel später lesen</h3>
-            <p>
-              Wenn ein Artikel gefunden wurde, können Sie über den Button „Später lesen“ den Titel, die URL und den Artikelinhalt an eine URL per POST-Formular schicken.
-              Das können Sie zum Beispiel nutzen, um eine Privatkopie des Inhalts anzulegen zum späteren Lesen.
-            </p>
-            <label>
-              <input type="input" id="saveArticle" placeholder="https://...">
-            </label>
-          </details>
-
-          <p>
-            Bitte lesen Sie sich vor Benutzung die Nutzungsbedingungen und Datenschutzerklärungen der Anbieter, die Sie nutzen möchten, durch.
-            Durch die Nutzung dieses Add-Ons stimmen Sie den Nutzungsbedingungen und Datenschutzerklärungen der Anbieter zu.
-            <ul>
-              <li>Genios: <a href="https://www.genios.de/solutionPopup/agb" target="_blank" rel="noopener">Nutzungsbedingungen</a>, <a href="https://www.genios.de/solutionPopup/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a></li>
-              <li>Munzinger: <a href="https://www.munzinger.de/search/bibliotheken/nutzungsbedingungen.jsp" target="_blank" rel="noopener">Nutzungsbedingungen</a>, <a href="https://www.munzinger.de/search/datenschutz.jsp" target="_blank" rel="noopener">Datenschutzerklärung</a></li>
-            </ul>
-          </p>
-          <button id="save" type="submit">
-            Speichern
-          </button>
-          <sup id="saved-note" style="display:none">Gespeichert!</sup>
-        </form>
         <p>
-          Kurz gucken, ob es funktioniert?
-          <a href="https://www.zeit.de/2021/11/soziale-ungleichheit-identitaetspolitik-diskriminierung-armut-bildung" target="_blank">
-            Klicken Sie hier, um als Test einen Paywall-Artikel zu öffnen.
-          </a>
+          Bitte lesen Sie sich vor Benutzung die Nutzungsbedingungen und Datenschutzerklärungen der Anbieter, die Sie nutzen möchten, durch.
+          Durch die Nutzung dieses Add-Ons stimmen Sie den Nutzungsbedingungen und Datenschutzerklärungen der Anbieter zu.
+          <ul>
+            <li>Genios: <a href="https://www.genios.de/solutionPopup/agb" target="_blank" rel="noopener">Nutzungsbedingungen</a>, <a href="https://www.genios.de/solutionPopup/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a></li>
+            <li>Munzinger: <a href="https://www.munzinger.de/search/bibliotheken/nutzungsbedingungen.jsp" target="_blank" rel="noopener">Nutzungsbedingungen</a>, <a href="https://www.munzinger.de/search/datenschutz.jsp" target="_blank" rel="noopener">Datenschutzerklärung</a></li>
+          </ul>
         </p>
-      </section>
+        <button id="save" type="submit">
+          Speichern
+        </button>
+        <sup id="saved-note" style="display:none">Gespeichert!</sup>
+      </form>
+      <p>
+        Kurz gucken, ob es funktioniert?
+        <a href="https://www.zeit.de/2021/11/soziale-ungleichheit-identitaetspolitik-diskriminierung-armut-bildung" target="_blank">
+          Klicken Sie hier, um als Test einen Paywall-Artikel zu öffnen.
+        </a>
+      </p>
     </main>
     <footer>
       <hr>
