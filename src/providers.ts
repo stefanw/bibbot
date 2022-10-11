@@ -592,7 +592,7 @@ const providers: Providers = {
     },
     login: [
       [
-        { message: 'VÖBB-Konto wird eingeloggt...' },
+        { message: 'Bibliothekskonto wird eingeloggt...' },
         { fill: { selector: 'input[name="L#AUSW"]', providerKey: 'voebb.de.options.username' } },
         { fill: { selector: 'input[name="LPASSW"]', providerKey: 'voebb.de.options.password' } },
         { click: 'input[name="LLOGIN"]' }
@@ -617,7 +617,7 @@ const providers: Providers = {
     },
     login: [
       [
-        { message: 'Bibliotheks-Konto wird eingeloggt...' },
+        { message: 'Bibliothekskonto wird eingeloggt...' },
         { url: '/online-angebote/login-online-angebote' },
         { fill: { selector: '#user', providerKey: 'stadtbibliothek.leipzig.de.options.username' } },
         { fill: { selector: 'input[name="LPASSW"]', providerKey: 'stadtbibliothek.leipzig.de.options.password' } },
@@ -643,7 +643,7 @@ const providers: Providers = {
     },
     login: [
       [
-        { message: 'Bibliotheks-Konto wird eingeloggt...' },
+        { message: 'Bibliothekskonto wird eingeloggt...' },
         { fill: { selector: 'input[name="user"]', providerKey: 'www.duesseldorf.de.options.username' } },
         { fill: { selector: 'input[name="pass"]', providerKey: 'www.duesseldorf.de.options.password' } },
         { click: '.buttong_l' }
@@ -667,7 +667,7 @@ const providers: Providers = {
     },
     login: [
       [
-        { message: 'Bibliotheks-Konto wird eingeloggt...' },
+        { message: 'Bibliothekskonto wird eingeloggt...' },
         { fill: { selector: 'input[name="user"]', providerKey: 'fernuni-hagen.de.options.username' } },
         { fill: { selector: 'input[name="pass"]', providerKey: 'fernuni-hagen.de.options.password' } },
         { click: 'input[type="submit"]' }

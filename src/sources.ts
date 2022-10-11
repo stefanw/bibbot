@@ -20,7 +20,7 @@ const sources: Sources = {
     ],
     search: [
       [
-        { message: 'Suche wird durchgeführt...' },
+        { message: 'Artikel wird gesucht...' },
         { url: 'https://{source.domain.raw}/search/query?template=%2Fpublikationen%2Fspiegel%2Fresult.jsp&query.id=query-spiegel&query.key=gQynwrIS&query.commit=yes&query.scope=spiegel&query.index-order=personen&query.facets=yes&facet.path=%2Fspiegel&facet.activate=yes&hitlist.highlight=yes&hitlist.sort=-field%3Aisort&query.Titel={query}&query.Ausgabe={edition}&query.Ressort=&query.Signatur=&query.Person=&query.K%C3%B6rperschaft=&query.Ort=&query.Text={overline}' }
       ],
       [
@@ -46,7 +46,7 @@ const sources: Sources = {
     ],
     search: [
       [
-        { message: 'Suche wird durchgeführt...' },
+        { message: 'Artikel wird gesucht...' },
         { url: 'https://{source.domain.raw}/dosearch?explicitSearch=true&q={query}&dbShortcut={source.dbShortcut}&TI%2CUT%2CDZ%2CBT%2COT%2CSL=&AU=&KO=&MM%2COW%2CUF%2CMF%2CAO%2CTP%2CVM%2CNN%2CNJ%2CKV%2CZ2=&CT%2CDE%2CZ4%2CKW=&Z3%2CCN%2CCE%2CKC%2CTC%2CVC=&DT_from={dateStart}&DT_to={dateEnd}&timeFilterType=selected&timeFilter=NONE&x=59&y=11' }
       ],
       [
