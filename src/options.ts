@@ -110,6 +110,11 @@ function restore () {
     providerOptions.appendChild(optionsContainer)
   }
 
+  Array.from(document.querySelector('form').querySelectorAll('input, select')).forEach(el => {
+    el.addEventListener('change', () => save())
+    el.addEventListener('keyup', () => save())
+  })
+
   window.fetch('/manifest.json').then(response => response.json())
     .then(data => {
       const domains = data.content_scripts[0].matches.map(url => url.replace('https://', '').replace('/*', ''))
@@ -148,6 +153,7 @@ function save () {
 
   browser.storage.sync.set(values)
   requestPermissions(providers[provider].permissions)
+  console.log('saved!')
 }
 
 function getPermissions () {
@@ -175,17 +181,9 @@ function requestPermissions (providerPermissions) {
   }
 }
 
-document.querySelector('form').addEventListener('submit', function (e) {
+document.querySelector('form').addEventListener('submit', (e) => {
   e.preventDefault()
-
   save()
-
-  const savedNote: HTMLElement = document.querySelector('#saved-note')
-  savedNote.style.display = 'inline'
-  savedNote.classList.remove('fade')
-  // eslint-disable-next-line no-void
-  void savedNote.offsetWidth // triggers reflow, restarts animation
-  savedNote.classList.add('fade')
 })
 
 document.getElementById('provider').addEventListener('change', showOptions)

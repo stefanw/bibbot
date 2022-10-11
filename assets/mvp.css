@@ -508,6 +508,21 @@ blockquote footer {
 
 /* Custom Extras */
 
+body {
+  font-size: 18px;
+}
+header {
+  padding: 1rem;
+}
+main {
+  padding: 0 1rem;
+}
+
+form header {
+  margin: 0;
+  padding: 0.5rem 0;
+}
+
 fieldset {
   margin-top: 2rem;
 }
