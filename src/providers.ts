@@ -162,6 +162,41 @@ const geniosAssociationData = [
     domain: 'bib-bayern.genios.de'
   },
   {
+    id: 'kantonsbibliothek.tg.ch',
+    web: 'https://kantonsbibliothek.tg.ch/',
+    bibId: '38',
+    name: 'Kantonsbibliothek Thurgau',
+    domain: 'bib-ostschweiz.genios.de'
+  },
+  {
+    id: 'www.kantonsbibliothek.gr.ch',
+    web: 'http://www.kantonsbibliothek.gr.ch',
+    bibId: '77',
+    name: 'Kantonsbibliothek Graubünden',
+    domain: 'bib-ostschweiz.genios.de'
+  },
+  {
+    id: 'bibliotheken-schaffhausen.ch',
+    web: 'https://bibliotheken-schaffhausen.ch/',
+    bibId: '37',
+    name: 'Stadtbibliothek Schaffhausen',
+    domain: 'bib-ostschweiz.genios.de'
+  },
+  {
+    id: 'www.landesbibliothek.li',
+    web: 'https://www.landesbibliothek.li/',
+    bibId: '63',
+    name: 'Liechtensteinische Landesbibliothek',
+    domain: 'bib-ostschweiz.genios.de'
+  },
+  {
+    id: 'www.bibliothekzug.ch',
+    web: 'https://www.bibliothekzug.ch/',
+    bibId: '49',
+    name: 'Bibliothek Zug',
+    domain: 'bib-ostschweiz.genios.de'
+  },
+  {
     id: 'stadtbuecherei.waiblingen.de',
     name: 'Stadtbücherei Waiblingen',
     web: 'https://stadtbuecherei.waiblingen.de/',
