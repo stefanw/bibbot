@@ -518,6 +518,10 @@ main {
   padding: 0 1rem;
 }
 
+form {
+  margin: 0 auto;
+}
+
 form header {
   margin: 0;
   padding: 0.5rem 0;
