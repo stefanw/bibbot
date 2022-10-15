@@ -4,10 +4,13 @@
   "version": "0.23.3",
   "description": "Vereinfacht die Suche nach Artikeln in der Bibliothek",
   "icons": {
-    "48": "icons/bibbot48.png",
-    "96": "icons/bibbot96.png"
+    "48": "icons/bibbot-48.png",
+    "96": "icons/bibbot-96.png",
+    "128": "icons/bibbot-128.png",
+    "256": "icons/bibbot-256.png",
+    "512": "icons/bibbot-512.png",
+    "1024": "icons/bibbot-1024.png"
   },
-
   "permissions": [
     "tabs",
     "storage",
@@ -91,8 +94,14 @@
   },
   "browser_action": {
     "default_icon": {
-      "19": "icons/bibbot19.png",
-      "38": "icons/bibbot38.png"
+      "19": "icons/bibbot-mono-19.png",
+      "38": "icons/bibbot-mono-38.png",
+      "48": "icons/bibbot-mono-48.png",  
+      "96": "icons/bibbot-mono-96.png",
+      "128": "icons/bibbot-mono-128.png",
+      "256": "icons/bibbot-mono-256.png",
+      "512": "icons/bibbot-mono-512.png",
+      "1024": "icons/bibbot-mono-1024.png"
     },
     "default_popup": "popup/popup.html",
     "default_title": "BibBot"
