@@ -68,7 +68,7 @@ jobs:
         with:
           cmd: sign
           source: ${{ steps.web-ext-build.outputs.target }}
-          channel: unlisted
+          channel: listed
           apiKey: ${{ secrets.FIREFOX_API_KEY }}
           apiSecret: ${{ secrets.FIREFOX_API_SECRET }}
           timeout: 900000
