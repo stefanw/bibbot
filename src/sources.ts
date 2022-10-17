@@ -59,6 +59,27 @@ const sources: Sources = {
         { extract: '.divDocument pre.text, .divDocument pre.textCompact', convert: 'preToParagraph' }
       ]
     ]
+  },
+  'www.nexisuni.com': {
+    loggedIn: 'button[aria-label=\'Search\']',
+    start: '{source.startUrl.raw}',
+    defaultParams: {
+    },
+    login: [],
+    search: [
+      [
+        { message: 'Artikel wird gesucht...' },
+        { url: 'https://{source.domain.raw}/search/?pdqttype=and&earg=pdpsf&pdtimeline={dateStart}+to+{dateEnd}%7Cdatebetween&pdsearchterms={query}&pdquerytemplateid=urn%3Aquerytemplate%3A78338d18781c574d11af5fa2f7097c99~%5ENachrichten' }
+      ],
+      [
+        { message: 'Artikel wird aufgerufen...' },
+        { failOnMissing: '.doc-title', failure: 'Artikel nicht gefunden' },
+        { click: '.doc-title a' }
+      ],
+      [
+        { extract: '.doc-content > span p' }
+      ]
+    ]
   }
 }
 
