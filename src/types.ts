@@ -171,7 +171,7 @@ export type Action = FillAction | ClickAction | MessageAction | UrlAction | Href
 export type Actions = Action[]
 
 export type DefaultSourceParams = {
-  domain: string,
+  domain?: string,
   [key: string]: string
 }
 
@@ -195,7 +195,8 @@ export type ProviderOptions = {
 
 export type ProviderSourceParams = {
   domain?: string,
-  portalId?: string
+  portalId?: string,
+  startUrl?: string
 }
 
 export interface DefaultProvider {
@@ -204,6 +205,7 @@ export interface DefaultProvider {
   params: {
     [key in SourceIdentifier]?: ProviderSourceParams
   }
+  defaultSource?: SourceIdentifier
   login: Actions[]
   options: ProviderOptions[]
 }

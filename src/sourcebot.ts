@@ -31,11 +31,11 @@ class SourceBot {
     this.step = 0
     this.phase = PHASE.LOGIN
 
-    this.sourceId = sourceId
-    this.source = sources[sourceId]
-
     this.providerId = providerId
     this.provider = providers[providerId]
+
+    this.sourceId = this.provider.defaultSource || sourceId
+    this.source = sources[this.sourceId]
 
     this.sourceParams = sourceParams
     this.articleInfo = articleInfo

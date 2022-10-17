@@ -4,7 +4,7 @@ import { Runtime } from 'webextension-polyfill'
 import { increaseStats } from './stats.js'
 import { INIT_MESSAGE, GOTOTAB_MESSAGE, SUCCES_MESSAGE, FAILED_MESSAGE, STATUS_MESSAGE, DEFAULT_PROVIDER } from './const.js'
 import SourceBot from './sourcebot.js'
-import { Message, BibbotOptions } from './types.js'
+import { Message, BibbotOptions, InitMessage } from './types.js'
 
 let storageItems: BibbotOptions
 
@@ -76,7 +76,7 @@ class Reader {
     }
   }
 
-  retrieveArticle (message) {
+  retrieveArticle (message: InitMessage) {
     this.sourceId = message.source
     this.domain = message.domain
     this.sourceBot = new SourceBot(
