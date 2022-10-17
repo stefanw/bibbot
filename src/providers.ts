@@ -727,6 +727,32 @@ const providers: Providers = {
       { id: 'name', display: 'Name der Hochschule/Uni:', type: 'text' }
     ],
     permissions: ['https://www.wiso-net.de/*']
+  },
+  'stadt-koeln.de': {
+    name: 'Stadtbibliothek Köln',
+    web: 'https://www.stadt-koeln.de/leben-in-koeln/stadtbibliothek/',
+    params: {
+      'www.nexisuni.com': {
+        domain: 'advance-lexis-com.ezproxy.stadt-koeln.de',
+        startUrl: 'https://ezproxy.stadt-koeln.de/login?url=https://www.nexisuni.com'
+      }
+    },
+    defaultSource: 'www.nexisuni.com',
+    login: [
+      [
+        { message: 'Bibliothekskonto wird eingeloggt...' },
+        { fill: { selector: 'input[name="user"]', key: 'options.username' } },
+        { fill: { selector: 'input[name="pass"]', key: 'options.password' } },
+        { click: 'input[type="submit"]' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ],
+    permissions: [
+      'https://*.ezproxy.stadt-koeln.de/*'
+    ]
   }
 }
 

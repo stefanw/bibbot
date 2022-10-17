@@ -24,7 +24,8 @@
     "https://*.han.landesbibliothek.at/*",
     "https://*.stadtbibliothek.leipzig.de/*",
     "https://*.ezp-lhd.itk-rheinland.de/*",
-    "https://*.ub-proxy.fernuni-hagen.de/*"
+    "https://*.ub-proxy.fernuni-hagen.de/*",
+    "https://*.ezproxy.stadt-koeln.de/*"
   ],
   "background": {
     "scripts": [
