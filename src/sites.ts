@@ -455,6 +455,7 @@ const sites: Sites = {
       main: '.article-content',
       loader: '.article-content p:last-of-type'
     },
+    dateRange: [8, 1], // search from 7 days before to one day after given date
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'MACI,TERE,CT,CTFO,IX,MAKE'
