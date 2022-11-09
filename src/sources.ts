@@ -52,7 +52,7 @@ const sources: Sources = {
       [
         { message: 'Artikel wird aufgerufen...' },
         { failOnMissing: '.boxHeader', failure: 'Artikel nicht gefunden' },
-        { href: '.boxCol4 a' }
+        { href: '.hitContent a' }
       ],
       [
         { captcha: '#layer_captcha' },
