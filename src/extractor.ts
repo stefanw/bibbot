@@ -96,7 +96,7 @@ class Extractor implements ExtractorInterface {
     }
   }
 
-  extractDateQuery (dateValue, range = [1, 1]) {
+  extractDateQuery (dateValue, range = [3, 1]) {
     const defaultValue: FormattedDateRange = {
       dateStart: '', dateEnd: ''
     }
