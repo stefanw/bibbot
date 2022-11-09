@@ -592,6 +592,9 @@ const providers: Providers = {
     },
     login: [
       [
+        { click: 'input[name="CLOGIN"]', optional: true }
+      ],
+      [
         { message: 'Bibliothekskonto wird eingeloggt...' },
         { fill: { selector: 'input[name="L#AUSW"]', providerKey: 'voebb.de.options.username' } },
         { fill: { selector: 'input[name="LPASSW"]', providerKey: 'voebb.de.options.password' } },
