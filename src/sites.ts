@@ -441,6 +441,7 @@ const sites: Sites = {
       paywall: '.o-paywall',
       main: '.o-article__content .u-richtext'
     },
+    dateRange: [8, 1], // search from roughly week before
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'WWON'
