@@ -684,6 +684,30 @@ const providers: Providers = {
       'https://*.ub-proxy.fernuni-hagen.de/*'
     ]
   },
+  'www.slub-dresden.de': {
+    name: 'Staats- und Universitätsbibliothek Dresden',
+    web: 'https://www.slub-dresden.de/',
+    params: {
+      'genios.de': {
+        domain: 'www-wiso-net-de.wwwdb.dbod.de'
+      }
+    },
+    login: [
+      [
+        { message: 'Bibliothekskonto wird eingeloggt...' },
+        { fill: { selector: 'input[name="j_username"]', providerKey: 'www.slub-dresden.de.options.username' } },
+        { fill: { selector: 'input[name="j_password"]', providerKey: 'www.slub-dresden.de.options.password' } },
+        { click: 'input[type="submit"]' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ],
+    permissions: [
+      'https://login.slub-dresden.de/*'
+    ]
+  },
   'wiso-net.de': {
     name: 'WISO – Die Datenbank für Hochschulen',
     web: 'https://www.wiso-net.de/',

@@ -25,7 +25,9 @@
     "https://*.stadtbibliothek.leipzig.de/*",
     "https://*.ezp-lhd.itk-rheinland.de/*",
     "https://*.ub-proxy.fernuni-hagen.de/*",
-    "https://*.ezproxy.stadt-koeln.de/*"
+    "https://*.ezproxy.stadt-koeln.de/*",
+    "https://login.slub-dresden.de/*",
+    "https://www-wiso-net-de.wwwdb.dbod.de/*"
   ],
   "background": {
     "scripts": [
