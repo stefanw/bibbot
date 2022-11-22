@@ -82,7 +82,8 @@
         "https://www.dnn.de/*",
         "https://www.swp.de/*",
         "https://www.ruhrnachrichten.de/*",
-        "https://www.businessinsider.de/*"
+        "https://www.businessinsider.de/*",
+        "https://www.badische-zeitung.de/*"
       ],
       "js": [
         "build/content.js"

@@ -1079,6 +1079,19 @@ const sites: Sites = {
     sourceParams: {
       dbShortcut: 'BUIN'
     }
+  },
+  'www.badische-zeitung.de': {
+    selectors: {
+      query: makeQueryFunc('.freemium__preview'),
+      headline: 'h1',
+      date: 'p.article__header__info-area__txt a[href*="/archiv"]',
+      paywall: '#regWalli',
+      main: '.freemium__preview'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'BADZ'
+    }
   }
 }
 
