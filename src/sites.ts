@@ -1092,6 +1092,29 @@ const sites: Sites = {
     sourceParams: {
       dbShortcut: 'BADZ'
     }
+  },
+  'www.stern.de': {
+    selectors: {
+      query: makeQueryFunc('.article__body p'),
+      headline: 'h2 .title__headline',
+      date: 'time',
+      paywall: '.paid-barrier',
+      main: '.article__body'
+    },
+    insertContent: (siteBot, main, content) => {
+      siteBot.hideBot()
+      let textClass
+      main.querySelectorAll(':scope>p').forEach((p) => {
+        textClass = p.className
+        p.remove()
+      })
+      content = content.replace(/<p>/g, `<p class="${textClass}">`)
+      main.innerHTML = main.innerHTML + content
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'STER'
+    }
   }
 }
 

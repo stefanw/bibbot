@@ -83,7 +83,8 @@
         "https://www.swp.de/*",
         "https://www.ruhrnachrichten.de/*",
         "https://www.businessinsider.de/*",
-        "https://www.badische-zeitung.de/*"
+        "https://www.badische-zeitung.de/*",
+        "https://www.stern.de/*"
       ],
       "js": [
         "build/content.js"
