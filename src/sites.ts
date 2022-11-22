@@ -655,9 +655,7 @@ const sites: Sites = {
       const buttonHandle = await page.evaluateHandle('document.querySelector("#cmpwrapper")?.shadowRoot?.querySelector("#cmpwelcomebtnyes")')
       if (buttonHandle) {
         const buttonElement = buttonHandle.asElement()
-        if (buttonElement) {
-          await buttonElement.click()
-        }
+        await buttonElement.click.bind(buttonElement)()
       }
     },
     examples: [

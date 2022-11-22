@@ -143,8 +143,8 @@ function save () {
   const provider = inputs.provider.value
   const values: StorageItems = {
     keepStats: inputs.keepStats.checked,
-    provider: provider,
-    providerOptions: providerOptions,
+    provider,
+    providerOptions,
     saveArticle: inputs.saveArticle.value
   }
   if (!values.keepStats) {

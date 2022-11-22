@@ -58,7 +58,7 @@ class SourceBot {
   async run () {
     const url = this.makeUrl(this.source.start)
     const tab = await browser.tabs.create({
-      url: url,
+      url,
       active: false
     })
     this.tabId = tab.id
@@ -204,7 +204,7 @@ class SourceBot {
     console.error(message)
     this.callback({
       type: FAILED_MESSAGE,
-      message: message
+      message
     })
     this.cleanUp()
   }

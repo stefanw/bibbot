@@ -60,7 +60,7 @@ class SiteBot implements SiteBotInterface {
       source: this.site.source,
       sourceParams: this.site.sourceParams,
       domain: this.domain,
-      articleInfo: articleInfo
+      articleInfo
     }
     this.postMessage(message)
   }
