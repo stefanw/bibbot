@@ -33,7 +33,7 @@ export const LOADER_HTML = `
 </style>
 <div id="${BOT_ID}" style="border: 5px solid ${COLOR}; padding: 10px 10px 60px; margin: 20px auto; text-align:center; position:relative;">
   <div style="color: ${COLOR}; font-family: sans-serif; font-size: 1.2rem">BibBot</div>
-  <img id="bibbot-loading" src="${ICON}" alt="BibBot" height="40" width="30">
+  <img id="bibbot-loading" src="${ICON}" alt="BibBot" height="40" width="30" style="width:30px;height:40px">
   <div id="${MESSAGE_ID}" style="font-family: sans-serif; font-size: 0.9rem; color: ${COLOR}">Pressedatenbank wird aufgerufen...</div>
 </div>`
 
