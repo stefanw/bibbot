@@ -72,16 +72,17 @@ jobs:
           apiKey: ${{ secrets.FIREFOX_API_KEY }}
           apiSecret: ${{ secrets.FIREFOX_API_SECRET }}
           timeout: 900000
-      - name: Upload Release XPI Asset
-        id: upload-release-xpi-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ${{ steps.web-ext-sign.outputs.target }}
-          asset_name: bibbot-${{ env.RELEASE_VERSION }}.xpi
-          asset_content_type: application/x-xpinstall
+      # # Because it's listed, we are not getting a signed asset anymore
+      # - name: Upload Release XPI Asset
+      #   id: upload-release-xpi-asset
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+      #     asset_path: ${{ steps.web-ext-sign.outputs.target }}
+      #     asset_name: bibbot-${{ env.RELEASE_VERSION }}.xpi
+      #     asset_content_type: application/x-xpinstall
       - name: Trigger GitHub pages rebuild
         run: |
           curl --fail --request POST \
