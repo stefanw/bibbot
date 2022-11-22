@@ -1,7 +1,6 @@
 {
   "name": "bibbot",
   "version": "0.25.0",
-  "type": "module",
   "description": "BibBot removes paywalls of German media sites",
   "devDependencies": {
     "@babel/core": "^7.20.2",
@@ -32,8 +31,8 @@
     "webextension-polyfill": "^0.10.0"
   },
   "scripts": {
-    "start": "rollup -c -w",
-    "build": "rollup -c",
+    "start": "rollup --bundleConfigAsCjs -c -w",
+    "build": "rollup --bundleConfigAsCjs -c",
     "lint": "eslint src tests",
     "check-types": "tsc --noemit",
     "test": "jest --runInBand",
