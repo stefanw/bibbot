@@ -115,6 +115,12 @@ const geniosDefaultData: PartialProviderData[] = [
     name: 'Stadtbibliothek Mannheim',
     web: 'https://www.mannheim.de/de/bildung-staerken/stadtbibliothek',
     domain: 'bib-mannheim.genios.de'
+  },
+  {
+    id: 'www.oberhausen.de',
+    name: 'Stadtbibliothek Oberhausen',
+    web: 'https://www.oberhausen.de/stadtbibliothek',
+    domain: 'bib-oberhausen.genios.de'
   }
 ]
 
