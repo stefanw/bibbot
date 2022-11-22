@@ -153,6 +153,7 @@ class SourceBot {
     const actions = this.getActions()
 
     let result
+    let skipWait = false
     for (let action of actions) {
       action = this.handleAction(action)
       if (action === null) { continue }
@@ -168,6 +169,10 @@ class SourceBot {
           return
         }
       }
+      if (action.skipToNext && result === true) {
+        skipWait = true
+        break
+      }
     }
     const isFinalStep = this.isFinalStep()
     if (isFinalStep) {
@@ -182,6 +187,9 @@ class SourceBot {
         this.phase = PHASE.SEARCH
       }
       this.step = 0
+    }
+    if (skipWait) {
+      await this.runNextSourceStep()
     }
   }
 

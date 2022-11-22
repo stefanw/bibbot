@@ -598,7 +598,7 @@ const providers: Providers = {
     },
     login: [
       [
-        { click: 'input[name="CLOGIN"]', optional: true }
+        { click: 'input[name="CLOGIN"]', optional: true, skipToNext: true }
       ],
       [
         { message: 'Bibliothekskonto wird eingeloggt...' },

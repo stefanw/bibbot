@@ -136,6 +136,7 @@ export type FillAction = {
 export type ClickAction = {
   click: string
   optional?: boolean
+  skipToNext?: boolean
 }
 export type MessageAction = {
   message: string

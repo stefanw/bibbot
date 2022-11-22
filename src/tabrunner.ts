@@ -17,7 +17,7 @@ class TabRunner {
   async runActions (actions: Actions) {
     let result
     for (const action of actions) {
-      await this.runAction(action)
+      result = await this.runAction(action)
     }
     return result
   }
@@ -75,7 +75,7 @@ class TabRunner {
       ]
     } else if ('click' in action) {
       if (action.optional) {
-        return [`var el = document.querySelector('${action.click}'); el && el.click()`]
+        return [`var el = document.querySelector('${action.click}'); el && el.click(); el === null`]
       } else {
         return [`document.querySelector('${action.click}').click()`]
       }
