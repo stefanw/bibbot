@@ -2,8 +2,11 @@ import { getConsentCdnSetup, getCmpBoxConsent } from './test_utils.js'
 
 import { PartialSite, Sites } from './types.js'
 
-const extractQuery = (node: HTMLElement) => `"${createQuery(node.innerText)}"`
-const createQuery = (text: string) => `"${text.split(' ').slice(2, 10).join(' ')}"`
+const extractQuery = (node: HTMLElement) => createQuery(node.innerText)
+const createQuery = (text: string) => {
+  const query = text.split(' ').slice(2, 15).join(' ')
+  return query
+}
 const makeQueryFunc = (selector: string) => {
   return (node) => extractQuery(node.querySelector(selector))
 }
