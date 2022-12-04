@@ -123,10 +123,10 @@ const geniosDefaultData: PartialProviderData[] = [
     domain: 'bib-oberhausen.genios.de'
   },
   {
-   id: 'oranienburg.de',
-   name: 'Stadtbibliothek Oranienburg',
-   web: 'https://stadtbibliothekoranienburg.bibliotheca-open.de/',
-   domain: 'bib-oranienburg.genios.de'
+    id: 'oranienburg.de',
+    name: 'Stadtbibliothek Oranienburg',
+    web: 'https://stadtbibliothekoranienburg.bibliotheca-open.de/',
+    domain: 'bib-oranienburg.genios.de'
   }
 ]
 
