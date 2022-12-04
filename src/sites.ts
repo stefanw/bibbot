@@ -1115,6 +1115,19 @@ const sites: Sites = {
     sourceParams: {
       dbShortcut: 'STER'
     }
+  },
+  'www.mittelbayerische.de': {
+    selectors: {
+      query: makeQueryFunc('.article > p > strong'),
+      headline: 'h1',
+      date: '.date',
+      paywall: '.teaser-plus.article-teaser',
+      main: '.article-section'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'MIB'
+    }
   }
 }
 
