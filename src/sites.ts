@@ -271,7 +271,7 @@ const sites: Sites = {
   },
   'www.handelsblatt.com': {
     selectors: {
-      query: '.vhb-article-area--read > p',
+      query: '.vhb-article--introduction',
       // date: "span[itemprop='datePublished']",
       paywall: '.c-paywall',
       main: '.vhb-article-area--read'
