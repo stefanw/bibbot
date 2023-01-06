@@ -633,11 +633,16 @@ const providers: Providers = {
     login: [
       [
         { message: 'Bibliothekskonto wird eingeloggt...' },
-        { url: '/online-angebote/login-online-angebote' },
+        { url: 'https://stadtbibliothek.leipzig.de/online-angebote/login-online-angebote' }
+      ],
+      [
         { fill: { selector: '#user', providerKey: 'stadtbibliothek.leipzig.de.options.username' } },
-        { fill: { selector: 'input[name="LPASSW"]', providerKey: 'stadtbibliothek.leipzig.de.options.password' } },
+        { fill: { selector: '#pass', providerKey: 'stadtbibliothek.leipzig.de.options.password' } },
         { click: '#permalogin' },
         { click: '.powermail_submit' }
+      ],
+      [
+        { url: 'https://sso.stadtbibliothek.leipzig.de/service/genios' }
       ]
     ],
     options: [
@@ -645,7 +650,8 @@ const providers: Providers = {
       { id: 'password', display: 'Passwort:', type: 'password' }
     ],
     permissions: [
-      'https://stadtbibliothek.leipzig.de/*'
+      'https://stadtbibliothek.leipzig.de/*',
+      'https://*.stadtbibliothek.leipzig.de/*'
     ]
   },
   'www.duesseldorf.de': {
