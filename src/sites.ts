@@ -688,10 +688,10 @@ const sites: Sites = {
   },
   'kurier.at': {
     selectors: {
-      query: makeQueryFunc('.article-paragraphs .paragraph p:nth-of-type(2)'),
-      date: '.article-header-intro-right span',
+      query: makeQueryFunc('.article-paragraphs .paragraph p'),
+      date: '.article-header-leadText-date',
       paywall: (root, sitebot) => {
-        const paywall = '.plusContent app-paywall'
+        const paywall = 'app-paywall'
         if (window.bibbotObserver === undefined) {
           window.bibbotObserver = new window.MutationObserver((mutations) => {
             // The single page application simply swaps HTML contents instead of navigating to a new page, so we try to detect when the article content is replaced by a new one
