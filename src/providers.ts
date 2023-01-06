@@ -727,6 +727,30 @@ const providers: Providers = {
       'https://login.slub-dresden.de/*'
     ]
   },
+  'www.bsb-muenchen.de': {
+    name: 'Bayerische Staatsbibliothek',
+    web: 'https://www.bsb-muenchen.de/',
+    params: {
+      'genios.de': {
+        domain: 'www-1wiso-2net-1de-1001394go0ffe.emedia1.bsb-muenchen.de'
+      }
+    },
+    login: [
+      [
+        { message: 'Bibliothekskonto wird eingeloggt...' },
+        { fill: { selector: 'input[name="plainuser"]', providerKey: 'www.bsb-muenchen.de.options.username' } },
+        { fill: { selector: 'input[name="password"]', providerKey: 'www.bsb-muenchen.de.options.password' } },
+        { click: 'button[type="submit"]' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ],
+    permissions: [
+      'https://*.bsb-muenchen.de/*'
+    ]
+  },
   'wiso-net.de': {
     name: 'WISO – Die Datenbank für Hochschulen',
     web: 'https://www.wiso-net.de/',

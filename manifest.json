@@ -27,7 +27,8 @@
     "https://*.ub-proxy.fernuni-hagen.de/*",
     "https://*.ezproxy.stadt-koeln.de/*",
     "https://login.slub-dresden.de/*",
-    "https://www-wiso-net-de.wwwdb.dbod.de/*"
+    "https://www-wiso-net-de.wwwdb.dbod.de/*",
+    "https://*.bsb-muenchen.de/*"
   ],
   "background": {
     "scripts": [
