@@ -165,13 +165,14 @@ const geniosAssociationData = [
     name: 'Stadtbücherei Schweinfurt',
     domain: 'bib-bayern.genios.de'
   },
-  {
-    id: 'www.stadtbibliothek-straubing.de',
-    web: 'https://www.stadtbibliothek-straubing.de/',
-    bibId: '67',
-    name: 'Stadtbücherei Straubing',
-    domain: 'bib-bayern.genios.de'
-  },
+  // No longer seems to have genios
+  // {
+  //   id: 'www.stadtbibliothek-straubing.de',
+  //   web: 'https://www.stadtbibliothek-straubing.de/',
+  //   bibId: '67',
+  //   name: 'Stadtbücherei Straubing',
+  //   domain: 'bib-bayern.genios.de'
+  // },
   {
     id: 'www.forum-unterschleissheim.de',
     web: 'https://www.forum-unterschleissheim.de/bibliothek.html',
