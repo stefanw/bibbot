@@ -127,6 +127,12 @@ const geniosDefaultData: PartialProviderData[] = [
     name: 'Stadtbibliothek Oranienburg',
     web: 'https://stadtbibliothekoranienburg.bibliotheca-open.de/',
     domain: 'bib-oranienburg.genios.de'
+  },
+  {
+    id: 'www.luedenscheid.de',
+    name: 'Stadtbücherei Lüdenscheid',
+    web: 'https://www.luedenscheid.de/luedenscheid_erleben/stadtbuecherei/sp_auto_398.php',
+    domain: 'bib-luedenscheid.genios.de'
   }
 ]
 
