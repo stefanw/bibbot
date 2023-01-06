@@ -99,7 +99,7 @@ const sites: Sites = {
       {
         url: 'https://www.spiegel.de/politik/deutschland/klara-geywitz-ueber-sanierungspflicht-von-immobilien-neuen-wohnraum-und-fluechtlinge-a-6aeb319e-fc25-4efa-a0cf-66e10ed49969',
         selectors: {
-          query: '»Es wird nicht ohne Ordnungsrecht gehen wenn wir die Klimaziele erreichen wollen«'
+          query: '"»Es wird nicht ohne Ordnungsrecht gehen wenn wir die Klimaziele erreichen wollen«"'
         }
       }
     ],
@@ -198,12 +198,12 @@ const sites: Sites = {
     examples: [{
       url: 'https://www.sueddeutsche.de/kultur/milch-ernaehrung-klimawandel-1.5521054?reduced=true',
       selectors: {
-        query: '"Zeit um die Mitte der Sechziger hörte die"'
+        query: '"Zeit um die Mitte der Sechziger hörte die Jugend des Westens einen Song"'
       }
     }, {
       url: 'https://www.sueddeutsche.de/projekte/artikel/politik/lkw-unfaelle-beim-abbiegen-im-toten-winkel-e744638/?reduced=true',
       selectors: {
-        query: '"Lastwagen in die Konstanzer Straße biegt obwohl er"'
+        query: '"Lastwagen in die Konstanzer Straße biegt obwohl er doch eigentlich anhalten müsste hat"'
       }
     }],
     selectors: {
@@ -306,7 +306,7 @@ const sites: Sites = {
         // Paywall seems to be gone
         noPaywall: true,
         selectors: {
-          query: 'So gefährlich ist Berlins gefährlichste Straße für Radfahrer'
+          query: '"So gefährlich ist Berlins gefährlichste Straße für Radfahrer"'
         }
       }
     ],
@@ -382,7 +382,7 @@ const sites: Sites = {
       {
         url: 'https://www.noz.de/lokales/hasbergen/artikel/im-angesicht-des-kriegs-ausstellung-am-augustaschacht-hasbergen-23451387',
         selectors: {
-          query: 'Ist es angemessen in der Gedenkstätte Augustaschacht in Hasbergen eine Ausstellung zur Erinnerung an die sowjetischen Kriegsgefangenen des Zweiten Weltkrieges zu zeigen während russische Truppen einen Angriffskrieg gegen die Ukraine führen Mehr denn je sagen Landrätin Anna Kebschull und Ausstellungskuratorin Babette Quinkert.'
+          query: '"Ist es angemessen in der Gedenkstätte Augustaschacht in Hasbergen eine Ausstellung zur Erinnerung an die sowjetischen Kriegsgefangenen des Zweiten Weltkrieges zu zeigen während russische Truppen einen Angriffskrieg gegen die Ukraine führen Mehr denn je sagen Landrätin Anna Kebschull und Ausstellungskuratorin Babette Quinkert"'
         }
       }
     ],
@@ -434,7 +434,7 @@ const sites: Sites = {
       {
         url: 'https://www.wiwo.de/my/unternehmen/industrie/mischkonzern-zeppelin-ein-ausschluss-russlands-aus-swift-wuerde-eine-weltwirtschaftskrise-ausloesen/28091946.html',
         selectors: {
-          query: 'Mischkonzern Zeppelin „Ein Ausschluss Russlands aus Swift würde eine Weltwirtschaftskrise auslösen“'
+          query: '"Mischkonzern Zeppelin „Ein Ausschluss Russlands aus Swift würde eine Weltwirtschaftskrise auslösen“"'
         }
       }
     ],
@@ -550,7 +550,7 @@ const sites: Sites = {
       {
         url: 'https://www.falter.at/zeitung/20220223/sie-reden-vom-krieg/_27de9dfaf4',
         selectors: {
-          query: 'Wie kann ein Frieden für die Ukraine aussehen Wo liegt die Zukunft Russlands Und was sollte Österreichs Außenpolitik in der jetzigen Situation leisten'
+          query: '"Wie kann ein Frieden für die Ukraine aussehen Wo liegt die Zukunft Russlands Und was sollte Österreichs Außenpolitik in der jetzigen Situation leisten"'
         }
       }
     ],
@@ -586,7 +586,7 @@ const sites: Sites = {
       {
         url: 'https://www.stuttgarter-zeitung.de/inhalt.probleme-bei-der-abrechnung-warum-ein-stuttgarter-impfarzt-schlaflose-naechte-hatte.98bea27d-f195-4bda-899b-8221d3d7f901.html?reduced=true',
         selectors: {
-          query: '"Schlaflose Nächte hat Christian Schweninger hinter sich die"'
+          query: '"Schlaflose Nächte hat Christian Schweninger hinter sich die vergangenen zweieinhalb Monate seien „heftig“"'
         }
       }
     ],
@@ -607,7 +607,7 @@ const sites: Sites = {
       {
         url: 'https://www.stuttgarter-nachrichten.de/inhalt.e-mobilitaet-in-stuttgart-zahl-privater-e-ladestellen-waechst-deutlich.a3a5609d-b274-4ac3-a2b1-2558da9a1d69.html?reduced=true',
         selectors: {
-          query: 'Die Ladekapazitäten für E-Autos zu Hause haben in den vergangenen drei Jahren in Stuttgart stark zugelegt – der Zuwachs in den einzelnen Bezirken ist dabei heterogen. Das zeigen Daten des lokalen Stromnetzbetreibers.'
+          query: '"Die Ladekapazitäten für E-Autos zu Hause haben in den vergangenen drei Jahren in Stuttgart stark zugelegt – der Zuwachs in den einzelnen Bezirken ist dabei heterogen Das zeigen Daten des lokalen Stromnetzbetreibers"'
         }
       }
     ],
@@ -628,7 +628,7 @@ const sites: Sites = {
       {
         url: 'https://www.ostsee-zeitung.de/Mecklenburg/Rostock/Zu-gefaehrlich-fuer-Radfahrer-Kommt-Tempo-30-fuer-die-Rostocker-Dethardingstrasse',
         selectors: {
-          query: 'Zu gefährlich für Radfahrer Kommt Tempo 30 für die Rostocker Dethardingstraße'
+          query: '"Zu gefährlich für Radfahrer Kommt Tempo 30 für die Rostocker Dethardingstraße"'
         }
       }
     ],
@@ -665,7 +665,7 @@ const sites: Sites = {
       {
         url: 'https://www.stimme.de/regional/region/informationsfreiheit-wenn-in-akten-blaettern-10000-euro-kostet-art-4598515',
         selectors: {
-          query: '"was eine Behörde tut ist irgendwo verzeichnet in"'
+          query: '"was eine Behörde tut ist irgendwo verzeichnet in Aktenordnern oder digital Bürger haben"'
         }
       }
     ],
@@ -731,7 +731,7 @@ const sites: Sites = {
       {
         url: 'https://freizeit.at/zeitgeist/will-smith-als-tennisvater-koeniginnen-des-tenniscourts/401915917',
         selectors: {
-          query: '"sie Venus und Serena Williams sind moderne Amazonen"'
+          query: '"sie Venus und Serena Williams sind moderne Amazonen athletisch ehrgeizig kämpferisch Weltklasse-Tennisspielerinnen die"'
         }
       }
     ],
@@ -751,7 +751,7 @@ const sites: Sites = {
       {
         url: 'https://www.diepresse.com/6103269/das-home-office-gesetz-laesst-vieles-im-dunkeln',
         selectors: {
-          query: '"praxistauglich ist das Home-Office-Gesetz Schon vor einem Jahr"'
+          query: '"praxistauglich ist das Home-Office-Gesetz Schon vor einem Jahr wurde darüber heftig diskutiert Anlass"'
         }
       }
     ],
@@ -782,7 +782,7 @@ const sites: Sites = {
       {
         url: 'https://www.sn.at/salzburg/chronik/nach-toedlichem-unfall-mit-polizeibus-im-lungau-verfahren-gegen-lenker-eingestellt-117530491',
         selectors: {
-          query: '"nach dem Unfalldrama im Lungau bei dem ein"'
+          query: '"nach dem Unfalldrama im Lungau bei dem ein 15-jähriger Mopedlenker getötet wurde ist"'
         }
       }
     ],
@@ -803,7 +803,7 @@ const sites: Sites = {
       {
         url: 'https://www.kleinezeitung.at/steiermark/weiz/6100137/Gefaehrlicher-Trend_Uebelkeit-Herzrasen_Nikotinbeutel-machen-bei',
         selectors: {
-          query: '""Skruf "Faro "Lyft und Velo riechen nach Menthol"'
+          query: '"riechen nach Menthol oder Minze und erinnern in"'
         }
       }
     ],
@@ -840,7 +840,7 @@ const sites: Sites = {
       {
         url: 'https://www.thueringer-allgemeine.de/sport/kommentar-von-wegen-sportstadt-erfurt-id234487935.html',
         selectors: {
-          query: 'Kommentar Von wegen Sportstadt Erfurt'
+          query: '"Kommentar Von wegen Sportstadt Erfurt"'
         }
       }
     ],
@@ -860,7 +860,7 @@ const sites: Sites = {
       {
         url: 'https://www.mopo.de/hamburg/vor-29-jahren-stillgelegt-das-wird-jetzt-aus-dem-schellfischtunnel/?reduced=true',
         selectors: {
-          query: '"und knarzt als Ines Hinrichs vom Landesbetrieb Straßen"'
+          query: '"und knarzt als Ines Hinrichs vom Landesbetrieb Straßen Brücken und Gewässer LSBG das"'
         }
       }
     ],
@@ -892,7 +892,7 @@ const sites: Sites = {
       {
         url: 'https://www.saechsische.de/sachsen/die-dresdner-lehrerin-und-ihre-radikale-sekte-5418484-plus.html',
         selectors: {
-          query: 'Die Dresdner Lehrerin und ihre radikale Sekte'
+          query: '"Die Dresdner Lehrerin und ihre radikale Sekte"'
         }
       }
     ],
@@ -925,7 +925,7 @@ const sites: Sites = {
       {
         url: 'https://www.freiepresse.de/chemnitz/neue-schau-im-wasserschloss-klaffenbach-tiere-musik-und-schokolade-artikel11437998',
         selectors: {
-          query: 'Neue Schau im Wasserschloss Klaffenbach Tiere Musik und Schokolade'
+          query: '"Neue Schau im Wasserschloss Klaffenbach Tiere Musik und Schokolade"'
         }
       }
     ],
@@ -961,7 +961,7 @@ const sites: Sites = {
       {
         url: 'https://www.lvz.de/lokales/leipzig/lvb-letzte-xl-strassenbahn-ist-da-tatras-verabschieden-sich-aus-leipzig-KJTZK5LMTYO7SABWWZTM2CT37A.html',
         selectors: {
-          query: 'In Heiterblick ist am Dienstag ein Großprojekt zu Ende gegangen. Die Leipziger Verkehrsbetriebe LVB nahmen dort in ihrem Technischen Zentrum ihre letzte XL-Straßenbahn in Empfang. Künftig setzt das Unternehmen auf eine neue Straßenbahn-Generation die rund 10 Zentimeter breiter ist und mehr Fahrgäste befördern kann. Das erste Fahrzeug dieses neuen Typs soll im Jahr 2024 eintreffen.'
+          query: '"In Heiterblick ist am Dienstag ein Großprojekt zu Ende gegangen Die Leipziger Verkehrsbetriebe LVB nahmen dort in ihrem Technischen Zentrum ihre letzte XL-Straßenbahn in Empfang Künftig setzt das Unternehmen auf eine neue Straßenbahn-Generation die rund 10 Zentimeter breiter ist und mehr Fahrgäste befördern kann Das erste Fahrzeug dieses neuen Typs soll im Jahr 2024 eintreffen"'
         }
       }
     ],
@@ -997,7 +997,7 @@ const sites: Sites = {
       {
         url: 'https://www.dnn.de/lokales/dresden/laesst-dresden-800-wartehaeuschen-schreddern-FCEJWIVOHYVCWZ7OYHCO42YBVE.html',
         selectors: {
-          query: 'Werden in Dresden 800 Wartehäuschen an Straßenbahn- und Bushaltestellen abgerissen Wenn des nach dem Willen von Grünen CDU und FDP geht beginnt bald der große Abriss. Die drei Fraktionen haben sich auf einen Antrag geeinigt der den Abriss der Fahrgastunterstände vorsieht. Unter anderem.'
+          query: '"Werden in Dresden 800 Wartehäuschen an Straßenbahn- und Bushaltestellen abgerissen Wenn des nach dem Willen von Grünen CDU und FDP geht beginnt bald der große Abriss Die drei Fraktionen haben sich auf einen Antrag geeinigt der den Abriss der Fahrgastunterstände vorsieht Unter anderem"'
         }
       }
     ],
@@ -1033,7 +1033,7 @@ const sites: Sites = {
       {
         url: 'https://www.swp.de/lokales/ulm/mobilitaet-in-ulm-verkehrswende-in-ulm_-es-ist-noch-viel-luft-nach-oben-65149611.html',
         selectors: {
-          query: 'Was sich Autofahrer wünschen wurde nicht gefragt. Im Gegenteil Es ging um Konzepte der Zukunft bei denen das Auto hoffentlich kaum noch eine Rolle spielt. Sprich darum mehr Platz und Angebote für Fußgänger Radfahrer und den ÖPNV zu schaffen. Darum ging es bei einer Veranstaltung der Grüne...'
+          query: '"Was sich Autofahrer wünschen wurde nicht gefragt Im Gegenteil Es ging um Konzepte der Zukunft bei denen das Auto hoffentlich kaum noch eine Rolle spielt Sprich darum mehr Platz und Angebote für Fußgänger Radfahrer und den ÖPNV zu schaffen Darum ging es bei einer Veranstaltung der Grüne"'
         }
       }
     ],
