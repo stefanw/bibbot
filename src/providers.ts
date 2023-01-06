@@ -337,13 +337,14 @@ const geniosAssociationData = [
     domain: 'bib-bawue.genios.de',
     bibId: '68'
   },
-  {
-    id: 'winnenden.de',
-    name: 'Stadtbücherei Winnenden',
-    web: 'https://www.winnenden.de/,Lde/start/kultur-sport-tourismus/Stadtbuecherei.html',
-    domain: 'bib-bawue.genios.de',
-    bibId: '93'
-  },
+  // Winnenden apparently cancelled contract with Genios, see #179
+  // {
+  //   id: 'winnenden.de',
+  //   name: 'Stadtbücherei Winnenden',
+  //   web: 'https://www.winnenden.de/,Lde/start/kultur-sport-tourismus/Stadtbuecherei.html',
+  //   domain: 'bib-bawue.genios.de',
+  //   bibId: '93'
+  // },
   {
     id: 'bibliothek-heidenheim.de',
     name: 'Stadtbibliothek Heidenheim',
