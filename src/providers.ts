@@ -337,13 +337,6 @@ const geniosAssociationData = [
     domain: 'bib-bawue.genios.de',
     bibId: '60'
   },
-  {
-    id: 'backnang.de',
-    name: 'Stadtbücherei Backnang',
-    web: 'https://stadtbibliothek.ulm.de/',
-    domain: 'bib-bawue.genios.de',
-    bibId: '68'
-  },
   // Winnenden apparently cancelled contract with Genios, see #179
   // {
   //   id: 'winnenden.de',
