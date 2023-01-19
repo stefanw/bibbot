@@ -13,6 +13,8 @@ npm install
 npm start
 ```
 
+In order to build an installable extension, run `./dist.sh`.
+
 ## Extension overview
 
 The extension has four different entry points:
