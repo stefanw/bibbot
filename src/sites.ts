@@ -787,10 +787,16 @@ const sites: Sites = {
       }
     ],
     selectors: {
-      query: makeQueryFunc('.article__bodytext p'),
-      date: '.article-aside__publishdate time',
-      paywall: '.article__premium-bar',
-      main: '.article__bodytext'
+      query: makeQueryFunc('p.article-leadtext'),
+      date: 'article-publication-date time',
+      paywall: '#article-paywall',
+      main: '.article-body-text'
+    },
+    start: (root) => {
+      const paywall: HTMLElement = root.querySelector('#article-paywall')
+      if (paywall) {
+        paywall.style.display = 'none'
+      }
     },
     source: 'genios.de',
     sourceParams: {
