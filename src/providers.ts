@@ -81,6 +81,12 @@ const geniosDefaultData: PartialProviderData[] = [
     domain: 'bib-ludwigsburg.genios.de'
   },
   {
+    id: 'www.nuernberg.de/internet/stadtbibliothek',
+    name: 'Stadtbibliothek Nürnberg im Bildungscampus',
+    web: 'https://www.nuernberg.de/internet/stadtbibliothek/',
+    domain: 'bib-nuernberg.genios.de'
+  },
+  {
     id: 'bibliothek.potsdam.de',
     name: 'Stadt- und Landesbibliothek Potsdam',
     web: 'https://bib-potsdam.genios.de',
