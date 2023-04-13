@@ -98,7 +98,7 @@ class Extractor implements ExtractorInterface {
     }
   }
 
-  extractDateQuery (dateValue, range = [3, 1]) {
+  extractDateQuery (dateValue, range) {
     const defaultValue: FormattedDateRange = {
       dateStart: '', dateEnd: ''
     }
@@ -159,7 +159,7 @@ class Extractor implements ExtractorInterface {
     articleInfo.query = q
     return {
       ...articleInfo,
-      ...this.extractDateQuery(articleInfo.date, this.site.dateRange || [1, 1])
+      ...this.extractDateQuery(articleInfo.date, this.site.dateRange || [4, 1])
     }
   }
 }
