@@ -18,6 +18,7 @@ type Mimicer = string | ((content: string, main: HTMLElement) => string)
 type ParagraphStyle = {
   className?: string
   style?: string
+  selector?: string
 }
 
 export type ArticleInfo = {

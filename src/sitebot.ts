@@ -180,7 +180,16 @@ class SiteBot implements SiteBotInterface {
       }
     }
     if (this.site.paragraphStyle) {
-      content = content.replace(/<p>/g, `<p class="${this.site.paragraphStyle.className || ''}" style="${this.site.paragraphStyle.style || ''}">`)
+      let className = this.site.paragraphStyle.className || ''
+      let style = this.site.paragraphStyle.style || ''
+      if (this.site.paragraphStyle.selector) {
+        const example = this.root.querySelector(this.site.paragraphStyle.selector)
+        if (example !== null) {
+          className = example.className || className
+          style = example.attributes.getNamedItem('style')?.value || style
+        }
+      }
+      content = content.replace(/<p>/g, `<p class="${className}" style="${style}">`)
     }
 
     if (this.site.insertContent) {
