@@ -108,7 +108,7 @@ class Extractor implements ExtractorInterface {
     let date
     let match = dateValue.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/)
     if (!match) {
-      match = dateValue.match(/(\d{1,2})\. (\w+) (\d{4})/)
+      match = dateValue.match(/(\d{1,2})\. ([^ ]+) (\d{4})/)
       if (match) {
         const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
           'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
