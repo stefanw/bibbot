@@ -1180,6 +1180,23 @@ const sites: Sites = {
     sourceParams: {
       dbShortcut: 'CAPI'
     }
+  },
+  'www.iz.de': {
+    selectors: {
+      query: makeQueryFunc('.ArticleCopy'),
+      headline: '.ArticleHeader_headline',
+      date: '.PublishDate_date',
+      main: '.ArticleCopy',
+      paywall: '.Paywall'
+    },
+    dateRange: [10, 1],
+    paragraphStyle: {
+      selector: 'p.text-element'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'IMMO'
+    }
   }
 }
 
