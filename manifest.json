@@ -87,7 +87,8 @@
         "https://www.badische-zeitung.de/*",
         "https://www.stern.de/*",
         "https://www.mittelbayerische.de/*",
-        "https://www.tagblatt.de/*"
+        "https://www.tagblatt.de/*",
+        "https://www.mz.de/*"
       ],
       "js": [
         "build/content.js"

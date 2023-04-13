@@ -1147,6 +1147,22 @@ const sites: Sites = {
     sourceParams: {
       dbShortcut: 'STT'
     }
+  },
+  'www.mz.de': {
+    selectors: {
+      query: makeQueryFunc('article .fp-paragraph'),
+      headline: 'article .fp-article-heading__title',
+      date: 'article .fp-article-heading__date',
+      main: 'article .fp-article-body',
+      paywall: 'article .fp-paywall'
+    },
+    mimic: (content) => {
+      return content.replace(/<p>/g, '<p class="fp-paragraph">')
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'MZ'
+    }
   }
 }
 
