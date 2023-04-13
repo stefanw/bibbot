@@ -1190,12 +1190,22 @@ const sites: Sites = {
       paywall: '.Paywall'
     },
     dateRange: [10, 1],
-    paragraphStyle: {
-      selector: 'p.text-element'
-    },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'IMMO'
+    }
+  },
+  'www.shz.de': {
+    selectors: {
+      query: makeQueryFunc('h1 span:nth-child(2)'),
+      headline: 'h1 span:nth-child(2)',
+      date: '.meta-box__meta',
+      main: '.content--group__article section p',
+      paywall: '.paywall'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'SHL'
     }
   }
 }

@@ -90,7 +90,8 @@
         "https://www.tagblatt.de/*",
         "https://www.mz.de/*",
         "https://www.capital.de/*",
-        "https://www.iz.de/*"
+        "https://www.iz.de/*",
+        "https://www.shz.de/*"
       ],
       "js": [
         "build/content.js"
