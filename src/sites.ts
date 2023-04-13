@@ -1134,6 +1134,19 @@ const sites: Sites = {
     sourceParams: {
       dbShortcut: 'MIB'
     }
+  },
+  'www.tagblatt.de': {
+    selectors: {
+      query: makeQueryFunc('h1'),
+      headline: 'h1',
+      date: '.artikelhead > span',
+      main: '.StoryShowBody',
+      paywall: '.Paywall'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'STT'
+    }
   }
 }
 

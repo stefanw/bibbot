@@ -86,7 +86,8 @@
         "https://www.businessinsider.de/*",
         "https://www.badische-zeitung.de/*",
         "https://www.stern.de/*",
-        "https://www.mittelbayerische.de/*"
+        "https://www.mittelbayerische.de/*",
+        "https://www.tagblatt.de/*"
       ],
       "js": [
         "build/content.js"
