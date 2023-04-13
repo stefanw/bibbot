@@ -154,7 +154,7 @@ const sites: Sites = {
     ],
     selectors: {
       // query: ".article-heading__title, .article-header__title, .headline__title",
-      query: makeQueryFunc('.article__item .paragraph'),
+      query: makeQueryFunc('.article__item .paragraph:not(:has(em))'),
       edition: '.metadata__source',
       date: '.metadata__source.encoded-date, time',
       paywall: '#paywall, .gate',
