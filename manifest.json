@@ -88,7 +88,8 @@
         "https://www.stern.de/*",
         "https://www.mittelbayerische.de/*",
         "https://www.tagblatt.de/*",
-        "https://www.mz.de/*"
+        "https://www.mz.de/*",
+        "https://www.capital.de/*"
       ],
       "js": [
         "build/content.js"

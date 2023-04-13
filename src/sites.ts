@@ -1163,6 +1163,23 @@ const sites: Sites = {
     sourceParams: {
       dbShortcut: 'MZ'
     }
+  },
+  'www.capital.de': {
+    selectors: {
+      query: makeQueryFunc('.article__body p.text-element'),
+      headline: '.title__headline',
+      date: 'time',
+      main: '.article__body',
+      paywall: '.paid-barrier'
+    },
+    dateRange: [10, 1],
+    paragraphStyle: {
+      selector: 'p.text-element'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'CAPI'
+    }
   }
 }
 
