@@ -157,7 +157,7 @@ const sites: Sites = {
       query: makeQueryFunc('.article__item .paragraph'),
       edition: '.metadata__source',
       date: '.metadata__source.encoded-date, time',
-      paywall: '.gate.article__item',
+      paywall: '#paywall, .gate',
       main: '.article-page'
     },
     start: (root, paywall) => {
