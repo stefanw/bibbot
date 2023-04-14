@@ -1104,7 +1104,7 @@ const sites: Sites = {
       query: makeQueryFunc('.article__body p'),
       headline: 'h2 .title__headline',
       date: 'time',
-      paywall: '.paid-barrier:not(.x-modal--hidden)',
+      paywall: 'html:not(.has-paid-access) .title__logo--str_plus',
       main: '.article__body'
     },
     insertContent: (siteBot, main, content) => {
