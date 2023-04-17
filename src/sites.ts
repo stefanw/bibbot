@@ -4,10 +4,11 @@ import { PartialSite, Sites } from './types.js'
 
 const extractQuery = (node: HTMLElement) => createQuery(node.innerText)
 const createQuery = (text: string) => {
-  const textArr = text.split(' ')
-  const n = 5
-  const search = textArr.map((word, wordIndex) => (wordIndex + n <= textArr.length) && textArr.slice(wordIndex, wordIndex + n).join(' '))
-  return search.filter(search => search).map(search => `"${search}"`).join(' OR ')
+  const wordsInNgram = 5
+  const maxCountOfNgrams = 5
+  const textArr = text.split(' ').slice(0, maxCountOfNgrams)
+  const search = textArr.map((word, wordIndex) => (wordIndex + wordsInNgram <= textArr.length) && textArr.slice(wordIndex, wordIndex + wordsInNgram).join(' '))
+  return search.filter(search => search).map(search => `"${search}"`).join(' OR ') || text.split(' ').slice(2, 15).join(' ')
 }
 const makeQueryFunc = (selector: string) => {
   return (node) => extractQuery(node.querySelector(selector))
