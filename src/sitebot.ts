@@ -1,7 +1,7 @@
 import * as browser from 'webextension-polyfill'
 
 import { LOADER_HTML, BOT_ID, LOADER_ID, MESSAGE_ID, FAILED_HTML } from './ui.js'
-import { FAILED_MESSAGE, INIT_MESSAGE, GOTOTAB_MESSAGE, STATUS_MESSAGE, SUCCES_MESSAGE, PORT_NAME } from './const.js'
+import { FAILED_MESSAGE, INIT_MESSAGE, GOTOTAB_MESSAGE, STATUS_MESSAGE, SUCCES_MESSAGE, PORT_NAME, LOG_NAME } from './const.js'
 
 import { addSharingButton } from './services.js'
 import Extractor from './extractor.js'
@@ -47,7 +47,7 @@ class SiteBot implements SiteBotInterface {
     try {
       return this.extractor.extractArticleInfo()
     } catch (e) {
-      console.error(e)
+      console.error(LOG_NAME, e)
       this.showUpdate('Beim Extrahieren der Artikeldaten trat ein Fehler auf.')
       return null
     }
@@ -137,7 +137,7 @@ class SiteBot implements SiteBotInterface {
   }
 
   onMessage (event) {
-    console.log(event)
+    console.log(LOG_NAME, event)
     if (event.type === STATUS_MESSAGE) {
       if (event.action === 'interaction_required') {
         this.showInteractionRequired()
