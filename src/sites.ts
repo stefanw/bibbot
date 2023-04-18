@@ -6,8 +6,8 @@ const extractQuery = (node: HTMLElement) => createQuery(node.innerText)
 const createQuery = (text: string) => {
   const wordsInNgram = 5
   const maxCountOfNgrams = 5
-  const textArr = text.split(' ').slice(0, maxCountOfNgrams)
-  const search = textArr.map((word, wordIndex) => (wordIndex + wordsInNgram <= textArr.length) && textArr.slice(wordIndex, wordIndex + wordsInNgram).join(' '))
+  const textArr = text.split(' ')
+  const search = textArr.map((word, wordIndex) => (wordIndex + wordsInNgram <= textArr.length) && (wordIndex < maxCountOfNgrams) && textArr.slice(wordIndex, wordIndex + wordsInNgram).join(' '))
   return search.filter(search => search).map(search => `"${search}"`).join(' OR ') || text.split(' ').slice(2, 15).join(' ')
 }
 const makeQueryFunc = (selector: string) => {
