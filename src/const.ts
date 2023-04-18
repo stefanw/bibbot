@@ -1,3 +1,4 @@
+export const LOG_NAME = 'BibBot'
 export const PORT_NAME = 'port-from-cs'
 export const INIT_MESSAGE = 'init'
 export const GOTOTAB_MESSAGE = 'gototab'
