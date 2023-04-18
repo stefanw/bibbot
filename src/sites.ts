@@ -1,4 +1,4 @@
-import { getConsentCdnSetup, getCmpBoxConsent } from './test_utils.js'
+import { getCmpBoxConsent, getConsentCdnSetup } from './test_utils.js'
 
 import { PartialSite, Sites } from './types.js'
 
@@ -7,8 +7,18 @@ const createQuery = (text: string) => {
   const query = text.split(' ').slice(2, 15).join(' ')
   return query
 }
-const makeQueryFunc = (selector: string) => {
-  return (node) => extractQuery(node.querySelector(selector))
+const makeQueryFunc = (selector: string|string[]) => {
+  if (!Array.isArray(selector)) {
+    selector = [selector]
+  }
+  return (node) => {
+    for (const sel of selector) {
+      const el = node.querySelector(sel)
+      if (el) {
+        return extractQuery(el)
+      }
+    }
+  }
 }
 
 const removeClass = (node: HTMLElement, className: string) => {
@@ -153,8 +163,7 @@ const sites: Sites = {
       }
     ],
     selectors: {
-      // query: ".article-heading__title, .article-header__title, .headline__title",
-      query: makeQueryFunc('.article__item .paragraph:not(:has(em))'),
+      query: makeQueryFunc(['.article__item .paragraph:not(:has(em))', '.article__item .paragraph', '.article__item .summary']),
       edition: '.metadata__source',
       date: '.metadata__source.encoded-date, time',
       paywall: '#paywall, .gate',
@@ -289,7 +298,7 @@ const sites: Sites = {
   },
   'www.berliner-zeitung.de': {
     selectors: {
-      query: makeQueryFunc('.a-paragraph span:not(:first-child), .a-paragraph'),
+      query: makeQueryFunc(['.a-paragraph span:not(:first-child)', '.a-paragraph']),
       main: '.o-article',
       paywall: '.paywall-dialog-box'
     },
