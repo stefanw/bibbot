@@ -49,7 +49,7 @@
         <a href="https://addons.mozilla.org/en-US/firefox/addon/bibbot/">
           <b>Download für Firefox</b>
         </a>
-        <a href="https://github.com/stefanw/bibbot/releases/latest/download/BibBot-Safari-macOS.zip">
+        <a href="#safari">
           <b>Download für Safari</b>
         </a>
       </p>
@@ -103,6 +103,23 @@
               Fehlt Ihnen eine Seite? Dann können Sie auf der <a href="https://github.com/stefanw/bibbot/issues/new?assignees=&labels=&template=neue-nachrichtenseite.md&title=">Entwicklungsplattform GitHub einen Vorschlag machen.</a>
             </p>
           </details>
+          <details id="safari">
+            <summary>Erweiterung für Safari</summary>
+            <a href="https://github.com/stefanw/bibbot/releases/latest/download/BibBot-Safari-macOS.zip">
+              <b>Download der Safari-Erweiterung</b>
+            </a>
+            <p>
+              Um die Safari-Version zu nutzen:
+              <ol>
+                <li>Safari öffnen</li>
+                <li>Entwickler-Menü aktivieren: Safari“ > „Einstellungen“, klicke auf „Erweitert“ und wähle dann „Menü ,Entwickler’ in der Menüleiste anzeigen“ (<a href="https://support.apple.com/de-de/guide/safari/sfri20948/mac">Siehe Safari-Benutzerhandbuch</a>)</li>
+                <li>Im Entwickler-Menü in der Menüleiste: ganz unten Haken setzen bei "Erlaube Unsignierte Erweiterungen"</li>
+                <li>Heruntergeladenes ZIP-Archiv entpacken, App öffnen und Sicherheitshinweis bestätigen</li>
+                <li>Unter Safari“ > „Einstellungen“ unter „Erweiterungen“ dem BibBot per Haken aktivieren</li>
+                <li>BibBot über die BibBot-Einstellungsseite konfigurieren</li>
+              </ol>
+            </p>
+          </details>
         </div>
       </section>
     </main>
@@ -118,12 +135,14 @@
       </p>
     </footer>
     <script>
-      window.setTimeout(function() {
+      function openDetailsOnLink() {
         var selectedDetails = document.querySelector('details:target')
         if (selectedDetails) {
           selectedDetails.setAttribute('open', true)
         }
-      }, 100)
+      }
+      window.setTimeout(openDetailsOnLink, 100)
+      addEventListener("hashchange", openDetailsOnLink);
       fetch('manifest.json').then(response => response.json()).then(data => {
         var domains = data.content_scripts[0].matches.map(url => url.replace('https://', '').replace('/*', ''))
         var ul = document.getElementById('newssites')
