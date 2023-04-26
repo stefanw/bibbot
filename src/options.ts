@@ -188,3 +188,4 @@ document.querySelector('form').addEventListener('submit', (e) => {
 
 document.getElementById('provider').addEventListener('change', showOptions)
 document.addEventListener('DOMContentLoaded', restore)
+document.getElementById('version').innerText = 'v' + browser.runtime.getManifest().version
