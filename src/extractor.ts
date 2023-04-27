@@ -1,4 +1,4 @@
-import { ExtractorInterface, Site, FormattedDateRange, ArticleInfo } from './types.js'
+import { ArticleInfo, ExtractorInterface, FormattedDateRange, RawArticleInfo, Site } from './types.js'
 
 const QUOTES = /["„].*["„]/
 
@@ -98,7 +98,7 @@ class Extractor implements ExtractorInterface {
     }
   }
 
-  extractDateQuery (dateValue, range) {
+  extractDateQuery (dateValue: string, range) : FormattedDateRange {
     const defaultValue: FormattedDateRange = {
       dateStart: '', dateEnd: ''
     }
@@ -106,26 +106,30 @@ class Extractor implements ExtractorInterface {
       return defaultValue
     }
     let date
-    let match = dateValue.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/)
-    if (!match) {
-      match = dateValue.match(/(\d{1,2})\. ([^ ]+) (\d{4})/)
-      if (match) {
-        const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-          'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
-        ]
-        const monthIndex = monthNames.findIndex((x) => x === match[2])
-        if (monthIndex === -1) {
+    if (dateValue.match(/(\d{4})-(\d{2})-(\d{2})/)) {
+      date = new Date(dateValue)
+    } else {
+      let match = dateValue.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/)
+      if (!match) {
+        match = dateValue.match(/(\d{1,2})\. ([^ ]+) (\d{4})/)
+        if (match) {
+          const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+            'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
+          ]
+          const monthIndex = monthNames.findIndex((x) => x === match[2])
+          if (monthIndex === -1) {
+            return defaultValue
+          }
+          date = new Date(`${match[3]}-${monthIndex + 1}-${match[1]}`)
+        } else {
           return defaultValue
         }
-        date = new Date(`${match[3]}-${monthIndex + 1}-${match[1]}`)
       } else {
+        date = new Date(`${match[3]}-${match[2]}-${match[1]}`)
+      }
+      if (isNaN(date)) {
         return defaultValue
       }
-    } else {
-      date = new Date(`${match[3]}-${match[2]}-${match[1]}`)
-    }
-    if (isNaN(date)) {
-      return defaultValue
     }
     const formatDate = (d) => `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`
     const day = 24 * 60 * 60 * 1000
@@ -138,9 +142,9 @@ class Extractor implements ExtractorInterface {
     return dateRange
   }
 
-  extractArticleInfo () {
+  extractArticleInfo (): ArticleInfo {
     const articleInfoSelectors = ['query', 'edition', 'date']
-    const articleInfo: ArticleInfo = {}
+    const articleInfo: RawArticleInfo = {}
     for (const key of articleInfoSelectors) {
       if (this.site.selectors[key]) {
         const selector = this.site.selectors[key]
@@ -158,7 +162,8 @@ class Extractor implements ExtractorInterface {
     q = q.split(QUOTES).map(s => s.trim()).filter(s => s.split(' ').length > 1).map(s => `"${s}"`).join(' ')
     articleInfo.query = q
     return {
-      ...articleInfo,
+      query: articleInfo.query,
+      edition: articleInfo.edition,
       ...this.extractDateQuery(articleInfo.date, this.site.dateRange || [4, 1])
     }
   }

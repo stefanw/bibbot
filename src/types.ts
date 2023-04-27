@@ -14,6 +14,11 @@ type StringSelector = string | string[] | ((root: HTMLElement, siteBot: SiteBotI
 // eslint-disable-next-line no-use-before-define
 type ElementSelector = string | string[] | ((root: HTMLElement, siteBot: SiteBotInterface) => HTMLElement)
 type DateRange = [offsetBefore: number, offsetAfter: number]
+export type FormattedDateRange = {
+  dateStart: string
+  dateEnd: string
+}
+
 type Mimicer = string | ((content: string, main: HTMLElement) => string)
 type ParagraphStyle = {
   className?: string
@@ -21,10 +26,17 @@ type ParagraphStyle = {
   selector?: string
 }
 
+export type RawArticleInfo = {
+  query?: string
+  edition?: string
+  date?: string
+}
+
 export type ArticleInfo = {
   query?: string
   edition?: string
-  date?: DateRange
+  dateStart?: string
+  dateEnd?: string
 }
 
 export interface ExtractorInterface {
@@ -70,11 +82,6 @@ export interface Site extends PartialSite {
 
 export type Sites = {
   [key: string]: Site
-}
-
-export type FormattedDateRange = {
-  dateStart: string
-  dateEnd: string
 }
 
 export type ProviderField = 'username' | 'password' | 'city' | 'name'
