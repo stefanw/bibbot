@@ -169,15 +169,13 @@ const sites: Sites = {
   },
   'www.welt.de': {
     selectors: {
-      query: makeQueryFunc('.c-article-text > p'),
+      query: makeQueryFunc('.c-summary__intro'),
       headline: 'h2.c-headline',
       date: 'time',
       paywall: '.contains_walled_content',
-      main: '.c-article-text'
+      main: '.o-text.c-summary '
     },
-    start: (root) => {
-      root.querySelector('.c-page-container.c-la-loading').remove()
-    },
+    waitOnLoad: 500,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'WEPL,WAMS,WELT,WEON'
