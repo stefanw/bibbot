@@ -144,7 +144,7 @@ const sites: Sites = {
       // query: "h1 > span",
       query: makeQueryFunc('.article--paid p'),
       main: '.article--paid #story-elements',
-      paywall: '.article--paid > div:has(>svg)',
+      paywall: '.article--paid > div:not([id])',
       date: 'time'
     },
     source: 'genios.de',
