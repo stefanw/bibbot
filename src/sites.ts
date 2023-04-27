@@ -163,7 +163,7 @@ const sites: Sites = {
       }
     ],
     selectors: {
-      query: makeQueryFunc(['.article__item .paragraph:not(:has(em))', '.article__item .paragraph', '.article__item .summary']),
+      query: makeQueryFunc(['.article__item .paragraph:nth-child(2)', '.article__item .paragraph', '.article__item .summary']),
       edition: '.metadata__source',
       date: '.metadata__source.encoded-date, time',
       paywall: '#paywall, .gate',
