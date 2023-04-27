@@ -55,35 +55,16 @@ const RND: PartialSite = {
 
 const GA: PartialSite = {
   selectors: {
-    query: makeQueryFunc('.park-article__intro.park-article__content'),
+    query: makeQueryFunc('[data-cy="article_content"] p'),
     date: 'time',
-    paywall: '.park-article-paywall',
-    main: '.park-article__body'
+    paywall: '.paid-content ',
+    main: '[data-cy="article_content"] > div'
   },
-  insertContent: (siteBot, main, content) => {
-    siteBot.hideBot()
-    const div = document.createElement('div')
-    div.style.maxWidth = '640px'
-    div.style.margin = '0 auto'
-    div.innerHTML = content
-    main.appendChild(div)
-  },
-  start: (root) => {
-    const article = root.querySelector('.park-article--reduced')
-    if (article) {
-      article.classList.remove('park-article--reduced')
-    }
-    const widget = root.querySelector('.park-widget--paywall-article')
-    if (widget) {
-      widget.remove()
-    }
-    const garbage = root.querySelector('.park-article-content')
-    if (garbage) {
-      garbage.remove()
-    }
+  paragraphStyle: {
+    selector: '[data-cy="article_content"] > div p'
   },
   source: 'genios.de',
-  waitOnLoad: true
+  waitOnLoad: 300
 }
 
 const KSTA: PartialSite = {
