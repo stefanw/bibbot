@@ -91,7 +91,8 @@
         "https://www.mz.de/*",
         "https://www.capital.de/*",
         "https://www.iz.de/*",
-        "https://www.shz.de/*"
+        "https://www.shz.de/*",
+        "https://www.aerztezeitung.de/*"
       ],
       "js": [
         "build/content.js"

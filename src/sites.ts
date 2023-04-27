@@ -1195,6 +1195,21 @@ const sites: Sites = {
     sourceParams: {
       dbShortcut: 'SHL'
     }
+  },
+  'www.aerztezeitung.de': {
+    selectors: {
+      query: makeQueryFunc('.StoryShowBox p'),
+      date: () => document.querySelector("meta[name='date']").attributes.getNamedItem('content').value,
+      headline: '.article-heading',
+      main: '.StoryShowBox',
+      paywall: '.AZLoginModule'
+    },
+    waitOnLoad: true,
+    dateRange: [25, 1],
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'AEZT'
+    }
   }
 }
 
