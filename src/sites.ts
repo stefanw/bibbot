@@ -1193,7 +1193,7 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'SHL'
+      dbShortcut: 'ELNA,PBTB,QBTB,SHTB,UENR,WETB,BSZG,WIZE,SYR,STTB,SCHN,SCHB,OHAN,NRU,NFTB,SHL,IB,HN,HCOU,GF,FTB,ECTB'
     }
   },
   'www.aerztezeitung.de': {
