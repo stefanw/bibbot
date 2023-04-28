@@ -1193,7 +1193,7 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'SHL'
+      dbShortcut: 'PBTB'
     }
   },
   'www.aerztezeitung.de': {
