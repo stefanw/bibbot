@@ -69,17 +69,12 @@ const GA: PartialSite = {
 
 const KSTA: PartialSite = {
   selectors: {
-    query: makeQueryFunc('.selectionShareable:not(.ortsmarke)'),
+    query: makeQueryFunc('.dm-article__intro'),
     date: 'time',
-    paywall: '.dm_premium_container #c1-template-platzhalter',
-    main: '.dm_article_text'
+    paywall: '.dm-paywall-wrapper',
+    main: '.dm-article-content-width'
   },
-  start: (root) => {
-    const paywall = root.querySelector('#c1-template-platzhalter')
-    if (paywall) {
-      paywall.remove()
-    }
-  },
+  waitOnLoad: 500,
   source: 'genios.de'
 }
 
