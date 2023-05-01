@@ -1099,7 +1099,7 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'STER'
+      dbShortcut: 'STER,STGL'
     }
   },
   'www.mittelbayerische.de': {
@@ -1150,7 +1150,7 @@ const sites: Sites = {
       headline: '.title__headline',
       date: 'time',
       main: '.article__body',
-      paywall: '.paid-barrier'
+      paywall: 'html:not(.has-paid-access) .title__logo--capital_plus'
     },
     dateRange: [10, 1],
     paragraphStyle: {
@@ -1159,6 +1159,23 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'CAPI'
+    }
+  },
+  'www.geo.de': {
+    selectors: {
+      query: makeQueryFunc('.article__body p.text-element'),
+      headline: '.title__headline',
+      date: 'time',
+      main: '.article__body',
+      paywall: 'html:not(.has-paid-access) .title__logo--geo_plus'
+    },
+    dateRange: [10, 1],
+    paragraphStyle: {
+      selector: 'p.text-element'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'GEO,GEOS,GEOW,GESP,GEOE'
     }
   },
   'www.iz.de': {
