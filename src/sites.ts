@@ -335,12 +335,9 @@ const sites: Sites = {
   'www.lr-online.de': {
     selectors: {
       query: makeQueryFunc('.article-text .text'),
-      paywall: '.paywall .row .flex-wrap',
+      paywall: '#paywall-container',
+      date: 'time',
       main: '.article-text'
-    },
-    start: (root) => {
-      root.querySelector('.paywall .row .flex-wrap').remove()
-      root.querySelector('.paywall').classList.remove('paywall')
     },
     source: 'genios.de',
     sourceParams: {
