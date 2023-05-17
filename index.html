@@ -105,7 +105,21 @@
           </details>
           <details id="safari">
             <summary>Erweiterung für Safari</summary>
-            <a href="https://github.com/stefanw/bibbot/releases/latest/download/BibBot-Safari-macOS.zip">
+            <div style="display: none">
+            {% assign latest_safari = false %}
+            {% for release in site.github.releases %}
+              {% for asset in release.assets %}
+                {% if asset.name == "BibBot-Safari-macOS.zip" %}
+                  {% assign latest_safari = asset.browser_download_url %}
+                  {% break %}
+                {% endif %}
+              {% endfor %}
+              {% if latest_safari != false %}
+                {% break %}
+              {% endif %}
+            {% endfor %}
+            </div>
+            <a href="{{ latest_safari }}">
               <b>Download der Safari-Erweiterung</b>
             </a>
             <p>
