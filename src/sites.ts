@@ -387,7 +387,7 @@ const sites: Sites = {
   },
   'www.abendblatt.de': {
     selectors: {
-      query: "[itemprop='headline']",
+      query: "h2",
       main: '.article__body',
       date: 'time',
       paywall: '#paywall-container'
@@ -399,7 +399,7 @@ const sites: Sites = {
   },
   'www.waz.de': {
     selectors: {
-      query: '[itemprop="headline"]',
+      query: 'h2',
       date: 'time',
       paywall: '#paywall-container',
       main: '.article__header__intro'
