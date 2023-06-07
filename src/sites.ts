@@ -387,7 +387,7 @@ const sites: Sites = {
   },
   'www.abendblatt.de': {
     selectors: {
-      query: "h2",
+      query: 'h2',
       main: '.article__body',
       date: 'time',
       paywall: '#paywall-container'
