@@ -852,6 +852,32 @@ const providers: Providers = {
     permissions: [
       'https://*.ezproxy.stadt-koeln.de/*'
     ]
+  },
+  'www.aachen.de': {
+    name: 'Stadtbibliothek Aachen',
+    web: 'https://www.aachen.de/de/stadt_buerger/bildung/oeffentliche_bibliothek/Aktuelles/index.html',
+    params: {
+      'www.nexisuni.com': {
+        domain: 'https://advance-lexis-com.stb-aachen.idm.oclc.org', // maybe?
+        startUrl: 'https://login.stb-aachen.idm.oclc.org/login?qurl=https%3a%2f%2fwww.nexisuni.com'
+      }
+    },
+    defaultSource: 'www.nexisuni.com',
+    login: [
+      [
+        { message: 'Bibliothekskonto wird eingeloggt...' },
+        { fill: { selector: 'input[name="user"]', key: 'options.username' } },
+        { fill: { selector: 'input[name="pass"]', key: 'options.password' } },
+        { click: 'input[type="submit"]' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ],
+    permissions: [
+      'https://*.stb-aachen.idm.oclc.org/*'
+    ]
   }
 }
 
