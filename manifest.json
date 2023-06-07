@@ -92,7 +92,8 @@
         "https://www.capital.de/*",
         "https://www.iz.de/*",
         "https://www.shz.de/*",
-        "https://www.aerztezeitung.de/*"
+        "https://www.aerztezeitung.de/*",
+        "https://www.geo.de/*"
       ],
       "js": [
         "build/content.js"
