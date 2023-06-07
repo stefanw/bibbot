@@ -1219,6 +1219,20 @@ const sites: Sites = {
     sourceParams: {
       dbShortcut: 'AEZT'
     }
+  },
+  'www.nzz.ch': {
+    selectors: {
+      query: makeQueryFunc('.articlecomponent.text'),
+      date: 'time',
+      headline: '.headline__title',
+      main: '.articlecomponent.text',
+      paywall: '.dynamic-regwall'
+    },
+    waitOnLoad: 1500,
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'NZZ,NZZS'
+    }
   }
 }
 

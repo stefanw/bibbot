@@ -93,7 +93,8 @@
         "https://www.iz.de/*",
         "https://www.shz.de/*",
         "https://www.aerztezeitung.de/*",
-        "https://www.geo.de/*"
+        "https://www.geo.de/*",
+        "https://www.nzz.ch/*"
       ],
       "js": [
         "build/content.js"
