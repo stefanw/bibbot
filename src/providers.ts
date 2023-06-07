@@ -15,12 +15,6 @@ const geniosDefaultData: PartialProviderData[] = [
     domain: 'bib-aschaffenbg.genios.de'
   },
   {
-    id: 'www.lib.bonn.de',
-    name: 'Stadtbibliothek Bonn',
-    web: 'https://www.lib.bonn.de/',
-    domain: 'bib-bonn.genios.de'
-  },
-  {
     id: 'www.braunschweig.de',
     name: 'Stadtbibliothek Braunschweig',
     web: 'https://www.braunschweig.de/kultur/bibliotheken_archive/stadtbibliothek/index.php',
@@ -806,6 +800,32 @@ const providers: Providers = {
       { id: 'name', display: 'Name der Hochschule/Uni:', type: 'text' }
     ],
     permissions: ['https://www.wiso-net.de/*']
+  },
+  'www.lib.bonn.de': {
+    name: 'Stadtbibliothek Bonn',
+    web: 'https://www.lib.bonn.de/',
+    params: {
+      'www.nexisuni.com': {
+        domain: 'advance-lexis-com.bonn.idm.oclc.org', // maybe?
+        startUrl: 'https://login.bonn.idm.oclc.org/login'
+      }
+    },
+    defaultSource: 'www.nexisuni.com',
+    login: [
+      [
+        { message: 'Bibliothekskonto wird eingeloggt...' },
+        { fill: { selector: 'input[name="user"]', key: 'options.username' } },
+        { fill: { selector: 'input[name="pass"]', key: 'options.password' } },
+        { click: 'input[type="submit"]' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ],
+    permissions: [
+      'https://*.bonn.idm.oclc.org/*'
+    ]
   },
   'stadt-koeln.de': {
     name: 'Stadtbibliothek Köln',
