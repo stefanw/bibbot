@@ -744,9 +744,12 @@ const providers: Providers = {
     login: [
       [
         { message: 'Bibliothekskonto wird eingeloggt...' },
-        { fill: { selector: 'input[name="plainuser"]', providerKey: 'www.bsb-muenchen.de.options.username' } },
+        { click: '#submitbutton' }
+      ],
+      [
+        { fill: { selector: 'input[name="username"]', providerKey: 'www.bsb-muenchen.de.options.username' } },
         { fill: { selector: 'input[name="password"]', providerKey: 'www.bsb-muenchen.de.options.password' } },
-        { click: 'button[type="submit"]' }
+        { click: '#btnLogin' }
       ]
     ],
     options: [
