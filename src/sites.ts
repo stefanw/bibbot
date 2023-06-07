@@ -267,7 +267,7 @@ const sites: Sites = {
     waitOnLoad: true,
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'HB,HBON,HBGM,HBLI,HBMA,HBMB,HBZ'
+      dbShortcut: 'HBLATE,HBONLATE,HBGM,HBLI,HBMA,HBMBLATE,HBZ'
     }
   },
   'www.berliner-zeitung.de': {
