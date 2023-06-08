@@ -115,6 +115,19 @@ const sites: Sites = {
       dbShortcut: 'SPPL,SPII,KULS,SPIE,SSPE,UNIS,LISP,SPBE'
     }
   },
+  'www.manager-magazin.de': {
+    selectors: {
+      query: makeQueryFunc('header h2~div:nth-of-type(1)'),
+      date: 'time',
+      headline: 'h2 span.align-middle',
+      paywall: '[data-area="paywall"]',
+      main: '[data-area="body"]'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'MM,MMAG'
+    }
+  },
   'www.tagesspiegel.de': {
     selectors: {
       // query: "h1 > span",
