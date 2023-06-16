@@ -858,7 +858,7 @@ const providers: Providers = {
     web: 'https://www.aachen.de/de/stadt_buerger/bildung/oeffentliche_bibliothek/Aktuelles/index.html',
     params: {
       'www.nexisuni.com': {
-        domain: 'https://advance-lexis-com.stb-aachen.idm.oclc.org', // maybe?
+        domain: 'advance-lexis-com.stb-aachen.idm.oclc.org',
         startUrl: 'https://login.stb-aachen.idm.oclc.org/login?qurl=https%3a%2f%2fwww.nexisuni.com'
       }
     },
