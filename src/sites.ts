@@ -128,6 +128,18 @@ const sites: Sites = {
       dbShortcut: 'TSP,TPCP,TSPO'
     }
   },
+  'www.wiwo.de': {
+    selectors: {
+      query: makeQueryFunc('.c-leadtext'),
+      main: '.o-article__content',
+      paywall: '.isArticle .isPremium',
+      date: 'time'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'WWLATE,WWONLATE,WWBW,WWGR'
+    }
+  },
   'www.zeit.de': {
     testSetup: getConsentCdnSetup({ pageChanges: true }),
     examples: [
