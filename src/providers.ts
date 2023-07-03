@@ -732,7 +732,7 @@ const providers: Providers = {
     web: 'https://www.bsb-muenchen.de/',
     params: {
       'genios.de': {
-        domain: 'www-1wiso-2net-1de-1001394go0ffe.emedia1.bsb-muenchen.de'
+        domain: 'www-1wiso-2net-1de-101vwuxwl0445.emedia1.bsb-muenchen.de'
       }
     },
     login: [
