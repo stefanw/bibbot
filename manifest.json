@@ -95,7 +95,8 @@
         "https://www.shz.de/*",
         "https://www.aerztezeitung.de/*",
         "https://www.geo.de/*",
-        "https://www.nzz.ch/*"
+        "https://www.nzz.ch/*",
+        "https://www.manager-magazin.de/*"
       ],
       "js": [
         "build/content.js"
