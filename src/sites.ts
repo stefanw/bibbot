@@ -432,15 +432,15 @@ const sites: Sites = {
       }
     ],
     selectors: {
-      query: '.c-headline--article',
-      date: '.o-article__element time',
-      paywall: '.o-paywall',
-      main: '.o-article__content .u-richtext'
+      query: makeQueryFunc('.c-leadtext'),
+      main: '.o-article__content',
+      paywall: '.isArticle .isPremium',
+      date: 'time'
     },
     dateRange: [8, 1], // search from roughly week before
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'WWON'
+      dbShortcut: 'WWLATE,WWONLATE,WWBW,WWGR'
     }
   },
   'www.heise.de': {
