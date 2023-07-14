@@ -659,16 +659,18 @@ const providers: Providers = {
     name: 'Stadtbibliothek Düsseldorf',
     web: 'https://www.duesseldorf.de/stadtbuechereien/onlinebibliothek.html',
     params: {
-      'genios.de': {
-        domain: 'bib-duesseldorf-genios-de.ezp-lhd.itk-rheinland.de/'
+      'www.nexisuni.com': {
+        domain: 'advance-lexis-com.ezp-lhd.itk-rheinland.de',
+        startUrl: 'http://ezp-lhd.itk-rheinland.de:2048/login?url=https://www.nexisuni.com'
       }
     },
+    defaultSource: 'www.nexisuni.com',
     login: [
       [
         { message: 'Bibliothekskonto wird eingeloggt...' },
-        { fill: { selector: 'input[name="user"]', providerKey: 'www.duesseldorf.de.options.username' } },
-        { fill: { selector: 'input[name="pass"]', providerKey: 'www.duesseldorf.de.options.password' } },
-        { click: '.buttong_l' }
+        { fill: { selector: 'input[name="user"]', key: 'options.username' } },
+        { fill: { selector: 'input[name="pass"]', key: 'options.password' } },
+        { click: 'input[type="submit"]' }
       ]
     ],
     options: [
