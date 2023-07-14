@@ -126,7 +126,8 @@ function restore () {
       })
     })
 
-  getPermissions()
+  checkPermissions()
+
 }
 
 function save () {
@@ -163,10 +164,12 @@ function getPermissions () {
   })
 }
 
-function requestPermissions (providerPermissions) {
-  if (!providerPermissions) {
-    return
-  }
+function checkPermissions () {
+  const provider = inputs.provider.value
+  const neededPermissions = getNeededPermissions(providers[provider].permissions)
+}
+
+function getNeededPermissions (providerPermissions: string[]): string[] {
   const neededPermissions = []
   console.log(providerPermissions, currentPermissions.origins)
   providerPermissions.forEach(p => {
@@ -174,6 +177,14 @@ function requestPermissions (providerPermissions) {
       neededPermissions.push(p)
     }
   })
+  return neededPermissions
+}
+
+function requestPermissions (providerPermissions) {
+  if (!providerPermissions) {
+    return
+  }
+  const neededPermissions = getNeededPermissions(providerPermissions)
   if (neededPermissions.length > 0) {
     browser.permissions.request({ origins: neededPermissions }).then(() => {
       getPermissions()
