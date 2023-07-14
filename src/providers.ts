@@ -880,6 +880,33 @@ const providers: Providers = {
     permissions: [
       'https://*.stb-aachen.idm.oclc.org/*'
     ]
+  },
+  'www.dortmund.de': {
+    name: 'Stadt- und Landesbibliothek Dortmund',
+    web: 'https://www.dortmund.de/de/leben_in_dortmund/bildungwissenschaft/bibliothek/start_bibliothek/',
+    params: {
+      'www.nexisuni.com': {
+        domain: 'go.openathens.net',
+        startUrl: 'https://go.openathens.net/redirector/dortmund.de?url=http://www.nexisuni.com+'
+      }
+    },
+    defaultSource: 'www.nexisuni.com',
+    login: [
+      [
+        { message: 'Bibliothekskonto wird eingeloggt...' },
+        { fill: { selector: 'input[name="L#AUSW"]', key: 'options.username' } },
+        { fill: { selector: 'input[name="LPASSW"]', key: 'options.password' } },
+        { click: 'input[type="submit"]' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ],
+    permissions: [
+      'https://go.openathens.net/redirector/dortmund.de*',
+      'https://katalog.dortmund.de/oidcp/*'
+    ]
   }
 }
 
