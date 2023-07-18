@@ -157,7 +157,7 @@ class Extractor implements ExtractorInterface {
     }
     let q = articleInfo.query
     // remove some special chars
-    q = q.replace(/[!,:?;.'/()]/g, ' ').replace(/ {1,}/g, ' ')
+    q = q.replace(/[!:?;'/()]/g, ' ').replace(/(((?<!\d)[,.])|([,.](?!\d)))/g, ' ').replace(/ {1,}/g, ' ')
     // remove non-leading/trailing quotes
     q = q.split(QUOTES).map(s => s.trim()).filter(s => s.split(' ').length > 1).map(s => `"${s}"`).join(' ')
     articleInfo.query = q
