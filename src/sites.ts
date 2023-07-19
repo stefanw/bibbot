@@ -432,7 +432,7 @@ const sites: Sites = {
       }
     ],
     selectors: {
-      query: makeQueryFunc('.c-leadtext'),
+      query: makeQueryFunc('.c-headline'),
       main: '.o-article__content',
       paywall: '.isArticle .isPremium',
       date: 'time'
