@@ -10,6 +10,7 @@ const sources: Sources = {
       // adding an empty ?portalid= parameter works in these cases
       portalId: ''
     },
+    switchToDesktopVersion: [],
     login: [
       [
         { click: '.gdprcookie-buttons button', optional: true },
@@ -35,13 +36,24 @@ const sources: Sources = {
     defaultParams: {
       domain: 'www.genios.de'
     },
+    switchToDesktopVersion: [
+      [
+        { click: '#f_c6' }
+      ]
+    ],
     login: [
       [
         { fill: { selector: '#bibLoginLayer_number', key: 'options.username' } },
         { fill: { selector: '#bibLoginLayer_password', key: 'options.password' } },
         { click: '#bibLoginLayer_terms' },
         { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
+        { click: '#bibLoginLayer_c0' },
+        // Mobile
+        { fill: { selector: '#f_p_number', key: 'options.username' } },
+        { fill: { selector: '#f_p_password', key: 'options.password' } },
+        { click: '#f_p_terms' },
+        { click: '#f_p_gdpr' },
+        { click: '#f_p_c2' }
       ]
     ],
     search: [
@@ -65,6 +77,7 @@ const sources: Sources = {
     start: '{source.startUrl.raw}',
     defaultParams: {
     },
+    switchToDesktopVersion: [],
     login: [],
     search: [
       [

@@ -189,6 +189,7 @@ export type Source = {
   start: string
   defaultParams: DefaultSourceParams
   login: Actions[]
+  switchToDesktopVersion: Actions[]
   search: Actions[]
 }
 

@@ -9,6 +9,7 @@ import { ArticleInfo, Source, Provider, SiteSourceParams, Message } from './type
 
 enum PHASE {
   LOGIN = 'login',
+  SWITCH_TO_DESKTOP_VERSION = 'switchToDesktopVersion',
   SEARCH = 'search',
 }
 
@@ -184,6 +185,8 @@ class SourceBot {
     const actionList = this.getActionList()
     if (this.step > actionList.length - 1) {
       if (this.phase === PHASE.LOGIN) {
+        this.phase = PHASE.SWITCH_TO_DESKTOP_VERSION
+      } else if (this.phase === PHASE.SWITCH_TO_DESKTOP_VERSION) {
         this.phase = PHASE.SEARCH
       }
       this.step = 0
