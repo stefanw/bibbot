@@ -133,7 +133,7 @@ const sites: Sites = {
       // query: "h1 > span",
       query: makeQueryFunc('.article--paid p'),
       main: '.article--paid #story-elements',
-      paywall: '.article--paid #paywall',
+      paywall: '.article--paid #paywal',
       date: 'time'
     },
     source: 'genios.de',
