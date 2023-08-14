@@ -133,6 +133,12 @@ const geniosDefaultData: PartialProviderData[] = [
     name: 'Stadtbücherei Lüdenscheid',
     web: 'https://www.luedenscheid.de/luedenscheid_erleben/stadtbuecherei/sp_auto_398.php',
     domain: 'bib-luedenscheid.genios.de'
+  },
+  {
+    id: 'www.meerbusch.de',
+    name: 'Stadtbücherei Meerbusch',
+    web: 'https://meerbusch.de/kultur-und-tourismus/stadtbibliothek.html',
+    domain: 'bib-meerbusch.genios.de'
   }
 ]
 
