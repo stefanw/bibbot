@@ -20,7 +20,7 @@ const defaults: StorageItems = {
   saveArticle: null
 }
 
-let currentPermissions = null
+let currentPermissions: browser.Permissions.AnyPermissions | null = null
 
 function showOptions () {
   const provider = (<HTMLInputElement>document.getElementById('provider')).value;
@@ -28,6 +28,7 @@ function showOptions () {
     el.hidden = true
   })
   document.getElementById(provider + '.options').hidden = null
+  checkPermissions()
 }
 
 function getInputs () {
@@ -127,7 +128,6 @@ function restore () {
     })
 
   checkPermissions()
-
 }
 
 function save () {
@@ -157,39 +157,61 @@ function save () {
   console.log('saved!')
 }
 
-function getPermissions () {
-  browser.permissions.getAll().then((permissions) => {
+async function getPermissions (refresh = false): Promise<browser.Permissions.AnyPermissions> {
+  if (currentPermissions !== null && !refresh) {
+    return Promise.resolve(currentPermissions)
+  }
+  return browser.permissions.getAll().then((permissions) => {
     currentPermissions = permissions
     return permissions
   })
 }
 
-function checkPermissions () {
+async function checkPermissions (): Promise<boolean> {
+  const inputs = getInputs()
   const provider = inputs.provider.value
-  const neededPermissions = getNeededPermissions(providers[provider].permissions)
+  const neededPermissions = await getNeededPermissions(providers[provider].permissions)
+  console.log('Missing permissions', neededPermissions)
+  const needed = neededPermissions.length > 0
+  if (needed) {
+    document.getElementById('refresh-permissions').hidden = null
+  } else {
+    document.getElementById('refresh-permissions').hidden = true
+  }
+  return needed
 }
 
-function getNeededPermissions (providerPermissions: string[]): string[] {
+async function getNeededPermissions (providerPermissions: string[]): Promise<string[]> {
   const neededPermissions = []
-  console.log(providerPermissions, currentPermissions.origins)
+  const permissions = await getPermissions()
+  console.log(providerPermissions, permissions.origins)
   providerPermissions.forEach(p => {
-    if (!currentPermissions.origins.includes(p)) {
+    if (!permissions.origins.includes(p)) {
       neededPermissions.push(p)
     }
   })
   return neededPermissions
 }
 
-function requestPermissions (providerPermissions) {
+async function requestNeededPermissions () {
+  const inputs = getInputs()
+  const provider = inputs.provider.value
+  await requestPermissions(providers[provider].permissions)
+}
+
+async function requestPermissions (providerPermissions) {
   if (!providerPermissions) {
     return
   }
-  const neededPermissions = getNeededPermissions(providerPermissions)
+  const neededPermissions = await getNeededPermissions(providerPermissions)
   if (neededPermissions.length > 0) {
-    browser.permissions.request({ origins: neededPermissions }).then(() => {
-      getPermissions()
-    })
+    const granted = await browser.permissions.request({ origins: neededPermissions })
+    console.log('Permissions granted?', granted)
+    await getPermissions(true)
+    await checkPermissions()
+    return true
   }
+  return Promise.resolve(false)
 }
 
 document.querySelector('form').addEventListener('submit', (e) => {
@@ -200,3 +222,4 @@ document.querySelector('form').addEventListener('submit', (e) => {
 document.getElementById('provider').addEventListener('change', showOptions)
 document.addEventListener('DOMContentLoaded', restore)
 document.getElementById('version').innerText = 'v' + browser.runtime.getManifest().version
+document.getElementById('refresh-permissions-button').addEventListener('click', requestNeededPermissions)
