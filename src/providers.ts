@@ -110,12 +110,12 @@ const geniosDefaultData: PartialProviderData[] = [
     web: 'https://www.ebibo-dresden.de/',
     domain: 'sbdresden.genios.de'
   },
-  {
-    id: 'www.mannheim.de',
-    name: 'Stadtbibliothek Mannheim',
-    web: 'https://www.mannheim.de/de/bildung-staerken/stadtbibliothek',
-    domain: 'bib-mannheim.genios.de'
-  },
+  // {
+  //   id: 'www.mannheim.de',
+  //   name: 'Stadtbibliothek Mannheim',
+  //   web: 'https://www.mannheim.de/de/bildung-staerken/stadtbibliothek',
+  //   domain: 'bib-mannheim.genios.de'
+  // },
   {
     id: 'www.oberhausen.de',
     name: 'Stadtbibliothek Oberhausen',
