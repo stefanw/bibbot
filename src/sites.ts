@@ -881,6 +881,7 @@ const sites: Sites = {
     },
     waitOnLoad: 1000,
     source: 'genios.de',
+    dateRange: [14, 1],
     sourceParams: {
       dbShortcut: 'MOPO'
     }
