@@ -886,7 +886,7 @@ const providers: Providers = {
     web: 'https://www.dortmund.de/de/leben_in_dortmund/bildungwissenschaft/bibliothek/start_bibliothek/',
     params: {
       'www.nexisuni.com': {
-        domain: 'go.openathens.net',
+        domain: 'advance-lexis-com.eu1.proxy.openathens.net',
         startUrl: 'https://go.openathens.net/redirector/dortmund.de?url=http://www.nexisuni.com+'
       }
     },
@@ -897,6 +897,9 @@ const providers: Providers = {
         { fill: { selector: 'input[name="L#AUSW"]', key: 'options.username' } },
         { fill: { selector: 'input[name="LPASSW"]', key: 'options.password' } },
         { click: 'input[type="submit"]' }
+      ],
+      [
+        { click: 'input[name="CLOGIN"]', optional: true }
       ]
     ],
     options: [
@@ -904,8 +907,9 @@ const providers: Providers = {
       { id: 'password', display: 'Passwort:', type: 'password' }
     ],
     permissions: [
-      'https://go.openathens.net/redirector/dortmund.de*',
-      'https://katalog.dortmund.de/oidcp/*'
+      'https://go.openathens.net/*',
+      'https://advance-lexis-com.eu1.proxy.openathens.net/*',
+      'https://katalog.dortmund.de/*'
     ]
   }
 }

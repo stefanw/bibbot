@@ -30,8 +30,9 @@
     "https://login.slub-dresden.de/*",
     "https://www-wiso-net-de.wwwdb.dbod.de/*",
     "https://*.bsb-muenchen.de/*",
-    "https://go.openathens.net/redirector/dortmund.de*",
-    "https://katalog.dortmund.de/oidcp/*"
+    "https://go.openathens.net/*",
+    "https://katalog.dortmund.de/*",
+    "https://advance-lexis-com.eu1.proxy.openathens.net/*"
   ],
   "background": {
     "scripts": [
