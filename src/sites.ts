@@ -1098,7 +1098,7 @@ const sites: Sites = {
       query: makeQueryFunc('.article__body p'),
       headline: 'h2 .title__headline',
       date: 'time',
-      paywall: 'html:not(.has-paid-access) .title__logo--str_plus',
+      paywall: 'html:not(.has-paid-access):not(.has-full-access) .title__logo--str_plus',
       main: '.article__body'
     },
     insertContent: (siteBot, main, content) => {
@@ -1164,7 +1164,7 @@ const sites: Sites = {
       headline: '.title__headline',
       date: 'time',
       main: '.article__body',
-      paywall: 'html:not(.has-paid-access) .title__logo--capital_plus'
+      paywall: 'html:not(.has-paid-access):not(.has-full-access) .title__logo--capital_plus'
     },
     dateRange: [10, 1],
     paragraphStyle: {
@@ -1181,7 +1181,7 @@ const sites: Sites = {
       headline: '.title__headline',
       date: 'time',
       main: '.article__body',
-      paywall: 'html:not(.has-paid-access) .title__logo--geo_plus'
+      paywall: 'html:not(.has-paid-access):not(.has-full-access) .title__logo--geo_plus'
     },
     dateRange: [10, 1],
     paragraphStyle: {
