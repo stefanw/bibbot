@@ -911,6 +911,23 @@ const providers: Providers = {
       'https://advance-lexis-com.eu1.proxy.openathens.net/*',
       'https://katalog.dortmund.de/*'
     ]
+  },
+  'www.karlsruhe.de': {
+    name: 'Stadtbibliothek Karlsruhe',
+    web: 'https://stadtbibliothek.karlsruhe.de',
+    params: {
+      'www.munzinger.de': {
+        portalId: '51802'
+      }
+    },
+    defaultSource: 'www.munzinger.de',
+    login: [],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ],
+    permissions: [
+    ]
   }
 }
 
