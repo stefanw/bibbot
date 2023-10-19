@@ -173,7 +173,7 @@ export type WaitAction = {
 export type EventAction = {
   event: {
     selector: string,
-    event: 'change'
+    event: 'change' | 'input'
   }
 }
 export type ExtractAction = {
