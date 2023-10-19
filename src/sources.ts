@@ -30,7 +30,7 @@ const sources: Sources = {
     ]
   },
   'genios.de': {
-    loggedIn: '.boxMyGeniosLink',
+    loggedIn: '#header__login__buttons > button:nth-child(4)',
     start: 'https://{source.domain.raw}/',
     defaultParams: {
       domain: 'www.genios.de',
@@ -38,11 +38,14 @@ const sources: Sources = {
     },
     login: [
       [
-        { fill: { selector: '#bibLoginLayer_number', key: 'options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', key: 'options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
+        { fill: { selector: '#ad_fo_el_1', key: 'options.username' } },
+        { event: { selector: '#ad_fo_el_1', event:'input'} },
+        { fill: { selector: '#ad_fo_el_2', key: 'options.password' } },
+        { event: { selector: '#ad_fo_el_2', event:'input'} },
+        { click: '#ad_fo_el_termsAndConditions' },
+        { click: '#ad_fo_el_privacyPolicy' },
+        { click: '#ad_fo_el_rememberMe' },
+        { click: '#submit' }
       ]
     ],
     search: [
@@ -57,7 +60,7 @@ const sources: Sources = {
       ],
       [
         { captcha: '#layer_captcha' },
-        { extract: '.divDocument pre.text, .divDocument pre.textCompact', convert: 'preToParagraph' }
+        { extract: '#content pre.text, .divDocument pre.textCompact', convert: 'preToParagraph' }
       ]
     ]
   },
