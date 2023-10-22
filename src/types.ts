@@ -4,7 +4,7 @@ type TestExample = {
   selectors: { query: string }
 }
 
-type SourceIdentifier = 'genios.de' | 'www.munzinger.de' | 'www.nexisuni.com'
+export type SourceIdentifier = 'genios.de' | 'www.munzinger.de' | 'www.nexisuni.com' | 'new.genios.de'
 type GeniosSourceParams = {
   dbShortcut: string
 }
