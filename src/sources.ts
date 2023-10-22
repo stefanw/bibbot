@@ -29,7 +29,7 @@ const sources: Sources = {
       ]
     ]
   },
-  'genios.de': {
+  'new.genios.de': {
     loggedIn: '#header__login__buttons > button:nth-child(4)',
     start: 'https://{source.domain.raw}/',
     defaultParams: {
@@ -39,9 +39,9 @@ const sources: Sources = {
     login: [
       [
         { fill: { selector: '#ad_fo_el_1', key: 'options.username' } },
-        { event: { selector: '#ad_fo_el_1', event:'input'} },
+        { event: { selector: '#ad_fo_el_1', event: 'input' } },
         { fill: { selector: '#ad_fo_el_2', key: 'options.password' } },
-        { event: { selector: '#ad_fo_el_2', event:'input'} },
+        { event: { selector: '#ad_fo_el_2', event: 'input' } },
         { click: '#ad_fo_el_termsAndConditions' },
         { click: '#ad_fo_el_privacyPolicy' },
         { click: '#ad_fo_el_rememberMe' },
@@ -61,6 +61,37 @@ const sources: Sources = {
       [
         { captcha: '#layer_captcha' },
         { extract: '#content pre.text, .divDocument pre.textCompact', convert: 'preToParagraph' }
+      ]
+    ]
+  },
+  'genios.de': {
+    loggedIn: '.boxMyGeniosLink',
+    start: 'https://{source.domain.raw}/',
+    defaultParams: {
+      domain: 'www.genios.de'
+    },
+    login: [
+      [
+        { fill: { selector: '#bibLoginLayer_number', key: 'options.username' } },
+        { fill: { selector: '#bibLoginLayer_password', key: 'options.password' } },
+        { click: '#bibLoginLayer_terms' },
+        { click: '#bibLoginLayer_gdpr' },
+        { click: '#bibLoginLayer_c0' }
+      ]
+    ],
+    search: [
+      [
+        { message: 'Artikel wird gesucht...' },
+        { url: 'https://{source.domain.raw}/dosearch?explicitSearch=true&q={query}&dbShortcut={source.dbShortcut}&TI%2CUT%2CDZ%2CBT%2COT%2CSL=&AU=&KO=&MM%2COW%2CUF%2CMF%2CAO%2CTP%2CVM%2CNN%2CNJ%2CKV%2CZ2=&CT%2CDE%2CZ4%2CKW=&Z3%2CCN%2CCE%2CKC%2CTC%2CVC=&DT_from={dateStart}&DT_to={dateEnd}&timeFilterType=selected&timeFilter=NONE&x=59&y=11' }
+      ],
+      [
+        { message: 'Artikel wird aufgerufen...' },
+        { failOnMissing: '.boxHeader', failure: 'Artikel nicht gefunden' },
+        { href: '.hitContent a' }
+      ],
+      [
+        { captcha: '#layer_captcha' },
+        { extract: '.divDocument pre.text, .divDocument pre.textCompact', convert: 'preToParagraph' }
       ]
     ]
   },

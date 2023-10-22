@@ -1,10 +1,11 @@
-import { DefaultProvider, Provider, Providers } from './types.js'
+import { DefaultProvider, Provider, Providers, SourceIdentifier } from './types.js'
 
 type PartialProviderData = {
   id: string
   name: string
   web: string
   domain: string
+  defaultSource?: SourceIdentifier
 }
 
 const geniosDefaultData: PartialProviderData[] = [
@@ -42,7 +43,8 @@ const geniosDefaultData: PartialProviderData[] = [
     id: 'www.stadtbibliothek-essen.de',
     name: 'Stadtbibliothek Essen',
     web: 'https://www.stadtbibliothek-essen.de/sbbtke_startseite/startseite.de.html',
-    domain: 'bib-essen.genios.de'
+    domain: 'bib-essen.genios.de',
+    defaultSource: 'new.genios.de'
   },
   {
     id: 'stadtbibliothek.goeppingen.de',
@@ -464,8 +466,12 @@ function geniosFactory (provider) {
   return {
     name: provider.name,
     web: provider.web,
+    ...(provider.defaultSource && { defaultSource: provider.defaultSource }),
     params: {
       'genios.de': {
+        domain: provider.domain
+      },
+      'new.genios.de': {
         domain: provider.domain
       }
     },
