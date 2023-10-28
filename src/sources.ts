@@ -31,7 +31,7 @@ const sources: Sources = {
   },
   'new.genios.de': {
     loggedIn: '#header__login__buttons > button:nth-child(4)',
-    start: 'https://{source.domain.raw}/',
+    start: '{source.scheme.raw}{source.domain.raw}/',
     defaultParams: {
       domain: 'www.genios.de',
       scheme: 'https://'
@@ -51,12 +51,12 @@ const sources: Sources = {
     search: [
       [
         { message: 'Artikel wird gesucht...' },
-        { url: '{source.scheme.raw}{source.domain.raw}/dosearch?explicitSearch=true&q={query}&dbShortcut={source.dbShortcut}&TI%2CUT%2CDZ%2CBT%2COT%2CSL=&AU=&KO=&MM%2COW%2CUF%2CMF%2CAO%2CTP%2CVM%2CNN%2CNJ%2CKV%2CZ2=&CT%2CDE%2CZ4%2CKW=&Z3%2CCN%2CCE%2CKC%2CTC%2CVC=&DT_from={dateStart}&DT_to={dateEnd}&timeFilterType=selected&timeFilter=NONE&x=59&y=11' }
+        { url: '{source.scheme.raw}{source.domain.raw}/searchResult/Alle%20Quellen?requestText={query}' }
       ],
       [
         { message: 'Artikel wird aufgerufen...' },
-        { failOnMissing: '.boxHeader', failure: 'Artikel nicht gefunden' },
-        { href: '.hitContent a' }
+        { failOnMissing: '.tooltip.article__text__title', failure: 'Artikel nicht gefunden' },
+        { href: '.article__text__panelBody__details.js_open_full_document_modal' }
       ],
       [
         { captcha: '#layer_captcha' },
@@ -66,7 +66,7 @@ const sources: Sources = {
   },
   'genios.de': {
     loggedIn: '.boxMyGeniosLink',
-    start: 'https://{source.domain.raw}/',
+    start: '{source.scheme.raw}{source.domain.raw}/',
     defaultParams: {
       domain: 'www.genios.de'
     },
@@ -82,12 +82,12 @@ const sources: Sources = {
     search: [
       [
         { message: 'Artikel wird gesucht...' },
-        { url: 'https://{source.domain.raw}/dosearch?explicitSearch=true&q={query}&dbShortcut={source.dbShortcut}&TI%2CUT%2CDZ%2CBT%2COT%2CSL=&AU=&KO=&MM%2COW%2CUF%2CMF%2CAO%2CTP%2CVM%2CNN%2CNJ%2CKV%2CZ2=&CT%2CDE%2CZ4%2CKW=&Z3%2CCN%2CCE%2CKC%2CTC%2CVC=&DT_from={dateStart}&DT_to={dateEnd}&timeFilterType=selected&timeFilter=NONE&x=59&y=11' }
+        { url: '{source.scheme.raw}{source.domain.raw}/dosearch?explicitSearch=true&q={query}&dbShortcut={source.dbShortcut}&TI%2CUT%2CDZ%2CBT%2COT%2CSL=&AU=&KO=&MM%2COW%2CUF%2CMF%2CAO%2CTP%2CVM%2CNN%2CNJ%2CKV%2CZ2=&CT%2CDE%2CZ4%2CKW=&Z3%2CCN%2CCE%2CKC%2CTC%2CVC=&DT_from={dateStart}&DT_to={dateEnd}&timeFilterType=selected&timeFilter=NONE&x=59&y=11' }
       ],
       [
         { message: 'Artikel wird aufgerufen...' },
-        { failOnMissing: '.boxHeader', failure: 'Artikel nicht gefunden' },
-        { href: '.hitContent a' }
+        { failOnMissing: '.article__text__title tooltip', failure: 'Artikel nicht gefunden' },
+        { href: '.article__text__panelBody__details js_open_full_document_modal a' }
       ],
       [
         { captcha: '#layer_captcha' },
