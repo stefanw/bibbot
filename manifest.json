@@ -32,7 +32,8 @@
     "https://*.bsb-muenchen.de/*",
     "https://go.openathens.net/*",
     "https://katalog.dortmund.de/*",
-    "https://advance-lexis-com.eu1.proxy.openathens.net/*"
+    "https://advance-lexis-com.eu1.proxy.openathens.net/*",
+    "https://*.bonn.idm.oclc.org/*"
   ],
   "background": {
     "scripts": [
