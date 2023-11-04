@@ -734,19 +734,24 @@ const providers: Providers = {
     web: 'https://www.bsb-muenchen.de/',
     params: {
       'genios.de': {
-        domain: 'www-1wiso-2net-1de-1001394go0ffe.emedia1.bsb-muenchen.de'
+        // Force relative path
+        domain: '',
+        scheme: ''
       }
     },
+    start: 'http://emedia1.bsb-muenchen.de/han/wiso/',
     login: [
       [
         { message: 'Bibliothekskonto wird eingeloggt...' },
-        { click: '#submitbutton' }
+        { click: '#submitbutton', optional: true, skipToNext: true }
       ],
       [
-        { fill: { selector: 'input[name="username"]', providerKey: 'www.bsb-muenchen.de.options.username' } },
-        { fill: { selector: 'input[name="password"]', providerKey: 'www.bsb-muenchen.de.options.password' } },
-        { click: '#btnLogin' }
-      ]
+        { fill: { selector: 'input[name="username"]', providerKey: 'www.bsb-muenchen.de.options.username' }, optional: true },
+        { fill: { selector: 'input[name="password"]', providerKey: 'www.bsb-muenchen.de.options.password' }, optional: true },
+        { click: '#btnLogin', optional: true, skipToNext: true }
+      ],
+      [{ click: 'input[value="Akzeptieren"]', optional: true, skipToNext: true }],
+      [] // Wait for client side redirect
     ],
     options: [
       { id: 'username', display: 'Nutzername:', type: 'text' },

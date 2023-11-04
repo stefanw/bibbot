@@ -33,7 +33,8 @@ const sources: Sources = {
     loggedIn: '.boxMyGeniosLink',
     start: 'https://{source.domain.raw}/',
     defaultParams: {
-      domain: 'www.genios.de'
+      domain: 'www.genios.de',
+      scheme: 'https://'
     },
     login: [
       [
@@ -47,7 +48,7 @@ const sources: Sources = {
     search: [
       [
         { message: 'Artikel wird gesucht...' },
-        { url: 'https://{source.domain.raw}/dosearch?explicitSearch=true&q={query}&dbShortcut={source.dbShortcut}&TI%2CUT%2CDZ%2CBT%2COT%2CSL=&AU=&KO=&MM%2COW%2CUF%2CMF%2CAO%2CTP%2CVM%2CNN%2CNJ%2CKV%2CZ2=&CT%2CDE%2CZ4%2CKW=&Z3%2CCN%2CCE%2CKC%2CTC%2CVC=&DT_from={dateStart}&DT_to={dateEnd}&timeFilterType=selected&timeFilter=NONE&x=59&y=11' }
+        { url: '{source.scheme.raw}{source.domain.raw}/dosearch?explicitSearch=true&q={query}&dbShortcut={source.dbShortcut}&TI%2CUT%2CDZ%2CBT%2COT%2CSL=&AU=&KO=&MM%2COW%2CUF%2CMF%2CAO%2CTP%2CVM%2CNN%2CNJ%2CKV%2CZ2=&CT%2CDE%2CZ4%2CKW=&Z3%2CCN%2CCE%2CKC%2CTC%2CVC=&DT_from={dateStart}&DT_to={dateEnd}&timeFilterType=selected&timeFilter=NONE&x=59&y=11' }
       ],
       [
         { message: 'Artikel wird aufgerufen...' },

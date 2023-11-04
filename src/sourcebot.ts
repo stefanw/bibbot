@@ -1,11 +1,11 @@
 import * as browser from 'webextension-polyfill'
 
+import { FAILED_MESSAGE, STATUS_MESSAGE, SUCCES_MESSAGE } from './const.js'
 import providers from './providers.js'
 import sources from './sources.js'
 import TabRunner from './tabrunner.js'
-import { SUCCES_MESSAGE, FAILED_MESSAGE, STATUS_MESSAGE } from './const.js'
+import { ArticleInfo, Message, Provider, SiteSourceParams, Source } from './types.js'
 import { interpolate } from './utils.js'
-import { ArticleInfo, Source, Provider, SiteSourceParams, Message } from './types.js'
 
 enum PHASE {
   LOGIN = 'login',
@@ -56,7 +56,7 @@ class SourceBot {
   }
 
   async run () {
-    const url = this.makeUrl(this.source.start)
+    const url = this.makeUrl(this.provider.start || this.source.start)
     const tab = await browser.tabs.create({
       url,
       active: false

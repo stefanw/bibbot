@@ -204,6 +204,7 @@ export type ProviderOptions = {
 
 export type ProviderSourceParams = {
   domain?: string,
+  scheme?: string,
   portalId?: string,
   startUrl?: string
 }
@@ -215,6 +216,7 @@ export interface DefaultProvider {
     [key in SourceIdentifier]?: ProviderSourceParams
   }
   defaultSource?: SourceIdentifier
+  start?: string
   login: Actions[]
   options: ProviderOptions[]
 }
