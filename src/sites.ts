@@ -1248,6 +1248,28 @@ const sites: Sites = {
     sourceParams: {
       dbShortcut: 'NZZ,NZZS'
     }
+  },
+  'www.nwzonline.de': {
+    selectors: {
+      query: () => document.querySelector('meta[property="cleverpush:description"]').attributes.getNamedItem('content').value,
+      date: 'time',
+      main: '.article-body .inline-opportunity',
+      paywall: '.offerlist-wrapper'
+    },
+    start: (root, paywall) => {
+      try {
+        const obj = JSON.parse(document.evaluate('//script[@type="application/ld+json" and contains(./text(), "articleBody")]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.textContent)
+        const main = root.querySelector('.article-body .inline-opportunity')
+        main.innerHTML = obj.articleBody
+        return true
+      } catch {}
+      paywall.style.display = 'none'
+    },
+    waitOnLoad: true,
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'NOW'
+    }
   }
 }
 

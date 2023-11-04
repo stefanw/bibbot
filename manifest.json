@@ -100,7 +100,8 @@
         "https://www.aerztezeitung.de/*",
         "https://www.geo.de/*",
         "https://www.nzz.ch/*",
-        "https://www.manager-magazin.de/*"
+        "https://www.manager-magazin.de/*",
+        "https://www.nwzonline.de/*"
       ],
       "js": [
         "build/content.js"
