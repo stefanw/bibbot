@@ -1270,6 +1270,19 @@ const sites: Sites = {
     sourceParams: {
       dbShortcut: 'NOW'
     }
+  },
+  'www.saarbruecker-zeitung.de': {
+    selectors: {
+      query: makeQueryFunc('div[data-cy="article-content-text"]'),
+      date: 'time',
+      main: 'div[data-cy="article-content-text"]',
+      paywall: '.park-article-reduced-overlay',
+      mimic: 'div[data-cy="article-content-text"] p'
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'SAAR'
+    }
   }
 }
 

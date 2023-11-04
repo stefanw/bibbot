@@ -101,7 +101,8 @@
         "https://www.geo.de/*",
         "https://www.nzz.ch/*",
         "https://www.manager-magazin.de/*",
-        "https://www.nwzonline.de/*"
+        "https://www.nwzonline.de/*",
+        "https://www.saarbruecker-zeitung.de/*"
       ],
       "js": [
         "build/content.js"
