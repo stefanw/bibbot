@@ -285,10 +285,11 @@ const sites: Sites = {
   },
   'www.berliner-zeitung.de': {
     selectors: {
-      query: makeQueryFunc(['.a-paragraph span:not(:first-child)', '.a-paragraph']),
-      main: '.o-article',
-      paywall: '.paywall-dialog-box'
+      query: makeQueryFunc(['#articleBody']),
+      main: '#articleBody',
+      paywall: 'div[class*="paywall_overlay__"]'
     },
+    waitOnLoad: 500,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'BEZE'
