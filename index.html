@@ -35,13 +35,11 @@
         <img src="icons/bibbot.svg" alt="Schematischer Roboter" class="logo"/>
         BibBot
       </h1>
+      <!-- {% assign release = site.github.releases | first %} -->
+      <small>{{ release.tag_name }}</small>
       <p>
         Browser-Erweiterung, um Premiumangebote deutscher Nachrichtenseiten über Ihren Bibliothekszugang zu nutzen.
       </p>
-      <!--
-      {% assign release = site.github.releases | first %}
-      {% assign short_version = release.tag_name | remove_first:'v' %}
-      -->
       <p>
         <a href="https://chrome.google.com/webstore/detail/bibbot/edafomjglmkfbiieocpflnhfdmikkhbo?hl=de">
           <b>Download für Chrome</b>
