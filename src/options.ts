@@ -1,23 +1,15 @@
 import * as browser from 'webextension-polyfill'
 
-import { DEFAULT_PROVIDER } from './const.js'
+import { storageDefaults } from './const.js'
 import providers from './providers.js'
-
+import sites from './sites.js'
 import { StorageItems } from './types.js'
 
 type InputOptions = {
   provider?: HTMLInputElement
   keepStats?: HTMLInputElement
   saveArticle?: HTMLInputElement
-}
-
-const defaults: StorageItems = {
-  installDate: null,
-  provider: DEFAULT_PROVIDER,
-  keepStats: true,
-  stats: {},
-  providerOptions: {},
-  saveArticle: null
+  disableSites?: HTMLSelectElement
 }
 
 let currentPermissions: browser.Permissions.AnyPermissions | null = null
@@ -33,14 +25,14 @@ function showOptions () {
 
 function getInputs () {
   const inputs: InputOptions = {};
-  ['provider', 'keepStats', 'saveArticle'].forEach(id => {
-    inputs[id] = <HTMLInputElement>document.getElementById(id)
+  ['provider', 'keepStats', 'saveArticle', 'disableSites'].forEach(id => {
+    inputs[id] = <HTMLInputElement | HTMLSelectElement>document.getElementById(id)
   })
   return inputs
 }
 
 function restore () {
-  browser.storage.sync.get(defaults).then(function (items) {
+  browser.storage.sync.get(storageDefaults).then(function (items) {
     const inputs = getInputs()
     inputs.provider.value = items.provider
     inputs.keepStats.checked = items.keepStats
@@ -57,6 +49,11 @@ function restore () {
       }
     }
     showOptions()
+
+    // disableSites
+    Object.keys(sites).sort().forEach(domain => {
+      inputs.disableSites.appendChild(new Option(domain, domain, false, items.disabledSites.includes(domain)))
+    })
 
     if (items.installDate === null) {
       // first run
@@ -142,11 +139,14 @@ function save () {
   }
   const inputs = getInputs()
   const provider = inputs.provider.value
+
+  const disabledSites = Array.from(inputs.disableSites.selectedOptions).map(({ value }) => value)
   const values: StorageItems = {
     keepStats: inputs.keepStats.checked,
     provider,
     providerOptions,
-    saveArticle: inputs.saveArticle.value
+    saveArticle: inputs.saveArticle.value,
+    disabledSites
   }
   if (!values.keepStats) {
     values.stats = {}

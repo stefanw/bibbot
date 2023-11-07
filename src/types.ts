@@ -95,6 +95,7 @@ export interface BibbotOptions {
   keepStats: boolean
   providerOptions: ProviderStorageOptions
   saveArticle: string | null
+  disabledSites: string[]
 }
 
 export interface StorageItems extends BibbotOptions {
@@ -110,6 +111,10 @@ export type InitMessage = {
   sourceParams: SiteSourceParams
   domain: string
   articleInfo: ArticleInfo
+}
+
+export type AbortMessage = {
+  type: 'abort'
 }
 
 export type GoToTabMessage = {

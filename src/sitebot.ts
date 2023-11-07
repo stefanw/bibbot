@@ -1,11 +1,11 @@
 import * as browser from 'webextension-polyfill'
 
-import { LOADER_HTML, BOT_ID, LOADER_ID, MESSAGE_ID, FAILED_HTML } from './ui.js'
-import { FAILED_MESSAGE, INIT_MESSAGE, GOTOTAB_MESSAGE, STATUS_MESSAGE, SUCCES_MESSAGE, PORT_NAME, LOG_NAME } from './const.js'
+import { ABORT_MESSAGE, FAILED_MESSAGE, GOTOTAB_MESSAGE, INIT_MESSAGE, LOG_NAME, PORT_NAME, STATUS_MESSAGE, SUCCESS_MESSAGE } from './const.js'
+import { BOT_ID, FAILED_HTML, LOADER_HTML, LOADER_ID, MESSAGE_ID } from './ui.js'
 
-import { addSharingButton } from './services.js'
 import Extractor from './extractor.js'
-import { Site, SiteBotInterface, Message, InitMessage, GoToTabMessage } from './types.js'
+import { addSharingButton } from './services.js'
+import { GoToTabMessage, InitMessage, Message, Site, SiteBotInterface } from './types.js'
 
 class SiteBot implements SiteBotInterface {
   site: Site
@@ -138,6 +138,11 @@ class SiteBot implements SiteBotInterface {
 
   onMessage (event) {
     console.log(LOG_NAME, event)
+    if (event.type === ABORT_MESSAGE) {
+      this.showPaywall()
+      this.hideBot()
+      return
+    }
     if (event.type === STATUS_MESSAGE) {
       if (event.action === 'interaction_required') {
         this.showInteractionRequired()
@@ -153,7 +158,7 @@ class SiteBot implements SiteBotInterface {
       this.fail()
       return
     }
-    if (event.type === SUCCES_MESSAGE) {
+    if (event.type === SUCCESS_MESSAGE) {
       this.showArticle(event.content, event.saveArticle)
       return
     }

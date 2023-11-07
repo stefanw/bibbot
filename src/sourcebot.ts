@@ -1,6 +1,6 @@
 import * as browser from 'webextension-polyfill'
 
-import { FAILED_MESSAGE, STATUS_MESSAGE, SUCCES_MESSAGE } from './const.js'
+import { FAILED_MESSAGE, STATUS_MESSAGE, SUCCESS_MESSAGE } from './const.js'
 import providers from './providers.js'
 import sources from './sources.js'
 import TabRunner from './tabrunner.js'
@@ -197,7 +197,7 @@ class SourceBot {
     this.done = true
     if (result.length > 0) {
       this.callback({
-        type: SUCCES_MESSAGE,
+        type: SUCCESS_MESSAGE,
         message: result
       })
 

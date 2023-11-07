@@ -1,26 +1,21 @@
 import * as browser from 'webextension-polyfill'
 import { Runtime } from 'webextension-polyfill'
 
-import { increaseStats } from './stats.js'
-import { INIT_MESSAGE, GOTOTAB_MESSAGE, SUCCES_MESSAGE, FAILED_MESSAGE, STATUS_MESSAGE, DEFAULT_PROVIDER } from './const.js'
+import { ABORT_MESSAGE, FAILED_MESSAGE, GOTOTAB_MESSAGE, INIT_MESSAGE, STATUS_MESSAGE, SUCCESS_MESSAGE, storageDefaults } from './const.js'
 import SourceBot from './sourcebot.js'
-import { Message, BibbotOptions, InitMessage } from './types.js'
+import { increaseStats } from './stats.js'
+import { BibbotOptions, InitMessage, Message } from './types.js'
 
 let storageItems: BibbotOptions
 
 function retrieveStorage () {
-  const defaults = {
-    keepStats: true,
-    provider: DEFAULT_PROVIDER,
-    providerOptions: {},
-    saveArticle: null
-  }
-  return browser.storage.sync.get(defaults).then(function (items) {
+  return browser.storage.sync.get(storageDefaults).then(function (items) {
     storageItems = {
       keepStats: items.keepStats,
       provider: items.provider,
       providerOptions: items.providerOptions,
-      saveArticle: items.saveArticle
+      saveArticle: items.saveArticle,
+      disabledSites: items.disabledSites
     }
   })
 }
@@ -54,6 +49,13 @@ class Reader {
   onMessage (message: Message) {
     if (message.type === INIT_MESSAGE) {
       this.storageUpdated.then(() => {
+        if (storageItems.disabledSites.includes(message.domain)) {
+          this.postMessage({
+            type: ABORT_MESSAGE
+          })
+          this.cleanUp()
+          return
+        }
         this.retrieveArticle(message)
       })
     } else if (message.type === GOTOTAB_MESSAGE) {
@@ -95,7 +97,7 @@ class Reader {
       this.sendStatusMessage(event)
     } else if (event.type === FAILED_MESSAGE) {
       this.fail(event)
-    } else if (event.type === SUCCES_MESSAGE) {
+    } else if (event.type === SUCCESS_MESSAGE) {
       this.success(event)
     } else {
       this.cleanUp()
@@ -112,7 +114,7 @@ class Reader {
       increaseStats(this.domain)
     }
     this.postMessage({
-      type: SUCCES_MESSAGE,
+      type: SUCCESS_MESSAGE,
       content: event.message,
       saveArticle: storageItems.saveArticle
     })
