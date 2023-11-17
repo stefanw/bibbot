@@ -51,7 +51,7 @@ const sources: Sources = {
     search: [
       [
         { message: 'Artikel wird gesucht...' },
-        { url: '{source.scheme.raw}{source.domain.raw}/searchResult/Alle%20Quellen?requestText={query}' }
+        { url: '{source.scheme.raw}{source.domain.raw}/searchResult/Alle%20Quellen?requestText={query}&date=from_{dateStart}&date=to_{dateEnd}' }
       ],
       [
         { message: 'Artikel wird aufgerufen...' },
