@@ -1,8 +1,8 @@
 import * as browser from 'webextension-polyfill'
 import { Action, Actions } from './types.js'
 
-import converters from './converters.js'
 import { STATUS_MESSAGE } from './const.js'
+import converters from './converters.js'
 import { makeTimeout } from './utils.js'
 
 class TabRunner {

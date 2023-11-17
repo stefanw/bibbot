@@ -29,7 +29,7 @@ const sources: Sources = {
       ]
     ]
   },
-  'new.genios.de': {
+  'genios.de': {
     loggedIn: '#header__login__buttons > button:nth-child(4)',
     start: '{source.scheme.raw}{source.domain.raw}/',
     defaultParams: {
@@ -64,7 +64,7 @@ const sources: Sources = {
       ]
     ]
   },
-  'genios.de': {
+  'old.genios.de': {
     loggedIn: '.boxMyGeniosLink',
     start: '{source.scheme.raw}{source.domain.raw}/',
     defaultParams: {

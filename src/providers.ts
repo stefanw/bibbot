@@ -12,20 +12,23 @@ const geniosDefaultData: PartialProviderData[] = [
   {
     id: 'www.stadtbibliothek-aschaffenburg.de',
     name: 'Stadtbibliothek Aschaffenburg',
-    web: 'https://bib-aschaffenbg.genios.de',
-    domain: 'bib-aschaffenbg.genios.de'
+    web: 'https://stadtbibliothek-aschaffenburg.de/',
+    domain: 'bib-aschaffenbg.genios.de',
+    defaultSource: 'old.genios.de'
   },
   {
     id: 'www.braunschweig.de',
     name: 'Stadtbibliothek Braunschweig',
     web: 'https://www.braunschweig.de/kultur/bibliotheken_archive/stadtbibliothek/index.php',
-    domain: 'bib-braunschweig.genios.de'
+    domain: 'bib-braunschweig.genios.de',
+    defaultSource: 'old.genios.de'
   },
   {
     id: 'www.stadtbibliothek-chemnitz.de',
     name: 'Stadtbibliothek Chemnitz',
     web: 'https://www.stadtbibliothek-chemnitz.de/',
-    domain: 'bib-chemnitz.genios.de'
+    domain: 'bib-chemnitz.genios.de',
+    defaultSource: 'old.genios.de'
   },
   {
     id: 'bib-open-stadtbibliothek.darmstadt.de',
@@ -37,20 +40,21 @@ const geniosDefaultData: PartialProviderData[] = [
     id: 'www.erfurt.de',
     name: 'Stadt- und Regionalbibliothek Erfurt',
     web: 'https://www.erfurt.de/ef/de/leben/bildung/sturb/index.html',
-    domain: 'bib-erfurt.genios.de'
+    domain: 'bib-erfurt.genios.de',
+    defaultSource: 'old.genios.de'
   },
   {
     id: 'www.stadtbibliothek-essen.de',
     name: 'Stadtbibliothek Essen',
     web: 'https://www.stadtbibliothek-essen.de/sbbtke_startseite/startseite.de.html',
-    domain: 'bib-essen.genios.de',
-    defaultSource: 'new.genios.de'
+    domain: 'bib-essen.genios.de'
   },
   {
     id: 'stadtbibliothek.goeppingen.de',
     name: 'Stadtbibliothek Göppingen',
     web: 'https://stadtbibliothek.goeppingen.de/',
-    domain: 'bib-goeppingen.genios.de'
+    domain: 'bib-goeppingen.genios.de',
+    defaultSource: 'old.genios.de'
   },
   {
     id: 'www.stadtbibliothek-halle.de',
@@ -70,41 +74,46 @@ const geniosDefaultData: PartialProviderData[] = [
     web: 'https://www.stadtbibliothek-jena.de/',
     domain: 'bib-jena.genios.de'
   },
-  {
-    id: 'stabi.ludwigsburg.de',
-    name: 'Stadtbibliothek Ludwigsburg',
-    web: 'https://stabi.ludwigsburg.de/',
-    domain: 'bib-ludwigsburg.genios.de'
-  },
+  // {
+  //   id: 'stabi.ludwigsburg.de',
+  //   name: 'Stadtbibliothek Ludwigsburg',
+  //   web: 'https://stabi.ludwigsburg.de/',
+  //   domain: 'bib-ludwigsburg.genios.de'
+  // },
   {
     id: 'www.nuernberg.de/internet/stadtbibliothek',
     name: 'Stadtbibliothek Nürnberg im Bildungscampus',
     web: 'https://www.nuernberg.de/internet/stadtbibliothek/',
-    domain: 'bib-nuernberg.genios.de'
+    domain: 'bib-nuernberg.genios.de',
+    defaultSource: 'old.genios.de'
   },
   {
     id: 'bibliothek.potsdam.de',
     name: 'Stadt- und Landesbibliothek Potsdam',
     web: 'https://bib-potsdam.genios.de',
-    domain: 'bib-potsdam.genios.de'
+    domain: 'bib-potsdam.genios.de',
+    defaultSource: 'old.genios.de'
   },
   {
     id: 'www.salzgitter.de',
     name: 'Stadtbibliothek Salzgitter',
     web: 'https://www.salzgitter.de/bildung/stabi/stadtbibliothek.php',
-    domain: 'bib-salzgitter.genios.de'
+    domain: 'bib-salzgitter.genios.de',
+    defaultSource: 'old.genios.de'
   },
   {
     id: 'stuttgart.de',
     name: 'Stadtbibliothek Stuttgart',
     web: 'http://www1.stuttgart.de/stadtbibliothek/',
-    domain: 'bib-stuttgart.genios.de'
+    domain: 'bib-stuttgart.genios.de',
+    defaultSource: 'old.genios.de'
   },
   {
     id: 'www.buecherhallen.de',
     name: 'Bücherhallen Hamburg',
     web: 'https://www.buecherhallen.de/',
-    domain: 'buecherhallen.genios.de'
+    domain: 'buecherhallen.genios.de',
+    defaultSource: 'old.genios.de'
   },
   {
     id: 'ebibo-dresden.de',
@@ -187,41 +196,47 @@ const geniosAssociationData = [
     web: 'https://kantonsbibliothek.tg.ch/',
     bibId: '38',
     name: 'Kantonsbibliothek Thurgau',
-    domain: 'bib-ostschweiz.genios.de'
+    domain: 'bib-ostschweiz.genios.de',
+    defaultSource: 'old.genios.de'
   },
   {
     id: 'www.kantonsbibliothek.gr.ch',
     web: 'http://www.kantonsbibliothek.gr.ch',
     bibId: '77',
     name: 'Kantonsbibliothek Graubünden',
-    domain: 'bib-ostschweiz.genios.de'
+    domain: 'bib-ostschweiz.genios.de',
+    defaultSource: 'old.genios.de'
   },
   {
     id: 'bibliotheken-schaffhausen.ch',
     web: 'https://bibliotheken-schaffhausen.ch/',
     bibId: '37',
     name: 'Stadtbibliothek Schaffhausen',
-    domain: 'bib-ostschweiz.genios.de'
+    domain: 'bib-ostschweiz.genios.de',
+    defaultSource: 'old.genios.de'
   },
   {
     id: 'www.landesbibliothek.li',
     web: 'https://www.landesbibliothek.li/',
     bibId: '63',
     name: 'Liechtensteinische Landesbibliothek',
-    domain: 'bib-ostschweiz.genios.de'
+    domain: 'bib-ostschweiz.genios.de',
+    defaultSource: 'old.genios.de'
   },
   {
     id: 'www.bibliothekzug.ch',
     web: 'https://www.bibliothekzug.ch/',
     bibId: '49',
     name: 'Bibliothek Zug',
-    domain: 'bib-ostschweiz.genios.de'
+    domain: 'bib-ostschweiz.genios.de',
+    defaultSource: 'old.genios.de'
   },
   {
     id: 'stadtbuecherei.waiblingen.de',
     name: 'Stadtbücherei Waiblingen',
     web: 'https://stadtbuecherei.waiblingen.de/',
     domain: 'bib-bawue.genios.de',
+    defaultSource: 'old.genios.de',
     bibId: '46'
   },
   {
@@ -229,6 +244,7 @@ const geniosAssociationData = [
     name: 'Stadtbücherei Tübingen',
     web: 'https://www.tuebingen.de/stadtbuecherei/',
     domain: 'bib-bawue.genios.de',
+    defaultSource: 'old.genios.de',
     bibId: '45'
   },
   {
@@ -236,6 +252,7 @@ const geniosAssociationData = [
     name: 'Stadtbücherei Nürtingen',
     web: 'https://www.stadtbuecherei-nuertingen.de/startseite',
     domain: 'bib-bawue.genios.de',
+    defaultSource: 'old.genios.de',
     bibId: '78'
   },
   // No longer seems to have genios
@@ -259,6 +276,7 @@ const geniosAssociationData = [
     name: 'Stadtbücherei Backnang',
     web: 'https://bibliothek.komm.one/backnang/',
     domain: 'bib-bawue.genios.de',
+    defaultSource: 'old.genios.de',
     bibId: '68'
   },
   {
@@ -266,6 +284,7 @@ const geniosAssociationData = [
     name: 'Stadtbücherei Albstadt',
     web: 'https://www.albstadt.de/stadtbuecherei',
     domain: 'bib-bawue.genios.de',
+    defaultSource: 'old.genios.de',
     bibId: '42'
   },
   {
@@ -273,6 +292,7 @@ const geniosAssociationData = [
     name: 'Stadtbibliothek Schwäbisch Hall',
     web: 'https://www.schwaebischhall.de/de/bildung-betreuung/stadtbibliothek/',
     domain: 'bib-bawue.genios.de',
+    defaultSource: 'old.genios.de',
     bibId: '86'
   },
   {
@@ -280,6 +300,7 @@ const geniosAssociationData = [
     name: 'Stadtbibliothek Reutlingen',
     web: 'https://stadtbibliothek-reutlingen.de',
     domain: 'bib-bawue.genios.de',
+    defaultSource: 'old.genios.de',
     bibId: '44'
   },
   {
@@ -287,6 +308,7 @@ const geniosAssociationData = [
     name: 'Stadtbibliothek Offenburg',
     web: 'https://www.stadtbibliothek.offenburg.de/',
     domain: 'bib-bawue.genios.de',
+    defaultSource: 'old.genios.de',
     bibId: '84'
   },
   // No longer seems to have genios
@@ -302,6 +324,7 @@ const geniosAssociationData = [
     name: 'Stadtbibliothek Heilbronn',
     web: 'https://stadtbibliothek.heilbronn.de/',
     domain: 'bib-bawue.genios.de',
+    defaultSource: 'old.genios.de',
     bibId: '85'
   },
   {
@@ -309,6 +332,7 @@ const geniosAssociationData = [
     name: 'Stadtbibliothek Freiburg',
     web: 'https://www.stadtbibliothek.freiburg.de/',
     domain: 'bib-bawue.genios.de',
+    defaultSource: 'old.genios.de',
     bibId: '80'
   },
   {
@@ -316,6 +340,7 @@ const geniosAssociationData = [
     name: 'Stadtbibliothek Aalen',
     web: 'https://www.stadtbibliothek-aalen.de/',
     domain: 'bib-bawue.genios.de',
+    defaultSource: 'old.genios.de',
     bibId: '41'
   },
   {
@@ -323,6 +348,7 @@ const geniosAssociationData = [
     name: 'Mediothek Balingen',
     web: 'https://bibliothek.komm.one/balingen/',
     domain: 'bib-bawue.genios.de',
+    defaultSource: 'old.genios.de',
     bibId: '50'
   },
   {
@@ -330,6 +356,7 @@ const geniosAssociationData = [
     name: 'Mediathek Neckarsulm',
     web: 'https://www.mediathek-neckarsulm.de/',
     domain: 'bib-bawue.genios.de',
+    defaultSource: 'old.genios.de',
     bibId: '79'
   },
   {
@@ -337,6 +364,7 @@ const geniosAssociationData = [
     name: 'Stadtbibliothek Ulm',
     web: 'https://stadtbibliothek.ulm.de/',
     domain: 'bib-bawue.genios.de',
+    defaultSource: 'old.genios.de',
     bibId: '60'
   },
   // Winnenden apparently cancelled contract with Genios, see #179
@@ -352,6 +380,7 @@ const geniosAssociationData = [
     name: 'Stadtbibliothek Heidenheim',
     web: 'https://www.bibliothek-heidenheim.de/startseite',
     domain: 'bib-bawue.genios.de',
+    defaultSource: 'old.genios.de',
     bibId: '97'
   },
   {
@@ -439,7 +468,7 @@ const oclcData = [
     name: 'Stadtbibliothek Hannover',
     web: 'https://bibliothek.hannover-stadt.de',
     oclcId: 'stbhannover',
-    'genios.de': {
+    'old.genios.de': {
       subdomain: 'bib-hannover-genios-de'
     },
     'www.munzinger.de': {
@@ -455,7 +484,8 @@ const hanData = [
     name: 'OÖ Landesbibliothek',
     web: 'https://www.landesbibliothek.at',
     hanserver: 'han.landesbibliothek.at',
-    'genios.de': {
+    defaultSource: 'old.genios.de',
+    'old.genios.de': {
       hanid: 'wisonet',
       domain: 'www.wiso-net.de'
     }
@@ -468,10 +498,10 @@ function geniosFactory (provider) {
     web: provider.web,
     ...(provider.defaultSource && { defaultSource: provider.defaultSource }),
     params: {
-      'genios.de': {
+      'old.genios.de': {
         domain: provider.domain
       },
-      'new.genios.de': {
+      'genios.de': {
         domain: provider.domain
       }
     },
@@ -487,7 +517,11 @@ function geniosAssociationFactory (provider) {
   return {
     name: provider.name,
     web: provider.web,
+    ...(provider.defaultSource && { defaultSource: provider.defaultSource }),
     params: {
+      'old.genios.de': {
+        domain: provider.domain
+      },
       'genios.de': {
         domain: provider.domain
       }
@@ -514,10 +548,11 @@ function oclcFactory (provider) {
   return {
     name: provider.name,
     web: provider.web,
+    defaultSource: 'old.genios.de',
     params: {
-      ...(provider['genios.de']) && {
-        'genios.de': {
-          domain: `${provider['genios.de'].subdomain}.${provider.oclcId}.idm.oclc.org`
+      ...(provider['old.genios.de']) && {
+        'old.genios.de': {
+          domain: `${provider['old.genios.de'].subdomain}.${provider.oclcId}.idm.oclc.org`
         }
       },
       ...(provider['www.munzinger.de']) && {
@@ -552,9 +587,9 @@ function hanFactory (provider) {
     web: provider.web,
     loginHint: '',
     params: {
-      ...(provider['genios.de']) && {
-        'genios.de': {
-          domain: `${provider.hanserver}/han/${provider['genios.de'].hanid}/${provider['genios.de'].domain}`
+      ...(provider['old.genios.de']) && {
+        'old.genios.de': {
+          domain: `${provider.hanserver}/han/${provider['old.genios.de'].hanid}/${provider['old.genios.de'].domain}`
         }
       }
     },
@@ -634,7 +669,7 @@ const providers: Providers = {
     web: 'https://stadtbibliothek.leipzig.de/',
     params: {
       'genios.de': {
-        domain: 'genios.stadtbibliothek.leipzig.de'
+        domain: 'stadtbib-leipzig.genios.de'
       }
     },
     login: [
@@ -690,8 +725,9 @@ const providers: Providers = {
   'fernuni-hagen.de': {
     name: 'FernUni Hagen',
     web: 'https://www.ub.fernuni-hagen.de/datenbankenlieferdienste/showdatabase.html?id=868',
+    defaultSource: 'old.genios.de',
     params: {
-      'genios.de': {
+      'old.genios.de': {
         domain: 'www-wiso-net-de.ub-proxy.fernuni-hagen.de'
       }
     },
@@ -714,8 +750,9 @@ const providers: Providers = {
   'www.slub-dresden.de': {
     name: 'Staats- und Universitätsbibliothek Dresden',
     web: 'https://www.slub-dresden.de/',
+    defaultSource: 'old.genios.de',
     params: {
-      'genios.de': {
+      'old.genios.de': {
         domain: 'www-wiso-net-de.wwwdb.dbod.de'
       }
     },
@@ -738,8 +775,9 @@ const providers: Providers = {
   'www.bsb-muenchen.de': {
     name: 'Bayerische Staatsbibliothek',
     web: 'https://www.bsb-muenchen.de/',
+    defaultSource: 'old.genios.de',
     params: {
-      'genios.de': {
+      'old.genios.de': {
         // Force relative path
         domain: '',
         scheme: ''
@@ -770,8 +808,9 @@ const providers: Providers = {
   'wiso-net.de': {
     name: 'WISO – Die Datenbank für Hochschulen',
     web: 'https://www.wiso-net.de/',
+    defaultSource: 'old.genios.de',
     params: {
-      'genios.de': {
+      'old.genios.de': {
         domain: 'www.wiso-net.de'
       }
     },
@@ -793,8 +832,9 @@ const providers: Providers = {
   'sso.wiso-net.de': {
     name: 'WISO – Die Datenbank für Hochschulen (SSO)',
     web: 'https://www.wiso-net.de/',
+    defaultSource: 'old.genios.de',
     params: {
-      'genios.de': {
+      'old.genios.de': {
         domain: 'www.wiso-net.de'
       }
     },
