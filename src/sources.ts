@@ -68,7 +68,8 @@ const sources: Sources = {
     loggedIn: '.boxMyGeniosLink',
     start: '{source.scheme.raw}{source.domain.raw}/',
     defaultParams: {
-      domain: 'www.genios.de'
+      domain: 'www.genios.de',
+      scheme: 'https://'
     },
     login: [
       [
