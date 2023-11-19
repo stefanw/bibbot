@@ -267,17 +267,17 @@ const sites: Sites = {
   },
   'www.handelsblatt.com': {
     selectors: {
-      query: '.vhb-article--introduction',
-      // date: "span[itemprop='datePublished']",
-      paywall: '.c-paywall',
-      main: '.vhb-article-area--read'
+      query: makeQueryFunc('.storyline-element app-storyline-paragraph app-rich-text p'),
+      date: 'app-story-date',
+      paywall: 'app-paywall',
+      main: '.storyline-element'
     },
-    start: (root) => {
-      Array.from(root.querySelectorAll('.c-paywall')).forEach((el: HTMLElement) => {
-        el.style.display = 'none'
-      })
-    },
-    waitOnLoad: true,
+    // start: (root) => {
+    //   Array.from(root.querySelectorAll('.c-paywall')).forEach((el: HTMLElement) => {
+    //     el.style.display = 'none'
+    //   })
+    // },
+    waitOnLoad: 2000,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'HBLATE,HBONLATE,HBGM,HBLI,HBMA,HBMBLATE,HBZ'
