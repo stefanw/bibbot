@@ -87,8 +87,8 @@ const sources: Sources = {
       ],
       [
         { message: 'Artikel wird aufgerufen...' },
-        { failOnMissing: '.article__text__title tooltip', failure: 'Artikel nicht gefunden' },
-        { href: '.article__text__panelBody__details js_open_full_document_modal a' }
+        { failOnMissing: '.boxHeader', failure: 'Artikel nicht gefunden' },
+        { href: '.hitContent a' }
       ],
       [
         { captcha: '#layer_captcha' },
