@@ -1,6 +1,6 @@
 {
   "name": "bibbot",
-  "version": "0.31.2",
+  "version": "0.31.3",
   "description": "BibBot removes paywalls of German media sites",
   "devDependencies": {
     "@babel/core": "^7.20.12",
