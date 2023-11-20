@@ -74,6 +74,12 @@ const geniosDefaultData: PartialProviderData[] = [
     web: 'https://www.stadtbibliothek-jena.de/',
     domain: 'bib-jena.genios.de'
   },
+  {
+    id: 'stadtbibliothek.leipzig.de',
+    name: 'Leipziger Städtische Bibliotheken',
+    web: 'https://stadtbibliothek.leipzig.de/',
+    domain: 'stadtbib-leipzig.genios.de'
+  },
   // {
   //   id: 'stabi.ludwigsburg.de',
   //   name: 'Stadtbibliothek Ludwigsburg',
@@ -689,38 +695,6 @@ const providers: Providers = {
   ...oclcProviders,
   ...hanProviders,
   ...astecProviders,
-  'stadtbibliothek.leipzig.de': {
-    name: 'Leipziger Städtische Bibliotheken',
-    web: 'https://stadtbibliothek.leipzig.de/',
-    params: {
-      'genios.de': {
-        domain: 'stadtbib-leipzig.genios.de'
-      }
-    },
-    login: [
-      [
-        { message: 'Bibliothekskonto wird eingeloggt...' },
-        { url: 'https://stadtbibliothek.leipzig.de/online-angebote/login-online-angebote' }
-      ],
-      [
-        { fill: { selector: '#user', providerKey: 'stadtbibliothek.leipzig.de.options.username' } },
-        { fill: { selector: '#pass', providerKey: 'stadtbibliothek.leipzig.de.options.password' } },
-        { click: '#permalogin' },
-        { click: '.powermail_submit' }
-      ],
-      [
-        { url: 'https://sso.stadtbibliothek.leipzig.de/service/genios' }
-      ]
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' }
-    ],
-    permissions: [
-      'https://stadtbibliothek.leipzig.de/*',
-      'https://*.stadtbibliothek.leipzig.de/*'
-    ]
-  },
   'www.duesseldorf.de': {
     name: 'Stadtbibliothek Düsseldorf',
     web: 'https://www.duesseldorf.de/stadtbuechereien/onlinebibliothek.html',
