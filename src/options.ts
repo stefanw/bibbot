@@ -181,7 +181,10 @@ async function checkPermissions (): Promise<boolean> {
   return needed
 }
 
-async function getNeededPermissions (providerPermissions: string[]): Promise<string[]> {
+async function getNeededPermissions (providerPermissions: string[] | undefined): Promise<string[]> {
+  if (!providerPermissions) {
+    return []
+  }
   const neededPermissions = []
   const permissions = await getPermissions()
   console.log(providerPermissions, permissions.origins)
