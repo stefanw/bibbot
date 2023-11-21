@@ -33,7 +33,8 @@
     "https://go.openathens.net/*",
     "https://katalog.dortmund.de/*",
     "https://advance-lexis-com.eu1.proxy.openathens.net/*",
-    "https://*.bonn.idm.oclc.org/*"
+    "https://*.bonn.idm.oclc.org/*",
+    "https://online-service2.nuernberg.de/*"
   ],
   "background": {
     "scripts": [

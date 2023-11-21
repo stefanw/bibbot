@@ -81,13 +81,6 @@ const geniosDefaultData: PartialProviderData[] = [
   //   domain: 'bib-ludwigsburg.genios.de'
   // },
   {
-    id: 'www.nuernberg.de/internet/stadtbibliothek',
-    name: 'Stadtbibliothek Nürnberg im Bildungscampus',
-    web: 'https://www.nuernberg.de/internet/stadtbibliothek/',
-    domain: 'bib-nuernberg.genios.de',
-    defaultSource: 'old.genios.de'
-  },
-  {
     id: 'bibliothek.potsdam.de',
     name: 'Stadt- und Landesbibliothek Potsdam',
     web: 'https://bib-potsdam.genios.de',
@@ -628,30 +621,49 @@ hanData.forEach(d => {
   hanProviders[d.id] = <Provider>hanFactory(d)
 })
 
-const providers: Providers = {
-  ...geniosDefaultProviders,
-  ...geniosAssociationProviders,
-  ...oclcProviders,
-  ...hanProviders,
-  'voebb.de': {
+const astecData = [
+  {
+    id: 'voebb.de',
     name: 'VÖBB - Verbund der öffenlichen Bibliotheken Berlins',
     web: 'https://voebb.de/',
     params: {
       'www.munzinger.de': {
         portalId: '50158'
-      },
-      'genios.de': {
-        domain: 'bib-voebb.genios.de'
       }
     },
+    domain: 'bib-voebb.genios.de',
+    permissions: ['https://www.voebb.de/*']
+  },
+  {
+    id: 'www.nuernberg.de/internet/stadtbibliothek',
+    name: 'Stadtbibliothek Nürnberg im Bildungscampus',
+    web: 'https://www.nuernberg.de/internet/stadtbibliothek/',
+    domain: 'bib-nuernberg.genios.de',
+    defaultSource: 'old.genios.de',
+    permissions: ['https://online-service2.nuernberg.de/*']
+  }
+]
+
+function astecFactory (provider) {
+  const defaultSource = provider.defaultSource || 'genios.de'
+  return {
+    name: provider.name,
+    web: provider.web,
+    params: {
+      [defaultSource]: {
+        domain: provider.domain
+      },
+      ...(provider.params ?? {})
+    },
+    defaultSource,
     login: [
       [
         { click: 'input[name="CLOGIN"]', optional: true, skipToNext: true }
       ],
       [
         { message: 'Bibliothekskonto wird eingeloggt...' },
-        { fill: { selector: 'input[name="L#AUSW"]', providerKey: 'voebb.de.options.username' } },
-        { fill: { selector: 'input[name="LPASSW"]', providerKey: 'voebb.de.options.password' } },
+        { fill: { selector: 'input[name="L#AUSW"]', providerKey: `${provider.id}.options.username` } },
+        { fill: { selector: 'input[name="LPASSW"]', providerKey: `${provider.id}.options.password` } },
         { click: 'input[name="LLOGIN"]' }
       ],
       [
@@ -662,8 +674,21 @@ const providers: Providers = {
       { id: 'username', display: 'Nutzername:', type: 'text' },
       { id: 'password', display: 'Passwort:', type: 'password' }
     ],
-    permissions: ['https://www.voebb.de/*']
-  },
+    permissions: provider.permissions
+  }
+}
+
+const astecProviders = {}
+astecData.forEach(d => {
+  astecProviders[d.id] = <Provider>astecFactory(d)
+})
+
+const providers: Providers = {
+  ...geniosDefaultProviders,
+  ...geniosAssociationProviders,
+  ...oclcProviders,
+  ...hanProviders,
+  ...astecProviders,
   'stadtbibliothek.leipzig.de': {
     name: 'Leipziger Städtische Bibliotheken',
     web: 'https://stadtbibliothek.leipzig.de/',
