@@ -104,15 +104,13 @@ const geniosDefaultData: PartialProviderData[] = [
     id: 'stuttgart.de',
     name: 'Stadtbibliothek Stuttgart',
     web: 'http://www1.stuttgart.de/stadtbibliothek/',
-    domain: 'bib-stuttgart.genios.de',
-    defaultSource: 'old.genios.de'
+    domain: 'bib-stuttgart.genios.de'
   },
   {
     id: 'www.buecherhallen.de',
     name: 'Bücherhallen Hamburg',
     web: 'https://www.buecherhallen.de/',
-    domain: 'buecherhallen.genios.de',
-    defaultSource: 'old.genios.de'
+    domain: 'buecherhallen.genios.de'
   },
   {
     id: 'ebibo-dresden.de',
