@@ -1118,12 +1118,21 @@ const sites: Sites = {
     }
   },
   'www.mittelbayerische.de': {
+    testSetup: getConsentCdnSetup({ framePart: '.cmp_page', button: '.cmp_button' }),
+    examples: [
+      {
+        url: 'https://www.mittelbayerische.de/lokales/stadt-regensburg/geister-parkhaus-am-regensburger-tech-campus-die-nutzungsquote-steigt-14904402',
+        selectors: {
+          query: '"„vollkommen lächerlichen“ Nutzungsquote machte im Sommer das neue Parkhaus am Regensburger Tech-Campus Schlagzeilen"'
+        }
+      }
+    ],
     selectors: {
-      query: makeQueryFunc('.article > p > strong'),
-      headline: 'h1',
-      date: '.date',
-      paywall: '.teaser-plus.article-teaser',
-      main: '.article-section'
+      query: makeQueryFunc('.article-detail-entry-content'),
+      headline: '.article-detail-headline',
+      date: '.date-published',
+      paywall: '.paywall-layer',
+      main: '.article-detail'
     },
     source: 'genios.de',
     sourceParams: {
