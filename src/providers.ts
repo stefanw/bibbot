@@ -40,8 +40,7 @@ const geniosDefaultData: PartialProviderData[] = [
     id: 'www.erfurt.de',
     name: 'Stadt- und Regionalbibliothek Erfurt',
     web: 'https://www.erfurt.de/ef/de/leben/bildung/sturb/index.html',
-    domain: 'bib-erfurt.genios.de',
-    defaultSource: 'old.genios.de'
+    domain: 'bib-erfurt.genios.de'
   },
   {
     id: 'www.stadtbibliothek-essen.de',
