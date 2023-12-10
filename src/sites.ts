@@ -131,9 +131,9 @@ const sites: Sites = {
   'www.tagesspiegel.de': {
     selectors: {
       // query: "h1 > span",
-      query: makeQueryFunc('.article--paid p'),
-      main: '.article--paid #story-elements',
-      paywall: '.article--paid #paywal',
+      query: makeQueryFunc('.Er p'),
+      main: '.Er #story-elements',
+      paywall: '.Er #paywal',
       date: 'time'
     },
     source: 'genios.de',
