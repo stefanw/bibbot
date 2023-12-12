@@ -1132,7 +1132,7 @@ const sites: Sites = {
       headline: '.article-detail-headline',
       date: '.date-published',
       paywall: '.paywall-layer',
-      main: '.article-detail'
+      main: '.article-detail-entry-content'
     },
     source: 'genios.de',
     sourceParams: {
