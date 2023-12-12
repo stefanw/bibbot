@@ -4,7 +4,7 @@ import { PartialSite, Sites } from './types.js'
 
 const extractQuery = (node: HTMLElement) => createQuery(node.innerText)
 const createQuery = (text: string) => {
-  const query = text.split(' ').slice(2, 15).join(' ')
+  const query = text.split(' ').slice(2, 15).join(' ').replace('"', '')
   return query
 }
 const makeQueryFunc = (selector: string|string[]) => {
@@ -215,7 +215,7 @@ const sites: Sites = {
         }
       },
       date: 'time',
-      paywall: 'offer-page',
+      paywall: '#sz-paywall',
       main: (root) => {
         const normalMain: HTMLElement = root.querySelector("div[itemprop='articleBody']")
         if (normalMain) {
@@ -229,7 +229,7 @@ const sites: Sites = {
       if (p) {
         p.className = 'sz-article-body__paragraph'
       }
-      const offer: HTMLElement = root.querySelector('offer-page')
+      const offer: HTMLElement = root.querySelector('#sz-paywall')
       if (offer) {
         offer.style.display = 'none'
       }
@@ -238,6 +238,7 @@ const sites: Sites = {
     paragraphStyle: {
       style: 'margin-bottom: 1rem'
     },
+    waitOnLoad: 500,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'SZ,SZDE,SZPT,SZPW,SZRE,SZW,SZMA,SZMO'
