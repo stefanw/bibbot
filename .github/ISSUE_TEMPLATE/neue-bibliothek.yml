@@ -1,0 +1,42 @@
+name: Neue Bibliothek
+description: Neue Bibliothek vorschlagen
+title: "[Bibliothek]: "
+labels: ["provider"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Bitte fülle das Formular aus, um eine neue Bibliothek vorzuschlagen.
+  - type: input
+    id: name
+    attributes:
+      label: Name der Bibliothek
+    validations:
+      required: true
+  - type: input
+    id: web
+    attributes:
+      label: Webseite der Bibliothek
+    validations:
+      required: true
+  - type: dropdown
+    id: source
+    attributes:
+      label: Angebotene Pressedatenbank
+      description: Welche Pressedatenbank wird von der Bibliothek angeboten?
+      options:
+        - Genios
+        - Nexis Uni
+    validations:
+      required: true
+  - type: input
+    id: source_url
+    attributes:
+      label: URL zur Pressedatenbank
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Weitere Details
+      description: Falls es weitere Informationen gibt, die für die Aufnahme der Bibliothek relevant sind, kannst du sie hier eintragen.

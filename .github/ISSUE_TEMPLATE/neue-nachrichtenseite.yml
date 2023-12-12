@@ -1,0 +1,42 @@
+name: Neue Nachrichtenseite
+description: Neue Nachrichtenseite vorschlagen
+title: "[Nachrichtenseite]: "
+labels: ["site"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Bitte fülle das Formular aus, um eine neue Nachrichtenseite vorzuschlagen.
+  - type: input
+    id: url
+    attributes:
+      label: URL der Nachrichtenseite
+    validations:
+      required: true
+  - type: input
+    id: example
+    attributes:
+      label: URL zu einem Artikel mit Paywall
+    validations:
+      required: true
+  - type: dropdown
+    id: source
+    attributes:
+      label: Ist die Nachrichtenseite in einer Pressedatenbank enthalten?
+      options:
+        - Genios
+        - Nexis Uni
+      multiple: true
+    validations:
+      required: true
+  - type: input
+    id: source_url
+    attributes:
+      label: URL zu der Quellenseite in der Pressedatenbank
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Weitere Details
+      description: Falls es weitere Informationen gibt, die für die Aufnahme der Nachrichtenseite relevant sind, kannst du sie hier eintragen.
