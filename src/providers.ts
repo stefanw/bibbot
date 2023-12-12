@@ -1,4 +1,4 @@
-import { DefaultProvider, Provider, Providers, SourceIdentifier } from './types.js'
+import { Actions, DefaultProvider, Provider, Providers, SourceIdentifier } from './types.js'
 
 type PartialProviderData = {
   id: string
@@ -148,6 +148,7 @@ const geniosAssociationData = [
     id: 'www.donauwoerth.de',
     bibId: '92',
     name: 'Stadtbücherei Donauwörth',
+    bibName: 'Donauwörth',
     web: 'https://www.donauwoerth.de/kultur/stadtbibliothek/',
     domain: 'bib-bayern.genios.de'
   },
@@ -156,6 +157,7 @@ const geniosAssociationData = [
     web: 'https://www.landshut.de/kultur-sport/stadtbuecherei',
     bibId: '57',
     name: 'Stadtbücherei Landshut',
+    bibName: 'Landshut',
     domain: 'bib-bayern.genios.de'
   },
   {
@@ -163,6 +165,7 @@ const geniosAssociationData = [
     web: 'https://www.muehldorf.de/190-Buecherei.html',
     bibId: '52',
     name: 'Stadtbücherei Mühldorf',
+    bibName: 'Mühldorf',
     domain: 'bib-bayern.genios.de'
   },
   {
@@ -170,6 +173,7 @@ const geniosAssociationData = [
     web: 'https://www.schweinfurt.de/kultur-event/stadtbuecherei/index.html',
     bibId: '53',
     name: 'Stadtbücherei Schweinfurt',
+    bibName: 'Schweinfurt',
     domain: 'bib-bayern.genios.de'
   },
   // No longer seems to have genios
@@ -185,6 +189,7 @@ const geniosAssociationData = [
     web: 'https://www.forum-unterschleissheim.de/bibliothek.html',
     bibId: '55',
     name: 'Stadtbücherei Unterschleißheim',
+    bibName: 'Unterschleißheim',
     domain: 'bib-bayern.genios.de'
   },
   {
@@ -510,6 +515,33 @@ function geniosFactory (provider) {
 }
 
 function geniosAssociationFactory (provider) {
+  let login: Actions[] = [
+    [
+      { click: '.ccm--decline-cookies', optional: true },
+      { click: '.select-header' },
+      { script: `Array.from(document.querySelectorAll(".dropdown__option")).filter(el => el.innerText.includes("${provider.bibName || provider.name}"))[0].click()` },
+      { fill: { selector: 'input[name="username"]', providerKey: provider.id + '.options.username' } },
+      { event: { selector: 'input[name="username"]', event: 'input' } },
+      { fill: { selector: 'input[name="password"]', providerKey: provider.id + '.options.password' } },
+      { event: { selector: 'input[name="password"]', event: 'input' } },
+      { click: 'input[name="termsAndConditions"]' },
+      { click: 'input[name="privacyPolicy"]' },
+      { click: '#submit' }
+    ]
+  ]
+  if (provider.defaultSource === 'old.genios.de') {
+    login = [
+      [
+        { fill: { selector: '#bibLoginLayer_externalAuthId', value: provider.bibId } },
+        { fill: { selector: '#bibLoginLayer_number', providerKey: provider.id + '.options.username' } },
+        { fill: { selector: '#bibLoginLayer_password', providerKey: provider.id + '.options.password' } },
+        { click: '#bibLoginLayer_terms' },
+        { click: '#bibLoginLayer_gdpr' },
+        { click: '#bibLoginLayer_c0' }
+      ]
+    ]
+  }
+
   return {
     name: provider.name,
     web: provider.web,
@@ -522,17 +554,7 @@ function geniosAssociationFactory (provider) {
         domain: provider.domain
       }
     },
-    login: [
-      [
-        { click: '#cookie-bar p a.cb-enable', optional: true },
-        { fill: { selector: '#bibLoginLayer_externalAuthId', value: provider.bibId } },
-        { fill: { selector: '#bibLoginLayer_number', providerKey: provider.id + '.options.username' } },
-        { fill: { selector: '#bibLoginLayer_password', providerKey: provider.id + '.options.password' } },
-        { click: '#bibLoginLayer_terms' },
-        { click: '#bibLoginLayer_gdpr' },
-        { click: '#bibLoginLayer_c0' }
-      ]
-    ],
+    login,
     options: [
       { id: 'username', display: 'Nutzername:', type: 'text' },
       { id: 'password', display: 'Passwort:', type: 'password' }

@@ -50,15 +50,17 @@ class TabRunner {
 
   getActionCode (action: Action) {
     if ('fill' in action) {
+      let val
       if (action.fill.key && this.userData[action.fill.key]) {
-        return [`document.querySelector('${action.fill.selector}').value = '${this.userData[action.fill.key]}'`]
+        val = this.userData[action.fill.key]
       } else if (action.fill.providerKey) {
-        return [`document.querySelector('${action.fill.selector}').value = '${this.userData[action.fill.providerKey]}'`]
+        val = this.userData[action.fill.providerKey]
       } else if (action.fill.value) {
-        return [`document.querySelector('${action.fill.selector}').value = '${action.fill.value}'`]
+        val = action.fill.value
       } else {
         return []
       }
+      return [`document.querySelector('${action.fill.selector}').value = '${val}'`]
     } else if ('event' in action) {
       return [`document.querySelector('${action.event.selector}').dispatchEvent(new Event('${action.event.event}'))`]
     } else if ('wait' in action) {
@@ -73,6 +75,8 @@ class TabRunner {
           throw new Error(action.failure)
         }
       ]
+    } else if ('script' in action) {
+      return [action.script]
     } else if ('click' in action) {
       if (action.optional) {
         return [`var el = document.querySelector('${action.click}'); el && el.click(); el === null`]
