@@ -4,12 +4,8 @@ export const MESSAGE_ID = 'bibbot-message'
 export const BOT_ID = 'bibbot-loader'
 export const LOADER_ID = 'bibbot-loading'
 
-export const LOADER_HTML = `
-<style>
+export const STYLES = `
 #${LOADER_ID} {
-  position:absolute;
-  left: 50%;
-  top: 50%;
   animation: bibbot-working 2s ease-in-out 0s infinite;
 }
 
@@ -30,11 +26,34 @@ export const LOADER_HTML = `
     transform: translate(-60px, 0) rotateY(180deg);
   }
 }
-</style>
-<div id="${BOT_ID}" style="border: 5px solid ${COLOR}; padding: 10px 10px 60px; margin: 20px auto; text-align:center; position:relative;">
-  <div style="color: ${COLOR}; font-family: sans-serif; font-size: 1.2rem">BibBot</div>
-  <img id="bibbot-loading" src="${ICON}" alt="BibBot" height="40" width="30" style="width:30px;height:40px">
-  <div id="${MESSAGE_ID}" style="font-family: sans-serif; font-size: 0.9rem; color: ${COLOR}">Pressedatenbank wird aufgerufen...</div>
+#${BOT_ID} {
+  border: 5px solid ${COLOR};
+  padding: 10px 10px 60px;
+  margin: 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+h2 {
+  color: ${COLOR};
+  font-family: sans-serif;
+  font-size: 1.2rem;
+}
+#${MESSAGE_ID} {
+
+  font-family: sans-serif;
+  font-size: 0.9rem;
+  color: ${COLOR};
+  max-width: 400px;
+}
+`
+
+export const LOADER_HTML = `
+<div id="${BOT_ID}">
+  <h2>BibBot</h2>
+  <img id="${LOADER_ID}" src="${ICON}" alt="BibBot" height="40" width="30" style="width:30px;height:40px">
+  <p id="${MESSAGE_ID}">Pressedatenbank wird aufgerufen...</p>
 </div>`
 
 export const FAILED_HTML = `<strong>Artikel konnte nicht gefunden werden</strong>

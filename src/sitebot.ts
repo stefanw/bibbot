@@ -1,7 +1,7 @@
 import * as browser from 'webextension-polyfill'
 
 import { ABORT_MESSAGE, FAILED_MESSAGE, GOTOTAB_MESSAGE, INIT_MESSAGE, LOG_NAME, PORT_NAME, STATUS_MESSAGE, SUCCESS_MESSAGE } from './const.js'
-import { BOT_ID, FAILED_HTML, LOADER_HTML, LOADER_ID, MESSAGE_ID } from './ui.js'
+import { BOT_ID, FAILED_HTML, LOADER_HTML, LOADER_ID, MESSAGE_ID, STYLES } from './ui.js'
 
 import Extractor from './extractor.js'
 import { addSharingButton } from './services.js'
@@ -11,6 +11,8 @@ class SiteBot implements SiteBotInterface {
   site: Site
   root: HTMLElement
   domain: string | null
+  shadow: ShadowRoot | null
+  container: HTMLElement | null
   extractor: Extractor
   port?: browser.Runtime.Port | null
 
@@ -19,6 +21,8 @@ class SiteBot implements SiteBotInterface {
     this.root = root
     this.domain = domain
     this.extractor = new Extractor(site, root)
+    this.shadow = null
+    this.container = null
 
     this.onDisconnect = this.onDisconnect.bind(this)
     this.onMessage = this.onMessage.bind(this)
@@ -38,11 +42,32 @@ class SiteBot implements SiteBotInterface {
     }
   }
 
+  setupUI () {
+    if (this.shadow) {
+      return
+    }
+    let loadingArea = this.extractor.getLoadingArea()
+    if (loadingArea === null) {
+      loadingArea = this.extractor.getMainContentArea()
+    }
+    const shadowHost = document.createElement('div')
+
+    loadingArea.parentNode.insertBefore(shadowHost, loadingArea.nextSibling)
+
+    const sheet = new CSSStyleSheet()
+    sheet.replaceSync(STYLES)
+
+    this.shadow = shadowHost.attachShadow({ mode: 'closed' })
+    this.shadow.adoptedStyleSheets = [sheet]
+    this.container = document.createElement('div')
+    this.shadow.appendChild(this.container)
+  }
+
   startInfoExtraction () {
     if (!this.extractor.shouldExtract()) {
       return
     }
-
+    this.setupUI()
     this.showLoading()
     try {
       return this.extractor.extractArticleInfo()
@@ -80,29 +105,21 @@ class SiteBot implements SiteBotInterface {
   }
 
   showLoading () {
-    const loadingArea = this.extractor.getLoadingArea()
-    if (loadingArea !== null) {
-      const div = document.createElement('div')
-      div.innerHTML = LOADER_HTML
-      loadingArea.parentNode.insertBefore(div, loadingArea.nextSibling)
-    } else {
-      const main = this.extractor.getMainContentArea()
-      main.innerHTML = main.innerHTML + LOADER_HTML
-    }
+    this.container.innerHTML = LOADER_HTML
   }
 
   hideLoading () {
-    const loader: HTMLElement = this.root.querySelector(`#${LOADER_ID}`)
+    const loader: HTMLElement = this.shadow.querySelector(`#${LOADER_ID}`)
     loader.style.display = 'none'
   }
 
   hideBot () {
-    const bot: HTMLElement = this.root.querySelector(`#${BOT_ID}`)
+    const bot: HTMLElement = this.shadow.querySelector(`#${BOT_ID}`)
     bot.style.display = 'none'
   }
 
   showUpdate (text) {
-    const message: HTMLElement = this.root.querySelector(`#${MESSAGE_ID}`)
+    const message: HTMLElement = this.shadow.querySelector(`#${MESSAGE_ID}`)
     message.innerText = text
   }
 
@@ -110,8 +127,8 @@ class SiteBot implements SiteBotInterface {
     this.hideLoading()
     const btnId = 'bibbot-goto'
     const html = `<button id="${btnId}">Bitte gehen Sie zum geöffneten Tab.</button>`
-    this.root.querySelector(`#${MESSAGE_ID}`).innerHTML = html
-    this.root.querySelector(`#${btnId}`).addEventListener('click', (e) => {
+    this.shadow.querySelector(`#${MESSAGE_ID}`).innerHTML = html
+    this.shadow.querySelector(`#${btnId}`).addEventListener('click', (e) => {
       e.preventDefault()
       const message: GoToTabMessage = {
         type: GOTOTAB_MESSAGE
@@ -167,7 +184,7 @@ class SiteBot implements SiteBotInterface {
   }
 
   fail () {
-    this.root.querySelector(`#${MESSAGE_ID}`).innerHTML = FAILED_HTML
+    this.shadow.querySelector(`#${MESSAGE_ID}`).innerHTML = FAILED_HTML
     this.showPaywall()
   }
 
