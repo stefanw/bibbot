@@ -29,6 +29,11 @@ jobs:
         run: npm ci
       - name: Running lint and type check
         run: npm run lint && npm run check-types
+      - name: Run web-ext lint to check Firefox mobile compability
+        uses: kewisch/action-web-ext@2c96cb8d05464c1dd52b96229a9f33388ba1bfad
+        with:
+          cmd: lint
+          source: src
       - name: Create build of test content script
         run: npm run build
       - name: Run the tests
