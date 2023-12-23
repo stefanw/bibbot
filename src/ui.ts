@@ -4,8 +4,10 @@ export const MESSAGE_ID = 'bibbot-message'
 export const BOT_ID = 'bibbot-loader'
 export const LOADER_ID = 'bibbot-loading'
 
-export const STYLES = `
+export const CSS = `
 #${LOADER_ID} {
+  display: flex;
+  font-size: 35px;
   animation: bibbot-working 2s ease-in-out 0s infinite;
 }
 
@@ -52,9 +54,15 @@ h2 {
 export const LOADER_HTML = `
 <div id="${BOT_ID}">
   <h2>BibBot</h2>
-  <img id="${LOADER_ID}" src="${ICON}" alt="BibBot" height="40" width="30" style="width:30px;height:40px">
+  <div id="${LOADER_ID}">
+    <img src="${ICON}" alt="BibBot" height="40" width="30" style="width:30px;height:40px">
+  </div>
   <p id="${MESSAGE_ID}">Pressedatenbank wird aufgerufen...</p>
 </div>`
+
+export const STYLES = `
+<style>${CSS}</style>
+`
 
 export const FAILED_HTML = `<strong>Artikel konnte nicht gefunden werden</strong>
 <ul style="text-align:left;margin-left:1rem">
