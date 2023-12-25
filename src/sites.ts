@@ -580,15 +580,16 @@ const sites: Sites = {
       {
         url: 'https://www.stuttgarter-zeitung.de/inhalt.probleme-bei-der-abrechnung-warum-ein-stuttgarter-impfarzt-schlaflose-naechte-hatte.98bea27d-f195-4bda-899b-8221d3d7f901.html?reduced=true',
         selectors: {
-          query: '"Schlaflose Nächte hat Christian Schweninger hinter sich die vergangenen zweieinhalb Monate seien „heftig“"'
+          query: '"Der Stuttgarter Arzt Christian Schweninger impft gegen Corona und musste wegen Zahlungsverzögerungen beinahe einen Kredit aufnehmen Wie kam es so weit"'
         }
       }
     ],
     selectors: {
-      query: makeQueryFunc('.offerpage-wrapper .introText > p'),
+      // query: makeQueryFunc('.article-body > p'),
+      query: '.intro-text p',
       date: 'span[itemprop="datePublished"]',
-      paywall: '.c1-offers-target',
-      main: '.offerpage-wrapper .introText'
+      paywall: '.mod-paywall',
+      main: '.article-body > p'
     },
     source: 'genios.de',
     sourceParams: {
