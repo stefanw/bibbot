@@ -124,11 +124,13 @@ export type GoToTabMessage = {
 export type StatusMessage = {
   type: 'status'
   message: string
+  action?: 'interaction_required'
 }
 
 export type SuccessMessage = {
   type: 'success'
-  message: string
+  content: string
+  saveArticle?: string | null
 }
 
 export type FailedMessage = {
@@ -136,7 +138,7 @@ export type FailedMessage = {
   message: string
 }
 
-export type Message = InitMessage | GoToTabMessage | StatusMessage | SuccessMessage | FailedMessage
+export type Message = InitMessage | GoToTabMessage | StatusMessage | SuccessMessage | FailedMessage | AbortMessage
 
 export type FillAction = {
   fill: {

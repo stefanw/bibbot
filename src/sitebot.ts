@@ -150,7 +150,7 @@ class SiteBot implements SiteBotInterface {
     this.port.onDisconnect.removeListener(this.onDisconnect)
   }
 
-  onMessage (event) {
+  onMessage (event: Message) {
     console.log(LOG_NAME, event)
     if (event.type === ABORT_MESSAGE) {
       this.showPaywall()

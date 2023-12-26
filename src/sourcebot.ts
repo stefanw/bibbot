@@ -193,12 +193,12 @@ class SourceBot {
     }
   }
 
-  finalize (result) {
+  finalize (result: string) {
     this.done = true
     if (result.length > 0) {
       this.callback({
         type: SUCCESS_MESSAGE,
-        message: result
+        content: result
       })
 
       browser.tabs.remove(this.tabId)

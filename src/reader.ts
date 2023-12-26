@@ -69,7 +69,7 @@ class Reader {
     this.cleanUp()
   }
 
-  postMessage (message) {
+  postMessage (message: Message) {
     try {
       this.port.postMessage(message)
     } catch (e) {
@@ -92,7 +92,7 @@ class Reader {
     this.sourceBot.run()
   }
 
-  botCallback (event) {
+  botCallback (event: Message) {
     if (event.type === STATUS_MESSAGE) {
       this.sendStatusMessage(event)
     } else if (event.type === FAILED_MESSAGE) {
@@ -115,7 +115,7 @@ class Reader {
     }
     this.postMessage({
       type: SUCCESS_MESSAGE,
-      content: event.message,
+      content: event.content,
       saveArticle: storageItems.saveArticle
     })
   }
@@ -123,7 +123,7 @@ class Reader {
   fail (event) {
     this.postMessage({
       type: FAILED_MESSAGE,
-      content: event.message
+      message: event.message
     })
     this.cleanUp()
   }
