@@ -166,14 +166,14 @@ class SiteBot implements SiteBotInterface {
       return
     }
 
-    this.hideLoading()
-
     if (event.type === FAILED_MESSAGE) {
+      this.hideLoading()
       this.fail()
       return
     }
     if (event.type === SUCCESS_MESSAGE) {
       this.showArticle(event.content, event.saveArticle)
+      this.hideBot()
       return
     }
 
