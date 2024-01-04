@@ -13,22 +13,19 @@ const geniosDefaultData: PartialProviderData[] = [
     id: 'www.stadtbibliothek-aschaffenburg.de',
     name: 'Stadtbibliothek Aschaffenburg',
     web: 'https://stadtbibliothek-aschaffenburg.de/',
-    domain: 'bib-aschaffenbg.genios.de',
-    defaultSource: 'old.genios.de'
+    domain: 'bib-aschaffenbg.genios.de'
   },
   {
     id: 'www.braunschweig.de',
     name: 'Stadtbibliothek Braunschweig',
     web: 'https://www.braunschweig.de/kultur/bibliotheken_archive/stadtbibliothek/index.php',
-    domain: 'bib-braunschweig.genios.de',
-    defaultSource: 'old.genios.de'
+    domain: 'bib-braunschweig.genios.de'
   },
   {
     id: 'www.stadtbibliothek-chemnitz.de',
     name: 'Stadtbibliothek Chemnitz',
     web: 'https://www.stadtbibliothek-chemnitz.de/',
-    domain: 'bib-chemnitz.genios.de',
-    defaultSource: 'old.genios.de'
+    domain: 'bib-chemnitz.genios.de'
   },
   {
     id: 'bib-open-stadtbibliothek.darmstadt.de',
@@ -89,15 +86,13 @@ const geniosDefaultData: PartialProviderData[] = [
     id: 'bibliothek.potsdam.de',
     name: 'Stadt- und Landesbibliothek Potsdam',
     web: 'https://bib-potsdam.genios.de',
-    domain: 'bib-potsdam.genios.de',
-    defaultSource: 'old.genios.de'
+    domain: 'bib-potsdam.genios.de'
   },
   {
     id: 'www.salzgitter.de',
     name: 'Stadtbibliothek Salzgitter',
     web: 'https://www.salzgitter.de/bildung/stabi/stadtbibliothek.php',
-    domain: 'bib-salzgitter.genios.de',
-    defaultSource: 'old.genios.de'
+    domain: 'bib-salzgitter.genios.de'
   },
   {
     id: 'stuttgart.de',
@@ -197,40 +192,35 @@ const geniosAssociationData = [
     web: 'https://kantonsbibliothek.tg.ch/',
     bibId: '38',
     name: 'Kantonsbibliothek Thurgau',
-    domain: 'bib-ostschweiz.genios.de',
-    defaultSource: 'old.genios.de'
+    domain: 'bib-ostschweiz.genios.de'
   },
   {
     id: 'www.kantonsbibliothek.gr.ch',
     web: 'http://www.kantonsbibliothek.gr.ch',
     bibId: '77',
     name: 'Kantonsbibliothek Graubünden',
-    domain: 'bib-ostschweiz.genios.de',
-    defaultSource: 'old.genios.de'
+    domain: 'bib-ostschweiz.genios.de'
   },
   {
     id: 'bibliotheken-schaffhausen.ch',
     web: 'https://bibliotheken-schaffhausen.ch/',
     bibId: '37',
     name: 'Stadtbibliothek Schaffhausen',
-    domain: 'bib-ostschweiz.genios.de',
-    defaultSource: 'old.genios.de'
+    domain: 'bib-ostschweiz.genios.de'
   },
   {
     id: 'www.landesbibliothek.li',
     web: 'https://www.landesbibliothek.li/',
     bibId: '63',
     name: 'Liechtensteinische Landesbibliothek',
-    domain: 'bib-ostschweiz.genios.de',
-    defaultSource: 'old.genios.de'
+    domain: 'bib-ostschweiz.genios.de'
   },
   {
     id: 'www.bibliothekzug.ch',
     web: 'https://www.bibliothekzug.ch/',
     bibId: '49',
     name: 'Bibliothek Zug',
-    domain: 'bib-ostschweiz.genios.de',
-    defaultSource: 'old.genios.de'
+    domain: 'bib-ostschweiz.genios.de'
   },
   {
     id: 'stadtbuecherei.waiblingen.de',
@@ -649,7 +639,6 @@ const astecData = [
     name: 'Stadtbibliothek Nürnberg im Bildungscampus',
     web: 'https://www.nuernberg.de/internet/stadtbibliothek/',
     domain: 'bib-nuernberg.genios.de',
-    defaultSource: 'old.genios.de',
     permissions: ['https://online-service2.nuernberg.de/*']
   }
 ]
