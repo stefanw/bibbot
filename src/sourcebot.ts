@@ -22,6 +22,7 @@ class SourceBot {
   sourceParams: SiteSourceParams
   articleInfo: ArticleInfo
   providerOptions: object
+  userData: object
   callback: (message: Message) => void
   tabId: number
   tabRunner: TabRunner
@@ -41,6 +42,13 @@ class SourceBot {
     this.articleInfo = articleInfo
     this.providerOptions = providerOptions
     this.callback = callback
+    this.userData = Object.assign({}, this.providerOptions);
+    ['options.username', 'options.password'].forEach(key => {
+      const confValue = this.userData[`${this.providerId}.${key}`]
+      if (confValue !== undefined) {
+        this.userData[key] = confValue
+      }
+    })
 
     this.onTabUpdated = this.onTabUpdated.bind(this)
     this.done = false
@@ -63,14 +71,7 @@ class SourceBot {
     })
     this.tabId = tab.id
     console.log('tab created', tab.id)
-    const userData = Object.assign({}, this.providerOptions);
-    ['options.username', 'options.password'].forEach(key => {
-      const confValue = userData[`${this.providerId}.${key}`]
-      if (confValue !== undefined) {
-        userData[key] = confValue
-      }
-    })
-    this.tabRunner = new TabRunner(tab.id, userData)
+    this.tabRunner = new TabRunner(tab.id, this.userData)
     browser.tabs.onUpdated.addListener(this.onTabUpdated)
   }
 
