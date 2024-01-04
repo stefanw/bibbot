@@ -469,7 +469,7 @@ const oclcData = [
     name: 'Stadtbibliothek Hannover',
     web: 'https://bibliothek.hannover-stadt.de',
     oclcId: 'stbhannover',
-    'old.genios.de': {
+    'genios.de': {
       subdomain: 'bib-hannover-genios-de'
     },
     'www.munzinger.de': {
@@ -566,11 +566,11 @@ function oclcFactory (provider) {
   return {
     name: provider.name,
     web: provider.web,
-    defaultSource: 'old.genios.de',
+    defaultSource: 'genios.de',
     params: {
-      ...(provider['old.genios.de']) && {
-        'old.genios.de': {
-          domain: `${provider['old.genios.de'].subdomain}.${provider.oclcId}.idm.oclc.org`
+      ...(provider['genios.de']) && {
+        'genios.de': {
+          domain: `${provider['genios.de'].subdomain}.${provider.oclcId}.idm.oclc.org`
         }
       },
       ...(provider['www.munzinger.de']) && {
