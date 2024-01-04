@@ -237,7 +237,6 @@ const geniosAssociationData = [
     name: 'Stadtbücherei Waiblingen',
     web: 'https://stadtbuecherei.waiblingen.de/',
     domain: 'bib-bawue.genios.de',
-    defaultSource: 'old.genios.de',
     bibId: '46'
   },
   {
@@ -245,7 +244,6 @@ const geniosAssociationData = [
     name: 'Stadtbücherei Tübingen',
     web: 'https://www.tuebingen.de/stadtbuecherei/',
     domain: 'bib-bawue.genios.de',
-    defaultSource: 'old.genios.de',
     bibId: '45'
   },
   {
@@ -253,7 +251,6 @@ const geniosAssociationData = [
     name: 'Stadtbücherei Nürtingen',
     web: 'https://www.stadtbuecherei-nuertingen.de/startseite',
     domain: 'bib-bawue.genios.de',
-    defaultSource: 'old.genios.de',
     bibId: '78'
   },
   // No longer seems to have genios
@@ -277,7 +274,6 @@ const geniosAssociationData = [
     name: 'Stadtbücherei Backnang',
     web: 'https://bibliothek.komm.one/backnang/',
     domain: 'bib-bawue.genios.de',
-    defaultSource: 'old.genios.de',
     bibId: '68'
   },
   {
@@ -285,7 +281,6 @@ const geniosAssociationData = [
     name: 'Stadtbücherei Albstadt',
     web: 'https://www.albstadt.de/stadtbuecherei',
     domain: 'bib-bawue.genios.de',
-    defaultSource: 'old.genios.de',
     bibId: '42'
   },
   {
@@ -293,7 +288,6 @@ const geniosAssociationData = [
     name: 'Stadtbibliothek Schwäbisch Hall',
     web: 'https://www.schwaebischhall.de/de/bildung-betreuung/stadtbibliothek/',
     domain: 'bib-bawue.genios.de',
-    defaultSource: 'old.genios.de',
     bibId: '86'
   },
   {
@@ -301,7 +295,6 @@ const geniosAssociationData = [
     name: 'Stadtbibliothek Reutlingen',
     web: 'https://stadtbibliothek-reutlingen.de',
     domain: 'bib-bawue.genios.de',
-    defaultSource: 'old.genios.de',
     bibId: '44'
   },
   {
@@ -309,7 +302,6 @@ const geniosAssociationData = [
     name: 'Stadtbibliothek Offenburg',
     web: 'https://www.stadtbibliothek.offenburg.de/',
     domain: 'bib-bawue.genios.de',
-    defaultSource: 'old.genios.de',
     bibId: '84'
   },
   // No longer seems to have genios
@@ -325,7 +317,6 @@ const geniosAssociationData = [
     name: 'Stadtbibliothek Heilbronn',
     web: 'https://stadtbibliothek.heilbronn.de/',
     domain: 'bib-bawue.genios.de',
-    defaultSource: 'old.genios.de',
     bibId: '85'
   },
   {
@@ -333,7 +324,6 @@ const geniosAssociationData = [
     name: 'Stadtbibliothek Freiburg',
     web: 'https://www.stadtbibliothek.freiburg.de/',
     domain: 'bib-bawue.genios.de',
-    defaultSource: 'old.genios.de',
     bibId: '80'
   },
   {
@@ -341,7 +331,6 @@ const geniosAssociationData = [
     name: 'Stadtbibliothek Aalen',
     web: 'https://www.stadtbibliothek-aalen.de/',
     domain: 'bib-bawue.genios.de',
-    defaultSource: 'old.genios.de',
     bibId: '41'
   },
   {
@@ -349,7 +338,6 @@ const geniosAssociationData = [
     name: 'Mediothek Balingen',
     web: 'https://bibliothek.komm.one/balingen/',
     domain: 'bib-bawue.genios.de',
-    defaultSource: 'old.genios.de',
     bibId: '50'
   },
   {
@@ -357,7 +345,6 @@ const geniosAssociationData = [
     name: 'Mediathek Neckarsulm',
     web: 'https://www.mediathek-neckarsulm.de/',
     domain: 'bib-bawue.genios.de',
-    defaultSource: 'old.genios.de',
     bibId: '79'
   },
   {
@@ -365,7 +352,6 @@ const geniosAssociationData = [
     name: 'Stadtbibliothek Ulm',
     web: 'https://stadtbibliothek.ulm.de/',
     domain: 'bib-bawue.genios.de',
-    defaultSource: 'old.genios.de',
     bibId: '60'
   },
   // Winnenden apparently cancelled contract with Genios, see #179
@@ -381,7 +367,6 @@ const geniosAssociationData = [
     name: 'Stadtbibliothek Heidenheim',
     web: 'https://www.bibliothek-heidenheim.de/startseite',
     domain: 'bib-bawue.genios.de',
-    defaultSource: 'old.genios.de',
     bibId: '97'
   },
   {
