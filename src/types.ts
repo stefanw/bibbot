@@ -164,7 +164,7 @@ export type MessageAction = {
   message: string
 }
 export type UrlAction = {
-  url: string
+  url: string | ((articleInfo: ArticleInfo, sourceParams: SiteSourceParams) => string)
 }
 export type ScriptAction = {
   script: string

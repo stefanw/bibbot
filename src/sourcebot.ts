@@ -219,6 +219,9 @@ class SourceBot {
   }
 
   makeUrl (url) {
+    if (typeof url === 'function') {
+      return url(this.articleInfo, this.getParams())
+    }
     url = interpolate(url, this.articleInfo, '', encodeURIComponent)
     const params = this.getParams()
     url = interpolate(url, params, 'source', encodeURIComponent)
