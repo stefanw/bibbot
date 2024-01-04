@@ -1,4 +1,4 @@
-import { Sources } from './types.js'
+import { ArticleInfo, SiteSourceParams, Sources } from './types.js'
 
 const sources: Sources = {
   'www.munzinger.de': {
@@ -51,7 +51,27 @@ const sources: Sources = {
     search: [
       [
         { message: 'Artikel wird gesucht...' },
-        { url: '{source.scheme.raw}{source.domain.raw}/searchResult/Alle%20Quellen?requestText={query}' }
+        {
+          url: (articleInfo: ArticleInfo, sourceParams: SiteSourceParams) => {
+            const params = [
+              `requestText=${encodeURIComponent(articleInfo.query)}`,
+              'size=10',
+              'sort=BY_DATE',
+              'order=desc',
+              'resultListType=DEFAULT',
+              'view=list'
+            ]
+            if (articleInfo.dateStart) {
+              params.push(`date=from_${articleInfo.dateStart}`)
+            }
+            if (articleInfo.dateEnd) {
+              params.push(`date=to_${articleInfo.dateEnd}`)
+            }
+            sourceParams.sourceNames?.forEach((sourceName) => { params.push(`source=${encodeURIComponent(sourceName)}`) })
+
+            return `${sourceParams.scheme}${sourceParams.domain}/searchResult/Alle%20Quellen?${params.join('&')}`
+          }
+        }
       ],
       [
         { message: 'Artikel wird aufgerufen...' },
