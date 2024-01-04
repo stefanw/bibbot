@@ -112,7 +112,8 @@ const sites: Sites = {
     dateRange: [7, 1], // search from 7 days before to one day after given date
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'SPPL,SPII,KULS,SPIE,SSPE,UNIS,LISP,SPBE'
+      dbShortcut: 'SPPL,SPII,KULS,SPIE,SSPE,UNIS,LISP,SPBE',
+      sourceNames: ['SPIEGEL Plus', 'kulturSPIEGEL', 'DER SPIEGEL', 'SPIEGEL special', 'uniSPIEGEL', 'LiteraturSPIEGEL', 'SPIEGEL Bestseller']
     }
   },
   'www.manager-magazin.de': {
@@ -137,7 +138,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'TSP,TPCP,TSPO'
+      dbShortcut: 'TSP,TPCP,TSPO',
+      sourceNames: ['Der Tagesspiegel', 'Tagesspiegel CHECKPOINT', 'tagesspiegel.de']
     }
   },
   'www.zeit.de': {
@@ -170,8 +172,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'ZEIT,ZEIO,ZTCS,ZTGS,ZTWI,CUW'
-
+      dbShortcut: 'ZEIT,ZEIO,ZTCS,ZTGS,ZTWI,CUW',
+      sourceNames: ['DIE ZEIT', 'DIE ZEIT online', 'ZEIT Campus', 'ZEIT Geschichte', 'ZEIT Wissen', 'Christ und Welt']
     }
   },
   'www.welt.de': {
@@ -185,7 +187,8 @@ const sites: Sites = {
     waitOnLoad: 500,
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'WEPL,WAMS,WELT,WEON'
+      dbShortcut: 'WEPL,WAMS,WELT,WEON',
+      sourceNames: ['WELTplus', 'WELT am SONNTAG', 'DIE WELT', 'WELT ONLINE']
     }
   },
   'www.sueddeutsche.de': {
@@ -240,7 +243,8 @@ const sites: Sites = {
     waitOnLoad: 500,
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'SZ,SZDE,SZPT,SZPW,SZRE,SZW,SZMA,SZMO'
+      dbShortcut: 'SZ,SZDE,SZPT,SZPW,SZRE,SZW,SZMA,SZMO',
+      sourceNames: ['Süddeutsche Zeitung (SZ)', 'sueddeutsche.de', 'Süddeutsche Zeitung PRIMETIME', 'Süddeutsche Zeitung Plan W', 'Süddeutsche Zeitung - Regionalteile', 'Süddeutsche Zeitung WISSEN', 'Süddeutsche Zeitung Magazin', 'Süddeutsche Zeitung Magazin Online']
     }
   },
   'sz-magazin.sueddeutsche.de': {
@@ -262,7 +266,8 @@ const sites: Sites = {
     waitOnLoad: true,
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'SZMA,SZMO'
+      dbShortcut: 'SZMA,SZMO',
+      sourceNames: ['Süddeutsche Zeitung Magazin', 'Süddeutsche Zeitung Magazin Online']
     }
   },
   'www.handelsblatt.com': {
@@ -280,7 +285,8 @@ const sites: Sites = {
     waitOnLoad: 2000,
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'HBLATE,HBONLATE,HBGM,HBLI,HBMA,HBMBLATE,HBZ'
+      dbShortcut: 'HBLATE,HBONLATE,HBGM,HBLI,HBMA,HBMBLATE,HBZ',
+      sourceNames: ['Handelsblatt', 'Handelsblatt online', 'Handelsblatt Global Magazin', 'Handelsblatt Live', 'Handelsblatt Magazin', 'Handelsblatt Morning Briefing', 'Handelsblatt10']
     }
   },
   'www.berliner-zeitung.de': {
@@ -292,7 +298,8 @@ const sites: Sites = {
     waitOnLoad: 500,
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'BEZE'
+      dbShortcut: 'BEZE',
+      sourceNames: ['Berliner Zeitung']
     }
   },
   'www.morgenpost.de': {
@@ -317,7 +324,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'BMP,BMPO'
+      dbShortcut: 'BMP,BMPO',
+      sourceNames: ['Berliner Morgenpost', 'Berliner Morgenpost online']
     }
   },
   'www.moz.de': {
@@ -337,13 +345,15 @@ const sites: Sites = {
 
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'MOZ'
+      dbShortcut: 'MOZ',
+      sourceNames: ['Märkische Oderzeitung']
     }
   },
   'www.maz-online.de': {
     ...RND,
     sourceParams: {
-      dbShortcut: 'MAER'
+      dbShortcut: 'MAER',
+      sourceNames: ['Märkische Allgemeine']
     }
   },
   'www.lr-online.de': {
@@ -355,7 +365,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'LR'
+      dbShortcut: 'LR',
+      sourceNames: ['Lausitzer Rundschau - Elbe-Elster-Rundschau']
     }
   },
 
@@ -367,7 +378,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'NKU'
+      dbShortcut: 'NKU',
+      sourceNames: ['Nordkurier']
     }
   },
   'www.noz.de': {
@@ -396,7 +408,8 @@ const sites: Sites = {
 
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'NOZ'
+      dbShortcut: 'NOZ',
+      sourceNames: ['Neue Osnabrücker Zeitung']
     }
   },
   'www.abendblatt.de': {
@@ -408,7 +421,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'HA,HABO,BEZG'
+      dbShortcut: 'HA,HABO,BEZG',
+      sourceNames: ['Hamburger Abendblatt', 'Hamburger Abendblatt online', 'Bergedorfer Zeitung']
     }
   },
   'www.waz.de': {
@@ -420,7 +434,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'WAZ'
+      dbShortcut: 'WAZ',
+      sourceNames: ['Westdeutsche Allgemeine Zeitung']
     }
   },
   'www.wiwo.de': {
@@ -441,7 +456,8 @@ const sites: Sites = {
     dateRange: [8, 1], // search from roughly week before
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'WWLATE,WWONLATE,WWBW,WWGR'
+      dbShortcut: 'WWLATE,WWONLATE,WWBW,WWGR',
+      sourceNames: ['WirtschaftsWoche', 'WirtschaftsWoche online', 'WirtschaftsWoche Green']
     }
   },
   'www.heise.de': {
@@ -490,31 +506,36 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'OOEN'
+      dbShortcut: 'OOEN',
+      sourceNames: ['Oberösterreichische Nachrichten']
     }
   },
   'ga.de': {
     ...GA,
     sourceParams: {
-      dbShortcut: 'GAZ'
+      dbShortcut: 'GAZ',
+      sourceNames: ['Bonner General-Anzeiger']
     }
   },
   'www.ksta.de': {
     ...KSTA,
     sourceParams: {
-      dbShortcut: 'KSTA'
+      dbShortcut: 'KSTA',
+      sourceNames: ['Kölner Stadt-Anzeiger']
     }
   },
   'www.rundschau-online.de': {
     ...KSTA,
     sourceParams: {
-      dbShortcut: 'KR'
+      dbShortcut: 'KR',
+      sourceNames: ['Kölnische Rundschau']
     }
   },
   'rp-online.de': {
     ...GA,
     sourceParams: {
-      dbShortcut: 'RP'
+      dbShortcut: 'RP',
+      sourceNames: ['Rheinische Post']
     }
   },
   'www.tagesanzeiger.ch': {
@@ -536,7 +557,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'TAG,TAS'
+      dbShortcut: 'TAG,TAS',
+      sourceNames: ['Tages-Anzeiger', 'Tages-Anzeiger SonntagsZeitung']
     }
   },
   'www.falter.at': {
@@ -571,7 +593,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'FALT'
+      dbShortcut: 'FALT',
+      sourceNames: ['Falter (APA)']
     }
   },
   'www.stuttgarter-zeitung.de': {
@@ -592,7 +615,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'STZ'
+      dbShortcut: 'STZ',
+      sourceNames: ['Stuttgarter Zeitung']
     }
   },
   'www.stuttgarter-nachrichten.de': {
@@ -613,7 +637,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'STN'
+      dbShortcut: 'STN',
+      sourceNames: ['Stuttgarter Nachrichten']
     }
   },
   'www.ostsee-zeitung.de': {
@@ -644,7 +669,8 @@ const sites: Sites = {
     mimic: '*[class*="Textstyled__InlineText"]',
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'OSZ'
+      dbShortcut: 'OSZ',
+      sourceNames: ['Ostsee-Zeitung']
     }
   },
   'www.stimme.de': {
@@ -677,7 +703,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'HST'
+      dbShortcut: 'HST',
+      sourceNames: ['Heilbronner Stimme']
     }
   },
   'kurier.at': {
@@ -716,7 +743,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'KUR'
+      dbShortcut: 'KUR',
+      sourceNames: ['Kurier (APA)']
     },
     waitOnLoad: true
   },
@@ -737,7 +765,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'KUR'
+      dbShortcut: 'KUR',
+      sourceNames: ['Kurier (APA)']
     }
   },
   'www.diepresse.com': {
@@ -768,7 +797,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'PRE'
+      dbShortcut: 'PRE',
+      sourceNames: ['Die Presse - Österreichische Tageszeitung']
     }
   },
   'www.sn.at': {
@@ -794,7 +824,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'SN'
+      dbShortcut: 'SN',
+      sourceNames: ['Salzburger Nachrichten (APA)']
     }
   },
   'www.kleinezeitung.at': {
@@ -832,7 +863,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'KLEI'
+      dbShortcut: 'KLEI',
+      sourceNames: ['Kleine Zeitung (APA)']
     }
   },
   'www.thueringer-allgemeine.de': {
@@ -852,7 +884,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'TA'
+      dbShortcut: 'TA',
+      sourceNames: ['Thüringer Allgemeine']
     }
   },
   'www.mopo.de': {
@@ -884,7 +917,8 @@ const sites: Sites = {
     source: 'genios.de',
     dateRange: [14, 1],
     sourceParams: {
-      dbShortcut: 'MOPO'
+      dbShortcut: 'MOPO',
+      sourceNames: ['Hamburger Morgenpost']
     }
   },
   'www.saechsische.de': {
@@ -917,7 +951,8 @@ const sites: Sites = {
     waitOnLoad: true,
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'SZO'
+      dbShortcut: 'SZO',
+      sourceNames: ['Sächsische Zeitung']
     }
   },
   'www.freiepresse.de': {
@@ -938,7 +973,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'FEPR'
+      dbShortcut: 'FEPR',
+      sourceNames: ['Freie Presse']
     }
   },
   'www.haz.de': {
@@ -953,7 +989,8 @@ const sites: Sites = {
     ],
     ...RND,
     sourceParams: {
-      dbShortcut: 'HAZ'
+      dbShortcut: 'HAZ',
+      sourceNames: ['Hannoversche Allgemeine Zeitung']
     }
   },
   'www.lvz.de': {
@@ -989,7 +1026,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'LVZ'
+      dbShortcut: 'LVZ',
+      sourceNames: ['Leipziger Volkszeitung']
     }
   },
   'www.dnn.de': {
@@ -1025,7 +1063,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'DNN'
+      dbShortcut: 'DNN',
+      sourceNames: ['Dresdner Neueste Nachrichten']
     }
   },
   'www.swp.de': {
@@ -1050,7 +1089,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'SWP'
+      dbShortcut: 'SWP',
+      sourceNames: ['SÜDWEST PRESSE']
     }
   },
   'www.ruhrnachrichten.de': {
@@ -1064,7 +1104,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'RN'
+      dbShortcut: 'RN',
+      sourceNames: ['Ruhr Nachrichten']
     }
   },
   'www.businessinsider.de': {
@@ -1078,7 +1119,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'BUIN'
+      dbShortcut: 'BUIN',
+      sourceNames: ['BUSINESS INSIDER DEUTSCHLAND']
     }
   },
   'www.badische-zeitung.de': {
@@ -1091,7 +1133,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'BADZ'
+      dbShortcut: 'BADZ',
+      sourceNames: ['Badische Zeitung']
     }
   },
   'www.stern.de': {
@@ -1114,7 +1157,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'STER,STGL'
+      dbShortcut: 'STER,STGL',
+      sourceNames: ['Stern']
     }
   },
   'www.mittelbayerische.de': {
@@ -1136,7 +1180,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'MIB'
+      dbShortcut: 'MIB',
+      sourceNames: ['Mittelbayerische Zeitung']
     }
   },
   'www.tagblatt.de': {
@@ -1149,7 +1194,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'STT'
+      dbShortcut: 'STT',
+      sourceNames: ['Schwäbisches Tagblatt']
     }
   },
   'www.mz.de': {
@@ -1165,7 +1211,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'MZ'
+      dbShortcut: 'MZ',
+      sourceNames: ['Mitteldeutsche Zeitung']
     }
   },
   'www.capital.de': {
@@ -1226,7 +1273,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'ELNA,PBTB,QBTB,SHTB,UENR,WETB,BSZG,WIZE,SYR,STTB,SCHN,SCHB,OHAN,NRU,NFTB,SHL,IB,HN,HCOU,GF,FTB,ECTB'
+      dbShortcut: 'ELNA,PBTB,QBTB,SHTB,UENR,WETB,BSZG,WIZE,SYR,STTB,SCHN,SCHB,OHAN,NRU,NFTB,SHL,IB,HN,HCOU,GF,FTB,ECTB',
+      sourceNames: ['Elmshorner Nachrichten', 'Pinneberger Tageblatt', 'Quickborner Tageblatt', 'Schenefelder Tageblatt', 'Uetersener Nachrichten', 'Wedel-Schulauer Tageblatt', 'Barmstedter Zeitung', 'Wilstersche Zeitung', 'Sylter Rundschau', 'Stormarner Tageblatt', 'Schleswiger Nachrichten', 'Schlei-Bote', 'Ostholsteiner Anzeiger', 'Norddeutsche Rundschau', 'Nordfriesland Tageblatt', 'Schleswig-Holsteinische Landeszeitung', 'Der Insel-Bote', 'Husumer Nachrichten', 'Holsteinischer Courier', 'Glückstädter Fortuna', 'Flensburger Tageblatt', 'Eckernförder Zeitung']
     }
   },
   'www.aerztezeitung.de': {
@@ -1255,7 +1303,8 @@ const sites: Sites = {
     waitOnLoad: 1500,
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'NZZ,NZZS'
+      dbShortcut: 'NZZ,NZZS',
+      sourceNames: ['Neue Zürcher Zeitung (NZZ)', 'NZZ am Sonntag']
     }
   },
   'www.nwzonline.de': {
@@ -1277,7 +1326,8 @@ const sites: Sites = {
     waitOnLoad: true,
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'NOW'
+      dbShortcut: 'NOW',
+      sourceNames: ['Nordwest-Zeitung']
     }
   },
   'www.saarbruecker-zeitung.de': {
@@ -1290,7 +1340,8 @@ const sites: Sites = {
     mimic: 'div[data-cy="article-content-text"] p',
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'SAAR'
+      dbShortcut: 'SAAR',
+      sourceNames: ['Saarbrücker Zeitung']
     }
   }
 }

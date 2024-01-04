@@ -5,10 +5,17 @@ type TestExample = {
 }
 
 export type SourceIdentifier = 'genios.de' | 'www.munzinger.de' | 'www.nexisuni.com' | 'old.genios.de'
-type GeniosSourceParams = {
-  dbShortcut: string
+export type DefaultSourceParams = {
+  domain?: string,
+  scheme?: string,
+  portalId?: ''
 }
-export type SiteSourceParams = GeniosSourceParams
+type GeniosSourceParams = {
+  dbShortcut?: string
+  sourceNames?: string[]
+}
+export type SiteSourceParams = DefaultSourceParams & GeniosSourceParams
+
 // eslint-disable-next-line no-use-before-define
 type StringSelector = string | string[] | ((root: HTMLElement, siteBot: SiteBotInterface) => string)
 // eslint-disable-next-line no-use-before-define
@@ -188,11 +195,6 @@ export type ExtractAction = {
 
 export type Action = FillAction | ClickAction | ScriptAction | MessageAction | UrlAction | HrefAction | FailOnMissingAction | CaptchaAction | ExtractAction | WaitAction | EventAction
 export type Actions = Action[]
-
-export type DefaultSourceParams = {
-  domain?: string,
-  [key: string]: string
-}
 
 export type Source = {
   loggedIn: string
