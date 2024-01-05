@@ -34,6 +34,7 @@ jobs:
         with:
           cmd: lint
           source: src
+          channel: unlisted
       - name: Create build of test content script
         run: npm run build
       - name: Run the tests
