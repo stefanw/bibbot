@@ -33,7 +33,7 @@ jobs:
         uses: kewisch/action-web-ext@v1.0
         with:
           cmd: lint
-          source: src
+          source: .
           channel: unlisted
       - name: Create build of test content script
         run: npm run build
