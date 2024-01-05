@@ -688,6 +688,37 @@ const providers: Providers = {
   ...oclcProviders,
   ...hanProviders,
   ...astecProviders,
+  'muenchner-stadtbibliothek.de': {
+    name: 'Münchner Stadtbibliothek',
+    web: 'https://www.muenchner-stadtbibliothek.de/',
+    defaultSource: 'www.munzinger.de',
+    params: {
+      'www.munzinger.de': {
+        portalId: '52372'
+      }
+    },
+    login: [
+      [
+        { message: 'GDPR akzeptieren und Redirect zur Bibliotheksseite...' },
+        { click: '.gdprcookie-buttons button', optional: true },
+        { click: 'img[src="/grafiken/button-weiter.gif"]' }
+      ],
+      [
+        { message: 'Bibliothekskonto wird eingeloggt...' },
+        { fill: { selector: 'input[name="L#AUSW"]', providerKey: 'muenchner-stadtbibliothek.de.options.username' } },
+        { fill: { selector: 'input[name="LPASSW"]', providerKey: 'muenchner-stadtbibliothek.de.options.password' } },
+        { click: 'input[name="LLOGIN"]' }
+      ],
+      [
+        { click: 'input[name="CLOGIN"]', optional: true }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ],
+    permissions: ['https://ssl.muenchen.de/*', 'https://www.munzinger.de/*']
+  },
   'www.duesseldorf.de': {
     name: 'Stadtbibliothek Düsseldorf',
     web: 'https://www.duesseldorf.de/stadtbuechereien/onlinebibliothek.html',

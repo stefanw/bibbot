@@ -1,6 +1,6 @@
 import { ArticleInfo, ExtractorInterface, FormattedDateRange, RawArticleInfo, Site } from './types.js'
 
-const QUOTES = /["„].*["„]/
+const QUOTES = /["„]/
 
 class Extractor implements ExtractorInterface {
   site: Site
@@ -159,7 +159,7 @@ class Extractor implements ExtractorInterface {
     // remove some special chars
     q = q.replace(/[!:?;'/()]/g, ' ').replace(/(((?<!\d)[,.])|([,.](?!\d)))/g, ' ').replace(/ {1,}/g, ' ')
     // remove non-leading/trailing quotes
-    q = q.split(QUOTES).map(s => s.trim()).filter(s => s.split(' ').length > 1).map(s => `"${s}"`).join(' ')
+    q = q.split(QUOTES).map(s => s.trim()).filter(s => s.split(' ').length > 1).map(s => `${s}`).join(' ')
     articleInfo.query = q
     return {
       query: articleInfo.query,

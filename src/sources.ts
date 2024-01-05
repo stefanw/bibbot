@@ -21,7 +21,7 @@ const sources: Sources = {
     search: [
       [
         { message: 'Artikel wird gesucht...' },
-        { url: 'https://{source.domain.raw}/search/query?template=%2Fpublikationen%2Fspiegel%2Fresult.jsp&query.id=query-spiegel&query.key=gQynwrIS&query.commit=yes&query.scope=spiegel&query.index-order=personen&query.facets=yes&facet.path=%2Fspiegel&facet.activate=yes&hitlist.highlight=yes&hitlist.sort=-field%3Aisort&query.Titel={query}&query.Ausgabe={edition}&query.Ressort=&query.Signatur=&query.Person=&query.K%C3%B6rperschaft=&query.Ort=&query.Text={overline}' }
+        { url: 'https://{source.domain.raw}/search/query?template=%2Fpublikationen%2Fsz%2Fresult.jsp&query.id=query-sz&query.key=yP49gv3q&query.commit=yes&query.scope=sz&query.index-order=personen&query.facets=yes&facet.path=%2Fsz&facet.activate=yes&hitlist.highlight=yes&hitlist.sort=-field%3Aisort&query.Titel=&query.Datum=&query.Ressort=&query.Thema=&query.Person=&query.Institution=&query.Text={query}' }
       ],
       [
         { click: '.gdprcookie-buttons button', optional: true },
