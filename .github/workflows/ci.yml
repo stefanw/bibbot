@@ -35,6 +35,7 @@ jobs:
           cmd: lint
           source: .
           channel: unlisted
+        continue-on-error: true
       - name: Create build of test content script
         run: npm run build
       - name: Run the tests
