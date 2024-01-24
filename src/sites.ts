@@ -1168,7 +1168,7 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'STER,STGL',
-      sourceNames: ['Stern']
+      sourceNames: ['Stern', 'STERN Gesund leben']
     }
   },
   'www.mittelbayerische.de': {
@@ -1258,7 +1258,7 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'GEO,GEOS,GEOW,GESP,GEOE',
-      sourceNames: ['GEO']
+      sourceNames: ['GEO', 'GEO Saison', 'GEO Wissen', 'GEO Special', 'GEO SAISON Extra']
     }
   },
   'www.iz.de': {
