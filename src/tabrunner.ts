@@ -3,7 +3,7 @@ import { Action, Actions } from './types.js'
 
 import { STATUS_MESSAGE } from './const.js'
 import converters from './converters.js'
-import { makeTimeout } from './utils.js'
+import { escapeJsString, makeTimeout } from './utils.js'
 
 class TabRunner {
   tabId: number
@@ -84,7 +84,7 @@ class TabRunner {
         return [`document.querySelector('${action.click}').click()`]
       }
     } else if ('url' in action) {
-      return [`document.location.href = '${action.url}';`]
+      return [`document.location.href = '${escapeJsString(action.url)}';`]
     } else if ('href' in action) {
       return [`document.location.href = document.querySelector('${action.href}').href;`]
     } else if ('captcha' in action) {

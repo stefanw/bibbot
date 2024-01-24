@@ -23,7 +23,10 @@ function makeTimeout (ms: number) {
   }
 }
 
+const escapeJsString = (str) => {
+  return str.replace(/\\/g, '\\\\').replace(/'/g, '\\\'')
+}
+
 export {
-  interpolate,
-  makeTimeout
+  escapeJsString, interpolate, makeTimeout
 }
