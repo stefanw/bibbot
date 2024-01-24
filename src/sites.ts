@@ -1239,7 +1239,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'CAPI'
+      dbShortcut: 'CAPI',
+      sourceNames: ['Capital']
     }
   },
   'www.geo.de': {
@@ -1256,7 +1257,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'GEO,GEOS,GEOW,GESP,GEOE'
+      dbShortcut: 'GEO,GEOS,GEOW,GESP,GEOE',
+      sourceNames: ['GEO']
     }
   },
   'www.iz.de': {
@@ -1270,7 +1272,8 @@ const sites: Sites = {
     dateRange: [10, 1],
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'IMMO'
+      dbShortcut: 'IMMO',
+      sourceNames: ['Immobilien Zeitung']
     }
   },
   'www.shz.de': {
@@ -1299,7 +1302,8 @@ const sites: Sites = {
     dateRange: [25, 1],
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'AEZT'
+      dbShortcut: 'AEZT',
+      sourceNames: ['Ärzte Zeitung']
     }
   },
   'www.nzz.ch': {
