@@ -470,18 +470,20 @@ const sites: Sites = {
       }
     ],
     selectors: {
-      query: makeQueryFunc(['.article-content p', 'article.xp__article p.xp__paragraph']),
+      query: makeQueryFunc(['.article-layout__content p:not(:first-child)', 'article.xp__article p.xp__paragraph']),
       date: 'time',
       paywall: 'a-gift, a-paid-content-teaser, #purchase',
-      main: '.article-content, article.xp__article',
-      loader: '.article-content p:last-of-type'
+      main: '.article-layout__content article-layout__footer::before, article.xp__article',
+      // select p before paywall element
+      loader: '.article-layout__content p:has( + a-gift, a-paid-content-teaser, #purchase)'
     },
     dateRange: [8, 1], // search from 7 days before to one day after given date
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'MACI,TERE,CT,CTFO,IX,MAKE'
+      dbShortcut: 'HEON,MACI,TERE,CT,CTFO,IX,MAKE',
+      sourceNames: ['Heise online', 'c\'t - magazin für computertechnik (CT)', 'c\'t Digitale Fotografie']
     },
-    waitOnLoad: true
+    waitOnLoad: 2000
   },
   'www.nachrichten.at': {
     examples: [
