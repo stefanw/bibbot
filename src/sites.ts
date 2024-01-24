@@ -148,7 +148,7 @@ const sites: Sites = {
       {
         url: 'https://www.zeit.de/2021/11/soziale-ungleichheit-identitaetspolitik-diskriminierung-armut-bildung',
         selectors: {
-          query: '"Sie das schon – der Begriff allein Ganz"'
+          query: '"eine gesellschaftliche Gruppe ihre Anliegen vorbringt ihren Schmerz ausspricht wird davor gewarnt dies"'
         }
       }
     ],
@@ -461,11 +461,19 @@ const sites: Sites = {
     }
   },
   'www.heise.de': {
+    examples: [
+      {
+        url: 'https://www.heise.de/select/ct/2024/2/2332712400232749829',
+        selectors: {
+          query: '"Die Klimakrise ist längst da"'
+        }
+      }
+    ],
     selectors: {
-      query: makeQueryFunc('.article-content p'),
+      query: makeQueryFunc(['.article-content p', 'article.xp__article p.xp__paragraph']),
       date: 'time',
-      paywall: 'a-paid-content-teaser',
-      main: '.article-content',
+      paywall: 'a-gift, a-paid-content-teaser, #purchase',
+      main: '.article-content, article.xp__article',
       loader: '.article-content p:last-of-type'
     },
     dateRange: [8, 1], // search from 7 days before to one day after given date
