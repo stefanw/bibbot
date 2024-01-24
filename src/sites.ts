@@ -319,7 +319,7 @@ const sites: Sites = {
       // query: (root) => {
       //   return root.querySelector('.article__header__intro__text').innerText.split(' ').slice(0, 8).join(' ')
       // },
-      main: '.article__body',
+      main: '.article-body',
       paywall: '#paywall-container'
     },
     source: 'genios.de',
