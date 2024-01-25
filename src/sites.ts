@@ -92,17 +92,12 @@ const sites: Sites = {
       {
         url: 'https://www.spiegel.de/politik/deutschland/klara-geywitz-ueber-sanierungspflicht-von-immobilien-neuen-wohnraum-und-fluechtlinge-a-6aeb319e-fc25-4efa-a0cf-66e10ed49969',
         selectors: {
-          query: '"»Es wird nicht ohne Ordnungsrecht gehen wenn wir die Klimaziele erreichen wollen«"'
+          query: 'nicht ohne Ordnungsrecht gehen wenn wir die Klimaziele erreichen wollen«'
         }
       }
     ],
     selectors: {
-      query: (root, siteBot) => {
-        return siteBot.runSelectorQuery([
-          '.leading-tight span:not(:first-child), .leading-none .leading-normal, h2 span:not(:first-child) span:not(:first-child)',
-          '.leading-loose'
-        ])
-      },
+      query: makeQueryFunc(['.leading-tight span:not(:first-child), .leading-none .leading-normal, h2 span:not(:first-child) span:not(:first-child)', '.leading-loose'], false),
       date: 'time',
       main: 'article section.relative',
       paywall: "div[data-component='Paywall'], div[data-target-id='paywall']"
@@ -393,7 +388,7 @@ const sites: Sites = {
       {
         url: 'https://www.noz.de/lokales/hasbergen/artikel/im-angesicht-des-kriegs-ausstellung-am-augustaschacht-hasbergen-23451387',
         selectors: {
-          query: '"Ist es angemessen in der Gedenkstätte Augustaschacht in Hasbergen eine Ausstellung zur Erinnerung an die sowjetischen Kriegsgefangenen des Zweiten Weltkrieges zu zeigen während russische Truppen einen Angriffskrieg gegen die Ukraine führen Mehr denn je sagen Landrätin Anna Kebschull und Ausstellungskuratorin Babette Quinkert"'
+          query: '"angemessen in der Gedenkstätte Augustaschacht in Hasbergen eine Ausstellung zur Erinnerung an die"'
         }
       }
     ],
@@ -448,7 +443,7 @@ const sites: Sites = {
       {
         url: 'https://www.wiwo.de/my/unternehmen/industrie/mischkonzern-zeppelin-ein-ausschluss-russlands-aus-swift-wuerde-eine-weltwirtschaftskrise-ausloesen/28091946.html',
         selectors: {
-          query: '"Der deutsche Mischkonzern Zeppelin vertreibt unter anderem US-amerikanische Baumaschinen in Russland"'
+          query: 'Mischkonzern Zeppelin vertreibt unter anderem US-amerikanische Baumaschinen in Russland und der Ukraine Ein'
         }
       }
     ],
@@ -581,12 +576,12 @@ const sites: Sites = {
       {
         url: 'https://www.falter.at/zeitung/20220223/sie-reden-vom-krieg/_27de9dfaf4',
         selectors: {
-          query: '"Wie kann ein Frieden für die Ukraine aussehen Wo liegt die Zukunft Russlands Und was sollte Österreichs Außenpolitik in der jetzigen Situation leisten"'
+          query: '"ein Frieden für die Ukraine aussehen Wo liegt die Zukunft Russlands Und was"'
         }
       }
     ],
     selectors: {
-      query: '.head-content h2',
+      query: makeQueryFunc('.head-content h2'),
       date: 'time',
       paywall: '.paywall-info',
       main: '.paywall-content'
@@ -924,12 +919,12 @@ const sites: Sites = {
       {
         url: 'https://www.saechsische.de/sachsen/die-dresdner-lehrerin-und-ihre-radikale-sekte-5418484-plus.html',
         selectors: {
-          query: '"Die Dresdner Lehrerin und ihre radikale Sekte"'
+          query: '"Lehrerin und ihre radikale Sekte"'
         }
       }
     ],
     selectors: {
-      query: '.article-detail-title h2',
+      query: makeQueryFunc('.article-detail-title h2'),
       headline: '.article-detail-title h2',
       date: 'time',
       paywall: '#piano-inline',
