@@ -1,6 +1,6 @@
-import typescript from '@rollup/plugin-typescript'
 import commonjs from '@rollup/plugin-commonjs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
+import typescript from '@rollup/plugin-typescript'
 
 export default [
   {
@@ -39,14 +39,6 @@ export default [
     input: 'tests/content_test.ts',
     output: {
       file: 'test_build/content_test.js',
-      format: 'cjs'
-    },
-    plugins: [commonjs(), nodeResolve(), typescript()]
-  },
-  {
-    input: 'tests/sites.test.ts',
-    output: {
-      file: 'test_build/sites.test.js',
       format: 'cjs'
     },
     plugins: [commonjs(), nodeResolve(), typescript()]

@@ -1,4 +1,19 @@
-const getConsentCdnSetup = ({ pageChanges = false, framePart = 'consent-cdn', button = '#notice button' }) => {
+const getContentPassConsent = ({ pageChanges = false }) => {
+  return async (page) => {
+    try {
+      const locator = page.getByText('Akzeptieren und weiter')
+      await locator.textContent({ timeout: 1000 })
+      await locator.click()
+    } catch (e) {
+      return
+    }
+    if (pageChanges) {
+      await page.waitForNavigation()
+    }
+  }
+}
+
+const getConsentCdnSetup = ({ pageChanges = false, framePart = 'consent-cdn', button = '#notice button.sp_choice_type_11' }) => {
   return async (page) => {
     console.log('consent setup: find frame')
     const frame = page.frames().find(frame => frame.url().indexOf(framePart) !== -1)
@@ -29,7 +44,10 @@ const getCmpBoxConsent = () => {
   }
 }
 
-export {
-  getConsentCdnSetup,
-  getCmpBoxConsent
+const consentShadowRoot = ({ docSelector = '.needsclick', shadowSelector = '.cmp-button-accept-all' }) => {
+  return async (page) => {
+    await page.locator(docSelector).evaluate((node, shadowSelector) => node.shadowRoot.querySelector(shadowSelector).click(), shadowSelector)
+  }
 }
+
+export { consentShadowRoot, getCmpBoxConsent, getConsentCdnSetup, getContentPassConsent }

@@ -1,5 +1,5 @@
-import sites from '../src/sites.js'
 import Extractor from '../src/extractor.js'
+import sites from '../src/sites.js'
 
 const domain = document.location.host
 const site = sites[domain]

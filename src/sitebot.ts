@@ -54,7 +54,7 @@ class SiteBot implements SiteBotInterface {
 
     loadingArea.parentNode.insertBefore(shadowHost, loadingArea.nextSibling)
 
-    this.shadow = shadowHost.attachShadow({ mode: 'closed' })
+    this.shadow = shadowHost.attachShadow({ mode: 'open' })
     this.shadow.innerHTML = STYLES
     this.container = document.createElement('div')
     this.shadow.appendChild(this.container)
