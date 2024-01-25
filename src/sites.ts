@@ -1,13 +1,24 @@
-import { getCmpBoxConsent, getConsentCdnSetup } from './test_utils.js'
+import { consentShadowRoot, getCmpBoxConsent, getConsentCdnSetup, getContentPassConsent } from './test_utils.js'
 
 import { PartialSite, Sites } from './types.js'
 
-const extractQuery = (node: HTMLElement) => createQuery(node.innerText)
-const createQuery = (text: string) => {
-  const query = text.split(' ').slice(2, 15).join(' ').replace('"', '')
-  return query
+const QUOTES = /["„].*["„]/
+
+const extractQuery = (node: HTMLElement, quoted = true) => createQuery(node.innerText, quoted)
+const createQuery = (text: string, quoted = true) => {
+  let query = text.split(' ').slice(2, 15).join(' ').replace('"', '')
+  // remove some special chars
+  query = query.replace(/[!:?;'/()]/g, ' ').replace(/(((?<!\d)[,.])|([,.](?!\d)))/g, ' ').replace(/ {1,}/g, ' ')
+  // remove non-leading/trailing quotes
+  let queryParts = query.split(QUOTES).map(s => s.trim()).filter(s => s.split(' ').length > 1)
+
+  // Quote the whole query
+  if (quoted) {
+    queryParts = queryParts.map(s => `"${s}"`)
+  }
+  return queryParts.join(' ')
 }
-const makeQueryFunc = (selector: string|string[]) => {
+const makeQueryFunc = (selector: string|string[], quoted = true) => {
   if (!Array.isArray(selector)) {
     selector = [selector]
   }
@@ -15,7 +26,7 @@ const makeQueryFunc = (selector: string|string[]) => {
     for (const sel of selector) {
       const el = node.querySelector(sel)
       if (el) {
-        return extractQuery(el)
+        return extractQuery(el, quoted)
       }
     }
   }
@@ -26,10 +37,6 @@ const removeClass = (node: HTMLElement, className: string) => {
   if (el) {
     el.classList.remove(className)
   }
-}
-
-const findCommentNode = (parentNode: Node, comment: string) => {
-  return ([...parentNode.childNodes] as HTMLElement[]).find(n => n.nodeType === window.Node.COMMENT_NODE && n.nodeValue === comment)
 }
 
 const RND: PartialSite = {
@@ -143,7 +150,7 @@ const sites: Sites = {
     }
   },
   'www.zeit.de': {
-    testSetup: getConsentCdnSetup({ pageChanges: true }),
+    testSetup: getConsentCdnSetup({ }),
     examples: [
       {
         url: 'https://www.zeit.de/2021/11/soziale-ungleichheit-identitaetspolitik-diskriminierung-armut-bildung',
@@ -192,7 +199,7 @@ const sites: Sites = {
     }
   },
   'www.sueddeutsche.de': {
-    testSetup: getConsentCdnSetup({ pageChanges: false }),
+    testSetup: getConsentCdnSetup({}),
     examples: [{
       url: 'https://www.sueddeutsche.de/kultur/milch-ernaehrung-klimawandel-1.5521054?reduced=true',
       selectors: {
@@ -307,15 +314,13 @@ const sites: Sites = {
     examples: [
       {
         url: 'https://www.morgenpost.de/bezirke/pankow/article234644603/Hindernisstrecke-Schoenhauser-Allee.html',
-        // Paywall seems to be gone
-        noPaywall: true,
         selectors: {
-          query: '"So gefährlich ist Berlins gefährlichste Straße für Radfahrer"'
+          query: '"Schönhauser Allee in Prenzlauer Berg gilt als Unfallschwerpunkt für Radfahrer Eine Tour auf"'
         }
       }
     ],
     selectors: {
-      query: '.article__header__headline',
+      query: makeQueryFunc('.article-body'),
       // query: (root) => {
       //   return root.querySelector('.article__header__intro__text').innerText.split(' ').slice(0, 8).join(' ')
       // },
@@ -393,7 +398,7 @@ const sites: Sites = {
       }
     ],
     selectors: {
-      query: 'p.w-600',
+      query: makeQueryFunc('p.w-600'),
       main: '.content--group__section:last-child',
       date: '[itemprop="datePublished"]',
       paywall: '.paywall'
@@ -414,8 +419,8 @@ const sites: Sites = {
   },
   'www.abendblatt.de': {
     selectors: {
-      query: 'h2',
-      main: '.article__body',
+      query: makeQueryFunc('.article-body p:not(.font-medium), .article-body li'),
+      main: '.article-body',
       date: 'time',
       paywall: '#paywall-container'
     },
@@ -443,14 +448,14 @@ const sites: Sites = {
       {
         url: 'https://www.wiwo.de/my/unternehmen/industrie/mischkonzern-zeppelin-ein-ausschluss-russlands-aus-swift-wuerde-eine-weltwirtschaftskrise-ausloesen/28091946.html',
         selectors: {
-          query: '"Mischkonzern Zeppelin „Ein Ausschluss Russlands aus Swift würde eine Weltwirtschaftskrise auslösen“"'
+          query: '"Der deutsche Mischkonzern Zeppelin vertreibt unter anderem US-amerikanische Baumaschinen in Russland"'
         }
       }
     ],
     selectors: {
-      query: makeQueryFunc('.c-leadtext'),
+      query: makeQueryFunc('.c-leadtext', false),
       main: '.o-article__content',
-      paywall: '.isArticle .isPremium',
+      paywall: '.o-paywall',
       date: 'time'
     },
     dateRange: [8, 1], // search from roughly week before
@@ -465,7 +470,7 @@ const sites: Sites = {
       {
         url: 'https://www.heise.de/select/ct/2024/2/2332712400232749829',
         selectors: {
-          query: '"Die Klimakrise ist längst da"'
+          query: '"auf die meistbesuchten Sites eine Übersicht der wichtigsten News eine To-do-Liste der Kalender"'
         }
       }
     ],
@@ -490,13 +495,13 @@ const sites: Sites = {
       {
         url: 'https://www.nachrichten.at/meinung/kommentare/eine-mahnung;art210749,3586439',
         selectors: {
-          query: 'Eine Mahnung'
+          query: '"nicht schnell eine Lösung für unser Energiesystem finden dann werden Finanzminister Brunner bzw"'
         }
       }
     ],
     selectors: {
-      query: '.artDetail__headline',
-      date: '.artDetail__header__infoline--datum',
+      query: makeQueryFunc('.articleDetail__content'),
+      date: '.articleDetail .text-teaser.text-darkgrey',
       paywall: '.oonplusOverlay',
       main: '#artikeldetailText'
     },
@@ -618,10 +623,10 @@ const sites: Sites = {
       }
     ],
     selectors: {
-      query: makeQueryFunc('.offerpage-wrapper .introText > p'),
+      query: makeQueryFunc('.article-body > p'),
       date: 'span[itemprop="datePublished"]',
-      paywall: '.c1-offers-target',
-      main: '.offerpage-wrapper .introText'
+      paywall: '.mod-paywall',
+      main: '.article-body > p'
     },
     source: 'genios.de',
     sourceParams: {
@@ -635,14 +640,14 @@ const sites: Sites = {
       {
         url: 'https://www.stuttgarter-nachrichten.de/inhalt.e-mobilitaet-in-stuttgart-zahl-privater-e-ladestellen-waechst-deutlich.a3a5609d-b274-4ac3-a2b1-2558da9a1d69.html?reduced=true',
         selectors: {
-          query: '"Die Ladekapazitäten für E-Autos zu Hause haben in den vergangenen drei Jahren in Stuttgart stark zugelegt – der Zuwachs in den einzelnen Bezirken ist dabei heterogen Das zeigen Daten des lokalen Stromnetzbetreibers"'
+          query: '"8400 E-Autos sind in Stuttgart zugelassen Dazu kommen noch mehr als 22 000 Plug-in-Hybride"'
         }
       }
     ],
     selectors: {
-      query: '.intro-text p',
-      date: 'div[itemprop="datePublished"]',
-      paywall: '.c1-offers-target',
+      query: makeQueryFunc('.article-body > p'),
+      date: 'span[itemprop="datePublished"]',
+      paywall: '.mod-paywall',
       main: '.article-body > p'
     },
     source: 'genios.de',
@@ -657,15 +662,15 @@ const sites: Sites = {
       {
         url: 'https://www.ostsee-zeitung.de/Mecklenburg/Rostock/Zu-gefaehrlich-fuer-Radfahrer-Kommt-Tempo-30-fuer-die-Rostocker-Dethardingstrasse',
         selectors: {
-          query: '"Zu gefährlich für Radfahrer Kommt Tempo 30 für die Rostocker Dethardingstraße"'
+          query: '"gerne eine Radfahrer-Stadt Doch für diesen Anspruch gibt es noch zu viele heikle"'
         }
       }
     ],
     selectors: {
-      query: 'nav *[class*="Breadcrumbstyled__Title"]',
+      query: makeQueryFunc('.paywalledContent > p'),
       date: 'time',
-      paywall: '.paywall',
-      main: 'header div[class*="ArticleHeadstyled__ArticleTeaserContainer"] div:not([class])'
+      paywall: '#piano-lightbox-article-oz',
+      main: 'header .paywalledContent'
     },
     waitOnLoad: true,
     start: (root) => {
@@ -812,6 +817,9 @@ const sites: Sites = {
     }
   },
   'www.sn.at': {
+    testSetup: async (page) => {
+      await page.locator('#onetrust-accept-btn-handler').click()
+    },
     examples: [
       {
         url: 'https://www.sn.at/salzburg/chronik/nach-toedlichem-unfall-mit-polizeibus-im-lungau-verfahren-gegen-lenker-eingestellt-117530491',
@@ -821,16 +829,10 @@ const sites: Sites = {
       }
     ],
     selectors: {
-      query: makeQueryFunc('p.article-leadtext'),
-      date: 'article-publication-date time',
-      paywall: '#article-paywall',
+      query: makeQueryFunc('.article-body-text'),
+      date: '.article-publication-date',
+      paywall: '.article-sections__paywall',
       main: '.article-body-text'
-    },
-    start: (root) => {
-      const paywall: HTMLElement = root.querySelector('#article-paywall')
-      if (paywall) {
-        paywall.style.display = 'none'
-      }
     },
     source: 'genios.de',
     sourceParams: {
@@ -839,7 +841,7 @@ const sites: Sites = {
     }
   },
   'www.kleinezeitung.at': {
-    testSetup: getConsentCdnSetup({ pageChanges: false, framePart: 'cmp-consent', button: 'button#save' }),
+    testSetup: getConsentCdnSetup({ framePart: 'cmp-consent-tool.privacymanager', button: '#save' }),
     examples: [
       {
         url: 'https://www.kleinezeitung.at/steiermark/weiz/6100137/Gefaehrlicher-Trend_Uebelkeit-Herzrasen_Nikotinbeutel-machen-bei',
@@ -849,27 +851,10 @@ const sites: Sites = {
       }
     ],
     selectors: {
-      query: makeQueryFunc('.article-body div div'),
+      query: makeQueryFunc('.article-body p'),
       date: 'time',
       paywall: '#pianoPaywall',
-      main: '.article-body'
-    },
-    start: (root) => {
-      const blocker = root.querySelector('.blocker')
-      if (blocker) {
-        blocker.classList.remove('blocker')
-      }
-    },
-    insertContent: (siteBot, main, content) => {
-      siteBot.hideBot()
-
-      main.querySelectorAll('.article__content > p, .article__content > div').forEach(e => {
-        if (e.className === '') {
-          e.remove()
-        }
-      })
-      const mainContentComment = findCommentNode(main, '- - - body of article - - - ')
-      mainContentComment.nextElementSibling.insertAdjacentHTML('beforebegin', content)
+      main: '.article-body div'
     },
     source: 'genios.de',
     sourceParams: {
@@ -878,19 +863,20 @@ const sites: Sites = {
     }
   },
   'www.thueringer-allgemeine.de': {
+    testSetup: getCmpBoxConsent(),
     examples: [
       {
         url: 'https://www.thueringer-allgemeine.de/sport/kommentar-von-wegen-sportstadt-erfurt-id234487935.html',
         selectors: {
-          query: '"Kommentar Von wegen Sportstadt Erfurt"'
+          query: '"nicht nur die Stadt der Blumen sondern präsentiert sich auch gern als Sportstadt"'
         }
       }
     ],
     selectors: {
-      query: '.article__header__headline',
+      query: makeQueryFunc('.article-body > div > p'),
       date: 'time',
       paywall: '#paywall-container',
-      main: '.article__body'
+      main: '.article-body'
     },
     source: 'genios.de',
     sourceParams: {
@@ -899,6 +885,7 @@ const sites: Sites = {
     }
   },
   'www.mopo.de': {
+    testSetup: consentShadowRoot({ }),
     examples: [
       {
         url: 'https://www.mopo.de/hamburg/vor-29-jahren-stillgelegt-das-wird-jetzt-aus-dem-schellfischtunnel/?reduced=true',
@@ -932,7 +919,7 @@ const sites: Sites = {
     }
   },
   'www.saechsische.de': {
-    testSetup: getConsentCdnSetup({ framePart: 'privacy-mgmt.com', button: 'button[title~="Akzeptieren"]' }),
+    testSetup: getContentPassConsent({ }),
     examples: [
       {
         url: 'https://www.saechsische.de/sachsen/die-dresdner-lehrerin-und-ihre-radikale-sekte-5418484-plus.html',
@@ -966,19 +953,20 @@ const sites: Sites = {
     }
   },
   'www.freiepresse.de': {
-    testSetup: getConsentCdnSetup({ framePart: 'cmp2.freiepresse.de', button: 'button[title="Alle akzeptieren"]' }),
+    testSetup: getConsentCdnSetup({ framePart: 'cmp2.freiepresse.de' }),
     examples: [
       {
         url: 'https://www.freiepresse.de/chemnitz/neue-schau-im-wasserschloss-klaffenbach-tiere-musik-und-schokolade-artikel11437998',
         selectors: {
-          query: '"Neue Schau im Wasserschloss Klaffenbach Tiere Musik und Schokolade"'
+          query: '"im Wasserschloss Klaffenbach Tiere Musik und Schokolade"'
         }
       }
     ],
     selectors: {
-      query: '.article-headlines > *',
+      query: makeQueryFunc('.article-headlines > *'),
       headline: '.article-headlines > *',
-      paywall: '.pw-layer',
+      paywall: '#upscore-paywall-placeholder',
+      date: '.article-date',
       main: '.article-text:not(.m8)'
     },
     source: 'genios.de',
@@ -988,12 +976,12 @@ const sites: Sites = {
     }
   },
   'www.haz.de': {
-    testSetup: getConsentCdnSetup({ framePart: 'cmp-sp.haz.de', button: 'button[title="Alle akzeptieren"]' }),
+    testSetup: getConsentCdnSetup({ framePart: 'cmp-sp.haz.de' }),
     examples: [
       {
         url: 'https://www.haz.de/der-norden/tour-mit-9-euro-ticket-auf-dem-sofa-bei-hitzacker-ueber-die-elbe-schippern-UO2T7PN7TB73CND54EVFCMYVA4.html',
         selectors: {
-          query: '"der Moment in dem er den Motor ausmacht"'
+          query: '"der Moment in dem er den Motor ausmacht den Bernd am liebsten mag"'
         }
       }
     ],
@@ -1004,20 +992,20 @@ const sites: Sites = {
     }
   },
   'www.lvz.de': {
-    testSetup: getConsentCdnSetup({ framePart: 'cmp-sp.lvz.de', button: 'button[title="Alle akzeptieren"]' }),
+    testSetup: getConsentCdnSetup({ framePart: 'cmp-sp.lvz.de' }),
     examples: [
       {
         url: 'https://www.lvz.de/lokales/leipzig/lvb-letzte-xl-strassenbahn-ist-da-tatras-verabschieden-sich-aus-leipzig-KJTZK5LMTYO7SABWWZTM2CT37A.html',
         selectors: {
-          query: '"In Heiterblick ist am Dienstag ein Großprojekt zu Ende gegangen Die Leipziger Verkehrsbetriebe LVB nahmen dort in ihrem Technischen Zentrum ihre letzte XL-Straßenbahn in Empfang Künftig setzt das Unternehmen auf eine neue Straßenbahn-Generation die rund 10 Zentimeter breiter ist und mehr Fahrgäste befördern kann Das erste Fahrzeug dieses neuen Typs soll im Jahr 2024 eintreffen"'
+          query: '"LVB-Zentrum Heiterblick ist am Dienstag die letzte XL-Straßenbahn aus Polen angekommen Damit ist"'
         }
       }
     ],
     selectors: {
-      query: 'span[class*="Textstyled__InlineText"]',
-      headline: '#article header h2',
+      query: makeQueryFunc('.paywalledContent > p'),
+      date: 'time',
       paywall: '#piano-lightbox-article-lvz',
-      main: 'div[class*="ArticleHeadstyled__ArticleTeaserContainer"] > div > p[class*="Textstyled__Text"]'
+      main: 'header .paywalledContent'
     },
     waitOnLoad: true,
     start: (root) => {
@@ -1041,20 +1029,20 @@ const sites: Sites = {
     }
   },
   'www.dnn.de': {
-    testSetup: getConsentCdnSetup({ framePart: 'cmp-sp.dnn.de', button: 'button[title="Alle akzeptieren"]' }),
+    testSetup: getConsentCdnSetup({ framePart: 'cmp-sp.dnn.de' }),
     examples: [
       {
         url: 'https://www.dnn.de/lokales/dresden/laesst-dresden-800-wartehaeuschen-schreddern-FCEJWIVOHYVCWZ7OYHCO42YBVE.html',
         selectors: {
-          query: '"Werden in Dresden 800 Wartehäuschen an Straßenbahn- und Bushaltestellen abgerissen Wenn des nach dem Willen von Grünen CDU und FDP geht beginnt bald der große Abriss Die drei Fraktionen haben sich auf einen Antrag geeinigt der den Abriss der Fahrgastunterstände vorsieht Unter anderem"'
+          query: '"800 Wartehäuschen bieten in Dresden den Fahrgästen von Bussen und Straßenbahnen Schutz vor"'
         }
       }
     ],
     selectors: {
-      query: 'span[class*="Textstyled__InlineText"]',
-      headline: '#article header h2',
+      query: makeQueryFunc('.paywalledContent > p'),
+      date: 'time',
       paywall: '#piano-lightbox-article-dnn',
-      main: 'div[class*="ArticleHeadstyled__ArticleTeaserContainer"] > div > p[class*="Textstyled__Text"]'
+      main: 'header .paywalledContent'
     },
     waitOnLoad: true,
     start: (root) => {
@@ -1078,12 +1066,12 @@ const sites: Sites = {
     }
   },
   'www.swp.de': {
-    testSetup: getConsentCdnSetup({ framePart: 'cmp2.freiepresse.de', button: 'button[title="Alle akzeptieren"]' }),
+    testSetup: getConsentCdnSetup({ framePart: 'cdn.privacy-mgmt.com' }),
     examples: [
       {
         url: 'https://www.swp.de/lokales/ulm/mobilitaet-in-ulm-verkehrswende-in-ulm_-es-ist-noch-viel-luft-nach-oben-65149611.html',
         selectors: {
-          query: '"Was sich Autofahrer wünschen wurde nicht gefragt Im Gegenteil Es ging um Konzepte der Zukunft bei denen das Auto hoffentlich kaum noch eine Rolle spielt Sprich darum mehr Platz und Angebote für Fußgänger Radfahrer und den ÖPNV zu schaffen Darum ging es bei einer Veranstaltung der Grüne"'
+          query: '"Autofahrer wünschen wurde nicht gefragt Im Gegenteil Es ging um Konzepte der Zukunft"'
         }
       }
     ],
@@ -1092,7 +1080,7 @@ const sites: Sites = {
       main.classList.remove('paywall')
     },
     selectors: {
-      query: 'article div.mb-3.text',
+      query: makeQueryFunc('article div.mb-3.text'),
       headline: 'article h2',
       paywall: '#paywall-container',
       main: 'article .article-text'
@@ -1172,7 +1160,7 @@ const sites: Sites = {
     }
   },
   'www.mittelbayerische.de': {
-    testSetup: getConsentCdnSetup({ framePart: '.cmp_page', button: '.cmp_button' }),
+    testSetup: consentShadowRoot({ }),
     examples: [
       {
         url: 'https://www.mittelbayerische.de/lokales/stadt-regensburg/geister-parkhaus-am-regensburger-tech-campus-die-nutzungsquote-steigt-14904402',
@@ -1322,6 +1310,14 @@ const sites: Sites = {
     }
   },
   'www.nwzonline.de': {
+    examples: [
+      {
+        url: 'https://www.nwzonline.de/oldenburg/kauf-uebernahme-und-erwartungen_a_4,0,3585174512.html',
+        selectors: {
+          query: 'Die Übernahme – und der Standort Oldenburg'
+        }
+      }
+    ],
     selectors: {
       query: () => document.querySelector('meta[property="cleverpush:description"]').attributes.getNamedItem('content').value,
       date: 'time',

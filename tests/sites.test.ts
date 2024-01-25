@@ -28,7 +28,6 @@ for (const site of siteTests) {
       await page.goto(example.url, { waitUntil: 'load' })
 
       // Run some site-specific test setup, like GDPR clicks
-      console.log('test setup', siteDomain, site.testSetup)
       if (site.testSetup) {
         console.log('test setup', siteDomain)
         await site.testSetup(page)
@@ -39,12 +38,10 @@ for (const site of siteTests) {
     })
     test(`Detect extractors for ${siteDomain}`, async ({ page }) => {
       console.log('paywall', siteDomain)
-      if (!example.noPaywall) {
-        const result = await page.evaluate(async () => {
-          return window.extractor.hasPaywall()
-        })
-        expect(result).toBe(true)
-      }
+      const result = await page.evaluate(async () => {
+        return window.extractor.hasPaywall()
+      })
+      expect(result).toBe(true)
 
       console.log('main area', siteDomain)
       const foundMain = await page.evaluate(async () => {
