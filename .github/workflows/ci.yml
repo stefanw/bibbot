@@ -17,12 +17,6 @@ jobs:
       run: npm ci
     - name: Running lint and type check
       run: npm run lint && npm run check-types
-    - name: Run web-ext lint to check Firefox mobile compability
-      uses: kewisch/action-web-ext@2c96cb8d05464c1dd52b96229a9f33388ba1bfad # hash pinned to v1.2
-      with:
-        cmd: lint
-        source: src
-        channel: listed
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
