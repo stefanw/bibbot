@@ -1,6 +1,5 @@
 type TestExample = {
   url: string
-  noPaywall?: boolean
   selectors: { query: string }
 }
 
