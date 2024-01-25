@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "outDir": "./build",
-    "allowJs": true,
     "target": "es6",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "esModuleInterop": true
   },
-  "moduleResolution": "node12",
-  "include": ["./src/**/*", "./tests/**/*"]
+  "moduleResolution": "nodenext",
+  "include": ["./src/**/*", "./tests/content_test.ts", "./tests/index.d.ts"]
 }

@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".", // This must be specified if "paths" is.
+        "esModuleInterop": true
+    },
+    "moduleResolution": "nodenext",
+    "include": ["./*"]
+  }

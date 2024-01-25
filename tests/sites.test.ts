@@ -1,3 +1,4 @@
+import { expect, test } from '@playwright/test'
 import * as fs from 'fs'
 import sites from '../src/sites.js'
 
@@ -6,60 +7,63 @@ const siteTests = []
 for (const siteDomain in sites) {
   const site = sites[siteDomain]
   if (site.examples) {
-    site.examples.forEach(example => {
-      siteTests.push({ site, siteDomain, example })
+    site.examples.forEach((example, i) => {
+      siteTests.push({ testSetup: site.testSetup, siteDomain, example, exampleIndex: i })
     })
   }
 }
 
-describe.each(siteTests)('test $siteDomain', ({ site, siteDomain, example }) => {
-  jest.setTimeout(30000)
-  console.log(siteDomain, example)
+for (const site of siteTests) {
+  const siteDomain = site.siteDomain
+  const example = site.example
+  const exampleIndex = site.exampleIndex
 
-  beforeAll(async () => {
-    console.log('beforeall', siteDomain)
-    // await jestPuppeteer.debug()
-    await page.goto(example.url, { waitUntil: 'networkidle2' })
+  test.describe(`testing with ${siteDomain}${exampleIndex > 0 ? `[${exampleIndex}]` : ''}`, () => {
+    let needsSetup = true
+    test.beforeEach(async ({ page }) => {
+      if (!needsSetup) {
+        return
+      }
+      console.log('beforeall', siteDomain)
+      await page.goto(example.url, { waitUntil: 'load' })
 
-    // Run some site-specific test setup, like GDPR clicks
-    if (site.testSetup) {
-      console.log('test setup', siteDomain)
-      await site.testSetup(page)
-    }
-    console.log('inject script', siteDomain)
-    await page.evaluate(fs.readFileSync('./test_build/content_test.js', 'utf8'))
-  })
-  test(`Detect paywall for ${siteDomain}`, async () => {
-    // await jestPuppeteer.debug()
-    console.log('paywall', siteDomain)
-    if (!example.noPaywall) {
-      const result = await page.evaluate(async () => {
-        return window.extractor.hasPaywall()
+      // Run some site-specific test setup, like GDPR clicks
+      console.log('test setup', siteDomain, site.testSetup)
+      if (site.testSetup) {
+        console.log('test setup', siteDomain)
+        await site.testSetup(page)
+      }
+      console.log('inject script', siteDomain)
+      await page.evaluate(fs.readFileSync('./test_build/content_test.js', 'utf8'))
+      needsSetup = false
+    })
+    test(`Detect extractors for ${siteDomain}`, async ({ page }) => {
+      console.log('paywall', siteDomain)
+      if (!example.noPaywall) {
+        const result = await page.evaluate(async () => {
+          return window.extractor.hasPaywall()
+        })
+        expect(result).toBe(true)
+      }
+
+      console.log('main area', siteDomain)
+      const foundMain = await page.evaluate(async () => {
+        return window.extractor.getMainContentArea() !== null
       })
-      expect(result).toBe(true)
-    }
-  })
-  test(`Detect main area for ${siteDomain}`, async () => {
-    // await jestPuppeteer.debug()
-    console.log('main area', siteDomain)
-    const result = await page.evaluate(async () => {
-      return window.extractor.getMainContentArea() !== null
-    })
-    expect(result).toBe(true)
-  })
-  test(`Check info extraction for ${siteDomain}`, async () => {
-    // await jestPuppeteer.debug()
-    console.log('info extraction', siteDomain)
-    const result = await page.evaluate(async () => {
-      if (!window.extractor.shouldExtract()) {
-        return null
+      expect(foundMain).toBe(true)
+
+      console.log('info extraction', siteDomain)
+      const articleInfo = await page.evaluate(async () => {
+        if (!window.extractor.shouldExtract()) {
+          return null
+        }
+        return window.extractor.extractArticleInfo()
+      })
+      if (example.selectors) {
+        for (const key in example.selectors) {
+          expect(articleInfo[key]).toBe(example.selectors[key])
+        }
       }
-      return window.extractor.extractArticleInfo()
     })
-    if (example.selectors) {
-      for (const key in example.selectors) {
-        expect(result[key]).toBe(example.selectors[key])
-      }
-    }
   })
-})
+}
