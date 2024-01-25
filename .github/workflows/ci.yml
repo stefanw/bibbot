@@ -17,8 +17,8 @@ jobs:
       run: npm ci
     - name: Running lint and type check
       run: npm run lint && npm run check-types
-    - name: Build
-      run: npm run build
+    - name: Build project and create dist files
+      run: "./dist.sh"
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
