@@ -46,7 +46,10 @@ const getCmpBoxConsent = () => {
 
 const consentShadowRoot = ({ docSelector = '.needsclick', shadowSelector = '.cmp-button-accept-all' }) => {
   return async (page) => {
-    await page.locator(docSelector).evaluate((node, shadowSelector) => node.shadowRoot.querySelector(shadowSelector).click(), shadowSelector)
+    const count = await page.locator(docSelector).count()
+    if (count > 0) {
+      await page.locator(docSelector).evaluate((node, shadowSelector) => node.shadowRoot.querySelector(shadowSelector).click(), shadowSelector)
+    }
   }
 }
 
