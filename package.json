@@ -29,7 +29,8 @@
     "build": "rollup --bundleConfigAsCjs -c",
     "lint": "eslint src tests",
     "check-types": "tsc --noemit",
-    "test-sites": "npx playwright test tests/sites.spec.ts --project=chromium --reporter list",
+    "test-sites": "npx playwright test tests/sites.spec.ts --reporter list",
+    "test-extension": "npx playwright test tests/extension.spec.ts --reporter dot",
     "test": "npx playwright test",
     "version": "gsed -i '4s/\"version\": \".*\",/\"version\": \"'\"$(jq -r .version package.json)\"'\",/' manifest.json && git add manifest.json"
   },
