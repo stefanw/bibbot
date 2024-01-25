@@ -11,8 +11,8 @@ test('content script', async ({ page, context }) => {
   // library login page is opened in a new tab
   // but not as a popup from current page, instead via the background script
   const pages = context.pages()
-  const lastPage = pages[pages.length - 1]
-  expect(lastPage.url()).toContain('https://www.voebb.de/oidcp/authorize')
+  const newPage = pages.find(p => p.url().indexOf('https://www.voebb.de/oidcp/authorize') !== -1)
+  expect(newPage).toBeTruthy()
 })
 
 test('popup page', async ({ page, extensionId, context }) => {
@@ -20,10 +20,10 @@ test('popup page', async ({ page, extensionId, context }) => {
   await expect(page.locator('body')).toContainText('BibBot')
   const settingsLink = await page.locator('#settings')
   await expect(settingsLink).toHaveText('Einstellungen')
-  // await settingsLink.click()
-  // const pages = await context.pages()
-  // const lastPage = pages[pages.length - 1]
-  // await expect(lastPage.url()).toBe(`chrome-extension://${extensionId}/options/options.html`)
+  await settingsLink.click()
+  const pages = context.pages()
+  const newPage = pages.find(p => p.url().indexOf(`chrome-extension://${extensionId}/options/options.html`) !== -1)
+  expect(newPage).toBeTruthy()
 })
 
 test('option page', async ({ page, extensionId }) => {
