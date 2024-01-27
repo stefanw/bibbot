@@ -22,4 +22,4 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: xvfb-run npx playwright test tests/extension.spec.ts
+      run: xvfb-run npm run test-extension
