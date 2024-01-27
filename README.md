@@ -66,7 +66,7 @@ Add testing data to site objects like this:
     ],
     // optional setup async function
     testSetup: async (page) => {
-        // page is pupeteer page
+        // page is playwright page
         // use this for initial page setup
     },
 // ...

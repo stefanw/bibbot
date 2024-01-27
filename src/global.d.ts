@@ -1,7 +1,7 @@
-import { Page } from 'puppeteer'
+import { Page } from '@playwright/test'
 
 declare global {
-    type PuppeteerPage = Page
+    type PlaywrightPage = Page
     interface Window {
         bibbotObserver?: MutationObserver
         // random window stuff from news sites that we need to deal with

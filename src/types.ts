@@ -78,7 +78,7 @@ export interface PartialSite {
   paragraphStyle?: ParagraphStyle
   source: SourceIdentifier
   dateRange?: DateRange
-  testSetup?: (page: PuppeteerPage) => Promise<void>
+  testSetup?: (page: PlaywrightPage) => Promise<void>
   examples?: TestExample[]
 }
 
