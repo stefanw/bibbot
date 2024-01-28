@@ -2,6 +2,7 @@ import * as browser from 'webextension-polyfill'
 
 document.querySelector('#settings').addEventListener('click', () => {
   browser.runtime.openOptionsPage()
+  console.log('open options page')
 })
 
 const defaults = {

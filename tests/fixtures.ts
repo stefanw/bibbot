@@ -1,9 +1,10 @@
-import { test as base, chromium, type BrowserContext } from '@playwright/test'
+import { test as base, chromium, type BrowserContext, type Page } from '@playwright/test'
 import path from 'path'
 
 export const test = base.extend<{
   context: BrowserContext;
   extensionId: string;
+  backgroundPage: Page;
 }>({
   // eslint-disable-next-line no-empty-pattern
   context: async ({}, use) => {
@@ -17,6 +18,14 @@ export const test = base.extend<{
     })
     await use(context)
     await context.close()
+  },
+  backgroundPage: async ({ context }, use) => {
+    // for manifest v2:
+    let [background] = context.backgroundPages()
+    if (!background) {
+      background = await context.waitForEvent('backgroundpage')
+    }
+    await use(background)
   },
   extensionId: async ({ context }, use) => {
     // for manifest v2:

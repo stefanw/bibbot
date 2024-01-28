@@ -685,11 +685,7 @@ const sites: Sites = {
   },
   'www.stimme.de': {
     testSetup: async (page) => {
-      const buttonHandle = await page.evaluateHandle('document.querySelector("#cmpwrapper")?.shadowRoot?.querySelector("#cmpwelcomebtnyes")')
-      if (buttonHandle) {
-        const buttonElement = buttonHandle.asElement()
-        await buttonElement.click.bind(buttonElement)()
-      }
+      await page.locator('#cmpwrapper').evaluate((node) => node.shadowRoot.querySelector('#cmpwelcomebtnyes').click())
     },
     examples: [
       {
