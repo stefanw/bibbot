@@ -35,7 +35,7 @@ Additionally user data like credentials and chosen provider is stored via `brows
 
 ## Tests
 
-There is a test setup for sites using [Jest](https://jestjs.io/) and [Puppeteer](https://puppeteer.github.io/puppeteer/) that can be run with:
+There is a test setup for sites using [Playwright](https://playwright.dev/) that can be run with:
 
 ```bash
 # install dependencies
@@ -48,7 +48,7 @@ npm run build
 # Run tests
 npm run test
 # Run tests with actual browser window for one domain
-HEADLESS=false npm run test -- -t "test www.zeit.de"
+npm run test -- --headed -g "zeit.de"
 ```
 
 Add testing data to site objects like this:
