@@ -1344,6 +1344,30 @@ const sites: Sites = {
       dbShortcut: 'SAAR',
       sourceNames: ['Saarbrücker Zeitung']
     }
+  },
+  'www.idowa.de': {
+    selectors: {
+      query: (root) => {
+        const article: HTMLElement = root.querySelector('.copy.paywal')
+        return extractQuery(article)
+      },
+      date: 'time',
+      paywall: '.paywall-call-to-action-box',
+      main: '.copy.paywal'
+    },
+    start: (root) => {
+      const paywall: HTMLElement = root.querySelector('.paywall-call-to-action-box')
+      paywall.style.display = 'none'
+    },
+    mimic: (content) => {
+      return content
+    },
+    waitOnLoad: true,
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'LAZ,REGZ,STAG',
+      sourceNames: ['Landshuter Zeitung', 'Regensburger Zeitung', 'Straubinger Tagblatt']
+    }
   }
 }
 

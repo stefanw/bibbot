@@ -103,7 +103,8 @@
         "https://www.nzz.ch/*",
         "https://www.manager-magazin.de/*",
         "https://www.nwzonline.de/*",
-        "https://www.saarbruecker-zeitung.de/*"
+        "https://www.saarbruecker-zeitung.de/*",
+        "https://www.idowa.de/*"
       ],
       "js": [
         "build/content.js"
