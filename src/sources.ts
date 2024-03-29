@@ -30,7 +30,7 @@ const sources: Sources = {
     ]
   },
   'genios.de': {
-    loggedIn: '#header__login__buttons > button:nth-child(4)',
+    loggedIn: ':is(#header__login[auth=true], #header__login__buttons > button:nth-child(4))',
     start: '{source.scheme.raw}{source.domain.raw}/',
     defaultParams: {
       domain: 'www.genios.de',
