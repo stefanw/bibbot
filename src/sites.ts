@@ -1376,6 +1376,27 @@ const sites: Sites = {
       dbShortcut: 'LAZ,REGZ,STAG',
       sourceNames: ['Landshuter Zeitung', 'Regensburger Zeitung', 'Straubinger Tagblatt']
     }
+  },
+  'www.aachener-zeitung.de': {
+    selectors: {
+      query: makeQueryFunc('article h1', false),
+      date: 'article time',
+      paywall: 'div[data-testid="paywall-container"]',
+      main: 'main article section'
+    },
+    start: (root) => {
+      root.classList.remove('noscroll')
+      document.documentElement.classList.remove('noscroll')
+      const paywall: HTMLElement = root.querySelector('div[data-testid="paywall-container"]')
+      paywall.style.display = 'none'
+      root.querySelector('main .paywalled-article')?.classList.remove('paywalled-article')
+    },
+    waitOnLoad: true,
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'AAZ',
+      sourceNames: ['Aachener Zeitung']
+    }
   }
 }
 

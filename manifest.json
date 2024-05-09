@@ -104,7 +104,8 @@
         "https://www.manager-magazin.de/*",
         "https://www.nwzonline.de/*",
         "https://www.saarbruecker-zeitung.de/*",
-        "https://www.idowa.de/*"
+        "https://www.idowa.de/*",
+        "https://www.aachener-zeitung.de/*"
       ],
       "js": [
         "build/content.js"
