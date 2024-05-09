@@ -3,10 +3,12 @@ import { consentShadowRoot, getCmpBoxConsent, getConsentCdnSetup, getContentPass
 import { PartialSite, Sites } from './types.js'
 
 const QUOTES = /["„].*["„]/
+const START_SLICE = 2
+const END_SLICE = 15
 
-const extractQuery = (node: HTMLElement, quoted = true) => createQuery(node.innerText, quoted)
-const createQuery = (text: string, quoted = true) => {
-  let query = text.split(' ').slice(4, 17).join(' ').replace('"', '')
+const extractQuery = (node: HTMLElement, quoted = true, startSlice = START_SLICE, endSlice = END_SLICE) => createQuery(node.innerText, quoted, startSlice, endSlice)
+const createQuery = (text: string, quoted = true, startSlice = START_SLICE, endSlice = END_SLICE) => {
+  let query = text.split(' ').slice(startSlice, endSlice).join(' ').replace('"', '')
   // remove some special chars
   query = query.replace(/[!:?;'/()]/g, ' ').replace(/(((?<!\d)[,.])|([,.](?!\d)))/g, ' ').replace(/ {1,}/g, ' ')
   // remove non-leading/trailing quotes
@@ -18,7 +20,7 @@ const createQuery = (text: string, quoted = true) => {
   }
   return queryParts.join(' ')
 }
-const makeQueryFunc = (selector: string|string[], quoted = true) => {
+const makeQueryFunc = (selector: string|string[], quoted = true, startSlice = START_SLICE, endSlice = END_SLICE) => {
   if (!Array.isArray(selector)) {
     selector = [selector]
   }
@@ -26,7 +28,7 @@ const makeQueryFunc = (selector: string|string[], quoted = true) => {
     for (const sel of selector) {
       const el = node.querySelector(sel)
       if (el) {
-        return extractQuery(el, quoted)
+        return extractQuery(el, quoted, startSlice, endSlice)
       }
     }
   }
