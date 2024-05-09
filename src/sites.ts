@@ -43,20 +43,20 @@ const removeClass = (node: HTMLElement, className: string) => {
 
 const RND: PartialSite = {
   selectors: {
-    query: makeQueryFunc('div[class*="ArticleHeadstyled__ArticleTeaserContainer"] > div > p[class*="Textstyled__Text"] span:not(:first-child)'),
+    query: makeQueryFunc('article h2', false),
     headline: '#article header h2',
     date: 'time',
-    paywall: 'div[class*="PianoContainerstyled__PianoContainer"]',
-    main: 'div[class*="ArticleHeadstyled__ArticleTeaserContainer"] > div:not([class])'
+    paywall: '[data-testid="piano-container"]',
+    main: 'div[class*="ArticleHeadstyled__ArticleTeaserContainer"]'
   },
-  waitOnLoad: true,
+  waitOnLoad: 2000,
   start: (root) => {
     const main: HTMLElement = root.querySelector('div[class*="ArticleHeadstyled__ArticleTeaserContainer"]')
     main.style.height = 'auto'
     main.style.overflow = 'auto'
   },
   mimic: (content) => {
-    const pClassName = document.querySelector('div[class*="ArticleHeadstyled__ArticleTeaserContainer"] > div:not([class]) :first-child').className
+    const pClassName = document.querySelector('div[class*="ArticleHeadstyled__ArticleTeaserContainer"] p').className
     return content.replace(/<p>/g, `<p class="${pClassName}">`)
   },
   source: 'genios.de'
@@ -208,24 +208,24 @@ const sites: Sites = {
     examples: [{
       url: 'https://www.sueddeutsche.de/kultur/milch-ernaehrung-klimawandel-1.5521054?reduced=true',
       selectors: {
-        query: '"Zeit um die Mitte der Sechziger hörte die Jugend des Westens einen Song"'
+        query: 'Zeit um die Mitte der Sechziger hörte die Jugend des Westens einen Song'
       }
     }, {
       url: 'https://www.sueddeutsche.de/projekte/artikel/politik/lkw-unfaelle-beim-abbiegen-im-toten-winkel-e744638/?reduced=true',
       selectors: {
-        query: '"Lastwagen in die Konstanzer Straße biegt obwohl er doch eigentlich anhalten müsste hat"'
+        query: 'Lastwagen in die Konstanzer Straße biegt obwohl er doch eigentlich anhalten müsste hat'
       }
     }],
     selectors: {
       // query: "article > header > h2 > span:last-child",
       query: (root) => {
-        const normalArticle: HTMLElement = root.querySelector('.sz-article-body__paragraph')
+        const normalArticle: HTMLElement = root.querySelector('[itemprop="articleBody"] > p')
         if (normalArticle) {
-          return extractQuery(normalArticle)
+          return extractQuery(normalArticle, false)
         }
         const reportage: HTMLElement = root.querySelector('.module-text .text p')
         if (reportage) {
-          return extractQuery(reportage)
+          return extractQuery(reportage, false)
         }
       },
       date: 'time',
@@ -284,7 +284,7 @@ const sites: Sites = {
   },
   'www.handelsblatt.com': {
     selectors: {
-      query: makeQueryFunc('app-storyline-element app-storyline-paragraph app-rich-text p'),
+      query: makeQueryFunc('app-storyline-element app-storyline-paragraph app-rich-text p', true, 4),
       date: 'app-story-date',
       paywall: 'app-paywall',
       main: 'app-storyline-elements'
@@ -869,12 +869,12 @@ const sites: Sites = {
       {
         url: 'https://www.thueringer-allgemeine.de/sport/kommentar-von-wegen-sportstadt-erfurt-id234487935.html',
         selectors: {
-          query: '"nicht nur die Stadt der Blumen sondern präsentiert sich auch gern als Sportstadt"'
+          query: 'Von wegen Sportstadt Erfurt'
         }
       }
     ],
     selectors: {
-      query: makeQueryFunc('.article-body > div > p'),
+      query: makeQueryFunc('article h2', false),
       date: 'time',
       paywall: '#paywall-container',
       main: '.article-body'
@@ -964,12 +964,13 @@ const sites: Sites = {
       }
     ],
     selectors: {
-      query: makeQueryFunc('.article-headlines > *'),
+      query: makeQueryFunc('.article-headlines > *', false),
       headline: '.article-headlines > *',
       paywall: '#upscore-paywall-placeholder',
       date: '.article-date',
-      main: '.article-text:not(.m8)'
+      main: '#artikel-content .article-teaser'
     },
+    waitOnLoad: true,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'FEPR',
@@ -1322,17 +1323,8 @@ const sites: Sites = {
     selectors: {
       query: () => document.querySelector('meta[property="cleverpush:description"]').attributes.getNamedItem('content').value,
       date: 'time',
-      main: '.article-body .inline-opportunity',
-      paywall: '.offerlist-wrapper'
-    },
-    start: (root, paywall) => {
-      try {
-        const obj = JSON.parse(document.evaluate('//script[@type="application/ld+json" and contains(./text(), "articleBody")]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.textContent)
-        const main = root.querySelector('.article-body .inline-opportunity')
-        main.innerHTML = obj.articleBody
-        return true
-      } catch {}
-      paywall.style.display = 'none'
+      main: '.article-body',
+      paywall: '.piano.piano-target'
     },
     waitOnLoad: true,
     source: 'genios.de',
