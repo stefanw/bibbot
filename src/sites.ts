@@ -6,7 +6,7 @@ const QUOTES = /["„].*["„]/
 
 const extractQuery = (node: HTMLElement, quoted = true) => createQuery(node.innerText, quoted)
 const createQuery = (text: string, quoted = true) => {
-  let query = text.split(' ').slice(2, 15).join(' ').replace('"', '')
+  let query = text.split(' ').slice(4, 17).join(' ').replace('"', '')
   // remove some special chars
   query = query.replace(/[!:?;'/()]/g, ' ').replace(/(((?<!\d)[,.])|([,.](?!\d)))/g, ' ').replace(/ {1,}/g, ' ')
   // remove non-leading/trailing quotes
@@ -282,10 +282,10 @@ const sites: Sites = {
   },
   'www.handelsblatt.com': {
     selectors: {
-      query: makeQueryFunc('.storyline-element app-storyline-paragraph app-rich-text p'),
+      query: makeQueryFunc('app-storyline-element app-storyline-paragraph app-rich-text p'),
       date: 'app-story-date',
       paywall: 'app-paywall',
-      main: '.storyline-element'
+      main: 'app-storyline-elements'
     },
     // start: (root) => {
     //   Array.from(root.querySelectorAll('.c-paywall')).forEach((el: HTMLElement) => {
