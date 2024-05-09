@@ -4,6 +4,7 @@ screenshots/*
 build/
 test_build/
 dist/
+safari-build/output/
 _site/
 node_modules/
 /test-results/
