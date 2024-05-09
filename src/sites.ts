@@ -132,10 +132,18 @@ const sites: Sites = {
     }
   },
   'www.tagesspiegel.de': {
+    examples: [
+      {
+        url: 'https://www.tagesspiegel.de/kultur/comics/im-sumpf-der-verschworungsideologien-es-wurde-immer-schwieriger-mit-meinem-vater-ein-gesprach-zu-fuhren-11626376.html',
+        selectors: {
+          query: '"kommt diesmal beim Einräumen der Spülmaschine „Wach endlich auf “ ruft der Vater seiner"'
+        }
+      }
+    ],
     selectors: {
       query: makeQueryFunc('#story-elements p'),
       main: '#story-elements',
-      paywall: '#paywal',
+      paywall: '#paywall',
       date: 'time'
     },
     source: 'genios.de',
