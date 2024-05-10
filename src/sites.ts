@@ -1125,11 +1125,11 @@ const sites: Sites = {
   },
   'www.badische-zeitung.de': {
     selectors: {
-      query: makeQueryFunc('artikelPreview'),
+      query: makeQueryFunc('.artikelPreview'),
       headline: 'h1',
       date: 'p.article__header__info-area__txt a[href*="/archiv"]',
       paywall: '#regWalli',
-      main: 'artikelPreview'
+      main: '.artikelPreview'
     },
     source: 'genios.de',
     sourceParams: {
