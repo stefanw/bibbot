@@ -34,7 +34,8 @@
     "https://katalog.dortmund.de/*",
     "https://advance-lexis-com.eu1.proxy.openathens.net/*",
     "https://*.bonn.idm.oclc.org/*",
-    "https://online-service2.nuernberg.de/*"
+    "https://online-service2.nuernberg.de/*",
+    "https://*.webopac.wuppertal.de:1443/*"
   ],
   "background": {
     "scripts": [

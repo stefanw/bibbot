@@ -960,6 +960,32 @@ const providers: Providers = {
       'https://advance-lexis-com.eu1.proxy.openathens.net/*',
       'https://katalog.dortmund.de/*'
     ]
+  },
+  'www.wuppertal.de': {
+    name: 'Stadtbibliothek Wuppertal',
+    web: 'https://www.wuppertal.de/microsite/stadtbibliothek/',
+    params: {
+      'www.nexisuni.com': {
+        domain: 'advance-lexis-com.webopac.wuppertal.de:1443',
+        startUrl: 'https://login.webopac.wuppertal.de:1443/login?qurl=https%3a%2f%2fwww.nexisuni.com'
+      }
+    },
+    defaultSource: 'www.nexisuni.com',
+    login: [
+      [
+        { message: 'Bibliothekskonto wird eingeloggt...' },
+        { fill: { selector: 'input[name="user"]', key: 'options.username' } },
+        { fill: { selector: 'input[name="pass"]', key: 'options.password' } },
+        { click: 'input[type="submit"]' }
+      ]
+    ],
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' }
+    ],
+    permissions: [
+      'https://*.webopac.wuppertal.de:1443/*'
+    ]
   }
 }
 
