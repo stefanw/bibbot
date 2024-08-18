@@ -12,6 +12,7 @@
     "1024": "icons/bibbot-1024.png"
   },
   "permissions": [
+    "activeTab",
     "tabs",
     "storage",
     "https://*.genios.de/*"
