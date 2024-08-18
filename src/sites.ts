@@ -949,8 +949,8 @@ const sites: Sites = {
     waitOnLoad: true,
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'SZO',
-      sourceNames: ['Sächsische Zeitung']
+      dbShortcut: 'SZO,SSDE',
+      sourceNames: ['Sächsische Zeitung', 'sächsische.de']
     }
   },
   'www.freiepresse.de': {
