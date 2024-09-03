@@ -1077,16 +1077,13 @@ const sites: Sites = {
         }
       }
     ],
-    start: (root) => {
-      const main: HTMLElement = root.querySelector('.paywall')
-      main.classList.remove('paywall')
-    },
     selectors: {
-      query: makeQueryFunc('article div.mb-3.text'),
-      headline: 'article h2',
-      paywall: '#paywall-container',
-      main: 'article .article-text'
+      query: makeQueryFunc('article .u-paragraph'),
+      headline: 'article h1',
+      paywall: '.u-paywall',
+      main: 'article .u-row'
     },
+    waitOnLoad: 1000,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'SWP',
