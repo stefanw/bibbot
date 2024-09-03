@@ -1391,6 +1391,21 @@ const sites: Sites = {
       dbShortcut: 'AAZ',
       sourceNames: ['Aachener Zeitung']
     }
+  },
+  'www.nn.de': {
+    selectors: {
+      query: makeQueryFunc('.headline.headline--h2', false),
+      date: '.article__release',
+      paywall: '.paywall',
+      main: '.article__richtext > div > div'
+    },
+    waitOnLoad: false,
+    dateRange: [30, 5],
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'NN',
+      sourceNames: ['Nürnberger Nachrichten']
+    }
   }
 }
 

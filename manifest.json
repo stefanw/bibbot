@@ -107,7 +107,8 @@
         "https://www.nwzonline.de/*",
         "https://www.saarbruecker-zeitung.de/*",
         "https://www.idowa.de/*",
-        "https://www.aachener-zeitung.de/*"
+        "https://www.aachener-zeitung.de/*",
+        "https://www.nn.de/*"
       ],
       "js": [
         "build/content.js"
