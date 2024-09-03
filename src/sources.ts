@@ -69,7 +69,7 @@ const sources: Sources = {
             }
             sourceParams.sourceNames?.forEach((sourceName) => { params.push(`source=${encodeURIComponent(sourceName)}`) })
 
-            return `${sourceParams.scheme}${sourceParams.domain}/searchResult/Alle%20Quellen?${params.join('&')}`
+            return `${sourceParams.scheme}${sourceParams.domain}/searchResult/Alle?${params.join('&')}`
           }
         }
       ],
