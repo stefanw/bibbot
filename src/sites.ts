@@ -983,7 +983,7 @@ const sites: Sites = {
       {
         url: 'https://www.haz.de/der-norden/tour-mit-9-euro-ticket-auf-dem-sofa-bei-hitzacker-ueber-die-elbe-schippern-UO2T7PN7TB73CND54EVFCMYVA4.html',
         selectors: {
-          query: '"der Moment in dem er den Motor ausmacht den Bernd am liebsten mag"'
+          query: 'dem 9-Euro-Ticket Bei Hitzacker auf dem Sofa über die Elbe schippern'
         }
       }
     ],
