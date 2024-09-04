@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "BibBot",
   "version": "0.38.1",
   "description": "Vereinfacht die Suche nach Artikeln in der Bibliothek",
@@ -15,9 +15,13 @@
     "activeTab",
     "tabs",
     "storage",
+    "scripting",
+    "alarms"
+  ],
+  "host_permissions": [
     "https://*.genios.de/*"
   ],
-  "optional_permissions": [
+  "optional_host_permissions": [
     "https://www.munzinger.de/*",
     "https://www.voebb.de/*",
     "https://www.wiso-net.de/*",
@@ -39,10 +43,8 @@
     "https://*.webopac.wuppertal.de:1443/*"
   ],
   "background": {
-    "scripts": [
-      "build/background.js"
-    ],
-    "persistent": false
+    "service_worker": "build/background.js",
+    "type": "module"
   },
   "content_scripts": [
     {
@@ -121,7 +123,7 @@
     "open_in_tab": true,
     "page": "options/options.html"
   },
-  "browser_action": {
+  "action": {
     "default_icon": {
       "19": "icons/bibbot-mono-19.png",
       "38": "icons/bibbot-mono-38.png",
@@ -138,7 +140,7 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "voebbot@stefanwehrmeyer.com",
-      "strict_min_version": "58.0"
+      "strict_min_version": "101.0"
     }
   }
 }
