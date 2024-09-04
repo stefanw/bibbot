@@ -42,7 +42,9 @@ class SourceBot {
     this.articleInfo = articleInfo
     this.providerOptions = providerOptions
     this.callback = callback
-    this.userData = Object.assign({}, this.providerOptions);
+    this.userData = Object.assign({
+      bibName: this.provider.bibName || this.provider.name
+    }, this.providerOptions);
     ['options.username', 'options.password'].forEach(key => {
       const confValue = this.userData[`${this.providerId}.${key}`]
       if (confValue !== undefined) {
@@ -76,6 +78,7 @@ class SourceBot {
   }
 
   cleanUp () {
+    browser.alarms.clear(`tab${this.tabId}`)
     browser.tabs.onUpdated.removeListener(this.onTabUpdated)
   }
 
@@ -104,11 +107,15 @@ class SourceBot {
 
   async isLoggedIn () {
     if (this.phase === PHASE.LOGIN && this.step === 0) {
-      const result = await browser.tabs.executeScript(this.tabId, {
-        code: `document.querySelector("${this.source.loggedIn}") !== null`
+      const result = await browser.scripting.executeScript({
+        target: {
+          tabId: this.tabId
+        },
+        func: (selector) => document.querySelector(selector) !== null,
+        args: [this.source.loggedIn]
       })
-      console.log('loggedin?', result)
-      return result[0]
+      console.log('loggedin?', result[0].result)
+      return result[0].result
     }
     return false
   }

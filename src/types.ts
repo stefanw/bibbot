@@ -165,8 +165,9 @@ export type MessageAction = {
 export type UrlAction = {
   url: string | ((articleInfo: ArticleInfo, sourceParams: SiteSourceParams) => string)
 }
-export type ScriptAction = {
-  script: string
+export type FuncAction = {
+  // eslint-disable-next-line no-use-before-define
+  func: (userData: object) => void
 }
 export type HrefAction = {
   href: string
@@ -192,7 +193,7 @@ export type ExtractAction = {
   convert?: string
 }
 
-export type Action = FillAction | ClickAction | ScriptAction | MessageAction | UrlAction | HrefAction | FailOnMissingAction | CaptchaAction | ExtractAction | WaitAction | EventAction
+export type Action = FillAction | ClickAction | FuncAction | MessageAction | UrlAction | HrefAction | FailOnMissingAction | CaptchaAction | ExtractAction | WaitAction | EventAction
 export type Actions = Action[]
 
 export type Source = {
@@ -222,6 +223,7 @@ export type ProviderSourceParams = {
 
 export interface DefaultProvider {
   name: string
+  bibName?: string
   web: string
   params: {
     [key in SourceIdentifier]?: ProviderSourceParams
