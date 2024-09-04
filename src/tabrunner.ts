@@ -29,23 +29,26 @@ class TabRunner {
   }
 
   async runScript (actionCode) {
-    if (actionCode.length === 0) {
+    if (!actionCode) {
       return
     }
     let result
-    if (typeof actionCode[0] === 'function') {
-      result = await actionCode[0](this)
+    if (actionCode.localFunc) {
+      result = await actionCode.localFunc(this)
     } else {
-      result = await browser.tabs.executeScript(
-        this.tabId, {
-          code: actionCode[0]
-        })
-      result = result[0]
+      result = await browser.scripting.executeScript({
+        target: {
+          tabId: this.tabId
+        },
+        func: actionCode.func,
+        args: actionCode.args
+      })
+      result = result[0].result
     }
-    if (actionCode.length === 1) {
-      return result
+    if (actionCode.resultFunc) {
+      return actionCode.resultFunc(result)
     }
-    return actionCode[1](result)
+    return result
   }
 
   getActionCode (action: Action) {
@@ -60,58 +63,101 @@ class TabRunner {
       } else {
         return []
       }
-      return [`document.querySelector('${action.fill.selector}').value = '${val}'`]
+      return {
+        func: (selector, val) => {
+          document.querySelector(selector).value = val
+        },
+        args: [action.fill.selector, val]
+      }
     } else if ('event' in action) {
-      return [`document.querySelector('${action.event.selector}').dispatchEvent(new Event('${action.event.event}'))`]
+      return {
+        func: (selector, event) => {
+          document.querySelector(selector).dispatchEvent(new Event(event))
+        },
+        args: [action.event.selector, action.event.event]
+      }
     } else if ('wait' in action) {
-      return [makeTimeout(action.wait)]
+      return {
+        localFunc: makeTimeout(action.wait)
+      }
     } else if ('failOnMissing' in action) {
-      return [
-        `document.querySelector('${action.failOnMissing}') !== null`,
-        function (result) {
+      return {
+        func: (selector) => document.querySelector(selector) !== null,
+        args: [action.failOnMissing],
+        resultFunc: (result) => {
           if (result === true) {
             return result
           }
           throw new Error(action.failure)
         }
-      ]
-    } else if ('script' in action) {
-      return [action.script]
+      }
+    } else if ('func' in action) {
+      return {
+        func: action.func,
+        args: [this.userData]
+      }
     } else if ('click' in action) {
       if (action.optional) {
-        return [`var el = document.querySelector('${action.click}'); el && el.click(); el === null`]
+        return {
+          func: (selector) => {
+            const el = document.querySelector(selector)
+            if (el) {
+              el.click()
+            }
+            return el === null
+          },
+          args: [action.click]
+        }
       } else {
-        return [`document.querySelector('${action.click}').click()`]
+        return {
+          func: (selector) => {
+            document.querySelector(selector).click()
+          },
+          args: [action.click]
+        }
       }
     } else if ('url' in action) {
-      return [`document.location.href = '${escapeJsString(action.url)}';`]
+      return {
+        func: (url) => {
+          document.location.href = url
+        },
+        args: [escapeJsString(action.url)]
+      }
     } else if ('href' in action) {
-      return [`document.location.href = document.querySelector('${action.href}').href;`]
+      return {
+        func: (selector) => {
+          document.location.href = document.querySelector(selector).href
+        },
+        args: [action.href]
+      }
     } else if ('captcha' in action) {
-      return [`document.querySelector('${action.captcha}') === null`,
-        function (result) {
+      return {
+        func: (selector) => document.querySelector(selector) === null,
+        args: [action.captcha],
+        resultFunc: (result) => {
           if (result === true) {
             return result
           }
-          return function (sourceBot) {
+          return (sourceBot) => {
             sourceBot.callback({
               type: STATUS_MESSAGE,
               action: 'interaction_required'
             })
             return false
           }
-        }]
+        }
+      }
     } else if ('extract' in action) {
-      return [
-        `Array.from(document.querySelectorAll('${action.extract}')).map(function(el) {
-          return el.outerHTML
-        })`,
-        function (result) {
+      return {
+        func: (selector) => Array.from(document.querySelectorAll(selector)).map((el) => el.outerHTML),
+        args: [action.extract],
+        resultFunc: (result) => {
           if (result.length > 0 && action.convert) {
             result = converters[action.convert](result)
           }
           return result
-        }]
+        }
+      }
     }
   }
 }

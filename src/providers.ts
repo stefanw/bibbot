@@ -495,12 +495,17 @@ function geniosFactory (provider) {
   }
 }
 
+const selectDropDown = (userData) => {
+  (Array.from(document.querySelectorAll('.dropdown__option')) as HTMLElement[])
+    .filter(el => el.innerText.includes(userData.bibName))[0].click()
+}
+
 function geniosAssociationFactory (provider) {
   let login: Actions[] = [
     [
       { click: '.ccm--decline-cookies', optional: true },
       { click: '.select-header' },
-      { script: `Array.from(document.querySelectorAll(".dropdown__option")).filter(el => el.innerText.includes("${provider.bibName || provider.name}"))[0].click()` },
+      { func: selectDropDown },
       { fill: { selector: 'input[name="username"]', providerKey: provider.id + '.options.username' } },
       { event: { selector: 'input[name="username"]', event: 'input' } },
       { fill: { selector: 'input[name="password"]', providerKey: provider.id + '.options.password' } },
