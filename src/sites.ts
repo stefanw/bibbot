@@ -959,16 +959,16 @@ const sites: Sites = {
       {
         url: 'https://www.freiepresse.de/chemnitz/einwohnerversammlungen-in-chemnitz-kuenftig-wieder-vor-ort-artikel13507031',
         selectors: {
-          query: '"im Wasserschloss Klaffenbach Tiere Musik und Schokolade"'
+          query: '"wird es künftig wieder Einwohnerversammlungen in den Stadtteilen geben Das hat der neu"'
         }
       }
     ],
     selectors: {
       query: makeQueryFunc('.article__shorttext', true),
       headline: '.article__headline',
-      paywall: '#upscore-paywall-placeholder',
-      date: '.article-date',
-      main: '.article__shorttext'
+      paywall: '.default-paywall',
+      date: '.article__etag div',
+      main: '#artikel-content'
     },
     waitOnLoad: true,
     source: 'genios.de',
