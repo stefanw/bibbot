@@ -94,7 +94,7 @@ const sites: Sites = {
       {
         url: 'https://www.spiegel.de/politik/deutschland/klara-geywitz-ueber-sanierungspflicht-von-immobilien-neuen-wohnraum-und-fluechtlinge-a-6aeb319e-fc25-4efa-a0cf-66e10ed49969',
         selectors: {
-          query: 'nicht ohne Ordnungsrecht gehen wenn wir die Klimaziele erreichen wollen«'
+          query: '6aeb319e-fc25-4efa-a0cf-66e10ed49969'
         }
       }
     ],
@@ -103,6 +103,11 @@ const sites: Sites = {
       date: 'time',
       main: 'article section.relative',
       paywall: "div[data-component='Paywall'], div[data-target-id='paywall']"
+    },
+    extractId: () => {
+      const url = window.location.href
+      const match = url.match(/-([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/)
+      return match ? match[1] : null
     },
     mimic: (content) => {
       return `
@@ -121,12 +126,25 @@ const sites: Sites = {
     }
   },
   'www.manager-magazin.de': {
+    examples: [
+      {
+        url: 'https://www.manager-magazin.de/unternehmen/fussball-em-2024-martin-kallen-der-unbekannte-milliardenmacher-hinter-der-em-a-f89271c7-d048-49b4-bcb6-a974cc7eff26',
+        selectors: {
+          query: 'f89271c7-d048-49b4-bcb6-a974cc7eff26'
+        }
+      }
+    ],
     selectors: {
       query: makeQueryFunc('header h2~div:nth-of-type(1)'),
       date: 'time',
       headline: 'h2 span.align-middle',
       paywall: '[data-area="paywall"]',
       main: '[data-area="body"]'
+    },
+    extractId: () => {
+      const url = window.location.href
+      const match = url.match(/-([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/)
+      return match ? match[1] : null
     },
     source: 'genios.de',
     sourceParams: {
@@ -453,10 +471,19 @@ const sites: Sites = {
       {
         url: 'https://www.wiwo.de/my/unternehmen/industrie/mischkonzern-zeppelin-ein-ausschluss-russlands-aus-swift-wuerde-eine-weltwirtschaftskrise-ausloesen/28091946.html',
         selectors: {
-          query: 'Mischkonzern Zeppelin vertreibt unter anderem US-amerikanische Baumaschinen in Russland und der Ukraine Ein'
+          query: 'WW_28091946'
         }
       }
     ],
+    extractId: () => {
+      const url = window.location.href
+      const id = url.match('/[0-9]{10}.html/')
+      if (id[1]) {
+        return `WW_${id[1]}`
+      }
+
+      return null
+    },
     selectors: {
       query: makeQueryFunc('.c-leadtext', false),
       main: '.o-article__content',
