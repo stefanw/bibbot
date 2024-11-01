@@ -1136,10 +1136,10 @@ const sites: Sites = {
   },
   'www.stern.de': {
     selectors: {
-      query: makeQueryFunc('.article__body p'),
+      query: makeQueryFunc('h2 span.title__paid-marker'),
       headline: 'h2 .title__headline',
       date: 'time',
-      paywall: 'html:not(.has-paid-access):not(.has-full-access) .title__logo--str_plus',
+      paywall: '.article__body .paid-barrier',
       main: '.article__body'
     },
     insertContent: (siteBot, main, content) => {
@@ -1154,8 +1154,8 @@ const sites: Sites = {
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'STER,STGL',
-      sourceNames: ['Stern', 'STERN Gesund leben']
+      dbShortcut: 'STER,STGL,GEO,GEOS,GEOW,GESP,GEOE,CAPI',
+      sourceNames: ['Stern', 'STERN Gesund leben', 'GEO', 'GEO Saison', 'GEO Wissen', 'GEO Special', 'GEO SAISON Extra', 'Capital']
     }
   },
   'www.mittelbayerische.de': {
