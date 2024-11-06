@@ -477,6 +477,12 @@ const sites: Sites = {
         selectors: {
           query: '"auf die meistbesuchten Sites eine Übersicht der wichtigsten News eine To-do-Liste der Kalender"'
         }
+      },
+      {
+        url: 'https://www.heise.de/select/mac-and-i/2024/7/2409908264603741326',
+        selectors: {
+          query: '"Intelligenz ahmt menschliche Intelligenz nach um etwa beim Erstellen von Texten und Bildern"'
+        }
       }
     ],
     selectors: {
@@ -491,7 +497,7 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'HEON,MACI,TERE,CT,CTFO,IX,MAKE',
-      sourceNames: ['Heise online', 'c\'t - magazin für computertechnik (CT)', 'c\'t Digitale Fotografie']
+      sourceNames: ['Heise online', 'c\'t - magazin für computertechnik (CT)', 'c\'t Digitale Fotografie', 'Mac & I', 'iX - Magazin für professionelle Informationstechnik']
     },
     waitOnLoad: 2000
   },
