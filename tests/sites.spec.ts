@@ -8,7 +8,7 @@ for (const siteDomain in sites) {
   const site = sites[siteDomain]
   if (site.examples) {
     site.examples.forEach((example, i) => {
-      siteTests.push({ testSetup: site.testSetup, siteDomain, example, exampleIndex: i })
+      siteTests.push({ testSetup: site.testSetup, siteDomain, example, exampleIndex: i, selectors: site.selectors })
     })
   }
 }
@@ -34,10 +34,17 @@ for (const site of siteTests) {
       }
       console.log('inject script', siteDomain)
       await page.evaluate(fs.readFileSync('./test_build/content_test.js', 'utf8'))
+      if (typeof site.waitOnLoad === 'number') {
+        console.log('waiting', siteDomain)
+        await page.waitForTimeout(site.waitOnLoad)
+      }
       needsSetup = false
     })
     test(`Detect extractors for ${siteDomain}`, async ({ page }) => {
       console.log('paywall', siteDomain)
+
+      await page.waitForSelector(site.selectors.paywall, { state: 'attached' })
+
       const result = await page.evaluate(async () => {
         return window.extractor.hasPaywall()
       })

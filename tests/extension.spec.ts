@@ -1,20 +1,9 @@
-import { type Page } from '@playwright/test'
 import { expect, test } from './fixtures'
 
 const EXAMPLE_URL = 'https://www.zeit.de/2021/11/soziale-ungleichheit-identitaetspolitik-diskriminierung-armut-bildung'
 
-const waitForConsoleMessage = async (backgroundPage: Page, prefix: string) => {
-  while (true) {
-    const consoleEvent = await backgroundPage.waitForEvent('console')
-    if (consoleEvent.text().startsWith(prefix)) {
-      await backgroundPage.waitForTimeout(50)
-      return true
-    }
-  }
-}
-
-test('content script', async ({ page, context, backgroundPage }) => {
-  const newTabCreated = waitForConsoleMessage(backgroundPage, 'tab created')
+test('content script', async ({ page, context }) => {
+  const serviceWorkerPromise = context.waitForEvent('serviceworker')
 
   await page.goto(EXAMPLE_URL)
   const shadowNode = await page.locator('.article-body > div:last-child').first()
@@ -23,7 +12,9 @@ test('content script', async ({ page, context, backgroundPage }) => {
   await expect(shadowHTML).toContain('Pressedatenbank wird aufgerufen...')
   // library login page is opened in a new tab
   // but not as a popup from current page, instead via the background script
-  await newTabCreated
+
+  await serviceWorkerPromise
+
   const pages = context.pages()
   console.log(pages.map(p => p.url()))
   const newPage = pages.find(p => p.url().indexOf('https://www.voebb.de/oidcp/authorize') !== -1)
@@ -31,15 +22,12 @@ test('content script', async ({ page, context, backgroundPage }) => {
 })
 
 test('popup page', async ({ page, extensionId, context }) => {
-  const optionsPageOpen = waitForConsoleMessage(page, 'open options page')
-
   await page.goto(`chrome-extension://${extensionId}/popup/popup.html`)
   await expect(page.locator('body')).toContainText('BibBot')
   const settingsLink = await page.locator('#settings')
   await expect(settingsLink).toHaveText('Einstellungen')
   await settingsLink.click()
 
-  await optionsPageOpen
   const pages = context.pages()
   console.log(pages.map(p => p.url()))
   const newPage = pages.find(p => p.url().indexOf(`chrome-extension://${extensionId}/options/options.html`) !== -1)
