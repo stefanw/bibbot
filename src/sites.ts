@@ -1,4 +1,4 @@
-import { consentShadowRoot, getCmpBoxConsent, getConsentCdnSetup, getContentPassConsent } from './test_utils.js'
+import { consentShadowRoot, getCmpBoxConsent, getConsentCdnSetup } from './test_utils.js'
 
 import { PartialSite, Sites } from './types.js'
 
@@ -20,7 +20,7 @@ const createQuery = (text: string, quoted = true, startSlice = START_SLICE, endS
   }
   return queryParts.join(' ')
 }
-const makeQueryFunc = (selector: string|string[], quoted = true, startSlice = START_SLICE, endSlice = END_SLICE) => {
+const makeQueryFunc = (selector: string | string[], quoted = true, startSlice = START_SLICE, endSlice = END_SLICE) => {
   if (!Array.isArray(selector)) {
     selector = [selector]
   }
@@ -102,7 +102,7 @@ const sites: Sites = {
       query: makeQueryFunc(['.leading-tight span:not(:first-child), .leading-none .leading-normal, h2 span:not(:first-child) span:not(:first-child)', '.leading-loose'], false),
       date: 'time',
       main: 'article section.relative',
-      paywall: "div[data-component='Paywall'], div[data-target-id='paywall']"
+      paywall: "div[data-component='Paywall'], div[data-target-id='paywall'], div[data-area='paywall']"
     },
     mimic: (content) => {
       return `
@@ -115,6 +115,7 @@ const sites: Sites = {
     },
     dateRange: [7, 1], // search from 7 days before to one day after given date
     source: 'genios.de',
+    waitOnLoad: 1500,
     sourceParams: {
       dbShortcut: 'SPPL,SPII,KULS,SPIE,SSPE,UNIS,LISP,SPBE',
       sourceNames: ['SPIEGEL Plus', 'kulturSPIEGEL', 'DER SPIEGEL', 'SPIEGEL special', 'uniSPIEGEL', 'LiteraturSPIEGEL', 'SPIEGEL Bestseller']
@@ -138,12 +139,12 @@ const sites: Sites = {
       {
         url: 'https://www.tagesspiegel.de/kultur/comics/im-sumpf-der-verschworungsideologien-es-wurde-immer-schwieriger-mit-meinem-vater-ein-gesprach-zu-fuhren-11626376.html',
         selectors: {
-          query: '"kommt diesmal beim Einräumen der Spülmaschine „Wach endlich auf “ ruft der Vater seiner"'
+          query: 'kommt diesmal beim Einräumen der Spülmaschine „Wach endlich auf “ ruft der Vater seiner'
         }
       }
     ],
     selectors: {
-      query: makeQueryFunc('#story-elements p'),
+      query: makeQueryFunc('#story-elements p', false),
       main: '#story-elements',
       paywall: '#paywall',
       date: 'time'
@@ -155,7 +156,7 @@ const sites: Sites = {
     }
   },
   'www.zeit.de': {
-    testSetup: getConsentCdnSetup({ }),
+    testSetup: getConsentCdnSetup({}),
     examples: [
       {
         url: 'https://www.zeit.de/2021/11/soziale-ungleichheit-identitaetspolitik-diskriminierung-armut-bildung',
@@ -449,6 +450,7 @@ const sites: Sites = {
     }
   },
   'www.wiwo.de': {
+    testSetup: getConsentCdnSetup({ framePart: 'cmp-sp' }),
     examples: [
       {
         url: 'https://www.wiwo.de/my/unternehmen/industrie/mischkonzern-zeppelin-ein-ausschluss-russlands-aus-swift-wuerde-eine-weltwirtschaftskrise-ausloesen/28091946.html',
@@ -458,17 +460,31 @@ const sites: Sites = {
       }
     ],
     selectors: {
-      query: makeQueryFunc('.c-leadtext', false),
-      main: '.o-article__content',
-      paywall: '.o-paywall',
-      date: 'time'
+      query: makeQueryFunc('app-header-content-lead-text', false),
+      main: 'app-story-detail-page article app-blind-text',
+      paywall: 'app-paywall',
+      date: 'app-story-date'
+    },
+    start: (root) => {
+      const blindText = root.querySelector('app-blind-text')
+      blindText.classList.remove('blurry-text')
+      blindText.querySelector('app-storyline-elements')?.remove()
+      const paywall: HTMLElement = root.querySelector('app-paywall')
+      if (paywall) {
+        paywall.style.display = 'none'
+      }
+    },
+    insertContent: (siteBot, main, content) => {
+      siteBot.hideBot()
+      main.innerHTML += content
     },
     dateRange: [8, 1], // search from roughly week before
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'WWLATE,WWONLATE,WWBW,WWGR',
       sourceNames: ['WirtschaftsWoche', 'WirtschaftsWoche online', 'WirtschaftsWoche Green']
-    }
+    },
+    waitOnLoad: 2000
   },
   'www.heise.de': {
     examples: [
@@ -682,9 +698,9 @@ const sites: Sites = {
       const main: HTMLElement = root.querySelector('header div[class*="ArticleHeadstyled__ArticleTeaserContainer"]')
       main.style.height = 'auto'
       main.style.overflow = 'auto'
-    //   const obj = JSON.parse(document.evaluate('//script[@type="application/ld+json" and contains(./text(), "mainEntityOfPage")]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.textContent)
-    //   paywall.textContent = obj.articleBody
-    //   return true
+      //   const obj = JSON.parse(document.evaluate('//script[@type="application/ld+json" and contains(./text(), "mainEntityOfPage")]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.textContent)
+      //   paywall.textContent = obj.articleBody
+      //   return true
     },
     mimic: '*[class*="Textstyled__InlineText"]',
     source: 'genios.de',
@@ -886,7 +902,7 @@ const sites: Sites = {
     }
   },
   'www.mopo.de': {
-    testSetup: consentShadowRoot({ }),
+    testSetup: consentShadowRoot({}),
     examples: [
       {
         url: 'https://www.mopo.de/hamburg/vor-29-jahren-stillgelegt-das-wird-jetzt-aus-dem-schellfischtunnel/?reduced=true',
@@ -920,21 +936,20 @@ const sites: Sites = {
     }
   },
   'www.saechsische.de': {
-    testSetup: getContentPassConsent({ }),
+    testSetup: getConsentCdnSetup({ framePart: 'cmp-sp' }),
     examples: [
       {
-        url: 'https://www.saechsische.de/sachsen/die-dresdner-lehrerin-und-ihre-radikale-sekte-5418484-plus.html',
+        url: 'https://www.saechsische.de/lokales/dresden/ocg-sekte-dresdner-lehrerin-gehoert-zum-fuehrungskreis-W6O37RLLZLV4K3G7WI3DPTAV3E.html',
         selectors: {
-          query: '"Lehrerin und ihre radikale Sekte"'
+          query: '"in einer Sekte war teils bekannt Jetzt kommt heraus Die Lehrerin aus Dresden"'
         }
       }
     ],
     selectors: {
-      query: makeQueryFunc('.article-detail-title h2'),
-      headline: '.article-detail-title h2',
-      date: 'time',
-      paywall: '#piano-inline',
-      main: '.article-detail-content'
+      query: makeQueryFunc('.paywalledContent', true),
+      headline: 'h2',
+      paywall: 'div[data-testid="piano-container"]',
+      main: 'div[class*="Articlestyled__ArticleBodyWrapper"]'
     },
     start: (root) => {
       const blur = root.querySelector('.plus-overlay-blur')
@@ -1159,7 +1174,7 @@ const sites: Sites = {
     }
   },
   'www.mittelbayerische.de': {
-    testSetup: consentShadowRoot({ }),
+    testSetup: consentShadowRoot({}),
     examples: [
       {
         url: 'https://www.mittelbayerische.de/lokales/stadt-regensburg/geister-parkhaus-am-regensburger-tech-campus-die-nutzungsquote-steigt-14904402',
