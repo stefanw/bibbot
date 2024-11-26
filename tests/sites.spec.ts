@@ -8,7 +8,13 @@ for (const siteDomain in sites) {
   const site = sites[siteDomain]
   if (site.examples) {
     site.examples.forEach((example, i) => {
-      siteTests.push({ testSetup: site.testSetup, siteDomain, example, exampleIndex: i, selectors: site.selectors })
+      siteTests.push({
+        testSetup: site.testSetup,
+        siteDomain,
+        example,
+        exampleIndex: i,
+        selectors: site.selectors,
+      })
     })
   }
 }
@@ -33,7 +39,9 @@ for (const site of siteTests) {
         await site.testSetup(page)
       }
       console.log('inject script', siteDomain)
-      await page.evaluate(fs.readFileSync('./test_build/content_test.js', 'utf8'))
+      await page.evaluate(
+        fs.readFileSync('./test_build/content_test.js', 'utf8'),
+      )
       if (typeof site.waitOnLoad === 'number') {
         console.log('waiting', siteDomain)
         await page.waitForTimeout(site.waitOnLoad)

@@ -7,10 +7,12 @@ document.querySelector('#settings').addEventListener('click', () => {
 
 const defaults = {
   keepStats: true,
-  stats: {}
+  stats: {},
 }
 browser.storage.sync.get(defaults).then(function (items) {
-  if (!items.keepStats) { return }
+  if (!items.keepStats) {
+    return
+  }
   const ul = document.createElement('ul')
   let count = 0
   for (const domain in items.stats) {

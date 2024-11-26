@@ -1,4 +1,8 @@
-import { consentShadowRoot, getCmpBoxConsent, getConsentCdnSetup } from './test_utils.js'
+import {
+  consentShadowRoot,
+  getCmpBoxConsent,
+  getConsentCdnSetup,
+} from './test_utils.js'
 
 import { PartialSite, Sites } from './types.js'
 
@@ -6,21 +10,46 @@ const QUOTES = /["„].*["„]/
 const START_SLICE = 2
 const END_SLICE = 15
 
-const extractQuery = (node: HTMLElement, quoted = true, startSlice = START_SLICE, endSlice = END_SLICE) => createQuery(node.innerText, quoted, startSlice, endSlice)
-const createQuery = (text: string, quoted = true, startSlice = START_SLICE, endSlice = END_SLICE) => {
-  let query = text.split(' ').slice(startSlice, endSlice).join(' ').replace('"', '')
+const extractQuery = (
+  node: HTMLElement,
+  quoted = true,
+  startSlice = START_SLICE,
+  endSlice = END_SLICE,
+) => createQuery(node.innerText, quoted, startSlice, endSlice)
+const createQuery = (
+  text: string,
+  quoted = true,
+  startSlice = START_SLICE,
+  endSlice = END_SLICE,
+) => {
+  let query = text
+    .split(' ')
+    .slice(startSlice, endSlice)
+    .join(' ')
+    .replace('"', '')
   // remove some special chars
-  query = query.replace(/[!:?;'/()]/g, ' ').replace(/(((?<!\d)[,.])|([,.](?!\d)))/g, ' ').replace(/ {1,}/g, ' ')
+  query = query
+    .replace(/[!:?;'/()]/g, ' ')
+    .replace(/(((?<!\d)[,.])|([,.](?!\d)))/g, ' ')
+    .replace(/ {1,}/g, ' ')
   // remove non-leading/trailing quotes
-  let queryParts = query.split(QUOTES).map(s => s.trim()).filter(s => s.split(' ').length > 1)
+  let queryParts = query
+    .split(QUOTES)
+    .map((s) => s.trim())
+    .filter((s) => s.split(' ').length > 1)
 
   // Quote the whole query
   if (quoted) {
-    queryParts = queryParts.map(s => `"${s}"`)
+    queryParts = queryParts.map((s) => `"${s}"`)
   }
   return queryParts.join(' ')
 }
-const makeQueryFunc = (selector: string | string[], quoted = true, startSlice = START_SLICE, endSlice = END_SLICE) => {
+const makeQueryFunc = (
+  selector: string | string[],
+  quoted = true,
+  startSlice = START_SLICE,
+  endSlice = END_SLICE,
+) => {
   if (!Array.isArray(selector)) {
     selector = [selector]
   }
@@ -47,19 +76,23 @@ const RND: PartialSite = {
     headline: '#article header h2',
     date: 'time',
     paywall: '[data-testid="piano-container"]',
-    main: 'div[class*="ArticleHeadstyled__ArticleTeaserContainer"]'
+    main: 'div[class*="ArticleHeadstyled__ArticleTeaserContainer"]',
   },
   waitOnLoad: 2000,
   start: (root) => {
-    const main: HTMLElement = root.querySelector('div[class*="ArticleHeadstyled__ArticleTeaserContainer"]')
+    const main: HTMLElement = root.querySelector(
+      'div[class*="ArticleHeadstyled__ArticleTeaserContainer"]',
+    )
     main.style.height = 'auto'
     main.style.overflow = 'auto'
   },
   mimic: (content) => {
-    const pClassName = document.querySelector('div[class*="ArticleHeadstyled__ArticleTeaserContainer"] p').className
+    const pClassName = document.querySelector(
+      'div[class*="ArticleHeadstyled__ArticleTeaserContainer"] p',
+    ).className
     return content.replace(/<p>/g, `<p class="${pClassName}">`)
   },
-  source: 'genios.de'
+  source: 'genios.de',
 }
 
 const GA: PartialSite = {
@@ -67,13 +100,13 @@ const GA: PartialSite = {
     query: makeQueryFunc('[data-cy="article_content"] p'),
     date: 'time',
     paywall: '.paid-content ',
-    main: '[data-cy="article_content"] > div'
+    main: '[data-cy="article_content"] > div',
   },
   paragraphStyle: {
-    selector: '[data-cy="article_content"] > div p'
+    selector: '[data-cy="article_content"] > div p',
   },
   source: 'genios.de',
-  waitOnLoad: 300
+  waitOnLoad: 300,
 }
 
 const KSTA: PartialSite = {
@@ -81,28 +114,39 @@ const KSTA: PartialSite = {
     query: makeQueryFunc('.dm-article__intro'),
     date: 'time',
     paywall: '.dm-paywall-wrapper',
-    main: '.dm-article-content-width'
+    main: '.dm-article-content-width',
   },
   waitOnLoad: 500,
-  source: 'genios.de'
+  source: 'genios.de',
 }
 
 const sites: Sites = {
   'www.spiegel.de': {
-    testSetup: getConsentCdnSetup({ framePart: 'sp-spiegel-de', button: '.primary-button' }),
+    testSetup: getConsentCdnSetup({
+      framePart: 'sp-spiegel-de',
+      button: '.primary-button',
+    }),
     examples: [
       {
         url: 'https://www.spiegel.de/politik/deutschland/klara-geywitz-ueber-sanierungspflicht-von-immobilien-neuen-wohnraum-und-fluechtlinge-a-6aeb319e-fc25-4efa-a0cf-66e10ed49969',
         selectors: {
-          query: 'nicht ohne Ordnungsrecht gehen wenn wir die Klimaziele erreichen wollen«'
-        }
-      }
+          query:
+            'nicht ohne Ordnungsrecht gehen wenn wir die Klimaziele erreichen wollen«',
+        },
+      },
     ],
     selectors: {
-      query: makeQueryFunc(['.leading-tight span:not(:first-child), .leading-none .leading-normal, h2 span:not(:first-child) span:not(:first-child)', '.leading-loose'], false),
+      query: makeQueryFunc(
+        [
+          '.leading-tight span:not(:first-child), .leading-none .leading-normal, h2 span:not(:first-child) span:not(:first-child)',
+          '.leading-loose',
+        ],
+        false,
+      ),
       date: 'time',
       main: 'article section.relative',
-      paywall: "div[data-component='Paywall'], div[data-target-id='paywall'], div[data-area='paywall']"
+      paywall:
+        "div[data-component='Paywall'], div[data-target-id='paywall'], div[data-area='paywall']",
     },
     mimic: (content) => {
       return `
@@ -118,8 +162,16 @@ const sites: Sites = {
     waitOnLoad: 1500,
     sourceParams: {
       dbShortcut: 'SPPL,SPII,KULS,SPIE,SSPE,UNIS,LISP,SPBE',
-      sourceNames: ['SPIEGEL Plus', 'kulturSPIEGEL', 'DER SPIEGEL', 'SPIEGEL special', 'uniSPIEGEL', 'LiteraturSPIEGEL', 'SPIEGEL Bestseller']
-    }
+      sourceNames: [
+        'SPIEGEL Plus',
+        'kulturSPIEGEL',
+        'DER SPIEGEL',
+        'SPIEGEL special',
+        'uniSPIEGEL',
+        'LiteraturSPIEGEL',
+        'SPIEGEL Bestseller',
+      ],
+    },
   },
   'www.manager-magazin.de': {
     selectors: {
@@ -127,33 +179,38 @@ const sites: Sites = {
       date: 'time',
       headline: 'h2 span.align-middle',
       paywall: '[data-area="paywall"]',
-      main: '[data-area="body"]'
+      main: '[data-area="body"]',
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'MM,MMAG'
-    }
+      dbShortcut: 'MM,MMAG',
+    },
   },
   'www.tagesspiegel.de': {
     examples: [
       {
         url: 'https://www.tagesspiegel.de/kultur/comics/im-sumpf-der-verschworungsideologien-es-wurde-immer-schwieriger-mit-meinem-vater-ein-gesprach-zu-fuhren-11626376.html',
         selectors: {
-          query: 'kommt diesmal beim Einräumen der Spülmaschine „Wach endlich auf “ ruft der Vater seiner'
-        }
-      }
+          query:
+            'kommt diesmal beim Einräumen der Spülmaschine „Wach endlich auf “ ruft der Vater seiner',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('#story-elements p', false),
       main: '#story-elements',
       paywall: '#paywall',
-      date: 'time'
+      date: 'time',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'TSP,TPCP,TSPO',
-      sourceNames: ['Der Tagesspiegel', 'Tagesspiegel CHECKPOINT', 'tagesspiegel.de']
-    }
+      sourceNames: [
+        'Der Tagesspiegel',
+        'Tagesspiegel CHECKPOINT',
+        'tagesspiegel.de',
+      ],
+    },
   },
   'www.zeit.de': {
     testSetup: getConsentCdnSetup({}),
@@ -161,21 +218,28 @@ const sites: Sites = {
       {
         url: 'https://www.zeit.de/2021/11/soziale-ungleichheit-identitaetspolitik-diskriminierung-armut-bildung',
         selectors: {
-          query: '"eine gesellschaftliche Gruppe ihre Anliegen vorbringt ihren Schmerz ausspricht wird davor gewarnt dies"'
-        }
-      }
+          query:
+            '"eine gesellschaftliche Gruppe ihre Anliegen vorbringt ihren Schmerz ausspricht wird davor gewarnt dies"',
+        },
+      },
     ],
     selectors: {
-      query: makeQueryFunc(['.article__item .paragraph:nth-child(2)', '.article__item .paragraph', '.article__item .summary']),
+      query: makeQueryFunc([
+        '.article__item .paragraph:nth-child(2)',
+        '.article__item .paragraph',
+        '.article__item .summary',
+      ]),
       edition: '.metadata__source',
       date: '.metadata__source.encoded-date, time',
       paywall: '.article-page:not([hidden]) #paywall, .gate',
-      main: '.article-page'
+      main: '.article-page',
     },
     start: (root, paywall) => {
       paywall.style.display = 'none'
       try {
-        root.querySelector('.paragraph--faded')?.classList.remove('paragraph--faded')
+        root
+          .querySelector('.paragraph--faded')
+          ?.classList.remove('paragraph--faded')
       } catch {
         console.error('Could not unfade article')
       }
@@ -186,8 +250,15 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'ZEIT,ZEIO,ZTCS,ZTGS,ZTWI,CUW',
-      sourceNames: ['DIE ZEIT', 'DIE ZEIT online', 'ZEIT Campus', 'ZEIT Geschichte', 'ZEIT Wissen', 'Christ und Welt']
-    }
+      sourceNames: [
+        'DIE ZEIT',
+        'DIE ZEIT online',
+        'ZEIT Campus',
+        'ZEIT Geschichte',
+        'ZEIT Wissen',
+        'Christ und Welt',
+      ],
+    },
   },
   'www.welt.de': {
     selectors: {
@@ -195,36 +266,45 @@ const sites: Sites = {
       headline: 'h2.c-headline',
       date: 'time',
       paywall: '.contains_walled_content',
-      main: '.o-text.c-summary '
+      main: '.o-text.c-summary ',
     },
     waitOnLoad: 500,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'WEPL,WAMS,WELT,WEON',
-      sourceNames: ['WELTplus', 'WELT am SONNTAG', 'DIE WELT', 'WELT ONLINE']
-    }
+      sourceNames: ['WELTplus', 'WELT am SONNTAG', 'DIE WELT', 'WELT ONLINE'],
+    },
   },
   'www.sueddeutsche.de': {
     testSetup: getConsentCdnSetup({}),
-    examples: [{
-      url: 'https://www.sueddeutsche.de/kultur/milch-ernaehrung-klimawandel-1.5521054?reduced=true',
-      selectors: {
-        query: 'Zeit um die Mitte der Sechziger hörte die Jugend des Westens einen Song'
-      }
-    }, {
-      url: 'https://www.sueddeutsche.de/projekte/artikel/politik/lkw-unfaelle-beim-abbiegen-im-toten-winkel-e744638/?reduced=true',
-      selectors: {
-        query: 'Lastwagen in die Konstanzer Straße biegt obwohl er doch eigentlich anhalten müsste hat'
-      }
-    }],
+    examples: [
+      {
+        url: 'https://www.sueddeutsche.de/kultur/milch-ernaehrung-klimawandel-1.5521054?reduced=true',
+        selectors: {
+          query:
+            'Zeit um die Mitte der Sechziger hörte die Jugend des Westens einen Song',
+        },
+      },
+      {
+        url: 'https://www.sueddeutsche.de/projekte/artikel/politik/lkw-unfaelle-beim-abbiegen-im-toten-winkel-e744638/?reduced=true',
+        selectors: {
+          query:
+            'Lastwagen in die Konstanzer Straße biegt obwohl er doch eigentlich anhalten müsste hat',
+        },
+      },
+    ],
     selectors: {
       // query: "article > header > h2 > span:last-child",
       query: (root) => {
-        const normalArticle: HTMLElement = root.querySelector('[itemprop="articleBody"] > p')
+        const normalArticle: HTMLElement = root.querySelector(
+          '[itemprop="articleBody"] > p',
+        )
         if (normalArticle) {
           return extractQuery(normalArticle, false)
         }
-        const reportage: HTMLElement = root.querySelector('.module-text .text p')
+        const reportage: HTMLElement = root.querySelector(
+          '.module-text .text p',
+        )
         if (reportage) {
           return extractQuery(reportage, false)
         }
@@ -232,15 +312,19 @@ const sites: Sites = {
       date: 'time',
       paywall: '#sz-paywall',
       main: (root) => {
-        const normalMain: HTMLElement = root.querySelector("div[itemprop='articleBody']")
+        const normalMain: HTMLElement = root.querySelector(
+          "div[itemprop='articleBody']",
+        )
         if (normalMain) {
           return normalMain
         }
         return root.querySelector('.module-text .text')
-      }
+      },
     },
     start: (root) => {
-      const p: HTMLElement = root.querySelector('.sz-article-body__paragraph--reduced')
+      const p: HTMLElement = root.querySelector(
+        '.sz-article-body__paragraph--reduced',
+      )
       if (p) {
         p.className = 'sz-article-body__paragraph'
       }
@@ -251,21 +335,30 @@ const sites: Sites = {
     },
     mimic: '.sz-article-body__paragraph',
     paragraphStyle: {
-      style: 'margin-bottom: 1rem'
+      style: 'margin-bottom: 1rem',
     },
     waitOnLoad: 500,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'SZ,SZDE,SZPT,SZPW,SZRE,SZW,SZMA,SZMO',
-      sourceNames: ['Süddeutsche Zeitung (SZ)', 'sueddeutsche.de', 'Süddeutsche Zeitung PRIMETIME', 'Süddeutsche Zeitung Plan W', 'Süddeutsche Zeitung - Regionalteile', 'Süddeutsche Zeitung WISSEN', 'Süddeutsche Zeitung Magazin', 'Süddeutsche Zeitung Magazin Online']
-    }
+      sourceNames: [
+        'Süddeutsche Zeitung (SZ)',
+        'sueddeutsche.de',
+        'Süddeutsche Zeitung PRIMETIME',
+        'Süddeutsche Zeitung Plan W',
+        'Süddeutsche Zeitung - Regionalteile',
+        'Süddeutsche Zeitung WISSEN',
+        'Süddeutsche Zeitung Magazin',
+        'Süddeutsche Zeitung Magazin Online',
+      ],
+    },
   },
   'sz-magazin.sueddeutsche.de': {
     selectors: {
       query: makeQueryFunc('.articlemain__content'),
       date: 'time',
       paywall: '.offerpage-container',
-      main: '.articlemain__content'
+      main: '.articlemain__content',
     },
     start: (root) => {
       removeClass(root, 'paragraph--reduced')
@@ -280,15 +373,22 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'SZMA,SZMO',
-      sourceNames: ['Süddeutsche Zeitung Magazin', 'Süddeutsche Zeitung Magazin Online']
-    }
+      sourceNames: [
+        'Süddeutsche Zeitung Magazin',
+        'Süddeutsche Zeitung Magazin Online',
+      ],
+    },
   },
   'www.handelsblatt.com': {
     selectors: {
-      query: makeQueryFunc('app-storyline-element app-storyline-paragraph app-rich-text p', true, 4),
+      query: makeQueryFunc(
+        'app-storyline-element app-storyline-paragraph app-rich-text p',
+        true,
+        4,
+      ),
       date: 'app-story-date',
       paywall: 'app-paywall',
-      main: 'app-storyline-elements'
+      main: 'app-storyline-elements',
     },
     // start: (root) => {
     //   Array.from(root.querySelectorAll('.c-paywall')).forEach((el: HTMLElement) => {
@@ -299,21 +399,29 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'HBLATE,HBONLATE,HBGM,HBLI,HBMA,HBMBLATE,HBZ',
-      sourceNames: ['Handelsblatt', 'Handelsblatt online', 'Handelsblatt Global Magazin', 'Handelsblatt Live', 'Handelsblatt Magazin', 'Handelsblatt Morning Briefing', 'Handelsblatt10']
-    }
+      sourceNames: [
+        'Handelsblatt',
+        'Handelsblatt online',
+        'Handelsblatt Global Magazin',
+        'Handelsblatt Live',
+        'Handelsblatt Magazin',
+        'Handelsblatt Morning Briefing',
+        'Handelsblatt10',
+      ],
+    },
   },
   'www.berliner-zeitung.de': {
     selectors: {
       query: makeQueryFunc(['#articleBody']),
       main: '#articleBody',
-      paywall: 'div[class*="paywall_overlay__"]'
+      paywall: 'div[class*="paywall_overlay__"]',
     },
     waitOnLoad: 500,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'BEZE',
-      sourceNames: ['Berliner Zeitung']
-    }
+      sourceNames: ['Berliner Zeitung'],
+    },
   },
   'www.morgenpost.de': {
     testSetup: getCmpBoxConsent(),
@@ -321,9 +429,10 @@ const sites: Sites = {
       {
         url: 'https://www.morgenpost.de/bezirke/pankow/article234644603/Hindernisstrecke-Schoenhauser-Allee.html',
         selectors: {
-          query: '"Schönhauser Allee in Prenzlauer Berg gilt als Unfallschwerpunkt für Radfahrer Eine Tour auf"'
-        }
-      }
+          query:
+            '"Schönhauser Allee in Prenzlauer Berg gilt als Unfallschwerpunkt für Radfahrer Eine Tour auf"',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('.article-body'),
@@ -331,13 +440,13 @@ const sites: Sites = {
       //   return root.querySelector('.article__header__intro__text').innerText.split(' ').slice(0, 8).join(' ')
       // },
       main: '.article-body',
-      paywall: '#paywall-container'
+      paywall: '#paywall-container',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'BMP,BMPO',
-      sourceNames: ['Berliner Morgenpost', 'Berliner Morgenpost online']
-    }
+      sourceNames: ['Berliner Morgenpost', 'Berliner Morgenpost online'],
+    },
   },
   'www.moz.de': {
     selectors: {
@@ -345,7 +454,7 @@ const sites: Sites = {
         return root.querySelector('title').innerText.split('|')[0].trim()
       },
       main: '.article-content .article-text',
-      paywall: '.article-content.paywall .justify-content-center'
+      paywall: '.article-content.paywall .justify-content-center',
     },
     start: (root) => {
       const p = root.querySelector('.article-content')
@@ -357,41 +466,41 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'MOZ',
-      sourceNames: ['Märkische Oderzeitung']
-    }
+      sourceNames: ['Märkische Oderzeitung'],
+    },
   },
   'www.maz-online.de': {
     ...RND,
     sourceParams: {
       dbShortcut: 'MAER',
-      sourceNames: ['Märkische Allgemeine']
-    }
+      sourceNames: ['Märkische Allgemeine'],
+    },
   },
   'www.lr-online.de': {
     selectors: {
       query: makeQueryFunc('.article-text .text'),
       paywall: '#paywall-container',
       date: 'time',
-      main: '.article-text'
+      main: '.article-text',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'LR',
-      sourceNames: ['Lausitzer Rundschau - Elbe-Elster-Rundschau']
-    }
+      sourceNames: ['Lausitzer Rundschau - Elbe-Elster-Rundschau'],
+    },
   },
 
   'www.nordkurier.de': {
     selectors: {
       query: 'article h1',
       main: '.article-content',
-      paywall: '.nk-plus-subscription-options-breaker'
+      paywall: '.nk-plus-subscription-options-breaker',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'NKU',
-      sourceNames: ['Nordkurier']
-    }
+      sourceNames: ['Nordkurier'],
+    },
   },
   'www.noz.de': {
     testSetup: getConsentCdnSetup({ pageChanges: false }),
@@ -399,15 +508,16 @@ const sites: Sites = {
       {
         url: 'https://www.noz.de/lokales/hasbergen/artikel/im-angesicht-des-kriegs-ausstellung-am-augustaschacht-hasbergen-23451387',
         selectors: {
-          query: '"angemessen in der Gedenkstätte Augustaschacht in Hasbergen eine Ausstellung zur Erinnerung an die"'
-        }
-      }
+          query:
+            '"angemessen in der Gedenkstätte Augustaschacht in Hasbergen eine Ausstellung zur Erinnerung an die"',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('p.w-600'),
       main: '.content--group__section:last-child',
       date: '[itemprop="datePublished"]',
-      paywall: '.paywall'
+      paywall: '.paywall',
     },
     start: (root) => {
       const p = root.querySelector('.p.w-600')
@@ -420,34 +530,40 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'NOZ',
-      sourceNames: ['Neue Osnabrücker Zeitung']
-    }
+      sourceNames: ['Neue Osnabrücker Zeitung'],
+    },
   },
   'www.abendblatt.de': {
     selectors: {
-      query: makeQueryFunc('.article-body p:not(.font-medium), .article-body li'),
+      query: makeQueryFunc(
+        '.article-body p:not(.font-medium), .article-body li',
+      ),
       main: '.article-body',
       date: 'time',
-      paywall: '#paywall-container'
+      paywall: '#paywall-container',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'HA,HABO,BEZG',
-      sourceNames: ['Hamburger Abendblatt', 'Hamburger Abendblatt online', 'Bergedorfer Zeitung']
-    }
+      sourceNames: [
+        'Hamburger Abendblatt',
+        'Hamburger Abendblatt online',
+        'Bergedorfer Zeitung',
+      ],
+    },
   },
   'www.waz.de': {
     selectors: {
       query: 'h2',
       date: 'time',
       paywall: '#paywall-container',
-      main: '.article__header__intro'
+      main: '.article__header__intro',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'WAZ',
-      sourceNames: ['Westdeutsche Allgemeine Zeitung']
-    }
+      sourceNames: ['Westdeutsche Allgemeine Zeitung'],
+    },
   },
   'www.wiwo.de': {
     testSetup: getConsentCdnSetup({ framePart: 'cmp-sp' }),
@@ -455,15 +571,16 @@ const sites: Sites = {
       {
         url: 'https://www.wiwo.de/my/unternehmen/industrie/mischkonzern-zeppelin-ein-ausschluss-russlands-aus-swift-wuerde-eine-weltwirtschaftskrise-ausloesen/28091946.html',
         selectors: {
-          query: 'Mischkonzern Zeppelin vertreibt unter anderem US-amerikanische Baumaschinen in Russland und der Ukraine Ein'
-        }
-      }
+          query:
+            'Mischkonzern Zeppelin vertreibt unter anderem US-amerikanische Baumaschinen in Russland und der Ukraine Ein',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('app-header-content-lead-text', false),
       main: 'app-story-detail-page article app-blind-text',
       paywall: 'app-paywall',
-      date: 'app-story-date'
+      date: 'app-story-date',
     },
     start: (root) => {
       const blindText = root.querySelector('app-blind-text')
@@ -482,55 +599,71 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'WWLATE,WWONLATE,WWBW,WWGR',
-      sourceNames: ['WirtschaftsWoche', 'WirtschaftsWoche online', 'WirtschaftsWoche Green']
+      sourceNames: [
+        'WirtschaftsWoche',
+        'WirtschaftsWoche online',
+        'WirtschaftsWoche Green',
+      ],
     },
-    waitOnLoad: 2000
+    waitOnLoad: 2000,
   },
   'www.heise.de': {
     examples: [
       {
         url: 'https://www.heise.de/select/ct/2024/2/2332712400232749829',
         selectors: {
-          query: '"auf die meistbesuchten Sites eine Übersicht der wichtigsten News eine To-do-Liste der Kalender"'
-        }
-      }
+          query:
+            '"auf die meistbesuchten Sites eine Übersicht der wichtigsten News eine To-do-Liste der Kalender"',
+        },
+      },
     ],
     selectors: {
-      query: makeQueryFunc(['.article-layout__content p:not(:first-child)', 'article.xp__article p.xp__paragraph']),
+      query: makeQueryFunc([
+        '.article-layout__content p:not(:first-child)',
+        'article.xp__article p.xp__paragraph',
+      ]),
       date: 'time',
       paywall: 'a-gift, a-paid-content-teaser, #purchase',
       main: '.article-layout__content article-layout__footer::before, article.xp__article',
       // select p before paywall element
-      loader: '.article-layout__content p:has( + a-gift, a-paid-content-teaser, #purchase)'
+      loader:
+        '.article-layout__content p:has( + a-gift, a-paid-content-teaser, #purchase)',
     },
     dateRange: [8, 1], // search from 7 days before to one day after given date
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'HEON,MACI,TERE,CT,CTFO,IX,MAKE',
-      sourceNames: ['Heise online', 'c\'t - magazin für computertechnik (CT)', 'c\'t Digitale Fotografie']
+      sourceNames: [
+        'Heise online',
+        "c't - magazin für computertechnik (CT)",
+        "c't Digitale Fotografie",
+      ],
     },
-    waitOnLoad: 2000
+    waitOnLoad: 2000,
   },
   'www.nachrichten.at': {
     examples: [
       {
         url: 'https://www.nachrichten.at/meinung/kommentare/eine-mahnung;art210749,3586439',
         selectors: {
-          query: '"nicht schnell eine Lösung für unser Energiesystem finden dann werden Finanzminister Brunner bzw"'
-        }
-      }
+          query:
+            '"nicht schnell eine Lösung für unser Energiesystem finden dann werden Finanzminister Brunner bzw"',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('.articleDetail__content'),
       date: '.articleDetail .text-teaser.text-darkgrey',
       paywall: '.oonplusOverlay',
-      main: '#artikeldetailText'
+      main: '#artikeldetailText',
     },
     start: (root) => {
       if (typeof window.oonObj === 'undefined') {
         root.querySelector('.oonplusOverlay')?.remove()
       } else {
-        window.oonObj.isGaa = function () { return true }
+        window.oonObj.isGaa = function () {
+          return true
+        }
       }
       const p = root.querySelector('#artikeldetailText')
       if (p) {
@@ -538,48 +671,48 @@ const sites: Sites = {
       }
     },
     paragraphStyle: {
-      className: 'ArtikelText'
+      className: 'ArtikelText',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'OOEN',
-      sourceNames: ['Oberösterreichische Nachrichten']
-    }
+      sourceNames: ['Oberösterreichische Nachrichten'],
+    },
   },
   'ga.de': {
     ...GA,
     sourceParams: {
       dbShortcut: 'GAZ',
-      sourceNames: ['Bonner General-Anzeiger']
-    }
+      sourceNames: ['Bonner General-Anzeiger'],
+    },
   },
   'www.ksta.de': {
     ...KSTA,
     sourceParams: {
       dbShortcut: 'KSTA',
-      sourceNames: ['Kölner Stadt-Anzeiger']
-    }
+      sourceNames: ['Kölner Stadt-Anzeiger'],
+    },
   },
   'www.rundschau-online.de': {
     ...KSTA,
     sourceParams: {
       dbShortcut: 'KR',
-      sourceNames: ['Kölnische Rundschau']
-    }
+      sourceNames: ['Kölnische Rundschau'],
+    },
   },
   'rp-online.de': {
     ...GA,
     sourceParams: {
       dbShortcut: 'RP',
-      sourceNames: ['Rheinische Post']
-    }
+      sourceNames: ['Rheinische Post'],
+    },
   },
   'www.tagesanzeiger.ch': {
     selectors: {
       query: 'article > p span',
       date: 'time',
       paywall: '#piano-premium',
-      main: 'article'
+      main: 'article',
     },
     mimic: (content, main) => {
       const className = main.parentNode.querySelector('article > p').className
@@ -587,30 +720,33 @@ const sites: Sites = {
     },
     insertContent: (siteBot, main, content) => {
       siteBot.hideBot()
-      const paras = main.parentNode.querySelectorAll('article figure + p, article p + p')
-      Array.from(paras).forEach(p => p.remove())
+      const paras = main.parentNode.querySelectorAll(
+        'article figure + p, article p + p',
+      )
+      Array.from(paras).forEach((p) => p.remove())
       main.innerHTML += content
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'TAG,TAS',
-      sourceNames: ['Tages-Anzeiger', 'Tages-Anzeiger SonntagsZeitung']
-    }
+      sourceNames: ['Tages-Anzeiger', 'Tages-Anzeiger SonntagsZeitung'],
+    },
   },
   'www.falter.at': {
     examples: [
       {
         url: 'https://www.falter.at/zeitung/20220223/sie-reden-vom-krieg/_27de9dfaf4',
         selectors: {
-          query: '"ein Frieden für die Ukraine aussehen Wo liegt die Zukunft Russlands Und was"'
-        }
-      }
+          query:
+            '"ein Frieden für die Ukraine aussehen Wo liegt die Zukunft Russlands Und was"',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('.head-content h2'),
       date: 'time',
       paywall: '.paywall-info',
-      main: '.paywall-content'
+      main: '.paywall-content',
     },
     start: (root) => {
       const div: HTMLElement = root.querySelector('.paywall-info')
@@ -622,7 +758,10 @@ const sites: Sites = {
       const parRegex = /<p>/
       let parNo = 1
       while (parRegex.test(content)) {
-        content = content.replace(parRegex, `<p class="par${parNo} article-p storycontent-article">`)
+        content = content.replace(
+          parRegex,
+          `<p class="par${parNo} article-p storycontent-article">`,
+        )
         parNo++
       }
       return content
@@ -630,8 +769,8 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'FALT',
-      sourceNames: ['Falter (APA)']
-    }
+      sourceNames: ['Falter (APA)'],
+    },
   },
   'www.stuttgarter-zeitung.de': {
     testSetup: getConsentCdnSetup({ pageChanges: false }),
@@ -639,21 +778,22 @@ const sites: Sites = {
       {
         url: 'https://www.stuttgarter-zeitung.de/inhalt.probleme-bei-der-abrechnung-warum-ein-stuttgarter-impfarzt-schlaflose-naechte-hatte.98bea27d-f195-4bda-899b-8221d3d7f901.html?reduced=true',
         selectors: {
-          query: '"Schlaflose Nächte hat Christian Schweninger hinter sich die vergangenen zweieinhalb Monate seien „heftig“"'
-        }
-      }
+          query:
+            '"Schlaflose Nächte hat Christian Schweninger hinter sich die vergangenen zweieinhalb Monate seien „heftig“"',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('.article-body > p'),
       date: 'span[itemprop="datePublished"]',
       paywall: '.mod-paywall',
-      main: '.article-body > p'
+      main: '.article-body > p',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'STZ',
-      sourceNames: ['Stuttgarter Zeitung']
-    }
+      sourceNames: ['Stuttgarter Zeitung'],
+    },
   },
   'www.stuttgarter-nachrichten.de': {
     testSetup: getConsentCdnSetup({ pageChanges: false }),
@@ -661,21 +801,22 @@ const sites: Sites = {
       {
         url: 'https://www.stuttgarter-nachrichten.de/inhalt.e-mobilitaet-in-stuttgart-zahl-privater-e-ladestellen-waechst-deutlich.a3a5609d-b274-4ac3-a2b1-2558da9a1d69.html?reduced=true',
         selectors: {
-          query: '"8400 E-Autos sind in Stuttgart zugelassen Dazu kommen noch mehr als 22 000 Plug-in-Hybride"'
-        }
-      }
+          query:
+            '"8400 E-Autos sind in Stuttgart zugelassen Dazu kommen noch mehr als 22 000 Plug-in-Hybride"',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('.article-body > p'),
       date: 'span[itemprop="datePublished"]',
       paywall: '.mod-paywall',
-      main: '.article-body > p'
+      main: '.article-body > p',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'STN',
-      sourceNames: ['Stuttgarter Nachrichten']
-    }
+      sourceNames: ['Stuttgarter Nachrichten'],
+    },
   },
   'www.ostsee-zeitung.de': {
     testSetup: getConsentCdnSetup({ pageChanges: false, framePart: 'cmp-sp' }),
@@ -683,19 +824,22 @@ const sites: Sites = {
       {
         url: 'https://www.ostsee-zeitung.de/Mecklenburg/Rostock/Zu-gefaehrlich-fuer-Radfahrer-Kommt-Tempo-30-fuer-die-Rostocker-Dethardingstrasse',
         selectors: {
-          query: '"gerne eine Radfahrer-Stadt Doch für diesen Anspruch gibt es noch zu viele heikle"'
-        }
-      }
+          query:
+            '"gerne eine Radfahrer-Stadt Doch für diesen Anspruch gibt es noch zu viele heikle"',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('.paywalledContent > p'),
       date: 'time',
       paywall: '#piano-lightbox-article-oz',
-      main: 'header .paywalledContent'
+      main: 'header .paywalledContent',
     },
     waitOnLoad: true,
     start: (root) => {
-      const main: HTMLElement = root.querySelector('header div[class*="ArticleHeadstyled__ArticleTeaserContainer"]')
+      const main: HTMLElement = root.querySelector(
+        'header div[class*="ArticleHeadstyled__ArticleTeaserContainer"]',
+      )
       main.style.height = 'auto'
       main.style.overflow = 'auto'
       //   const obj = JSON.parse(document.evaluate('//script[@type="application/ld+json" and contains(./text(), "mainEntityOfPage")]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.textContent)
@@ -706,20 +850,25 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'OSZ',
-      sourceNames: ['Ostsee-Zeitung']
-    }
+      sourceNames: ['Ostsee-Zeitung'],
+    },
   },
   'www.stimme.de': {
     testSetup: async (page) => {
-      await page.locator('#cmpwrapper').evaluate((node) => node.shadowRoot.querySelector('#cmpwelcomebtnyes').click())
+      await page
+        .locator('#cmpwrapper')
+        .evaluate((node) =>
+          node.shadowRoot.querySelector('#cmpwelcomebtnyes').click(),
+        )
     },
     examples: [
       {
         url: 'https://www.stimme.de/regional/region/informationsfreiheit-wenn-in-akten-blaettern-10000-euro-kostet-art-4598515',
         selectors: {
-          query: '"was eine Behörde tut ist irgendwo verzeichnet in Aktenordnern oder digital Bürger haben"'
-        }
-      }
+          query:
+            '"was eine Behörde tut ist irgendwo verzeichnet in Aktenordnern oder digital Bürger haben"',
+        },
+      },
     ],
     start: (root) => {
       const div = root.querySelector('.fadeOut')
@@ -731,13 +880,13 @@ const sites: Sites = {
       query: makeQueryFunc('.art-text p'),
       date: 'time',
       paywall: '.paywall-product-box',
-      main: '.art-text p'
+      main: '.art-text p',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'HST',
-      sourceNames: ['Heilbronner Stimme']
-    }
+      sourceNames: ['Heilbronner Stimme'],
+    },
   },
   'kurier.at': {
     selectors: {
@@ -748,23 +897,36 @@ const sites: Sites = {
         if (window.bibbotObserver === undefined) {
           window.bibbotObserver = new window.MutationObserver((mutations) => {
             // The single page application simply swaps HTML contents instead of navigating to a new page, so we try to detect when the article content is replaced by a new one
-            const switchedArticle = mutations.find(m => [...m.addedNodes.values()].find((n: HTMLElement) => n.nodeName === 'ARTICLECOMP' && n.className === 'ng-star-inserted') !== undefined) !== undefined
+            const switchedArticle =
+              mutations.find(
+                (m) =>
+                  [...m.addedNodes.values()].find(
+                    (n: HTMLElement) =>
+                      n.nodeName === 'ARTICLECOMP' &&
+                      n.className === 'ng-star-inserted',
+                  ) !== undefined,
+              ) !== undefined
             if (switchedArticle) {
               sitebot.start()
             }
           })
-          window.bibbotObserver.observe(root, { subtree: true, childList: true })
+          window.bibbotObserver.observe(root, {
+            subtree: true,
+            childList: true,
+          })
         }
         return root.querySelector(paywall)
       },
-      main: '.article-paragraphs paragraph:first-of-type .paragraph'
+      main: '.article-paragraphs paragraph:first-of-type .paragraph',
     },
     start: (root, paywall) => {
       const div = root.querySelector('.article-paragraphs')
       if (div) {
-        div.querySelectorAll('.article-paragraphs > .ng-star-inserted').forEach(e => {
-          e.classList.add('visible')
-        })
+        div
+          .querySelectorAll('.article-paragraphs > .ng-star-inserted')
+          .forEach((e) => {
+            e.classList.add('visible')
+          })
         paywall.remove()
         // kurier.at delivers the whole article, just hidden; we don't have to query Genios for it
         return true
@@ -776,45 +938,47 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'KUR',
-      sourceNames: ['Kurier (APA)']
+      sourceNames: ['Kurier (APA)'],
     },
-    waitOnLoad: true
+    waitOnLoad: true,
   },
   'freizeit.at': {
     examples: [
       {
         url: 'https://freizeit.at/zeitgeist/will-smith-als-tennisvater-koeniginnen-des-tenniscourts/401915917',
         selectors: {
-          query: '"sie Venus und Serena Williams sind moderne Amazonen athletisch ehrgeizig kämpferisch Weltklasse-Tennisspielerinnen die"'
-        }
-      }
+          query:
+            '"sie Venus und Serena Williams sind moderne Amazonen athletisch ehrgeizig kämpferisch Weltklasse-Tennisspielerinnen die"',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('.article-main .paragraph p:nth-of-type(2)'),
       date: '.headerComp-author-date',
       paywall: '#cfs-paywall-container',
-      main: '.article-main .paragraph'
+      main: '.article-main .paragraph',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'KUR',
-      sourceNames: ['Kurier (APA)']
-    }
+      sourceNames: ['Kurier (APA)'],
+    },
   },
   'www.diepresse.com': {
     examples: [
       {
         url: 'https://www.diepresse.com/6103269/das-home-office-gesetz-laesst-vieles-im-dunkeln',
         selectors: {
-          query: '"praxistauglich ist das Home-Office-Gesetz Schon vor einem Jahr wurde darüber heftig diskutiert Anlass"'
-        }
-      }
+          query:
+            '"praxistauglich ist das Home-Office-Gesetz Schon vor einem Jahr wurde darüber heftig diskutiert Anlass"',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('#article-body p:not(.lead)'),
       date: '.meta__date',
       paywall: '.vued--premium-content',
-      main: '#article-body'
+      main: '#article-body',
     },
     insertContent: (siteBot, main, content) => {
       siteBot.hideBot()
@@ -824,14 +988,14 @@ const sites: Sites = {
       div.querySelector('p:first-of-type').classList.add('lead')
       const contentArray = Array.from(div.childNodes)
 
-      main.querySelectorAll('#article-body > p').forEach(p => p.remove())
+      main.querySelectorAll('#article-body > p').forEach((p) => p.remove())
       main.prepend(...contentArray)
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'PRE',
-      sourceNames: ['Die Presse - Österreichische Tageszeitung']
-    }
+      sourceNames: ['Die Presse - Österreichische Tageszeitung'],
+    },
   },
   'www.sn.at': {
     testSetup: async (page) => {
@@ -841,43 +1005,47 @@ const sites: Sites = {
       {
         url: 'https://www.sn.at/salzburg/chronik/nach-toedlichem-unfall-mit-polizeibus-im-lungau-verfahren-gegen-lenker-eingestellt-117530491',
         selectors: {
-          query: '"nach dem Unfalldrama im Lungau bei dem ein 15-jähriger Mopedlenker getötet wurde ist"'
-        }
-      }
+          query:
+            '"nach dem Unfalldrama im Lungau bei dem ein 15-jähriger Mopedlenker getötet wurde ist"',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('.article-body-text'),
       date: '.article-publication-date',
       paywall: '.article-sections__paywall',
-      main: '.article-body-text'
+      main: '.article-body-text',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'SN',
-      sourceNames: ['Salzburger Nachrichten (APA)']
-    }
+      sourceNames: ['Salzburger Nachrichten (APA)'],
+    },
   },
   'www.kleinezeitung.at': {
-    testSetup: getConsentCdnSetup({ framePart: 'cmp-consent-tool.privacymanager', button: '#save' }),
+    testSetup: getConsentCdnSetup({
+      framePart: 'cmp-consent-tool.privacymanager',
+      button: '#save',
+    }),
     examples: [
       {
         url: 'https://www.kleinezeitung.at/steiermark/weiz/6100137/Gefaehrlicher-Trend_Uebelkeit-Herzrasen_Nikotinbeutel-machen-bei',
         selectors: {
-          query: '"riechen nach Menthol oder Minze und erinnern in"'
-        }
-      }
+          query: '"riechen nach Menthol oder Minze und erinnern in"',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('.article-body p'),
       date: 'time',
       paywall: '#pianoPaywall',
-      main: '.article-body div'
+      main: '.article-body div',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'KLEI',
-      sourceNames: ['Kleine Zeitung (APA)']
-    }
+      sourceNames: ['Kleine Zeitung (APA)'],
+    },
   },
   'www.thueringer-allgemeine.de': {
     testSetup: getCmpBoxConsent(),
@@ -885,21 +1053,21 @@ const sites: Sites = {
       {
         url: 'https://www.thueringer-allgemeine.de/sport/kommentar-von-wegen-sportstadt-erfurt-id234487935.html',
         selectors: {
-          query: 'Von wegen Sportstadt Erfurt'
-        }
-      }
+          query: 'Von wegen Sportstadt Erfurt',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('article h2', false),
       date: 'time',
       paywall: '#paywall-container',
-      main: '.article-body'
+      main: '.article-body',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'TA',
-      sourceNames: ['Thüringer Allgemeine']
-    }
+      sourceNames: ['Thüringer Allgemeine'],
+    },
   },
   'www.mopo.de': {
     testSetup: consentShadowRoot({}),
@@ -907,22 +1075,25 @@ const sites: Sites = {
       {
         url: 'https://www.mopo.de/hamburg/vor-29-jahren-stillgelegt-das-wird-jetzt-aus-dem-schellfischtunnel/?reduced=true',
         selectors: {
-          query: '"und knarzt als Ines Hinrichs vom Landesbetrieb Straßen Brücken und Gewässer LSBG das"'
-        }
-      }
+          query:
+            '"und knarzt als Ines Hinrichs vom Landesbetrieb Straßen Brücken und Gewässer LSBG das"',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('.elementor-widget-theme-post-content'),
       date: '.elementor-post-info__item--type-date',
       paywall: '#paywall',
-      main: '.elementor-widget-theme-post-content > .elementor-widget-container > div > div'
+      main: '.elementor-widget-theme-post-content > .elementor-widget-container > div > div',
     },
     start: (root) => {
       const p = root.querySelector('.paywall-fade')
       if (p) {
         p.classList.remove('paywall-fade')
       }
-      const paywall: HTMLElement = root.querySelector('.elementor-widget-theme-post-content > .elementor-widget-container > div > div[data-elementor-type="section"]')
+      const paywall: HTMLElement = root.querySelector(
+        '.elementor-widget-theme-post-content > .elementor-widget-container > div > div[data-elementor-type="section"]',
+      )
       if (paywall) {
         paywall.style.display = 'none'
       }
@@ -932,8 +1103,8 @@ const sites: Sites = {
     dateRange: [14, 1],
     sourceParams: {
       dbShortcut: 'MOPO',
-      sourceNames: ['Hamburger Morgenpost']
-    }
+      sourceNames: ['Hamburger Morgenpost'],
+    },
   },
   'www.saechsische.de': {
     testSetup: getConsentCdnSetup({ framePart: 'cmp-sp' }),
@@ -941,15 +1112,16 @@ const sites: Sites = {
       {
         url: 'https://www.saechsische.de/lokales/dresden/ocg-sekte-dresdner-lehrerin-gehoert-zum-fuehrungskreis-W6O37RLLZLV4K3G7WI3DPTAV3E.html',
         selectors: {
-          query: '"in einer Sekte war teils bekannt Jetzt kommt heraus Die Lehrerin aus Dresden"'
-        }
-      }
+          query:
+            '"in einer Sekte war teils bekannt Jetzt kommt heraus Die Lehrerin aus Dresden"',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('.paywalledContent', true),
       headline: 'h2',
       paywall: 'div[data-testid="piano-container"]',
-      main: 'div[class*="Articlestyled__ArticleBodyWrapper"]'
+      main: 'div[class*="Articlestyled__ArticleBodyWrapper"]',
     },
     start: (root) => {
       const blur = root.querySelector('.plus-overlay-blur')
@@ -965,8 +1137,8 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'SZO,SSDE',
-      sourceNames: ['Sächsische Zeitung', 'sächsische.de']
-    }
+      sourceNames: ['Sächsische Zeitung', 'sächsische.de'],
+    },
   },
   'www.freiepresse.de': {
     testSetup: getConsentCdnSetup({ framePart: 'cmp2.freiepresse.de' }),
@@ -974,23 +1146,24 @@ const sites: Sites = {
       {
         url: 'https://www.freiepresse.de/chemnitz/einwohnerversammlungen-in-chemnitz-kuenftig-wieder-vor-ort-artikel13507031',
         selectors: {
-          query: '"wird es künftig wieder Einwohnerversammlungen in den Stadtteilen geben Das hat der neu"'
-        }
-      }
+          query:
+            '"wird es künftig wieder Einwohnerversammlungen in den Stadtteilen geben Das hat der neu"',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('.article__shorttext', true),
       headline: '.article__headline',
       paywall: '.default-paywall',
       date: '.article__etag div',
-      main: '#artikel-content'
+      main: '#artikel-content',
     },
     waitOnLoad: true,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'FEPR',
-      sourceNames: ['Freie Presse']
-    }
+      sourceNames: ['Freie Presse'],
+    },
   },
   'www.haz.de': {
     testSetup: getConsentCdnSetup({ framePart: 'cmp-sp.haz.de' }),
@@ -998,15 +1171,16 @@ const sites: Sites = {
       {
         url: 'https://www.haz.de/der-norden/tour-mit-9-euro-ticket-auf-dem-sofa-bei-hitzacker-ueber-die-elbe-schippern-UO2T7PN7TB73CND54EVFCMYVA4.html',
         selectors: {
-          query: 'dem 9-Euro-Ticket Bei Hitzacker auf dem Sofa über die Elbe schippern'
-        }
-      }
+          query:
+            'dem 9-Euro-Ticket Bei Hitzacker auf dem Sofa über die Elbe schippern',
+        },
+      },
     ],
     ...RND,
     sourceParams: {
       dbShortcut: 'HAZ',
-      sourceNames: ['Hannoversche Allgemeine Zeitung']
-    }
+      sourceNames: ['Hannoversche Allgemeine Zeitung'],
+    },
   },
   'www.lvz.de': {
     testSetup: getConsentCdnSetup({ framePart: 'cmp-sp.lvz.de' }),
@@ -1014,25 +1188,29 @@ const sites: Sites = {
       {
         url: 'https://www.lvz.de/lokales/leipzig/lvb-letzte-xl-strassenbahn-ist-da-tatras-verabschieden-sich-aus-leipzig-KJTZK5LMTYO7SABWWZTM2CT37A.html',
         selectors: {
-          query: '"LVB-Zentrum Heiterblick ist am Dienstag die letzte XL-Straßenbahn aus Polen angekommen Damit ist"'
-        }
-      }
+          query:
+            '"LVB-Zentrum Heiterblick ist am Dienstag die letzte XL-Straßenbahn aus Polen angekommen Damit ist"',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('.paywalledContent > p'),
       date: 'time',
       paywall: '#piano-lightbox-article-lvz',
-      main: 'header .paywalledContent'
+      main: 'header .paywalledContent',
     },
     waitOnLoad: true,
     start: (root) => {
-      const main: HTMLElement = root.querySelector('div[class*="ArticleHeadstyled__ArticleTeaserContainer"]')
+      const main: HTMLElement = root.querySelector(
+        'div[class*="ArticleHeadstyled__ArticleTeaserContainer"]',
+      )
       main.style.height = 'auto'
       main.style.overflow = 'auto'
     },
     insertContent: (siteBot, main, content) => {
       siteBot.hideBot()
-      main.querySelector('span[class*="Textstyled__InlineText"]').innerHTML = content
+      main.querySelector('span[class*="Textstyled__InlineText"]').innerHTML =
+        content
       main.parentElement.childNodes.forEach((node, i) => {
         if (i > 0) {
           node.remove()
@@ -1042,8 +1220,8 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'LVZ',
-      sourceNames: ['Leipziger Volkszeitung']
-    }
+      sourceNames: ['Leipziger Volkszeitung'],
+    },
   },
   'www.dnn.de': {
     testSetup: getConsentCdnSetup({ framePart: 'cmp-sp.dnn.de' }),
@@ -1051,25 +1229,29 @@ const sites: Sites = {
       {
         url: 'https://www.dnn.de/lokales/dresden/laesst-dresden-800-wartehaeuschen-schreddern-FCEJWIVOHYVCWZ7OYHCO42YBVE.html',
         selectors: {
-          query: '"800 Wartehäuschen bieten in Dresden den Fahrgästen von Bussen und Straßenbahnen Schutz vor"'
-        }
-      }
+          query:
+            '"800 Wartehäuschen bieten in Dresden den Fahrgästen von Bussen und Straßenbahnen Schutz vor"',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('.paywalledContent > p'),
       date: 'time',
       paywall: '#piano-lightbox-article-dnn',
-      main: 'header .paywalledContent'
+      main: 'header .paywalledContent',
     },
     waitOnLoad: true,
     start: (root) => {
-      const main: HTMLElement = root.querySelector('div[class*="ArticleHeadstyled__ArticleTeaserContainer"]')
+      const main: HTMLElement = root.querySelector(
+        'div[class*="ArticleHeadstyled__ArticleTeaserContainer"]',
+      )
       main.style.height = 'auto'
       main.style.overflow = 'auto'
     },
     insertContent: (siteBot, main, content) => {
       siteBot.hideBot()
-      main.querySelector('span[class*="Textstyled__InlineText"]').innerHTML = content
+      main.querySelector('span[class*="Textstyled__InlineText"]').innerHTML =
+        content
       main.parentElement.childNodes.forEach((node, i) => {
         if (i > 0) {
           node.remove()
@@ -1079,8 +1261,8 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'DNN',
-      sourceNames: ['Dresdner Neueste Nachrichten']
-    }
+      sourceNames: ['Dresdner Neueste Nachrichten'],
+    },
   },
   'www.swp.de': {
     testSetup: getConsentCdnSetup({ framePart: 'cdn.privacy-mgmt.com' }),
@@ -1088,22 +1270,23 @@ const sites: Sites = {
       {
         url: 'https://www.swp.de/lokales/ulm/mobilitaet-in-ulm-verkehrswende-in-ulm_-es-ist-noch-viel-luft-nach-oben-65149611.html',
         selectors: {
-          query: '"Autofahrer wünschen wurde nicht gefragt Im Gegenteil Es ging um Konzepte der Zukunft"'
-        }
-      }
+          query:
+            '"Autofahrer wünschen wurde nicht gefragt Im Gegenteil Es ging um Konzepte der Zukunft"',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('article .u-paragraph'),
       headline: 'article h1',
       paywall: '.u-paywall',
-      main: 'article .u-row'
+      main: 'article .u-row',
     },
     waitOnLoad: 1000,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'SWP',
-      sourceNames: ['SÜDWEST PRESSE']
-    }
+      sourceNames: ['SÜDWEST PRESSE'],
+    },
   },
   'www.ruhrnachrichten.de': {
     testSetup: getCmpBoxConsent(),
@@ -1112,28 +1295,32 @@ const sites: Sites = {
       headline: 'h1.entry__title',
       date: 'time',
       paywall: '.PremiumContent',
-      main: '.entry__content'
+      main: '.entry__content',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'RN',
-      sourceNames: ['Ruhr Nachrichten']
-    }
+      sourceNames: ['Ruhr Nachrichten'],
+    },
   },
   'www.businessinsider.de': {
-    testSetup: getConsentCdnSetup({ pageChanges: false, framePart: 'cdn.privacy-mgmt.com', button: 'sp_choice_type_11' }),
+    testSetup: getConsentCdnSetup({
+      pageChanges: false,
+      framePart: 'cdn.privacy-mgmt.com',
+      button: 'sp_choice_type_11',
+    }),
     selectors: {
       query: makeQueryFunc('.piano-article__content > p'),
       headline: 'h2.entry-title',
       date: 'time',
       paywall: '.piano-article__paywall',
-      main: '.piano-article__content'
+      main: '.piano-article__content',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'BUIN',
-      sourceNames: ['BUSINESS INSIDER DEUTSCHLAND']
-    }
+      sourceNames: ['BUSINESS INSIDER DEUTSCHLAND'],
+    },
   },
   'www.badische-zeitung.de': {
     selectors: {
@@ -1141,21 +1328,22 @@ const sites: Sites = {
       headline: 'h1',
       date: 'p.article__header__info-area__txt a[href*="/archiv"]',
       paywall: '#regWalli',
-      main: '.artikelPreview'
+      main: '.artikelPreview',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'BADZ',
-      sourceNames: ['Badische Zeitung']
-    }
+      sourceNames: ['Badische Zeitung'],
+    },
   },
   'www.stern.de': {
     selectors: {
       query: makeQueryFunc('.article__body p'),
       headline: 'h2 .title__headline',
       date: 'time',
-      paywall: 'html:not(.has-paid-access):not(.has-full-access) .title__logo--str_plus',
-      main: '.article__body'
+      paywall:
+        'html:not(.has-paid-access):not(.has-full-access) .title__logo--str_plus',
+      main: '.article__body',
     },
     insertContent: (siteBot, main, content) => {
       siteBot.hideBot()
@@ -1170,8 +1358,8 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'STER,STGL',
-      sourceNames: ['Stern', 'STERN Gesund leben']
-    }
+      sourceNames: ['Stern', 'STERN Gesund leben'],
+    },
   },
   'www.mittelbayerische.de': {
     testSetup: consentShadowRoot({}),
@@ -1179,22 +1367,23 @@ const sites: Sites = {
       {
         url: 'https://www.mittelbayerische.de/lokales/stadt-regensburg/geister-parkhaus-am-regensburger-tech-campus-die-nutzungsquote-steigt-14904402',
         selectors: {
-          query: '"„vollkommen lächerlichen“ Nutzungsquote machte im Sommer das neue Parkhaus am Regensburger Tech-Campus Schlagzeilen"'
-        }
-      }
+          query:
+            '"„vollkommen lächerlichen“ Nutzungsquote machte im Sommer das neue Parkhaus am Regensburger Tech-Campus Schlagzeilen"',
+        },
+      },
     ],
     selectors: {
       query: makeQueryFunc('.article-detail-entry-content'),
       headline: '.article-detail-headline',
       date: '.date-published',
       paywall: '.paywall-layer',
-      main: '.article-detail-entry-content'
+      main: '.article-detail-entry-content',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'MIB',
-      sourceNames: ['Mittelbayerische Zeitung']
-    }
+      sourceNames: ['Mittelbayerische Zeitung'],
+    },
   },
   'www.tagblatt.de': {
     selectors: {
@@ -1202,13 +1391,13 @@ const sites: Sites = {
       headline: 'h1',
       date: '.artikelhead > span',
       main: '.StoryShowBody',
-      paywall: '.Paywall'
+      paywall: '.Paywall',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'STT',
-      sourceNames: ['Schwäbisches Tagblatt']
-    }
+      sourceNames: ['Schwäbisches Tagblatt'],
+    },
   },
   'www.mz.de': {
     selectors: {
@@ -1216,7 +1405,7 @@ const sites: Sites = {
       headline: 'article .fp-article-heading__title',
       date: 'article .fp-article-heading__date',
       main: 'article .fp-article-body',
-      paywall: 'article .fp-paywall'
+      paywall: 'article .fp-paywall',
     },
     mimic: (content) => {
       return content.replace(/<p>/g, '<p class="fp-paragraph">')
@@ -1224,8 +1413,8 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'MZ',
-      sourceNames: ['Mitteldeutsche Zeitung']
-    }
+      sourceNames: ['Mitteldeutsche Zeitung'],
+    },
   },
   'www.capital.de': {
     selectors: {
@@ -1233,17 +1422,18 @@ const sites: Sites = {
       headline: '.title__headline',
       date: 'time',
       main: '.article__body',
-      paywall: 'html:not(.has-paid-access):not(.has-full-access) .title__logo--capital_plus'
+      paywall:
+        'html:not(.has-paid-access):not(.has-full-access) .title__logo--capital_plus',
     },
     dateRange: [10, 1],
     paragraphStyle: {
-      selector: 'p.text-element'
+      selector: 'p.text-element',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'CAPI',
-      sourceNames: ['Capital']
-    }
+      sourceNames: ['Capital'],
+    },
   },
   'www.geo.de': {
     selectors: {
@@ -1251,17 +1441,24 @@ const sites: Sites = {
       headline: '.title__headline',
       date: 'time',
       main: '.article__body',
-      paywall: 'html:not(.has-paid-access):not(.has-full-access) .title__logo--geo_plus'
+      paywall:
+        'html:not(.has-paid-access):not(.has-full-access) .title__logo--geo_plus',
     },
     dateRange: [10, 1],
     paragraphStyle: {
-      selector: 'p.text-element'
+      selector: 'p.text-element',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'GEO,GEOS,GEOW,GESP,GEOE',
-      sourceNames: ['GEO', 'GEO Saison', 'GEO Wissen', 'GEO Special', 'GEO SAISON Extra']
-    }
+      sourceNames: [
+        'GEO',
+        'GEO Saison',
+        'GEO Wissen',
+        'GEO Special',
+        'GEO SAISON Extra',
+      ],
+    },
   },
   'www.iz.de': {
     selectors: {
@@ -1269,14 +1466,14 @@ const sites: Sites = {
       headline: '.ArticleHeader_headline',
       date: '.PublishDate_date',
       main: '.ArticleCopy',
-      paywall: '.Paywall'
+      paywall: '.Paywall',
     },
     dateRange: [10, 1],
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'IMMO',
-      sourceNames: ['Immobilien Zeitung']
-    }
+      sourceNames: ['Immobilien Zeitung'],
+    },
   },
   'www.shz.de': {
     selectors: {
@@ -1284,29 +1481,56 @@ const sites: Sites = {
       headline: 'h1 span:nth-child(2)',
       date: '.meta-box__meta',
       main: '.content--group__article section p',
-      paywall: '.paywall'
+      paywall: '.paywall',
     },
     source: 'genios.de',
     sourceParams: {
-      dbShortcut: 'ELNA,PBTB,QBTB,SHTB,UENR,WETB,BSZG,WIZE,SYR,STTB,SCHN,SCHB,OHAN,NRU,NFTB,SHL,IB,HN,HCOU,GF,FTB,ECTB',
-      sourceNames: ['Elmshorner Nachrichten', 'Pinneberger Tageblatt', 'Quickborner Tageblatt', 'Schenefelder Tageblatt', 'Uetersener Nachrichten', 'Wedel-Schulauer Tageblatt', 'Barmstedter Zeitung', 'Wilstersche Zeitung', 'Sylter Rundschau', 'Stormarner Tageblatt', 'Schleswiger Nachrichten', 'Schlei-Bote', 'Ostholsteiner Anzeiger', 'Norddeutsche Rundschau', 'Nordfriesland Tageblatt', 'Schleswig-Holsteinische Landeszeitung', 'Der Insel-Bote', 'Husumer Nachrichten', 'Holsteinischer Courier', 'Glückstädter Fortuna', 'Flensburger Tageblatt', 'Eckernförder Zeitung']
-    }
+      dbShortcut:
+        'ELNA,PBTB,QBTB,SHTB,UENR,WETB,BSZG,WIZE,SYR,STTB,SCHN,SCHB,OHAN,NRU,NFTB,SHL,IB,HN,HCOU,GF,FTB,ECTB',
+      sourceNames: [
+        'Elmshorner Nachrichten',
+        'Pinneberger Tageblatt',
+        'Quickborner Tageblatt',
+        'Schenefelder Tageblatt',
+        'Uetersener Nachrichten',
+        'Wedel-Schulauer Tageblatt',
+        'Barmstedter Zeitung',
+        'Wilstersche Zeitung',
+        'Sylter Rundschau',
+        'Stormarner Tageblatt',
+        'Schleswiger Nachrichten',
+        'Schlei-Bote',
+        'Ostholsteiner Anzeiger',
+        'Norddeutsche Rundschau',
+        'Nordfriesland Tageblatt',
+        'Schleswig-Holsteinische Landeszeitung',
+        'Der Insel-Bote',
+        'Husumer Nachrichten',
+        'Holsteinischer Courier',
+        'Glückstädter Fortuna',
+        'Flensburger Tageblatt',
+        'Eckernförder Zeitung',
+      ],
+    },
   },
   'www.aerztezeitung.de': {
     selectors: {
       query: makeQueryFunc('.StoryShowBox p'),
-      date: () => document.querySelector("meta[name='date']").attributes.getNamedItem('content').value,
+      date: () =>
+        document
+          .querySelector("meta[name='date']")
+          .attributes.getNamedItem('content').value,
       headline: '.article-heading',
       main: '.StoryShowBox',
-      paywall: '.AZLoginModule'
+      paywall: '.AZLoginModule',
     },
     waitOnLoad: true,
     dateRange: [25, 1],
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'AEZT',
-      sourceNames: ['Ärzte Zeitung']
-    }
+      sourceNames: ['Ärzte Zeitung'],
+    },
   },
   'www.nzz.ch': {
     selectors: {
@@ -1314,50 +1538,53 @@ const sites: Sites = {
       date: 'time',
       headline: '.headline__title',
       main: '.articlecomponent.text',
-      paywall: '.dynamic-regwall'
+      paywall: '.dynamic-regwall',
     },
     waitOnLoad: 1500,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'NZZ,NZZS',
-      sourceNames: ['Neue Zürcher Zeitung (NZZ)', 'NZZ am Sonntag']
-    }
+      sourceNames: ['Neue Zürcher Zeitung (NZZ)', 'NZZ am Sonntag'],
+    },
   },
   'www.nwzonline.de': {
     examples: [
       {
         url: 'https://www.nwzonline.de/oldenburg/kauf-uebernahme-und-erwartungen_a_4,0,3585174512.html',
         selectors: {
-          query: 'Die Übernahme – und der Standort Oldenburg'
-        }
-      }
+          query: 'Die Übernahme – und der Standort Oldenburg',
+        },
+      },
     ],
     selectors: {
-      query: () => document.querySelector('meta[property="cleverpush:description"]').attributes.getNamedItem('content').value,
+      query: () =>
+        document
+          .querySelector('meta[property="cleverpush:description"]')
+          .attributes.getNamedItem('content').value,
       date: 'time',
       main: '.article-body',
-      paywall: '.piano.piano-target'
+      paywall: '.piano.piano-target',
     },
     waitOnLoad: true,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'NOW',
-      sourceNames: ['Nordwest-Zeitung']
-    }
+      sourceNames: ['Nordwest-Zeitung'],
+    },
   },
   'www.saarbruecker-zeitung.de': {
     selectors: {
       query: makeQueryFunc('div[data-cy="article-content-text"]'),
       date: 'time',
       main: 'div[data-cy="article-content-text"]',
-      paywall: '.park-article-reduced-overlay'
+      paywall: '.park-article-reduced-overlay',
     },
     mimic: 'div[data-cy="article-content-text"] p',
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'SAAR',
-      sourceNames: ['Saarbrücker Zeitung']
-    }
+      sourceNames: ['Saarbrücker Zeitung'],
+    },
   },
   'www.idowa.de': {
     selectors: {
@@ -1367,10 +1594,12 @@ const sites: Sites = {
       },
       date: 'time',
       paywall: '.paywall-call-to-action-box',
-      main: '.copy.paywal'
+      main: '.copy.paywal',
     },
     start: (root) => {
-      const paywall: HTMLElement = root.querySelector('.paywall-call-to-action-box')
+      const paywall: HTMLElement = root.querySelector(
+        '.paywall-call-to-action-box',
+      )
       paywall.style.display = 'none'
     },
     mimic: (content) => {
@@ -1380,45 +1609,53 @@ const sites: Sites = {
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'LAZ,REGZ,STAG',
-      sourceNames: ['Landshuter Zeitung', 'Regensburger Zeitung', 'Straubinger Tagblatt']
-    }
+      sourceNames: [
+        'Landshuter Zeitung',
+        'Regensburger Zeitung',
+        'Straubinger Tagblatt',
+      ],
+    },
   },
   'www.aachener-zeitung.de': {
     selectors: {
       query: makeQueryFunc('article h1', false),
       date: 'article time',
       paywall: 'div[data-testid="paywall-container"]',
-      main: 'main article section'
+      main: 'main article section',
     },
     start: (root) => {
       root.classList.remove('noscroll')
       document.documentElement.classList.remove('noscroll')
-      const paywall: HTMLElement = root.querySelector('div[data-testid="paywall-container"]')
+      const paywall: HTMLElement = root.querySelector(
+        'div[data-testid="paywall-container"]',
+      )
       paywall.style.display = 'none'
-      root.querySelector('main .paywalled-article')?.classList.remove('paywalled-article')
+      root
+        .querySelector('main .paywalled-article')
+        ?.classList.remove('paywalled-article')
     },
     waitOnLoad: true,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'AAZ',
-      sourceNames: ['Aachener Zeitung']
-    }
+      sourceNames: ['Aachener Zeitung'],
+    },
   },
   'www.nn.de': {
     selectors: {
       query: makeQueryFunc('.headline.headline--h2', false),
       date: '.article__release',
       paywall: '.paywall',
-      main: '.article__richtext > div > div'
+      main: '.article__richtext > div > div',
     },
     waitOnLoad: false,
     dateRange: [30, 5],
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'NN',
-      sourceNames: ['Nürnberger Nachrichten']
-    }
-  }
+      sourceNames: ['Nürnberger Nachrichten'],
+    },
+  },
 }
 
 export default sites

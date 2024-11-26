@@ -17,5 +17,5 @@ export const storageDefaults: StorageItems = {
   stats: {},
   providerOptions: {},
   saveArticle: null,
-  disabledSites: []
+  disabledSites: [],
 }

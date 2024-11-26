@@ -1,11 +1,33 @@
 import * as browser from 'webextension-polyfill'
 
-import { ABORT_MESSAGE, FAILED_MESSAGE, GOTOTAB_MESSAGE, INIT_MESSAGE, LOG_NAME, PORT_NAME, STATUS_MESSAGE, SUCCESS_MESSAGE } from './const.js'
-import { BOT_ID, FAILED_HTML, LOADER_HTML, LOADER_ID, MESSAGE_ID, STYLES } from './ui.js'
+import {
+  ABORT_MESSAGE,
+  FAILED_MESSAGE,
+  GOTOTAB_MESSAGE,
+  INIT_MESSAGE,
+  LOG_NAME,
+  PORT_NAME,
+  STATUS_MESSAGE,
+  SUCCESS_MESSAGE,
+} from './const.js'
+import {
+  BOT_ID,
+  FAILED_HTML,
+  LOADER_HTML,
+  LOADER_ID,
+  MESSAGE_ID,
+  STYLES,
+} from './ui.js'
 
 import Extractor from './extractor.js'
 import { addSharingButton } from './services.js'
-import { GoToTabMessage, InitMessage, Message, Site, SiteBotInterface } from './types.js'
+import {
+  GoToTabMessage,
+  InitMessage,
+  Message,
+  Site,
+  SiteBotInterface,
+} from './types.js'
 
 class SiteBot implements SiteBotInterface {
   site: Site
@@ -16,7 +38,7 @@ class SiteBot implements SiteBotInterface {
   extractor: Extractor
   port?: browser.Runtime.Port | null
 
-  constructor (site: Site, root: HTMLElement, domain = null) {
+  constructor(site: Site, root: HTMLElement, domain = null) {
     this.site = site
     this.root = root
     this.domain = domain
@@ -28,7 +50,7 @@ class SiteBot implements SiteBotInterface {
     this.onMessage = this.onMessage.bind(this)
   }
 
-  start (delay?: boolean | number) {
+  start(delay?: boolean | number) {
     if (typeof delay === 'number') {
       window.setTimeout(() => this.start(), delay)
       return
@@ -42,7 +64,7 @@ class SiteBot implements SiteBotInterface {
     }
   }
 
-  setupUI () {
+  setupUI() {
     if (this.shadow) {
       return
     }
@@ -60,7 +82,7 @@ class SiteBot implements SiteBotInterface {
     this.shadow.appendChild(this.container)
   }
 
-  startInfoExtraction () {
+  startInfoExtraction() {
     if (!this.extractor.shouldExtract()) {
       return
     }
@@ -75,52 +97,52 @@ class SiteBot implements SiteBotInterface {
     }
   }
 
-  startBackgroundConnection (articleInfo) {
+  startBackgroundConnection(articleInfo) {
     this.connectPort()
     const message: InitMessage = {
       type: INIT_MESSAGE,
       source: this.site.source,
       sourceParams: this.site.sourceParams,
       domain: this.domain,
-      articleInfo
+      articleInfo,
     }
     this.postMessage(message)
   }
 
-  runSelectorQuery (selector) {
+  runSelectorQuery(selector) {
     return this.extractor.runSelectorQuery(selector)
   }
 
-  hidePaywall () {
+  hidePaywall() {
     if (this.extractor.hasPaywall()) {
       this.extractor.getPaywall().style.display = 'none'
     }
   }
 
-  showPaywall () {
+  showPaywall() {
     this.extractor.getPaywall().style.display = 'block'
   }
 
-  showLoading () {
+  showLoading() {
     this.container.innerHTML = LOADER_HTML
   }
 
-  hideLoading () {
+  hideLoading() {
     const loader: HTMLElement = this.shadow.querySelector(`#${LOADER_ID}`)
     loader.style.display = 'none'
   }
 
-  hideBot () {
+  hideBot() {
     const bot: HTMLElement = this.shadow.querySelector(`#${BOT_ID}`)
     bot.style.display = 'none'
   }
 
-  showUpdate (text) {
+  showUpdate(text) {
     const message: HTMLElement = this.shadow.querySelector(`#${MESSAGE_ID}`)
     message.innerText = text
   }
 
-  showInteractionRequired () {
+  showInteractionRequired() {
     this.hideLoading()
     const btnId = 'bibbot-goto'
     const html = `<button id="${btnId}">Bitte gehen Sie zum geöffneten Tab.</button>`
@@ -128,29 +150,29 @@ class SiteBot implements SiteBotInterface {
     this.shadow.querySelector(`#${btnId}`).addEventListener('click', (e) => {
       e.preventDefault()
       const message: GoToTabMessage = {
-        type: GOTOTAB_MESSAGE
+        type: GOTOTAB_MESSAGE,
       }
       this.postMessage(message)
     })
   }
 
-  connectPort () {
+  connectPort() {
     this.port = browser.runtime.connect({ name: PORT_NAME })
     this.port.onMessage.addListener(this.onMessage)
     this.port.onDisconnect.addListener(this.onDisconnect)
     return this.port
   }
 
-  postMessage (message: Message) {
+  postMessage(message: Message) {
     this.port.postMessage(message)
   }
 
-  onDisconnect () {
+  onDisconnect() {
     this.port.onMessage.removeListener(this.onMessage)
     this.port.onDisconnect.removeListener(this.onDisconnect)
   }
 
-  onMessage (event: Message) {
+  onMessage(event: Message) {
     console.log(LOG_NAME, event)
     if (event.type === ABORT_MESSAGE) {
       this.showPaywall()
@@ -180,12 +202,12 @@ class SiteBot implements SiteBotInterface {
     throw new Error('Unknown message type')
   }
 
-  fail () {
+  fail() {
     this.shadow.querySelector(`#${MESSAGE_ID}`).innerHTML = FAILED_HTML
     this.showPaywall()
   }
 
-  showArticle (content, saveArticleUrl) {
+  showArticle(content, saveArticleUrl) {
     const main = this.extractor.getMainContentArea()
     content = content.join('')
     if (this.site.mimic) {
@@ -202,13 +224,18 @@ class SiteBot implements SiteBotInterface {
       let className = this.site.paragraphStyle.className || ''
       let style = this.site.paragraphStyle.style || ''
       if (this.site.paragraphStyle.selector) {
-        const example = this.root.querySelector(this.site.paragraphStyle.selector)
+        const example = this.root.querySelector(
+          this.site.paragraphStyle.selector,
+        )
         if (example !== null) {
           className = example.className || className
           style = example.attributes.getNamedItem('style')?.value || style
         }
       }
-      content = content.replace(/<p>/g, `<p class="${className}" style="${style}">`)
+      content = content.replace(
+        /<p>/g,
+        `<p class="${className}" style="${style}">`,
+      )
     }
 
     if (this.site.insertContent) {

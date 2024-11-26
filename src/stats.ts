@@ -1,16 +1,16 @@
 import * as browser from 'webextension-polyfill'
 
-function increaseStats (domain: string) {
+function increaseStats(domain: string) {
   const isPrivate = browser.extension.inIncognitoContext
-  if (isPrivate) { return }
+  if (isPrivate) {
+    return
+  }
   browser.storage.sync.get({ stats: {} }).then(function (items) {
     items.stats[domain] = (items.stats[domain] || 0) + 1
     browser.storage.sync.set({
-      stats: items.stats
+      stats: items.stats,
     })
   })
 }
 
-export {
-  increaseStats
-}
+export { increaseStats }

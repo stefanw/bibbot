@@ -14,24 +14,28 @@ type InputOptions = {
 
 let currentPermissions: browser.Permissions.AnyPermissions | null = null
 
-function showOptions () {
-  const provider = (<HTMLInputElement>document.getElementById('provider')).value;
-  (<HTMLElement[]>[...document.getElementsByClassName('provider-options-container')]).forEach(el => {
+function showOptions() {
+  const provider = (<HTMLInputElement>document.getElementById('provider')).value
+  ;(<HTMLElement[]>[
+    ...document.getElementsByClassName('provider-options-container'),
+  ]).forEach((el) => {
     el.hidden = true
   })
   document.getElementById(provider + '.options').hidden = null
   checkPermissions()
 }
 
-function getInputs () {
-  const inputs: InputOptions = {};
-  ['provider', 'keepStats', 'saveArticle', 'disableSites'].forEach(id => {
-    inputs[id] = <HTMLInputElement | HTMLSelectElement>document.getElementById(id)
+function getInputs() {
+  const inputs: InputOptions = {}
+  ;['provider', 'keepStats', 'saveArticle', 'disableSites'].forEach((id) => {
+    inputs[id] = <HTMLInputElement | HTMLSelectElement>(
+      document.getElementById(id)
+    )
   })
   return inputs
 }
 
-function restore () {
+function restore() {
   browser.storage.sync.get(storageDefaults).then(function (items) {
     const inputs = getInputs()
     inputs.provider.value = items.provider
@@ -43,22 +47,34 @@ function restore () {
         const provider = providers[providerKey]
         for (const optionKey in provider.options) {
           const option = provider.options[optionKey]
-          const input = <HTMLInputElement>document.getElementById(providerKey + '.options.' + option.id)
-          input.value = items.providerOptions[providerKey + '.options.' + option.id] || ''
+          const input = <HTMLInputElement>(
+            document.getElementById(providerKey + '.options.' + option.id)
+          )
+          input.value =
+            items.providerOptions[providerKey + '.options.' + option.id] || ''
         }
       }
     }
     showOptions()
 
     // disableSites
-    Object.keys(sites).sort().forEach(domain => {
-      inputs.disableSites.appendChild(new Option(domain, domain, false, items.disabledSites.includes(domain)))
-    })
+    Object.keys(sites)
+      .sort()
+      .forEach((domain) => {
+        inputs.disableSites.appendChild(
+          new Option(
+            domain,
+            domain,
+            false,
+            items.disabledSites.includes(domain),
+          ),
+        )
+      })
 
     if (items.installDate === null) {
       // first run
       browser.storage.sync.set({
-        installDate: new Date().getTime()
+        installDate: new Date().getTime(),
       })
       document.querySelector('#setup').setAttribute('open', 'true')
     }
@@ -66,7 +82,10 @@ function restore () {
 
   const sortedProviders = []
   for (const providerKey in providers) {
-    sortedProviders.push({ key: providerKey, name: providers[providerKey].name })
+    sortedProviders.push({
+      key: providerKey,
+      name: providers[providerKey].name,
+    })
   }
   sortedProviders.sort((a, b) => a.name.localeCompare(b.name))
 
@@ -108,16 +127,22 @@ function restore () {
     providerOptions.appendChild(optionsContainer)
   }
 
-  Array.from(document.querySelector('form').querySelectorAll('input, select')).forEach(el => {
+  Array.from(
+    document.querySelector('form').querySelectorAll('input, select'),
+  ).forEach((el) => {
     el.addEventListener('change', () => save())
     el.addEventListener('keyup', () => save())
   })
 
-  window.fetch('/manifest.json').then(response => response.json())
-    .then(data => {
-      const domains = data.content_scripts[0].matches.map(url => url.replace('https://', '').replace('/*', ''))
+  window
+    .fetch('/manifest.json')
+    .then((response) => response.json())
+    .then((data) => {
+      const domains = data.content_scripts[0].matches.map((url) =>
+        url.replace('https://', '').replace('/*', ''),
+      )
       const ul = document.getElementById('newssites')
-      domains.forEach(domain => {
+      domains.forEach((domain) => {
         const li = document.createElement('li')
         li.innerText = domain
         ul.appendChild(li)
@@ -127,26 +152,30 @@ function restore () {
   checkPermissions()
 }
 
-function save () {
+function save() {
   const providerOptions = {}
   for (const providerKey in providers) {
     const provider = providers[providerKey]
     for (const optionKey in provider.options) {
       const option = provider.options[optionKey]
-      const input = <HTMLInputElement>document.getElementById(providerKey + '.options.' + option.id)
+      const input = <HTMLInputElement>(
+        document.getElementById(providerKey + '.options.' + option.id)
+      )
       providerOptions[providerKey + '.options.' + option.id] = input.value
     }
   }
   const inputs = getInputs()
   const provider = inputs.provider.value
 
-  const disabledSites = Array.from(inputs.disableSites.selectedOptions).map(({ value }) => value)
+  const disabledSites = Array.from(inputs.disableSites.selectedOptions).map(
+    ({ value }) => value,
+  )
   const values: StorageItems = {
     keepStats: inputs.keepStats.checked,
     provider,
     providerOptions,
     saveArticle: inputs.saveArticle.value,
-    disabledSites
+    disabledSites,
   }
   if (!values.keepStats) {
     values.stats = {}
@@ -157,7 +186,9 @@ function save () {
   console.log('saved!')
 }
 
-async function getPermissions (refresh = false): Promise<browser.Permissions.AnyPermissions> {
+async function getPermissions(
+  refresh = false,
+): Promise<browser.Permissions.AnyPermissions> {
   if (currentPermissions !== null && !refresh) {
     return Promise.resolve(currentPermissions)
   }
@@ -167,10 +198,12 @@ async function getPermissions (refresh = false): Promise<browser.Permissions.Any
   })
 }
 
-async function checkPermissions (): Promise<boolean> {
+async function checkPermissions(): Promise<boolean> {
   const inputs = getInputs()
   const provider = inputs.provider.value
-  const neededPermissions = await getNeededPermissions(providers[provider].permissions)
+  const neededPermissions = await getNeededPermissions(
+    providers[provider].permissions,
+  )
   console.log('Missing permissions', neededPermissions)
   const needed = neededPermissions.length > 0
   if (needed) {
@@ -181,14 +214,16 @@ async function checkPermissions (): Promise<boolean> {
   return needed
 }
 
-async function getNeededPermissions (providerPermissions: string[] | undefined): Promise<string[]> {
+async function getNeededPermissions(
+  providerPermissions: string[] | undefined,
+): Promise<string[]> {
   if (!providerPermissions) {
     return []
   }
   const neededPermissions = []
   const permissions = await getPermissions()
   console.log(providerPermissions, permissions.origins)
-  providerPermissions.forEach(p => {
+  providerPermissions.forEach((p) => {
     if (!permissions.origins.includes(p)) {
       neededPermissions.push(p)
     }
@@ -196,19 +231,21 @@ async function getNeededPermissions (providerPermissions: string[] | undefined):
   return neededPermissions
 }
 
-async function requestNeededPermissions () {
+async function requestNeededPermissions() {
   const inputs = getInputs()
   const provider = inputs.provider.value
   await requestPermissions(providers[provider].permissions)
 }
 
-async function requestPermissions (providerPermissions) {
+async function requestPermissions(providerPermissions) {
   if (!providerPermissions) {
     return
   }
   const neededPermissions = await getNeededPermissions(providerPermissions)
   if (neededPermissions.length > 0) {
-    const granted = await browser.permissions.request({ origins: neededPermissions })
+    const granted = await browser.permissions.request({
+      origins: neededPermissions,
+    })
     console.log('Permissions granted?', granted)
     await getPermissions(true)
     await checkPermissions()
@@ -224,5 +261,8 @@ document.querySelector('form').addEventListener('submit', (e) => {
 
 document.getElementById('provider').addEventListener('change', showOptions)
 document.addEventListener('DOMContentLoaded', restore)
-document.getElementById('version').innerText = 'v' + browser.runtime.getManifest().version
-document.getElementById('refresh-permissions-button').addEventListener('click', requestNeededPermissions)
+document.getElementById('version').innerText =
+  'v' + browser.runtime.getManifest().version
+document
+  .getElementById('refresh-permissions-button')
+  .addEventListener('click', requestNeededPermissions)

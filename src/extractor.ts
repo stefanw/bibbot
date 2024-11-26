@@ -1,15 +1,21 @@
-import { ArticleInfo, ExtractorInterface, FormattedDateRange, RawArticleInfo, Site } from './types.js'
+import {
+  ArticleInfo,
+  ExtractorInterface,
+  FormattedDateRange,
+  RawArticleInfo,
+  Site,
+} from './types.js'
 
 class Extractor implements ExtractorInterface {
   site: Site
   root: HTMLElement
 
-  constructor (site, root) {
+  constructor(site, root) {
     this.site = site
     this.root = root
   }
 
-  shouldExtract () {
+  shouldExtract() {
     if (this.site.start) {
       const result = this.site.start(this.root, this.getPaywall())
       if (result) {
@@ -22,36 +28,36 @@ class Extractor implements ExtractorInterface {
     return true
   }
 
-  getPaywall () {
+  getPaywall() {
     return this.runSelectorQueryElement(this.site.selectors.paywall)
   }
 
-  hasPaywall () {
+  hasPaywall() {
     return this.getPaywall() !== null
   }
 
-  hidePaywall () {
+  hidePaywall() {
     if (this.hasPaywall()) {
       this.getPaywall().style.display = 'none'
     }
   }
 
-  showPaywall () {
+  showPaywall() {
     this.getPaywall().style.display = 'block'
   }
 
-  getMainContentArea () {
+  getMainContentArea() {
     return this.runSelectorQueryElement(this.site.selectors.main)
   }
 
-  getLoadingArea () {
+  getLoadingArea() {
     if (this.site.selectors.loader) {
       return this.runSelectorQueryElement(this.site.selectors.loader)
     }
     return null
   }
 
-  runSelectorQueryElement (selector) {
+  runSelectorQueryElement(selector) {
     if (typeof selector === 'function') {
       return selector(this.root, this)
     }
@@ -67,7 +73,7 @@ class Extractor implements ExtractorInterface {
     return this.root.querySelector(selector)
   }
 
-  runSelectorQuery (selector) {
+  runSelectorQuery(selector) {
     if (typeof selector === 'function') {
       return selector(this.root, this)
     }
@@ -96,9 +102,10 @@ class Extractor implements ExtractorInterface {
     }
   }
 
-  extractDateQuery (dateValue: string, range) : FormattedDateRange {
+  extractDateQuery(dateValue: string, range): FormattedDateRange {
     const defaultValue: FormattedDateRange = {
-      dateStart: '', dateEnd: ''
+      dateStart: '',
+      dateEnd: '',
     }
     if (!dateValue) {
       return defaultValue
@@ -111,8 +118,19 @@ class Extractor implements ExtractorInterface {
       if (!match) {
         match = dateValue.match(/(\d{1,2})\. ([^ ]+) (\d{4})/)
         if (match) {
-          const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-            'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
+          const monthNames = [
+            'Januar',
+            'Februar',
+            'März',
+            'April',
+            'Mai',
+            'Juni',
+            'Juli',
+            'August',
+            'September',
+            'Oktober',
+            'November',
+            'Dezember',
           ]
           const monthIndex = monthNames.findIndex((x) => x === match[2])
           if (monthIndex === -1) {
@@ -129,18 +147,19 @@ class Extractor implements ExtractorInterface {
         return defaultValue
       }
     }
-    const formatDate = (d) => `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`
+    const formatDate = (d) =>
+      `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`
     const day = 24 * 60 * 60 * 1000
     const dateStart = new Date(date.getTime() - day * range[0])
     const dateEnd = new Date(date.getTime() + day * range[1])
     const dateRange: FormattedDateRange = {
       dateStart: formatDate(dateStart),
-      dateEnd: formatDate(dateEnd)
+      dateEnd: formatDate(dateEnd),
     }
     return dateRange
   }
 
-  extractArticleInfo (): ArticleInfo {
+  extractArticleInfo(): ArticleInfo {
     const articleInfoSelectors = ['query', 'edition', 'date']
     const articleInfo: RawArticleInfo = {}
     for (const key of articleInfoSelectors) {
@@ -156,7 +175,7 @@ class Extractor implements ExtractorInterface {
     return {
       query: articleInfo.query,
       edition: articleInfo.edition,
-      ...this.extractDateQuery(articleInfo.date, this.site.dateRange || [4, 1])
+      ...this.extractDateQuery(articleInfo.date, this.site.dateRange || [4, 1]),
     }
   }
 }

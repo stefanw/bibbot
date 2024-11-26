@@ -2,18 +2,18 @@ import { test as base, chromium, type BrowserContext } from '@playwright/test'
 import path from 'path'
 
 export const test = base.extend<{
-  context: BrowserContext;
-  extensionId: string;
+  context: BrowserContext
+  extensionId: string
 }>({
   // eslint-disable-next-line no-empty-pattern
-  context: async ({ }, use) => {
+  context: async ({}, use) => {
     const pathToExtension = path.join(__dirname, '../dist/bibbot')
     const context = await chromium.launchPersistentContext('', {
       headless: false,
       args: [
         `--disable-extensions-except=${pathToExtension}`,
-        `--load-extension=${pathToExtension}`
-      ]
+        `--load-extension=${pathToExtension}`,
+      ],
     })
     await use(context)
     await context.close()
@@ -27,10 +27,12 @@ export const test = base.extend<{
 
     // for manifest v3:
     let [background] = context.serviceWorkers()
-    if (!background) { background = await context.waitForEvent('serviceworker') }
+    if (!background) {
+      background = await context.waitForEvent('serviceworker')
+    }
 
     const extensionId = background.url().split('/')[2]
     await use(extensionId)
-  }
+  },
 })
 export const expect = test.expect

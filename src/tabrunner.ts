@@ -9,12 +9,12 @@ class TabRunner {
   tabId: number
   userData: object
 
-  constructor (tabId, userData) {
+  constructor(tabId, userData) {
     this.tabId = tabId
     this.userData = userData
   }
 
-  async runActions (actions: Actions) {
+  async runActions(actions: Actions) {
     let result
     for (const action of actions) {
       result = await this.runAction(action)
@@ -22,13 +22,13 @@ class TabRunner {
     return result
   }
 
-  async runAction (action: Action) {
+  async runAction(action: Action) {
     console.log('Running', action)
     const actionCode = this.getActionCode(action)
     return await this.runScript(actionCode)
   }
 
-  async runScript (actionCode) {
+  async runScript(actionCode) {
     if (!actionCode) {
       return
     }
@@ -38,10 +38,10 @@ class TabRunner {
     } else {
       result = await browser.scripting.executeScript({
         target: {
-          tabId: this.tabId
+          tabId: this.tabId,
         },
         func: actionCode.func,
-        args: actionCode.args
+        args: actionCode.args,
       })
       result = result[0].result
     }
@@ -51,7 +51,7 @@ class TabRunner {
     return result
   }
 
-  getActionCode (action: Action) {
+  getActionCode(action: Action) {
     if ('fill' in action) {
       let val
       if (action.fill.key && this.userData[action.fill.key]) {
@@ -67,18 +67,18 @@ class TabRunner {
         func: (selector, val) => {
           document.querySelector(selector).value = val
         },
-        args: [action.fill.selector, val]
+        args: [action.fill.selector, val],
       }
     } else if ('event' in action) {
       return {
         func: (selector, event) => {
           document.querySelector(selector).dispatchEvent(new Event(event))
         },
-        args: [action.event.selector, action.event.event]
+        args: [action.event.selector, action.event.event],
       }
     } else if ('wait' in action) {
       return {
-        localFunc: makeTimeout(action.wait)
+        localFunc: makeTimeout(action.wait),
       }
     } else if ('failOnMissing' in action) {
       return {
@@ -89,12 +89,12 @@ class TabRunner {
             return result
           }
           throw new Error(action.failure)
-        }
+        },
       }
     } else if ('func' in action) {
       return {
         func: action.func,
-        args: [this.userData]
+        args: [this.userData],
       }
     } else if ('click' in action) {
       if (action.optional) {
@@ -106,14 +106,14 @@ class TabRunner {
             }
             return el === null
           },
-          args: [action.click]
+          args: [action.click],
         }
       } else {
         return {
           func: (selector) => {
             document.querySelector(selector).click()
           },
-          args: [action.click]
+          args: [action.click],
         }
       }
     } else if ('url' in action) {
@@ -121,14 +121,14 @@ class TabRunner {
         func: (url) => {
           document.location.href = url
         },
-        args: [escapeJsString(action.url)]
+        args: [escapeJsString(action.url)],
       }
     } else if ('href' in action) {
       return {
         func: (selector) => {
           document.location.href = document.querySelector(selector).href
         },
-        args: [action.href]
+        args: [action.href],
       }
     } else if ('captcha' in action) {
       return {
@@ -141,22 +141,25 @@ class TabRunner {
           return (sourceBot) => {
             sourceBot.callback({
               type: STATUS_MESSAGE,
-              action: 'interaction_required'
+              action: 'interaction_required',
             })
             return false
           }
-        }
+        },
       }
     } else if ('extract' in action) {
       return {
-        func: (selector) => Array.from(document.querySelectorAll(selector)).map((el) => el.outerHTML),
+        func: (selector) =>
+          Array.from(document.querySelectorAll(selector)).map(
+            (el) => el.outerHTML,
+          ),
         args: [action.extract],
         resultFunc: (result) => {
           if (result.length > 0 && action.convert) {
             result = converters[action.convert](result)
           }
           return result
-        }
+        },
       }
     }
   }

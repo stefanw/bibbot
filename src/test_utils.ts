@@ -13,10 +13,16 @@ const getContentPassConsent = ({ pageChanges = false }) => {
   }
 }
 
-const getConsentCdnSetup = ({ pageChanges = false, framePart = 'consent-cdn', button = '#notice button.sp_choice_type_11' }) => {
+const getConsentCdnSetup = ({
+  pageChanges = false,
+  framePart = 'consent-cdn',
+  button = '#notice button.sp_choice_type_11',
+}) => {
   return async (page) => {
     console.log('consent setup: find frame')
-    const frame = page.frames().find(frame => frame.url().indexOf(framePart) !== -1)
+    const frame = page
+      .frames()
+      .find((frame) => frame.url().indexOf(framePart) !== -1)
     if (!frame) {
       return
     }
@@ -26,9 +32,7 @@ const getConsentCdnSetup = ({ pageChanges = false, framePart = 'consent-cdn', bu
       return
     }
     console.log('consent setup: click button')
-    const finalStep = [
-      frame.click(button)
-    ]
+    const finalStep = [frame.click(button)]
     if (pageChanges) {
       finalStep.push(page.waitForNavigation())
     }
@@ -44,13 +48,27 @@ const getCmpBoxConsent = () => {
   }
 }
 
-const consentShadowRoot = ({ docSelector = '.needsclick', shadowSelector = '.cmp-button-accept-all' }) => {
+const consentShadowRoot = ({
+  docSelector = '.needsclick',
+  shadowSelector = '.cmp-button-accept-all',
+}) => {
   return async (page) => {
     const count = await page.locator(docSelector).count()
     if (count > 0) {
-      await page.locator(docSelector).evaluate((node, shadowSelector) => node.shadowRoot.querySelector(shadowSelector).click(), shadowSelector)
+      await page
+        .locator(docSelector)
+        .evaluate(
+          (node, shadowSelector) =>
+            node.shadowRoot.querySelector(shadowSelector).click(),
+          shadowSelector,
+        )
     }
   }
 }
 
-export { consentShadowRoot, getCmpBoxConsent, getConsentCdnSetup, getContentPassConsent }
+export {
+  consentShadowRoot,
+  getCmpBoxConsent,
+  getConsentCdnSetup,
+  getContentPassConsent,
+}

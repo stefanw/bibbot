@@ -1,21 +1,29 @@
 import * as browser from 'webextension-polyfill'
 import { Runtime } from 'webextension-polyfill'
 
-import { ABORT_MESSAGE, FAILED_MESSAGE, GOTOTAB_MESSAGE, INIT_MESSAGE, STATUS_MESSAGE, SUCCESS_MESSAGE, storageDefaults } from './const.js'
+import {
+  ABORT_MESSAGE,
+  FAILED_MESSAGE,
+  GOTOTAB_MESSAGE,
+  INIT_MESSAGE,
+  STATUS_MESSAGE,
+  SUCCESS_MESSAGE,
+  storageDefaults,
+} from './const.js'
 import SourceBot from './sourcebot.js'
 import { increaseStats } from './stats.js'
 import { BibbotOptions, InitMessage, Message } from './types.js'
 
 let storageItems: BibbotOptions
 
-function retrieveStorage () {
+function retrieveStorage() {
   return browser.storage.sync.get(storageDefaults).then(function (items) {
     storageItems = {
       keepStats: items.keepStats,
       provider: items.provider,
       providerOptions: items.providerOptions,
       saveArticle: items.saveArticle,
-      disabledSites: items.disabledSites
+      disabledSites: items.disabledSites,
     }
   })
 }
@@ -28,7 +36,7 @@ class Reader {
   sourceId?: string
   domain?: string
 
-  constructor (port) {
+  constructor(port) {
     this.port = port
 
     this.senderTabId = null
@@ -40,18 +48,18 @@ class Reader {
     this.botCallback = this.botCallback.bind(this)
   }
 
-  start () {
+  start() {
     this.storageUpdated = retrieveStorage()
     this.port.onMessage.addListener(this.onMessage)
     this.port.onDisconnect.addListener(this.onDisconnect)
   }
 
-  onMessage (message: Message) {
+  onMessage(message: Message) {
     if (message.type === INIT_MESSAGE) {
       this.storageUpdated.then(() => {
         if (storageItems.disabledSites.includes(message.domain)) {
           this.postMessage({
-            type: ABORT_MESSAGE
+            type: ABORT_MESSAGE,
           })
           this.cleanUp()
           return
@@ -65,11 +73,11 @@ class Reader {
     }
   }
 
-  onDisconnect () {
+  onDisconnect() {
     this.cleanUp()
   }
 
-  postMessage (message: Message) {
+  postMessage(message: Message) {
     try {
       this.port.postMessage(message)
     } catch (e) {
@@ -78,7 +86,7 @@ class Reader {
     }
   }
 
-  retrieveArticle (message: InitMessage) {
+  retrieveArticle(message: InitMessage) {
     this.sourceId = message.source
     this.domain = message.domain
     this.sourceBot = new SourceBot(
@@ -87,12 +95,12 @@ class Reader {
       storageItems.providerOptions,
       message.sourceParams,
       message.articleInfo,
-      this.botCallback
+      this.botCallback,
     )
     this.sourceBot.run()
   }
 
-  botCallback (event: Message) {
+  botCallback(event: Message) {
     if (event.type === STATUS_MESSAGE) {
       this.sendStatusMessage(event)
     } else if (event.type === FAILED_MESSAGE) {
@@ -105,30 +113,30 @@ class Reader {
     }
   }
 
-  sendStatusMessage (event) {
+  sendStatusMessage(event) {
     this.postMessage(event)
   }
 
-  success (event) {
+  success(event) {
     if (storageItems.keepStats) {
       increaseStats(this.domain)
     }
     this.postMessage({
       type: SUCCESS_MESSAGE,
       content: event.content,
-      saveArticle: storageItems.saveArticle
+      saveArticle: storageItems.saveArticle,
     })
   }
 
-  fail (event) {
+  fail(event) {
     this.postMessage({
       type: FAILED_MESSAGE,
-      message: event.message
+      message: event.message,
     })
     this.cleanUp()
   }
 
-  cleanUp () {
+  cleanUp() {
     this.port.onMessage.removeListener(this.onMessage)
     this.port.onDisconnect.removeListener(this.onDisconnect)
   }
