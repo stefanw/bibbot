@@ -44,6 +44,10 @@
   ],
   "background": {
     "service_worker": "build/background.js",
+    "scripts": [
+      "build/background.js"
+    ],
+    "persistent": false,
     "type": "module"
   },
   "content_scripts": [
@@ -119,6 +123,9 @@
       "all_frames": true
     }
   ],
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'"
+  },
   "options_ui": {
     "open_in_tab": true,
     "page": "options/options.html"
