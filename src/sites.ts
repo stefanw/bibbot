@@ -857,9 +857,10 @@ const sites: Sites = {
     testSetup: async (page) => {
       await page
         .locator('#cmpwrapper')
-        .evaluate((node) =>
-          node.shadowRoot.querySelector('#cmpwelcomebtnyes').click(),
-        )
+        .evaluate((node) => {
+          const el: HTMLAnchorElement = node.shadowRoot.querySelector('#cmpwelcomebtnyes')
+          el.click()
+        })
     },
     examples: [
       {
