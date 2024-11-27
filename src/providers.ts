@@ -952,14 +952,14 @@ const providers: Providers = {
         {
           event: { selector: '#shibbolethForm_selectedCity', event: 'change' },
         },
-        { wait: 2000 },
         {
           fill: {
             selector: '#shibbolethForm_selectedName',
             providerKey: 'sso.wiso-net.de.options.name',
           },
+          wait: 2000
         },
-        { click: '#shibbolethForm_shLoginLink' },
+        { click: '#shibbolethForm_shLoginLink', wait: 2500 },
       ],
     ],
     options: [

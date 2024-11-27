@@ -1,7 +1,8 @@
 {
     "root": true,
     "globals": {
-        "browser": true
+        "browser": true,
+        "chrome": true
     },
     "parser": "@typescript-eslint/parser",
     "plugins": [

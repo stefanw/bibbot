@@ -1,3 +1,6 @@
+import SourceBot from "./sourcebot"
+import TabRunner from "./tabrunner"
+
 type TestExample = {
   url: string
   selectors: { query: string }
@@ -173,11 +176,13 @@ export type FillAction = {
     providerKey?: string
     value?: string
   }
+  wait?: number
 }
 export type ClickAction = {
   click: string
   optional?: boolean
   skipToNext?: boolean
+  wait?: number
 }
 export type MessageAction = {
   message: string
@@ -201,9 +206,6 @@ export type FailOnMissingAction = {
 export type CaptchaAction = {
   captcha: string
 }
-export type WaitAction = {
-  wait: number
-}
 export type EventAction = {
   event: {
     selector: string
@@ -225,9 +227,38 @@ export type Action =
   | FailOnMissingAction
   | CaptchaAction
   | ExtractAction
-  | WaitAction
   | EventAction
 export type Actions = Action[]
+
+export type ClickActionCode = {
+  func: (selector: string, optional: boolean, wait?: number) => void
+  args: [string, boolean, number]
+}
+
+export type FillActionCode = {
+  func: (selector: string, value: string, wait?: number) => void
+  args: [string, string, number | undefined]
+}
+
+export type LocalActionCode = {
+  localFunc: (siteBot: TabRunner) => (void | ((sourceBot: SourceBot) => void))
+}
+
+export type ActionCode = ClickActionCode | FillActionCode | LocalActionCode | {
+  func?: (...args: string[]) => void
+  args?: string[]
+} | {
+  func?: (...args: string[]) => boolean
+  args?: string[]
+  resultFunc?: (result: boolean) => boolean
+} | {
+  func?: (userData: object) => void
+  args?: object[]
+} | {
+  func?: (...args: string[]) => string[]
+  args?: string[]
+  resultFunc?: (result: string[]) => string[]
+}
 
 export type Source = {
   loggedIn: string

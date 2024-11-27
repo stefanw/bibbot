@@ -94,7 +94,6 @@ class SourceBot {
   }
 
   cleanUp() {
-    browser.alarms.clear(`tab${this.tabId}`)
     browser.tabs.onUpdated.removeListener(this.onTabUpdated)
   }
 
@@ -123,7 +122,7 @@ class SourceBot {
 
   async isLoggedIn() {
     if (this.phase === PHASE.LOGIN && this.step === 0) {
-      const result = await browser.scripting.executeScript({
+      const result = await (chrome.scripting || browser.scripting).executeScript({
         target: {
           tabId: this.tabId,
         },

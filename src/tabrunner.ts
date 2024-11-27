@@ -1,9 +1,9 @@
 import * as browser from 'webextension-polyfill'
-import { Action, Actions } from './types.js'
+import { Action, ActionCode, Actions } from './types.js'
 
 import { STATUS_MESSAGE } from './const.js'
 import converters from './converters.js'
-import { escapeJsString, makeTimeout } from './utils.js'
+import { escapeJsString } from './utils.js'
 
 class TabRunner {
   tabId: number
@@ -24,19 +24,19 @@ class TabRunner {
 
   async runAction(action: Action) {
     console.log('Running', action)
-    const actionCode = this.getActionCode(action)
+    const actionCode: ActionCode | null = this.getActionCode(action)
     return await this.runScript(actionCode)
   }
 
   async runScript(actionCode) {
-    if (!actionCode) {
+    if (actionCode === null) {
       return
     }
     let result
     if (actionCode.localFunc) {
       result = await actionCode.localFunc(this)
     } else {
-      result = await browser.scripting.executeScript({
+      result = await (chrome.scripting || browser.scripting).executeScript({
         target: {
           tabId: this.tabId,
         },
@@ -51,7 +51,7 @@ class TabRunner {
     return result
   }
 
-  getActionCode(action: Action) {
+  getActionCode(action: Action): ActionCode | null {
     if ('fill' in action) {
       let val
       if (action.fill.key && this.userData[action.fill.key]) {
@@ -61,13 +61,22 @@ class TabRunner {
       } else if (action.fill.value) {
         val = action.fill.value
       } else {
-        return []
+        return null
       }
       return {
-        func: (selector, val) => {
-          document.querySelector(selector).value = val
+        func: (selector, val, wait) => {
+          const inner = () => {
+            const el: HTMLInputElement = document.querySelector(selector)
+            el.value = val
+          }
+          if (wait) {
+            window.setTimeout(inner, wait)
+          } else {
+            inner()
+          }
+          return true
         },
-        args: [action.fill.selector, val],
+        args: [action.fill.selector, val, action.wait || null],
       }
     } else if ('event' in action) {
       return {
@@ -75,10 +84,6 @@ class TabRunner {
           document.querySelector(selector).dispatchEvent(new Event(event))
         },
         args: [action.event.selector, action.event.event],
-      }
-    } else if ('wait' in action) {
-      return {
-        localFunc: makeTimeout(action.wait),
       }
     } else if ('failOnMissing' in action) {
       return {
@@ -97,24 +102,22 @@ class TabRunner {
         args: [this.userData],
       }
     } else if ('click' in action) {
-      if (action.optional) {
-        return {
-          func: (selector) => {
-            const el = document.querySelector(selector)
-            if (el) {
+      return {
+        func: (selector, optional, wait) => {
+          const inner = () => {
+            const el: HTMLButtonElement = document.querySelector(selector)
+            if (!optional || el !== null) {
               el.click()
             }
-            return el === null
-          },
-          args: [action.click],
-        }
-      } else {
-        return {
-          func: (selector) => {
-            document.querySelector(selector).click()
-          },
-          args: [action.click],
-        }
+          }
+          if (wait) {
+            window.setTimeout(inner, wait)
+          } else {
+            inner()
+          }
+          return true
+        },
+        args: [action.click, !!action.optional, action.wait || null],
       }
     } else if ('url' in action) {
       return {
