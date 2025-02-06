@@ -20,5 +20,5 @@ export default {
       content = content.replace(/<p><\/p>/g, '')
       return content
     })
-  }
+  },
 }

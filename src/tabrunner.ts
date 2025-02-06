@@ -1,20 +1,20 @@
 import * as browser from 'webextension-polyfill'
-import { Action, Actions } from './types.js'
+import { Action, ActionCode, Actions } from './types.js'
 
 import { STATUS_MESSAGE } from './const.js'
 import converters from './converters.js'
-import { escapeJsString, makeTimeout } from './utils.js'
+import { escapeJsString } from './utils.js'
 
 class TabRunner {
   tabId: number
   userData: object
 
-  constructor (tabId, userData) {
+  constructor(tabId, userData) {
     this.tabId = tabId
     this.userData = userData
   }
 
-  async runActions (actions: Actions) {
+  async runActions(actions: Actions) {
     let result
     for (const action of actions) {
       result = await this.runAction(action)
@@ -22,33 +22,36 @@ class TabRunner {
     return result
   }
 
-  async runAction (action: Action) {
+  async runAction(action: Action) {
     console.log('Running', action)
-    const actionCode = this.getActionCode(action)
+    const actionCode: ActionCode | null = this.getActionCode(action)
     return await this.runScript(actionCode)
   }
 
-  async runScript (actionCode) {
-    if (actionCode.length === 0) {
+  async runScript(actionCode) {
+    if (actionCode === null) {
       return
     }
     let result
-    if (typeof actionCode[0] === 'function') {
-      result = await actionCode[0](this)
+    if (actionCode.localFunc) {
+      result = await actionCode.localFunc(this)
     } else {
-      result = await browser.tabs.executeScript(
-        this.tabId, {
-          code: actionCode[0]
-        })
-      result = result[0]
+      result = await (chrome.scripting || browser.scripting).executeScript({
+        target: {
+          tabId: this.tabId,
+        },
+        func: actionCode.func,
+        args: actionCode.args,
+      })
+      result = result[0].result
     }
-    if (actionCode.length === 1) {
-      return result
+    if (actionCode.resultFunc) {
+      return actionCode.resultFunc(result)
     }
-    return actionCode[1](result)
+    return result
   }
 
-  getActionCode (action: Action) {
+  getActionCode(action: Action): ActionCode | null {
     if ('fill' in action) {
       let val
       if (action.fill.key && this.userData[action.fill.key]) {
@@ -58,60 +61,109 @@ class TabRunner {
       } else if (action.fill.value) {
         val = action.fill.value
       } else {
-        return []
+        return null
       }
-      return [`document.querySelector('${action.fill.selector}').value = '${val}'`]
+      return {
+        func: (selector, val, wait) => {
+          const inner = () => {
+            const el: HTMLInputElement = document.querySelector(selector)
+            el.value = val
+          }
+          if (wait) {
+            window.setTimeout(inner, wait)
+          } else {
+            inner()
+          }
+          return true
+        },
+        args: [action.fill.selector, val, action.wait || null],
+      }
     } else if ('event' in action) {
-      return [`document.querySelector('${action.event.selector}').dispatchEvent(new Event('${action.event.event}'))`]
-    } else if ('wait' in action) {
-      return [makeTimeout(action.wait)]
+      return {
+        func: (selector, event) => {
+          document.querySelector(selector).dispatchEvent(new Event(event))
+        },
+        args: [action.event.selector, action.event.event],
+      }
     } else if ('failOnMissing' in action) {
-      return [
-        `document.querySelector('${action.failOnMissing}') !== null`,
-        function (result) {
+      return {
+        func: (selector) => document.querySelector(selector) !== null,
+        args: [action.failOnMissing],
+        resultFunc: (result) => {
           if (result === true) {
             return result
           }
           throw new Error(action.failure)
-        }
-      ]
-    } else if ('script' in action) {
-      return [action.script]
+        },
+      }
+    } else if ('func' in action) {
+      return {
+        func: action.func,
+        args: [this.userData],
+      }
     } else if ('click' in action) {
-      if (action.optional) {
-        return [`var el = document.querySelector('${action.click}'); el && el.click(); el === null`]
-      } else {
-        return [`document.querySelector('${action.click}').click()`]
+      return {
+        func: (selector, optional, wait) => {
+          const inner = () => {
+            const el: HTMLButtonElement = document.querySelector(selector)
+            if (!optional || el !== null) {
+              el.click()
+            }
+          }
+          if (wait) {
+            window.setTimeout(inner, wait)
+          } else {
+            inner()
+          }
+          return true
+        },
+        args: [action.click, !!action.optional, action.wait || null],
       }
     } else if ('url' in action) {
-      return [`document.location.href = '${escapeJsString(action.url)}';`]
+      return {
+        func: (url) => {
+          document.location.href = url
+        },
+        args: [escapeJsString(action.url)],
+      }
     } else if ('href' in action) {
-      return [`document.location.href = document.querySelector('${action.href}').href;`]
+      return {
+        func: (selector) => {
+          document.location.href = document.querySelector(selector).href
+        },
+        args: [action.href],
+      }
     } else if ('captcha' in action) {
-      return [`document.querySelector('${action.captcha}') === null`,
-        function (result) {
+      return {
+        func: (selector) => document.querySelector(selector) === null,
+        args: [action.captcha],
+        resultFunc: (result) => {
           if (result === true) {
             return result
           }
-          return function (sourceBot) {
+          return (sourceBot) => {
             sourceBot.callback({
               type: STATUS_MESSAGE,
-              action: 'interaction_required'
+              action: 'interaction_required',
             })
             return false
           }
-        }]
+        },
+      }
     } else if ('extract' in action) {
-      return [
-        `Array.from(document.querySelectorAll('${action.extract}')).map(function(el) {
-          return el.outerHTML
-        })`,
-        function (result) {
+      return {
+        func: (selector) =>
+          Array.from(document.querySelectorAll(selector)).map(
+            (el) => el.outerHTML,
+          ),
+        args: [action.extract],
+        resultFunc: (result) => {
           if (result.length > 0 && action.convert) {
             result = converters[action.convert](result)
           }
           return result
-        }]
+        },
+      }
     }
   }
 }

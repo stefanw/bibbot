@@ -1,12 +1,19 @@
+import SourceBot from "./sourcebot"
+import TabRunner from "./tabrunner"
+
 type TestExample = {
   url: string
   selectors: { query: string }
 }
 
-export type SourceIdentifier = 'genios.de' | 'www.munzinger.de' | 'www.nexisuni.com' | 'old.genios.de'
+export type SourceIdentifier =
+  | 'genios.de'
+  | 'www.munzinger.de'
+  | 'www.nexisuni.com'
+  | 'old.genios.de'
 export type DefaultSourceParams = {
-  domain?: string,
-  scheme?: string,
+  domain?: string
+  scheme?: string
   portalId?: ''
 }
 type GeniosSourceParams = {
@@ -16,9 +23,15 @@ type GeniosSourceParams = {
 export type SiteSourceParams = DefaultSourceParams & GeniosSourceParams
 
 // eslint-disable-next-line no-use-before-define
-type StringSelector = string | string[] | ((root: HTMLElement, siteBot: SiteBotInterface) => string)
+type StringSelector =
+  | string
+  | string[]
+  | ((root: HTMLElement, siteBot: SiteBotInterface) => string)
 // eslint-disable-next-line no-use-before-define
-type ElementSelector = string | string[] | ((root: HTMLElement, siteBot: SiteBotInterface) => HTMLElement)
+type ElementSelector =
+  | string
+  | string[]
+  | ((root: HTMLElement, siteBot: SiteBotInterface) => HTMLElement)
 type DateRange = [offsetBefore: number, offsetAfter: number]
 export type FormattedDateRange = {
   dateStart: string
@@ -73,7 +86,11 @@ export interface PartialSite {
   }
   start?: (root: HTMLElement, paywall: HTMLElement) => boolean | void
   mimic?: Mimicer
-  insertContent?: (siteBot: SiteBotInterface, main: HTMLElement, content: string) => void
+  insertContent?: (
+    siteBot: SiteBotInterface,
+    main: HTMLElement,
+    content: string,
+  ) => void
   waitOnLoad?: boolean | number
   paragraphStyle?: ParagraphStyle
   source: SourceIdentifier
@@ -144,7 +161,13 @@ export type FailedMessage = {
   message: string
 }
 
-export type Message = InitMessage | GoToTabMessage | StatusMessage | SuccessMessage | FailedMessage | AbortMessage
+export type Message =
+  | InitMessage
+  | GoToTabMessage
+  | StatusMessage
+  | SuccessMessage
+  | FailedMessage
+  | AbortMessage
 
 export type FillAction = {
   fill: {
@@ -153,20 +176,25 @@ export type FillAction = {
     providerKey?: string
     value?: string
   }
+  wait?: number
 }
 export type ClickAction = {
   click: string
   optional?: boolean
   skipToNext?: boolean
+  wait?: number
 }
 export type MessageAction = {
   message: string
 }
 export type UrlAction = {
-  url: string | ((articleInfo: ArticleInfo, sourceParams: SiteSourceParams) => string)
+  url:
+    | string
+    | ((articleInfo: ArticleInfo, sourceParams: SiteSourceParams) => string)
 }
-export type ScriptAction = {
-  script: string
+export type FuncAction = {
+  // eslint-disable-next-line no-use-before-define
+  func: (userData: object) => void
 }
 export type HrefAction = {
   href: string
@@ -178,12 +206,9 @@ export type FailOnMissingAction = {
 export type CaptchaAction = {
   captcha: string
 }
-export type WaitAction = {
-  wait: number
-}
 export type EventAction = {
   event: {
-    selector: string,
+    selector: string
     event: 'change' | 'input'
   }
 }
@@ -192,8 +217,48 @@ export type ExtractAction = {
   convert?: string
 }
 
-export type Action = FillAction | ClickAction | ScriptAction | MessageAction | UrlAction | HrefAction | FailOnMissingAction | CaptchaAction | ExtractAction | WaitAction | EventAction
+export type Action =
+  | FillAction
+  | ClickAction
+  | FuncAction
+  | MessageAction
+  | UrlAction
+  | HrefAction
+  | FailOnMissingAction
+  | CaptchaAction
+  | ExtractAction
+  | EventAction
 export type Actions = Action[]
+
+export type ClickActionCode = {
+  func: (selector: string, optional: boolean, wait?: number) => void
+  args: [string, boolean, number]
+}
+
+export type FillActionCode = {
+  func: (selector: string, value: string, wait?: number) => void
+  args: [string, string, number | undefined]
+}
+
+export type LocalActionCode = {
+  localFunc: (siteBot: TabRunner) => (void | ((sourceBot: SourceBot) => void))
+}
+
+export type ActionCode = ClickActionCode | FillActionCode | LocalActionCode | {
+  func?: (...args: string[]) => void
+  args?: string[]
+} | {
+  func?: (...args: string[]) => boolean
+  args?: string[]
+  resultFunc?: (result: boolean) => boolean
+} | {
+  func?: (userData: object) => void
+  args?: object[]
+} | {
+  func?: (...args: string[]) => string[]
+  args?: string[]
+  resultFunc?: (result: string[]) => string[]
+}
 
 export type Source = {
   loggedIn: string
@@ -214,14 +279,15 @@ export type ProviderOptions = {
 }
 
 export type ProviderSourceParams = {
-  domain?: string,
-  scheme?: string,
-  portalId?: string,
+  domain?: string
+  scheme?: string
+  portalId?: string
   startUrl?: string
 }
 
 export interface DefaultProvider {
   name: string
+  bibName?: string
   web: string
   params: {
     [key in SourceIdentifier]?: ProviderSourceParams

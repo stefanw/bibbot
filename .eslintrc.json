@@ -1,14 +1,20 @@
 {
     "root": true,
     "globals": {
-        "browser": true
+        "browser": true,
+        "chrome": true
     },
     "parser": "@typescript-eslint/parser",
     "plugins": [
       "@typescript-eslint"
     ],
+    "rules": {
+      "no-use-before-define": "off",
+      "@typescript-eslint/no-use-before-define": "off"
+    },
     "extends": [
       "standard",
-      "plugin:@typescript-eslint/recommended"
+      "plugin:@typescript-eslint/recommended",
+      "prettier"
     ]
 }

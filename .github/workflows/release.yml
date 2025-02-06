@@ -58,13 +58,13 @@ jobs:
           asset_content_type: application/zip
       - name: "web-ext build"
         id: web-ext-build
-        uses: kewisch/action-web-ext@d3e19fc24c09986d4ab16fe99322701a1fa2d4a7
+        uses: kewisch/action-web-ext@fe10addf5d5e5ba6b78ffde720dd488a27d10e8c
         with:
           cmd: build
           source: ./dist/bibbot
       - name: "web-ext sign"
         id: web-ext-sign
-        uses: kewisch/action-web-ext@d3e19fc24c09986d4ab16fe99322701a1fa2d4a7
+        uses: kewisch/action-web-ext@fe10addf5d5e5ba6b78ffde720dd488a27d10e8c
         with:
           cmd: sign
           source: ${{ steps.web-ext-build.outputs.target }}

@@ -4,7 +4,13 @@ import { FAILED_MESSAGE, STATUS_MESSAGE, SUCCESS_MESSAGE } from './const.js'
 import providers from './providers.js'
 import sources from './sources.js'
 import TabRunner from './tabrunner.js'
-import { ArticleInfo, Message, Provider, SiteSourceParams, Source } from './types.js'
+import {
+  ArticleInfo,
+  Message,
+  Provider,
+  SiteSourceParams,
+  Source,
+} from './types.js'
 import { interpolate } from './utils.js'
 
 enum PHASE {
@@ -28,7 +34,14 @@ class SourceBot {
   tabRunner: TabRunner
   done: boolean
 
-  constructor (sourceId, providerId, providerOptions, sourceParams, articleInfo, callback) {
+  constructor(
+    sourceId,
+    providerId,
+    providerOptions,
+    sourceParams,
+    articleInfo,
+    callback,
+  ) {
     this.step = 0
     this.phase = PHASE.LOGIN
 
@@ -42,8 +55,13 @@ class SourceBot {
     this.articleInfo = articleInfo
     this.providerOptions = providerOptions
     this.callback = callback
-    this.userData = Object.assign({}, this.providerOptions);
-    ['options.username', 'options.password'].forEach(key => {
+    this.userData = Object.assign(
+      {
+        bibName: this.provider.bibName || this.provider.name,
+      },
+      this.providerOptions,
+    )
+    ;['options.username', 'options.password'].forEach((key) => {
       const confValue = this.userData[`${this.providerId}.${key}`]
       if (confValue !== undefined) {
         this.userData[key] = confValue
@@ -54,20 +72,20 @@ class SourceBot {
     this.done = false
   }
 
-  getParams () {
+  getParams() {
     return Object.assign(
       {},
       this.source.defaultParams || {},
       this.provider.params[this.sourceId],
-      this.sourceParams
+      this.sourceParams,
     )
   }
 
-  async run () {
+  async run() {
     const url = this.makeUrl(this.provider.start || this.source.start)
     const tab = await browser.tabs.create({
       url,
-      active: false
+      active: false,
     })
     this.tabId = tab.id
     console.log('tab created', tab.id)
@@ -75,11 +93,11 @@ class SourceBot {
     browser.tabs.onUpdated.addListener(this.onTabUpdated)
   }
 
-  cleanUp () {
+  cleanUp() {
     browser.tabs.onUpdated.removeListener(this.onTabUpdated)
   }
 
-  onTabUpdated (tabId, changeInfo) {
+  onTabUpdated(tabId, changeInfo) {
     if (this.done) {
       this.cleanUp()
       return
@@ -93,7 +111,7 @@ class SourceBot {
     }
   }
 
-  async runNextSourceStep () {
+  async runNextSourceStep() {
     const loggedIn = await this.isLoggedIn()
     if (loggedIn) {
       this.step = 0
@@ -102,22 +120,26 @@ class SourceBot {
     await this.runActionsOfCurrentStep()
   }
 
-  async isLoggedIn () {
+  async isLoggedIn() {
     if (this.phase === PHASE.LOGIN && this.step === 0) {
-      const result = await browser.tabs.executeScript(this.tabId, {
-        code: `document.querySelector("${this.source.loggedIn}") !== null`
+      const result = await (chrome.scripting || browser.scripting).executeScript({
+        target: {
+          tabId: this.tabId,
+        },
+        func: (selector) => document.querySelector(selector) !== null,
+        args: [this.source.loggedIn],
       })
-      console.log('loggedin?', result)
-      return result[0]
+      console.log('loggedin?', result[0].result)
+      return result[0].result
     }
     return false
   }
 
-  getActionList () {
+  getActionList() {
     return this.provider[this.phase] || this.source[this.phase]
   }
 
-  getActions () {
+  getActions() {
     const actionList = this.getActionList()
     const actions = actionList[this.step]
     if (Array.isArray(actions)) {
@@ -126,19 +148,19 @@ class SourceBot {
     throw new Error('Unknown action in source')
   }
 
-  isFinalStep () {
+  isFinalStep() {
     return (
       this.phase === PHASE.SEARCH &&
       this.step === this.source[this.phase].length - 1
     )
   }
 
-  handleAction (action) {
+  handleAction(action) {
     if (action.message) {
       // message does not need to run through tabrunner
       this.callback({
         type: STATUS_MESSAGE,
-        message: action.message
+        message: action.message,
       })
       return null
     }
@@ -150,14 +172,16 @@ class SourceBot {
     return action
   }
 
-  async runActionsOfCurrentStep () {
+  async runActionsOfCurrentStep() {
     const actions = this.getActions()
 
     let result
     let skipWait = false
     for (let action of actions) {
       action = this.handleAction(action)
-      if (action === null) { continue }
+      if (action === null) {
+        continue
+      }
       try {
         result = await this.tabRunner.runAction(action)
       } catch (e) {
@@ -194,12 +218,12 @@ class SourceBot {
     }
   }
 
-  finalize (result: string) {
+  finalize(result: string) {
     this.done = true
     if (result.length > 0) {
       this.callback({
         type: SUCCESS_MESSAGE,
-        content: result
+        content: result,
       })
 
       browser.tabs.remove(this.tabId)
@@ -209,16 +233,16 @@ class SourceBot {
     }
   }
 
-  fail (message) {
+  fail(message) {
     console.error(message)
     this.callback({
       type: FAILED_MESSAGE,
-      message
+      message,
     })
     this.cleanUp()
   }
 
-  makeUrl (url) {
+  makeUrl(url) {
     if (typeof url === 'function') {
       return url(this.articleInfo, this.getParams())
     }
@@ -228,9 +252,9 @@ class SourceBot {
     return url
   }
 
-  activateTab () {
+  activateTab() {
     browser.tabs.update(this.tabId, {
-      active: true
+      active: true,
     })
   }
 }
