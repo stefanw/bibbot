@@ -1,4 +1,3 @@
-
 const ident = (x) => x
 
 function interpolate(
@@ -25,7 +24,8 @@ function interpolate(
 }
 
 const escapeJsString = (str) => {
-  return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'")
+  // prettier-ignore
+  return str.replace(/\\/g, '\\\\').replace(/'/g, '\\\'')
 }
 
 export { escapeJsString, interpolate }
