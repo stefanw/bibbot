@@ -535,9 +535,7 @@ const sites: Sites = {
   },
   'www.abendblatt.de': {
     selectors: {
-      query: makeQueryFunc(
-        '.article-body p:not(.font-medium), .article-body li',
-      ),
+      query: makeQueryFunc('.article-body p, .article-body li'),
       main: '.article-body',
       date: 'time',
       paywall: '#paywall-container',
