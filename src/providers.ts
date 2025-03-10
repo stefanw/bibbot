@@ -16,12 +16,6 @@ type PartialProviderData = {
 
 const geniosDefaultData: PartialProviderData[] = [
   {
-    id: 'www.muenchner-stadtbibliothek.de',
-    name: 'Münchner Stadtbibliothek',
-    web: 'https://www.muenchner-stadtbibliothek.de/',
-    domain: 'bib-muenchen.genios.de',
-  },
-  {
     id: 'www.stadtbibliothek-aschaffenburg.de',
     name: 'Stadtbibliothek Aschaffenburg',
     web: 'https://stadtbibliothek-aschaffenburg.de/',
@@ -704,6 +698,13 @@ const astecData = [
     domain: 'bib-nuernberg.genios.de',
     permissions: ['https://online-service2.nuernberg.de/*'],
   },
+  {
+    id: 'www.muenchner-stadtbibliothek.de',
+    name: 'Münchner Stadtbibliothek',
+    web: 'https://www.muenchner-stadtbibliothek.de/',
+    domain: 'bib-muenchen.genios.de',
+    permissions: ['https://ssl.muenchen.de/*'],
+  },
 ]
 
 function astecFactory(provider) {
@@ -957,7 +958,7 @@ const providers: Providers = {
             selector: '#shibbolethForm_selectedName',
             providerKey: 'sso.wiso-net.de.options.name',
           },
-          wait: 2000
+          wait: 2000,
         },
         { click: '#shibbolethForm_shLoginLink', wait: 2500 },
       ],

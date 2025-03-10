@@ -39,7 +39,8 @@
     "https://advance-lexis-com.eu1.proxy.openathens.net/*",
     "https://*.bonn.idm.oclc.org/*",
     "https://online-service2.nuernberg.de/*",
-    "https://*.webopac.wuppertal.de:1443/*"
+    "https://*.webopac.wuppertal.de:1443/*",
+    "https://ssl.muenchen.de/*"
   ],
   "background": {
     "service_worker": "build/background.js",
