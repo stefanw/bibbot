@@ -26,7 +26,7 @@ const createQuery = (
     .split(' ')
     .slice(startSlice, endSlice)
     .join(' ')
-    .replace('"', '')
+    .replace(/"/g, '')
   // remove some special chars
   query = query
     .replace(/[!:?;'/()]/g, ' ')
