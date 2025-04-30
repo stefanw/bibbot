@@ -1334,7 +1334,7 @@ const sites: Sites = {
       query: makeQueryFunc('.artikelPreview'),
       headline: 'h1',
       date: 'p.article__header__info-area__txt a[href*="/archiv"]',
-      paywall: '#regWalli',
+      paywall: '#articleWall',
       main: '.artikelPreview',
     },
     source: 'genios.de',
