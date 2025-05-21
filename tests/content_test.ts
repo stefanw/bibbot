@@ -5,5 +5,5 @@ const domain = document.location.host
 const site = sites[domain]
 
 if (site !== undefined) {
-  window.extractor = new Extractor(site, document)
+  window.extractor = new Extractor(site, document, null)
 }

@@ -1,18 +1,25 @@
 import {
   ArticleInfo,
+  ElementSelector,
   ExtractorInterface,
   FormattedDateRange,
   RawArticleInfo,
   Site,
+  SiteBotInterface,
+  StringSelector,
 } from './types.js'
 
 class Extractor implements ExtractorInterface {
   site: Site
+  siteBot: SiteBotInterface
   root: HTMLElement
+  main: HTMLElement | null
 
-  constructor(site, root) {
+  constructor(site, root, siteBot) {
     this.site = site
     this.root = root
+    this.siteBot = siteBot
+    this.main = null
   }
 
   shouldExtract() {
@@ -47,7 +54,18 @@ class Extractor implements ExtractorInterface {
   }
 
   getMainContentArea() {
-    return this.runSelectorQueryElement(this.site.selectors.main)
+    if (this.main) {
+      return this.main
+    }
+    const main = this.runSelectorQueryElement(this.site.selectors.main)
+    if (this.site.insertAfterMain) {
+      const newMain = document.createElement('div')
+      main.parentNode.insertBefore(newMain, main.nextSibling)
+      this.main = newMain
+    } else {
+      this.main = main
+    }
+    return this.main
   }
 
   getLoadingArea() {
@@ -57,9 +75,9 @@ class Extractor implements ExtractorInterface {
     return null
   }
 
-  runSelectorQueryElement(selector) {
+  runSelectorQueryElement(selector: ElementSelector): HTMLElement | null {
     if (typeof selector === 'function') {
-      return selector(this.root, this)
+      return selector(this.root, this.siteBot)
     }
     let result = null
     if (Array.isArray(selector)) {
@@ -69,13 +87,25 @@ class Extractor implements ExtractorInterface {
           return result
         }
       }
+      return null
     }
     return this.root.querySelector(selector)
   }
 
-  runSelectorQuery(selector) {
+  runSelectorQuery(selector: StringSelector): string {
+    const result = this._runSelectorQuery(selector)
+    if (result === null) {
+      return ''
+    }
+    if (result instanceof window.HTMLElement) {
+      return result.innerText
+    }
+    return result
+  }
+
+  _runSelectorQuery(selector: StringSelector): string | HTMLElement | null {
     if (typeof selector === 'function') {
-      return selector(this.root, this)
+      return selector(this.root)
     }
     if (Array.isArray(selector)) {
       for (const s of selector) {
@@ -165,10 +195,7 @@ class Extractor implements ExtractorInterface {
     for (const key of articleInfoSelectors) {
       if (this.site.selectors[key]) {
         const selector = this.site.selectors[key]
-        let result = this.runSelectorQuery(selector)
-        if (result instanceof window.HTMLElement) {
-          result = result.innerText
-        }
+        const result = this.runSelectorQuery(selector)
         articleInfo[key] = result
       }
     }

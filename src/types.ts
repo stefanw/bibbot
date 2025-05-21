@@ -1,5 +1,5 @@
-import SourceBot from "./sourcebot"
-import TabRunner from "./tabrunner"
+import SourceBot from './sourcebot'
+import TabRunner from './tabrunner'
 
 type TestExample = {
   url: string
@@ -23,12 +23,9 @@ type GeniosSourceParams = {
 export type SiteSourceParams = DefaultSourceParams & GeniosSourceParams
 
 // eslint-disable-next-line no-use-before-define
-type StringSelector =
-  | string
-  | string[]
-  | ((root: HTMLElement, siteBot: SiteBotInterface) => string)
+export type StringSelector = string | string[] | ((root: HTMLElement) => string)
 // eslint-disable-next-line no-use-before-define
-type ElementSelector =
+export type ElementSelector =
   | string
   | string[]
   | ((root: HTMLElement, siteBot: SiteBotInterface) => HTMLElement)
@@ -86,6 +83,7 @@ export interface PartialSite {
   }
   start?: (root: HTMLElement, paywall: HTMLElement) => boolean | void
   mimic?: Mimicer
+  insertAfterMain?: boolean
   insertContent?: (
     siteBot: SiteBotInterface,
     main: HTMLElement,
@@ -241,24 +239,31 @@ export type FillActionCode = {
 }
 
 export type LocalActionCode = {
-  localFunc: (siteBot: TabRunner) => (void | ((sourceBot: SourceBot) => void))
+  localFunc: (siteBot: TabRunner) => void | ((sourceBot: SourceBot) => void)
 }
 
-export type ActionCode = ClickActionCode | FillActionCode | LocalActionCode | {
-  func?: (...args: string[]) => void
-  args?: string[]
-} | {
-  func?: (...args: string[]) => boolean
-  args?: string[]
-  resultFunc?: (result: boolean) => boolean
-} | {
-  func?: (userData: object) => void
-  args?: object[]
-} | {
-  func?: (...args: string[]) => string[]
-  args?: string[]
-  resultFunc?: (result: string[]) => string[]
-}
+export type ActionCode =
+  | ClickActionCode
+  | FillActionCode
+  | LocalActionCode
+  | {
+      func?: (...args: string[]) => void
+      args?: string[]
+    }
+  | {
+      func?: (...args: string[]) => boolean
+      args?: string[]
+      resultFunc?: (result: boolean) => boolean
+    }
+  | {
+      func?: (userData: object) => void
+      args?: object[]
+    }
+  | {
+      func?: (...args: string[]) => string[]
+      args?: string[]
+      resultFunc?: (result: string[]) => string[]
+    }
 
 export type Source = {
   loggedIn: string

@@ -42,7 +42,7 @@ class SiteBot implements SiteBotInterface {
     this.site = site
     this.root = root
     this.domain = domain
-    this.extractor = new Extractor(site, root)
+    this.extractor = new Extractor(site, root, this)
     this.shadow = null
     this.container = null
 
@@ -59,6 +59,7 @@ class SiteBot implements SiteBotInterface {
       return
     }
     const articleInfo = this.startInfoExtraction()
+    console.log(LOG_NAME, 'ArticleInfo', articleInfo)
     if (articleInfo) {
       this.startBackgroundConnection(articleInfo)
     }
