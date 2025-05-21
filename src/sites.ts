@@ -411,10 +411,19 @@ const sites: Sites = {
     },
   },
   'www.berliner-zeitung.de': {
+    examples: [
+      {
+        url: 'https://www.berliner-zeitung.de/mensch-metropole/unterwegs-mit-der-mutter-des-satans-der-sprengstoff-mann-vom-bahnhof-neukoelln-li.2326828',
+        selectors: {
+          query:
+            '"Geldautomaten aufgesprengt haben und der Komplize des lange gesuchten „Bomben-Mannes“ vom S-Bahnhof Neukölln"',
+        },
+      },
+    ],
     selectors: {
       query: makeQueryFunc(['#articleBody']),
       main: '#articleBody',
-      paywall: 'div[class*="paywall_overlay__"]',
+      paywall: 'div[class*="soft-paywall"]',
     },
     waitOnLoad: 500,
     source: 'genios.de',
@@ -628,7 +637,7 @@ const sites: Sites = {
         'article.xp__article p.xp__paragraph',
       ]),
       date: 'time',
-      paywall: 'a-gift, a-paid-content-teaser, #purchase',
+      paywall: 'a-gift, a-paid-content-teaser, #purchase, .accordion__wrapper',
       main: '.article-layout__content article-layout__footer::before, article.xp__article',
       // select p before paywall element
       loader:
@@ -745,15 +754,16 @@ const sites: Sites = {
         url: 'https://www.falter.at/zeitung/20220223/sie-reden-vom-krieg/_27de9dfaf4',
         selectors: {
           query:
-            '"ein Frieden für die Ukraine aussehen Wo liegt die Zukunft Russlands Und was"',
+            '"Staatsflaggen und wuchtigen Festnetztelefonen sitzt Russlands Präsident Wladimir Putin am Montagabend als er"',
         },
       },
     ],
     selectors: {
-      query: makeQueryFunc('.head-content h2'),
+      query: makeQueryFunc('article > p'),
       date: 'time',
-      paywall: '.paywall-info',
-      main: '.paywall-content',
+      paywall:
+        'main article section.not-prose:has(a[href="https://mein.falter.at/subscriptions"])',
+      main: 'article section',
     },
     start: (root) => {
       const div: HTMLElement = root.querySelector('.paywall-info')
@@ -873,7 +883,7 @@ const sites: Sites = {
         url: 'https://www.stimme.de/regional/region/informationsfreiheit-wenn-in-akten-blaettern-10000-euro-kostet-art-4598515',
         selectors: {
           query:
-            '"was eine Behörde tut ist irgendwo verzeichnet in Aktenordnern oder digital Bürger haben"',
+            '"was eine Behörde tut ist irgendwo verzeichnet in Aktenordnern oder digital"',
         },
       },
     ],
@@ -1005,18 +1015,19 @@ const sites: Sites = {
     },
   },
   'www.sn.at': {
-    testSetup: async (page) => {
-      await page.locator('#onetrust-accept-btn-handler').click()
-    },
-    examples: [
-      {
-        url: 'https://www.sn.at/salzburg/chronik/nach-toedlichem-unfall-mit-polizeibus-im-lungau-verfahren-gegen-lenker-eingestellt-117530491',
-        selectors: {
-          query:
-            '"nach dem Unfalldrama im Lungau bei dem ein 15-jähriger Mopedlenker getötet wurde ist"',
-        },
-      },
-    ],
+    // FIXME: page never finishes loading...
+    // testSetup: async (page) => {
+    //   await page.getByRole('button', { name: 'Akzeptieren' }).click()
+    // },
+    // examples: [
+    //   {
+    //     url: 'https://www.sn.at/salzburg/chronik/nach-toedlichem-unfall-mit-polizeibus-im-lungau-verfahren-gegen-lenker-eingestellt-117530491',
+    //     selectors: {
+    //       query:
+    //         '"nach dem Unfalldrama im Lungau bei dem ein 15-jähriger Mopedlenker getötet wurde ist"',
+    //     },
+    //   },
+    // ],
     selectors: {
       query: makeQueryFunc('.article-body-text'),
       date: '.article-publication-date',
@@ -1038,7 +1049,8 @@ const sites: Sites = {
       {
         url: 'https://www.kleinezeitung.at/steiermark/weiz/6100137/Gefaehrlicher-Trend_Uebelkeit-Herzrasen_Nikotinbeutel-machen-bei',
         selectors: {
-          query: '"riechen nach Menthol oder Minze und erinnern in"',
+          query:
+            '"Skruf Faro Lyft und Velo riechen nach Menthol oder Minze und erinnern in"',
         },
       },
     ],
@@ -1128,7 +1140,7 @@ const sites: Sites = {
       query: makeQueryFunc('.paywalledContent', true),
       headline: 'h2',
       paywall: 'div[data-testid="piano-container"]',
-      main: 'div[class*="Articlestyled__ArticleBodyWrapper"]',
+      main: 'div[data-testid="article-teaser-content"]',
     },
     start: (root) => {
       const blur = root.querySelector('.plus-overlay-blur')
@@ -1277,17 +1289,21 @@ const sites: Sites = {
       {
         url: 'https://www.swp.de/lokales/ulm/mobilitaet-in-ulm-verkehrswende-in-ulm_-es-ist-noch-viel-luft-nach-oben-65149611.html',
         selectors: {
-          query:
-            '"Autofahrer wünschen wurde nicht gefragt Im Gegenteil Es ging um Konzepte der Zukunft"',
+          query: 'Verkehrswende in Ulm Es ist noch viel Luft nach oben',
         },
       },
     ],
     selectors: {
-      query: makeQueryFunc('article .u-paragraph'),
-      headline: 'article h1',
+      query: makeQueryFunc(
+        'article h1 span.u-article-header__headline',
+        false,
+        0,
+      ),
+      headline: 'article h1 span.u-article-header__headline',
       paywall: '.u-paywall',
-      main: 'article .u-row',
+      main: 'article figure',
     },
+    insertAfterMain: true,
     waitOnLoad: 1000,
     source: 'genios.de',
     sourceParams: {
@@ -1350,7 +1366,7 @@ const sites: Sites = {
         url: 'https://www.stern.de/hochzeitsplanung--was-ich-gerne-gewusst-haette--bevor-ich-heirate-35439596.html',
         selectors: {
           query:
-            '"beim Arzt und betrachte mich in der Selfiekamera Meine Lippe ist einseitig geschwollen"',
+            '"mich schon lange vor dem Antrag auf die Hochzeit gefreut Dann fing ich"',
         },
       },
     ],
