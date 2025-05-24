@@ -1167,18 +1167,19 @@ const sites: Sites = {
         url: 'https://www.freiepresse.de/chemnitz/einwohnerversammlungen-in-chemnitz-kuenftig-wieder-vor-ort-artikel13507031',
         selectors: {
           query:
-            '"wird es künftig wieder Einwohnerversammlungen in den Stadtteilen geben Das hat der neu"',
+            'wird es künftig wieder Einwohnerversammlungen in den Stadtteilen geben Das hat der neu',
         },
       },
     ],
     selectors: {
-      query: makeQueryFunc('.article__shorttext', true),
+      query: makeQueryFunc('.article__shorttext', false),
       headline: '.article__headline',
-      paywall: '.default-paywall',
+      paywall: '.upscore-paywall-placeholder',
       date: '.article__etag div',
       main: '#artikel-content',
     },
     waitOnLoad: true,
+    dateRange: [8, 5], // search from roughly week before
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'FEPR',
