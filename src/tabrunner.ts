@@ -3,7 +3,6 @@ import { Action, ActionCode, Actions } from './types.js'
 
 import { STATUS_MESSAGE } from './const.js'
 import converters from './converters.js'
-import { escapeJsString } from './utils.js'
 
 class TabRunner {
   tabId: number
@@ -121,10 +120,10 @@ class TabRunner {
       }
     } else if ('url' in action) {
       return {
-        func: (url) => {
+        func: (url: string) => {
           document.location.href = url
         },
-        args: [escapeJsString(action.url)],
+        args: [typeof action.url === 'function' ? '' : action.url],
       }
     } else if ('href' in action) {
       return {
