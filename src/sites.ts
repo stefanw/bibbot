@@ -637,8 +637,9 @@ const sites: Sites = {
         'article.xp__article p.xp__paragraph',
       ]),
       date: 'time',
-      paywall: 'a-gift, a-paid-content-teaser, #purchase, .accordion__wrapper',
-      main: '.article-layout__content article-layout__footer::before, article.xp__article',
+      paywall:
+        '.js-upscore-article-content-for-paywall,a-paid-content-teaser, #purchase, .accordion__wrapper',
+      main: '.article-layout__content .article-content, article.xp__article',
       // select p before paywall element
       loader:
         '.article-layout__content p:has( + a-gift, a-paid-content-teaser, #purchase)',
