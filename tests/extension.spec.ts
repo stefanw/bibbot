@@ -20,11 +20,23 @@ test('content script', async ({ page, context }) => {
 
   await serviceWorkerPromise
 
-  const pages = context.pages()
-  console.log(pages.map((p) => p.url()))
-  const newPage = pages.find(
-    (p) => p.url().indexOf('https://www.voebb.de/oidcp/authorize') !== -1,
-  )
+  let tries = 0
+  let newPage
+  while (newPage === undefined && tries < 3) {
+    const pages = context.pages()
+    console.log(
+      tries,
+      pages.map((p) => p.url()),
+    )
+    newPage = pages.find(
+      (p) => p.url().indexOf('https://www.voebb.de/oidcp/authorize') !== -1,
+    )
+    if (newPage !== undefined) {
+      break
+    }
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    tries += 1
+  }
   expect(newPage).toBeTruthy()
 })
 
