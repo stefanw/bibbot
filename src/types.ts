@@ -33,6 +33,8 @@ type DateRange = [offsetBefore: number, offsetAfter: number]
 export type FormattedDateRange = {
   dateStart: string
   dateEnd: string
+  dateUSStart: string
+  dateUSEnd: string
 }
 
 type Mimicer = string | ((content: string, main: HTMLElement) => string)

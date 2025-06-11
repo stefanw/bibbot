@@ -136,6 +136,8 @@ class Extractor implements ExtractorInterface {
     const defaultValue: FormattedDateRange = {
       dateStart: '',
       dateEnd: '',
+      dateUSStart: '',
+      dateUSEnd: '',
     }
     if (!dateValue) {
       return defaultValue
@@ -179,12 +181,16 @@ class Extractor implements ExtractorInterface {
     }
     const formatDate = (d) =>
       `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`
+    const formatUSDate = (d) =>
+      `${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}.${d.getFullYear()}`
     const day = 24 * 60 * 60 * 1000
     const dateStart = new Date(date.getTime() - day * range[0])
     const dateEnd = new Date(date.getTime() + day * range[1])
     const dateRange: FormattedDateRange = {
       dateStart: formatDate(dateStart),
       dateEnd: formatDate(dateEnd),
+      dateUSStart: formatUSDate(dateStart),
+      dateUSEnd: formatUSDate(dateEnd),
     }
     return dateRange
   }
