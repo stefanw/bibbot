@@ -750,6 +750,9 @@ const sites: Sites = {
     },
   },
   'www.falter.at': {
+    testSetup: async (page) => {
+      await page.locator('#didomi-notice-disagree-button').click()
+    },
     examples: [
       {
         url: 'https://www.falter.at/zeitung/20220223/sie-reden-vom-krieg/_27de9dfaf4',
@@ -763,26 +766,8 @@ const sites: Sites = {
       query: makeQueryFunc('article > p'),
       date: 'time',
       paywall:
-        'main article section.not-prose:has(a[href="https://mein.falter.at/subscriptions"])',
-      main: 'article section',
-    },
-    start: (root) => {
-      const div: HTMLElement = root.querySelector('.paywall-info')
-      if (div) {
-        div.parentNode.parentElement.style.display = 'none'
-      }
-    },
-    mimic: (content) => {
-      const parRegex = /<p>/
-      let parNo = 1
-      while (parRegex.test(content)) {
-        content = content.replace(
-          parRegex,
-          `<p class="par${parNo} article-p storycontent-article">`,
-        )
-        parNo++
-      }
-      return content
+        'main article section.not-prose:has(a[href*="https://mein.falter.at/falter/sales-funnel-frontend"])',
+      main: 'article > p',
     },
     source: 'genios.de',
     sourceParams: {
