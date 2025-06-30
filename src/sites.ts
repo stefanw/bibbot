@@ -387,7 +387,7 @@ const sites: Sites = {
         4,
       ),
       date: 'app-story-date',
-      paywall: 'app-paywall',
+      paywall: 'app-paywall, hb-paywall-hplus',
       main: 'app-storyline-elements',
     },
     // start: (root) => {
@@ -395,7 +395,8 @@ const sites: Sites = {
     //     el.style.display = 'none'
     //   })
     // },
-    waitOnLoad: 2000,
+    dateRange: [40, 5],
+    waitOnLoad: 4000,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'HBLATE,HBONLATE,HBGM,HBLI,HBMA,HBMBLATE,HBZ',
