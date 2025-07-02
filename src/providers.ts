@@ -315,13 +315,14 @@ const geniosAssociationData = [
     domain: 'bib-bawue.genios.de',
     bibId: '85',
   },
-  {
-    id: 'stadtbibliothek.freiburg.de',
-    name: 'Stadtbibliothek Freiburg',
-    web: 'https://www.stadtbibliothek.freiburg.de/',
-    domain: 'bib-bawue.genios.de',
-    bibId: '80',
-  },
+  // Canceled
+  // {
+  //   id: 'stadtbibliothek.freiburg.de',
+  //   name: 'Stadtbibliothek Freiburg',
+  //   web: 'https://www.stadtbibliothek.freiburg.de/',
+  //   domain: 'bib-bawue.genios.de',
+  //   bibId: '80',
+  // },
   {
     id: 'stadtbibliothek-aalen.de',
     name: 'Stadtbibliothek Aalen',
