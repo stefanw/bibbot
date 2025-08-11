@@ -460,19 +460,13 @@ const sites: Sites = {
   },
   'www.moz.de': {
     selectors: {
-      query: (root) => {
-        return root.querySelector('title').innerText.split('|')[0].trim()
-      },
-      main: '.article-content .article-text',
-      paywall: '.article-content.paywall .justify-content-center',
+      query: makeQueryFunc('main article .u-article-header .fw-normal', false),
+      main: 'main article > figure',
+      date: 'main article time',
+      paywall: 'main article .u-paywall',
     },
-    start: (root) => {
-      const p = root.querySelector('.article-content')
-      if (p) {
-        p.classList.remove('paywall')
-      }
-    },
-
+    dateRange: [8, 8],
+    waitOnLoad: 1000,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'MOZ',
