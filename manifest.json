@@ -18,7 +18,8 @@
     "scripting"
   ],
   "host_permissions": [
-    "https://*.genios.de/*"
+    "https://*.genios.de/*",
+    "https://auth.bibliotheken-hessen.de/*"
   ],
   "optional_host_permissions": [
     "https://www.munzinger.de/*",
