@@ -185,6 +185,9 @@ const sites: Sites = {
     sourceParams: {
       dbShortcut: 'MM,MMAG',
     },
+    mimic: (content) => {
+     return content.replace(/<p>/g, '<p style="margin-block: revert !important;">')
+    },
   },
   'www.tagesspiegel.de': {
     examples: [
