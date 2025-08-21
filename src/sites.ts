@@ -262,10 +262,9 @@ const sites: Sites = {
   },
   'www.welt.de': {
     selectors: {
-      query: makeQueryFunc('.c-summary__intro'),
-      headline: 'h2.c-headline',
-      date: 'time',
-      paywall: '.contains_walled_content',
+      query: makeQueryFunc('[data-external="Article.Intro"]'),
+      headline: 'h2.c-article-header__headline',
+      paywall: '[data-component="ArticlePaywall"]',
       main: '.o-text.c-summary ',
     },
     waitOnLoad: 500,
