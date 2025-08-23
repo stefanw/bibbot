@@ -114,7 +114,8 @@
         "https://www.saarbruecker-zeitung.de/*",
         "https://www.idowa.de/*",
         "https://www.aachener-zeitung.de/*",
-        "https://www.nn.de/*"
+        "https://www.nn.de/*",
+        "https://www.echo-online.de/*"
       ],
       "js": [
         "build/content.js"

@@ -1673,6 +1673,31 @@ const sites: Sites = {
       sourceNames: ['Nürnberger Nachrichten'],
     },
   },
+  'www.echo-online.de': {
+    examples: [
+      {
+        url: 'https://www.echo-online.de/lokales/kreis-darmstadt-dieburg/seeheim-jugenheim/jugenheimer-freibad-eroeffnete-vor-95-jahren-4697827',
+        selectors: {
+          query: 'Jugenheimer Freibad eröffnete vor 95 Jahren',
+        },
+      },
+    ],
+    selectors: {
+      query: makeQueryFunc('[data-testid="articleHeader-title"]', false),
+      date: '.storylineIntro__date time',
+      paywall: '.paywall__paywallContainer',
+      main: '.storyPage__mainContent',
+    },
+    mimic: (content) => {
+      return `<div style="max-width: 620px; margin: auto;">${content}</div>`
+    },
+    waitOnLoad: 1000,
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'DECH',
+      sourceNames: ['Darmstädter Echo'],
+    },
+  },
 }
 
 export default sites
