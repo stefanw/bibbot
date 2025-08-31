@@ -440,17 +440,15 @@ const sites: Sites = {
         url: 'https://www.morgenpost.de/bezirke/pankow/article234644603/Hindernisstrecke-Schoenhauser-Allee.html',
         selectors: {
           query:
-            '"Schönhauser Allee in Prenzlauer Berg gilt als Unfallschwerpunkt für Radfahrer Eine Tour auf"',
+            '"Die Schönhauser Allee in Prenzlauer Berg gilt als Unfallschwerpunkt für Radfahrer Eine Tour auf der"',
         },
       },
     ],
     selectors: {
-      query: makeQueryFunc('.article-body'),
-      // query: (root) => {
-      //   return root.querySelector('.article__header__intro__text').innerText.split(' ').slice(0, 8).join(' ')
-      // },
+      query: makeQueryFunc('span.text-copy-primary', true, 0),
       main: '.article-body',
       paywall: '#paywall-container',
+      date: 'time'
     },
     source: 'genios.de',
     sourceParams: {
