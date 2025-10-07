@@ -1602,6 +1602,12 @@ const sites: Sites = {
       dbShortcut: 'SAAR',
       sourceNames: ['Saarbrücker Zeitung'],
     },
+    start: () => {
+      const faidingEffectClass = 'article-content--reduced'
+      for (const faidedElement of document.getElementsByClassName(faidingEffectClass)){
+        faidedElement.classList.remove(faidingEffectClass)
+      }
+    }
   },
   'www.idowa.de': {
     selectors: {
