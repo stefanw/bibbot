@@ -1637,15 +1637,18 @@ const sites: Sites = {
     selectors: {
       query: makeQueryFunc('article h1', false),
       date: 'article time',
-      paywall: 'div[data-testid="paywall-container"]',
+      paywall: 'div[data-testid="paywall-position-popover"]',
       main: 'main article section',
     },
     start: (root) => {
-      root.classList.remove('noscroll')
-      document.documentElement.classList.remove('noscroll')
-      const paywall: HTMLElement = root.querySelector(
-        'div[data-testid="paywall-container"]',
-      )
+      // Entferne alle Klassen, die auf "disable-scroll-popup" enden, von <body>
+      const body = document.body
+      for (const cls of Array.from(body.classList)) {
+        if (/disable-scroll-popup/i.test(cls)) {
+          body.classList.remove(cls)
+        }
+      }
+      const paywall: HTMLElement = root.querySelector('div[data-testid="paywall-position-popover"]')
       paywall.style.display = 'none'
       root
         .querySelector('main .paywalled-article')
