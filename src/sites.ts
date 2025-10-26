@@ -867,22 +867,22 @@ const sites: Sites = {
       },
     ],
     start: (root) => {
-      const div = root.querySelector('.fadeOut')
-      if (div) {
-        div.classList.remove('fadeOut')
-      }
+      root.querySelector('.fadeOut')?.remove()
+      root.querySelector('#wl-container')?.remove()
+      root.querySelector('.paywall-element style')?.remove()
     },
     selectors: {
-      query: makeQueryFunc('.art-text p'),
+      query: makeQueryFunc('.art-detail__abstract'),
       date: 'time',
-      paywall: '.paywall-product-box',
-      main: '.art-text p',
+      paywall: '.paywall-element',
+      main: '.art-text',
     },
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'HST',
       sourceNames: ['Heilbronner Stimme'],
     },
+    waitOnLoad: 5000,
   },
   'kurier.at': {
     selectors: {
