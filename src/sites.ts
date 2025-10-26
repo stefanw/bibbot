@@ -973,7 +973,7 @@ const sites: Sites = {
     selectors: {
       query: makeQueryFunc('#article-body p:not(.lead)'),
       date: '.meta__date',
-      paywall: '.vued--premium-content',
+      paywall: '.paywall-container',
       main: '#article-body',
     },
     insertContent: (siteBot, main, content) => {
