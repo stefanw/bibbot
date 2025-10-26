@@ -448,7 +448,7 @@ const sites: Sites = {
       query: makeQueryFunc('span.text-copy-primary', true, 0),
       main: '.article-body',
       paywall: '#paywall-container',
-      date: 'time'
+      date: 'time',
     },
     source: 'genios.de',
     sourceParams: {
