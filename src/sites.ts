@@ -262,13 +262,25 @@ const sites: Sites = {
   },
   'www.welt.de': {
     selectors: {
-      query: makeQueryFunc('.c-summary__intro'),
-      headline: 'h2.c-headline',
-      date: 'time',
-      paywall: '.contains_walled_content',
-      main: '.o-text.c-summary ',
+      query: makeQueryFunc('.c-article-page__intro'),
+      headline: 'h2.c-article-header__headline',
+      date: '.c-article-header__date',
+      paywall: 'div[data-component="ArticlePaywall"]',
+      main: '.c-article-page__intro',
     },
-    waitOnLoad: 500,
+    start(root) {
+      window.setTimeout(() => {
+        const pageWrapper = root.querySelector(
+          '.page-content-wrapper',
+        ) as HTMLElement
+        if (pageWrapper) {
+          pageWrapper.setAttribute('style', '')
+        }
+      }, 1000)
+      root.querySelector('.q-grey-background:has(ps-lefty-next-web)')?.remove()
+      return false
+    },
+    waitOnLoad: 2000,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'WEPL,WAMS,WELT,WEON',
@@ -1654,7 +1666,9 @@ const sites: Sites = {
           body.classList.remove(cls)
         }
       }
-      const paywall: HTMLElement = root.querySelector('div[data-testid="paywall-position-popover"]')
+      const paywall: HTMLElement = root.querySelector(
+        'div[data-testid="paywall-position-popover"]',
+      )
       paywall.style.display = 'none'
       root
         .querySelector('main .paywalled-article')
