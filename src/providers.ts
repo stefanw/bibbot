@@ -461,6 +461,67 @@ const oclcData = [
   },
 ]
 
+type GeniosHessenType = {
+  id: string
+  name: string
+  web: string
+  domain: string
+  bibName: string // Name im Login Auswahlmenü von https://auth.bibliotheken-hessen.de/
+}
+
+const geniosHessenData: GeniosHessenType[] = [
+  {
+    id: 'stadtbuecherei.frankfurt.de',
+    name: 'Stadtbücherei Frankfurt',
+    web: 'https://stadtbuecherei.frankfurt.de',
+    domain: 'bib-hessen.genios.de',
+    bibName: 'Frankfurt am Main', // wird für das Matching im Login-Menü verwendet
+  },
+
+  // rudimentärer Support für die anderen Bibs aus Hessen
+  ...[
+    'Bad Nauheim (Stadtbücherei Bad Nauheim)',
+    'Bad Soden am Taunus (Stadtbücherei Bad Soden)',
+    'Bad Vilbel (Stadtbibliothek Bad Vilbel)',
+    'Bruchköbel (Stadtbibliothek Bruchköbel)',
+    'Büdingen (Stadtbücherei Büdingen)',
+    'Darmstadt (Campus Marienhöhe gGmbH/Schulmediothek Darmstadt)',
+    'Erbach (Kath. öffentliche Bücherei St. Sophia Erbach)',
+    'Fulda (Hochschul-, Landes- und Stadtbibliothek Fulda)',
+    'Geisenheim (Stadtbücherei Geisenheim)',
+    'Gelnhausen (Grimmelshausen-Bibliothek Gelnhausen)',
+    'Hanau (Stadtbibliothek Hanau)',
+    'Herborn (Stadtbücherei Herborn)',
+    'Heusenstamm (Stadtbücherei Heusenstamm)',
+    'Hofheim (Stadtbücherei Hofheim)',
+    'Idstein (Stadtbücherei Idstein)',
+    'Kassel (Stadtbibliothek Kassel)',
+    'Kelkheim (Stadtbücherei Kelkheim)',
+    'Kelsterbach (Stadt- und Schulbibliothek Kelsterbach)',
+    'Korbach (Stadtbücherei Korbach)',
+    'Kriftel (Gemeindebücherei Kriftel)',
+    'Kronberg im Taunus (Stadtbücherei Kronberg)',
+    'Lauterbach (Stadtbücherei Lauterbach)',
+    'Mühlheim am Main (Stadtbücherei Mühlheim)',
+    'Neu-Isenburg (Stadtbibliothek Neu-Isenburg)',
+    'Nidda (Stadtbibliothek Nidda)',
+    'Oberursel (Stadtbücherei Oberursel)',
+    'Offenbach am Main (Stadtbibliothek Offenbach)',
+    'Rheingau-Taunus-Kreis (Bad Schwalbach) (Rheingau-Taunus-Kreis)',
+    'Rodgau (Stadtbücherei Rodgau)',
+    'Schlitz (Stadtbücherei Schlitz)',
+    'Taunusstein (Stadtbücherei Taunusstein)',
+    'Wetzlar (IMeNS-Zentrale)',
+    'Wiesbaden (Hochschul-und Landesbibliothek RheinMain, Wiesbaden)',
+  ].map((d, i) => ({
+    id: `hessenGenios-${i}`,
+    name: d,
+    web: '',
+    domain: 'bib-hessen.genios.de',
+    bibName: d,
+  })),
+]
+
 const hanData = [
   {
     id: 'landesbibliothek.at',
@@ -502,7 +563,57 @@ const selectDropDown = (userData) => {
     .click()
 }
 
-function geniosAssociationFactory(provider) {
+function geniosHessenFactory(provider: GeniosHessenType) {
+  const login: Actions[] = [
+    [
+      {
+        fill: {
+          selector: 'input[name="ausweisnummer"]',
+          providerKey: provider.id + '.options.username',
+        },
+      },
+      {
+        fill: {
+          selector: 'input[name="password"]',
+          providerKey: provider.id + '.options.password',
+        },
+      },
+      {
+        func: (userData: GeniosHessenType) => {
+          const value = Array.from(document.querySelectorAll('option')).find(
+            (d) => d.innerText.includes(userData.bibName),
+          ).value
+          ;(document.querySelector('#bibliothek') as HTMLInputElement).value =
+            value
+          return true
+        },
+      },
+      { click: 'input[name="terms"]' },
+      { click: 'input[name="privacy"]' },
+      { func: () => document.querySelector('form').submit() },
+    ],
+  ]
+
+  return {
+    id: provider.id,
+    name: provider.name,
+    web: provider.web,
+    defaultSource: 'genios.de',
+    params: {
+      'genios.de': {
+        domain: provider.domain,
+      },
+    },
+    login,
+    options: [
+      { id: 'username', display: 'Nutzername:', type: 'text' },
+      { id: 'password', display: 'Passwort:', type: 'password' },
+    ],
+    permissions: ['https://auth.bibliotheken-hessen.de/*'],
+  }
+}
+
+function geniosAssociationFactory(provider): DefaultProvider {
   let login: Actions[] = [
     [
       { click: '.ccm--decline-cookies', optional: true },
@@ -759,6 +870,9 @@ const providers: Providers = {
   ...oclcProviders,
   ...hanProviders,
   ...astecProviders,
+  ...Object.fromEntries(
+    geniosHessenData.map(geniosHessenFactory).map((h) => [h.id, h]),
+  ),
   'www.duesseldorf.de': {
     name: 'Stadtbibliothek Düsseldorf',
     web: 'https://www.duesseldorf.de/stadtbuechereien/onlinebibliothek.html',
