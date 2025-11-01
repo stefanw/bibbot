@@ -480,11 +480,12 @@ const sites: Sites = {
   },
   'www.lr-online.de': {
     selectors: {
-      query: makeQueryFunc('.article-text .text'),
-      paywall: '#paywall-container',
-      date: 'time',
-      main: '.article-text',
+      query: makeQueryFunc('main article .u-article-header .fw-normal', false),
+      paywall: 'main article .u-paywall',
+      date: 'main article time',
+      main: 'main article > figure',
     },
+    dateRange: [4, 3],
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'LR',
