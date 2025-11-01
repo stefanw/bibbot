@@ -485,6 +485,7 @@ const sites: Sites = {
       date: 'main article time',
       main: 'main article > figure',
     },
+    dateRange: [4, 3],
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'LR',
