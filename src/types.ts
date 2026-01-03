@@ -3,7 +3,7 @@ import TabRunner from './tabrunner'
 
 type TestExample = {
   url: string
-  selectors: { query: string }
+  selectors?: { query: string }
 }
 
 export type SourceIdentifier =

@@ -261,14 +261,50 @@ const sites: Sites = {
     },
   },
   'www.welt.de': {
+    examples: [
+      {
+        url: 'https://www.welt.de/wirtschaft/plus69319a2f76c2ae9f577fb885/mint-fachkraefte-warum-deutschlands-talente-ins-ausland-abwandern.html',
+      },
+    ],
     selectors: {
-      query: makeQueryFunc('.c-summary__intro'),
-      headline: 'h2.c-headline',
-      date: 'time',
-      paywall: '.contains_walled_content',
-      main: '.o-text.c-summary ',
+      query: makeQueryFunc([
+        '.c-article-page__intro p',
+        '.c-article-page__text p',
+      ]),
+      headline: 'h2.c-article-header__headline',
+      date: (root) => {
+        const ldJson = root.querySelector('script[type="application/ld+json"]')
+        if (ldJson?.textContent) {
+          try {
+            const data = JSON.parse(ldJson.textContent)
+            if (data.datePublished) {
+              return data.datePublished
+            }
+          } catch {
+            // ignore parse errors
+          }
+        }
+        const meta = root.querySelector(
+          'meta[property="article:published_time"], meta[name="date"]',
+        )
+        return meta?.getAttribute('content') ?? ''
+      },
+      paywall: '.c-article-paywall, .c-article-page__text.is-paywalled-content',
+      main: ['[data-external="Article.Text"]', '.c-article-page__text'],
     },
-    waitOnLoad: 500,
+    start: (root) => {
+      root
+        .querySelectorAll('.c-article-page__text.is-faded-out')
+        .forEach((el) => el.classList.remove('is-faded-out'))
+      root
+        .querySelectorAll('.c-article-page__text.is-paywalled-content')
+        .forEach((el) => el.classList.remove('is-paywalled-content'))
+      const paywall = root.querySelector('.c-article-paywall')
+      if (paywall) {
+        paywall.setAttribute('style', 'display: none !important')
+      }
+    },
+    waitOnLoad: 800,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'WEPL,WAMS,WELT,WEON',
