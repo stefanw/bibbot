@@ -44,10 +44,6 @@
   ],
   "background": {
     "service_worker": "build/background.js",
-    "scripts": [
-      "build/background.js"
-    ],
-    "persistent": false,
     "type": "module"
   },
   "content_scripts": [
