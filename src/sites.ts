@@ -1247,7 +1247,6 @@ const sites: Sites = {
     ],
     selectors: {
       query: makeQueryFunc('.paywalledContent > p'),
-      date: 'time',
       paywall: '#piano-lightbox-article-dnn',
       main: 'header .paywalledContent',
     },
