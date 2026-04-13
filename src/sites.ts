@@ -53,13 +53,14 @@ const makeQueryFunc = (
   if (!Array.isArray(selector)) {
     selector = [selector]
   }
-  return (node) => {
+  return (node: HTMLElement): string => {
     for (const sel of selector) {
       const el = node.querySelector(sel)
       if (el) {
-        return extractQuery(el, quoted, startSlice, endSlice)
+        return extractQuery(el as HTMLElement, quoted, startSlice, endSlice)
       }
     }
+    return ''
   }
 }
 
@@ -80,16 +81,18 @@ const RND: PartialSite = {
   },
   waitOnLoad: 2000,
   start: (root) => {
-    const main: HTMLElement = root.querySelector(
+    const main = root.querySelector(
       'div[class*="ArticleHeadstyled__ArticleTeaserContainer"]',
-    )
-    main.style.height = 'auto'
-    main.style.overflow = 'auto'
+    ) as HTMLElement | null
+    if (main) {
+      main.style.height = 'auto'
+      main.style.overflow = 'auto'
+    }
   },
   mimic: (content) => {
     const pClassName = document.querySelector(
       'div[class*="ArticleHeadstyled__ArticleTeaserContainer"] p',
-    ).className
+    )?.className
     return content.replace(/<p>/g, `<p class="${pClassName}">`)
   },
   source: 'genios.de',
@@ -308,25 +311,26 @@ const sites: Sites = {
     selectors: {
       // query: "article > header > h2 > span:last-child",
       query: (root) => {
-        const normalArticle: HTMLElement = root.querySelector(
+        const normalArticle = root.querySelector(
           '[itemprop="articleBody"] > p',
-        )
+        ) as HTMLElement | null
         if (normalArticle) {
           return extractQuery(normalArticle, false)
         }
-        const reportage: HTMLElement = root.querySelector(
+        const reportage = root.querySelector(
           '.module-text .text p',
-        )
+        ) as HTMLElement | null
         if (reportage) {
           return extractQuery(reportage, false)
         }
+        return ''
       },
       date: 'time',
       paywall: '#sz-paywall',
       main: (root) => {
-        const normalMain: HTMLElement = root.querySelector(
+        const normalMain = root.querySelector(
           "div[itemprop='articleBody']",
-        )
+        ) as HTMLElement | null
         if (normalMain) {
           return normalMain
         }
@@ -375,8 +379,12 @@ const sites: Sites = {
     start: (root) => {
       removeClass(root, 'paragraph--reduced')
       removeClass(root, 'articlemain__inner--reduced')
-      const paywall: HTMLElement = root.querySelector('.offerpage-container')
-      paywall.style.display = 'none'
+      const paywall = root.querySelector(
+        '.offerpage-container',
+      ) as HTMLElement | null
+      if (paywall) {
+        paywall.style.display = 'none'
+      }
     },
     mimic: (content) => {
       return content.replace(/<p>/g, '<p class="paragraph text__normal">')
@@ -436,7 +444,7 @@ const sites: Sites = {
     selectors: {
       query: makeQueryFunc(['#articleBody']),
       main: '#articleBody',
-      paywall: 'div[class*="soft-paywall"]',
+      paywall: 'div[class*="soft-paywall_wrapper"]',
     },
     waitOnLoad: 500,
     source: 'genios.de',
@@ -596,9 +604,9 @@ const sites: Sites = {
     },
     start: (root) => {
       const blindText = root.querySelector('app-blind-text')
-      blindText.classList.remove('blurry-text')
-      blindText.querySelector('app-storyline-elements')?.remove()
-      const paywall: HTMLElement = root.querySelector('app-paywall')
+      blindText?.classList.remove('blurry-text')
+      blindText?.querySelector('app-storyline-elements')?.remove()
+      const paywall = root.querySelector('app-paywall') as HTMLElement | null
       if (paywall) {
         paywall.style.display = 'none'
       }
@@ -737,15 +745,15 @@ const sites: Sites = {
       main: 'article',
     },
     mimic: (content, main) => {
-      const className = main.parentNode.querySelector('article > p').className
+      const className = main.parentNode?.querySelector('article > p')?.className
       return content.replace(/<p>/g, `<p class="${className}">`)
     },
     insertContent: (siteBot, main, content) => {
       siteBot.hideBot()
-      const paras = main.parentNode.querySelectorAll(
+      const paras = main.parentNode?.querySelectorAll(
         'article figure + p, article p + p',
       )
-      Array.from(paras).forEach((p) => p.remove())
+      Array.from(paras ?? []).forEach((p) => p.remove())
       main.innerHTML += content
     },
     source: 'genios.de',
@@ -845,11 +853,13 @@ const sites: Sites = {
     },
     waitOnLoad: true,
     start: (root) => {
-      const main: HTMLElement = root.querySelector(
+      const main = root.querySelector(
         'header div[class*="ArticleHeadstyled__ArticleTeaserContainer"]',
-      )
-      main.style.height = 'auto'
-      main.style.overflow = 'auto'
+      ) as HTMLElement | null
+      if (main) {
+        main.style.height = 'auto'
+        main.style.overflow = 'auto'
+      }
       //   const obj = JSON.parse(document.evaluate('//script[@type="application/ld+json" and contains(./text(), "mainEntityOfPage")]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.textContent)
       //   paywall.textContent = obj.articleBody
       //   return true
@@ -864,9 +874,10 @@ const sites: Sites = {
   'www.stimme.de': {
     testSetup: async (page) => {
       await page.locator('#cmpwrapper').evaluate((node) => {
-        const el: HTMLAnchorElement =
-          node.shadowRoot.querySelector('#cmpwelcomebtnyes')
-        el.click()
+        const el = node.shadowRoot?.querySelector(
+          '#cmpwelcomebtnyes',
+        ) as HTMLAnchorElement | null
+        el?.click()
       })
     },
     examples: [
@@ -874,7 +885,7 @@ const sites: Sites = {
         url: 'https://www.stimme.de/regional/region/informationsfreiheit-wenn-in-akten-blaettern-10000-euro-kostet-art-4598515',
         selectors: {
           query:
-            '"was eine Behörde tut ist irgendwo verzeichnet in Aktenordnern oder digital"',
+            '"simpel Max Kronmüller aus Lehrensteinsfeld will über die Plattform Frag den Staat wissen"',
         },
       },
     ],
@@ -1101,9 +1112,9 @@ const sites: Sites = {
       if (p) {
         p.classList.remove('paywall-fade')
       }
-      const paywall: HTMLElement = root.querySelector(
+      const paywall = root.querySelector(
         '.elementor-widget-theme-post-content > .elementor-widget-container > div > div[data-elementor-type="section"]',
-      )
+      ) as HTMLElement | null
       if (paywall) {
         paywall.style.display = 'none'
       }
@@ -1138,7 +1149,7 @@ const sites: Sites = {
       if (blur) {
         blur.remove()
       }
-      const paywall: HTMLElement = root.querySelector('#piano-inline')
+      const paywall = root.querySelector('#piano-inline') as HTMLElement | null
       if (paywall) {
         paywall.style.display = 'none'
       }
@@ -1212,17 +1223,23 @@ const sites: Sites = {
     },
     waitOnLoad: true,
     start: (root) => {
-      const main: HTMLElement = root.querySelector(
+      const main = root.querySelector(
         'div[class*="ArticleHeadstyled__ArticleTeaserContainer"]',
-      )
-      main.style.height = 'auto'
-      main.style.overflow = 'auto'
+      ) as HTMLElement | null
+      if (main) {
+        main.style.height = 'auto'
+        main.style.overflow = 'auto'
+      }
     },
     insertContent: (siteBot, main, content) => {
       siteBot.hideBot()
-      main.querySelector('span[class*="Textstyled__InlineText"]').innerHTML =
-        content
-      main.parentElement.childNodes.forEach((node, i) => {
+      const container = main.querySelector(
+        'span[class*="Textstyled__InlineText"]',
+      )
+      if (container) {
+        container.innerHTML = content
+      }
+      main.parentElement?.childNodes.forEach((node, i) => {
         if (i > 0) {
           node.remove()
         }
@@ -1252,17 +1269,23 @@ const sites: Sites = {
     },
     waitOnLoad: true,
     start: (root) => {
-      const main: HTMLElement = root.querySelector(
+      const main = root.querySelector(
         'div[class*="ArticleHeadstyled__ArticleTeaserContainer"]',
-      )
-      main.style.height = 'auto'
-      main.style.overflow = 'auto'
+      ) as HTMLElement | null
+      if (main) {
+        main.style.height = 'auto'
+        main.style.overflow = 'auto'
+      }
     },
     insertContent: (siteBot, main, content) => {
       siteBot.hideBot()
-      main.querySelector('span[class*="Textstyled__InlineText"]').innerHTML =
-        content
-      main.parentElement.childNodes.forEach((node, i) => {
+      const elem = main.querySelector(
+        'span[class*="Textstyled__InlineText"]',
+      ) as HTMLElement | null
+      if (elem) {
+        elem.innerHTML = content
+      }
+      main.parentElement?.childNodes.forEach((node, i) => {
         if (i > 0) {
           node.remove()
         }
@@ -1357,7 +1380,7 @@ const sites: Sites = {
         url: 'https://www.stern.de/hochzeitsplanung--was-ich-gerne-gewusst-haette--bevor-ich-heirate-35439596.html',
         selectors: {
           query:
-            '"mich schon lange vor dem Antrag auf die Hochzeit gefreut Dann fing ich"',
+            '"mich schon lange vor dem Antrag auf meine Hochzeit gefreut Dann fing ich"',
         },
       },
     ],
@@ -1542,10 +1565,10 @@ const sites: Sites = {
   'www.aerztezeitung.de': {
     selectors: {
       query: makeQueryFunc('.StoryShowBox p'),
-      date: () =>
-        document
-          .querySelector("meta[name='date']")
-          .attributes.getNamedItem('content').value,
+      date: (root) =>
+        root
+          .querySelector<HTMLMetaElement>("meta[name='date']")
+          ?.getAttribute('content') ?? '',
       headline: '.article-heading',
       main: '.StoryShowBox',
       paywall: '.AZLoginModule',
@@ -1586,7 +1609,7 @@ const sites: Sites = {
       query: () =>
         document
           .querySelector('meta[property="cleverpush:description"]')
-          .attributes.getNamedItem('content').value,
+          ?.getAttribute('content') ?? '',
       date: 'time',
       main: '.article-body',
       paywall: '.piano.piano-target',
@@ -1623,18 +1646,23 @@ const sites: Sites = {
   'www.idowa.de': {
     selectors: {
       query: (root) => {
-        const article: HTMLElement = root.querySelector('.copy.paywal')
-        return extractQuery(article)
+        const article = root.querySelector('.copy.paywal') as HTMLElement | null
+        if (article) {
+          return extractQuery(article)
+        }
+        return ''
       },
       date: 'time',
       paywall: '.paywall-call-to-action-box',
       main: '.copy.paywal',
     },
     start: (root) => {
-      const paywall: HTMLElement = root.querySelector(
+      const paywall = root.querySelector(
         '.paywall-call-to-action-box',
-      )
-      paywall.style.display = 'none'
+      ) as HTMLElement | null
+      if (paywall) {
+        paywall.style.display = 'none'
+      }
     },
     mimic: (content) => {
       return content
@@ -1665,10 +1693,12 @@ const sites: Sites = {
           body.classList.remove(cls)
         }
       }
-      const paywall: HTMLElement = root.querySelector(
+      const paywall = root.querySelector(
         'div[data-testid="paywall-position-popover"]',
-      )
-      paywall.style.display = 'none'
+      ) as HTMLElement | null
+      if (paywall) {
+        paywall.style.display = 'none'
+      }
       root
         .querySelector('main .paywalled-article')
         ?.classList.remove('paywalled-article')

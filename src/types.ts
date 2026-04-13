@@ -29,6 +29,7 @@ export type ElementSelector =
   | string
   | string[]
   | ((root: HTMLElement, siteBot: SiteBotInterface) => HTMLElement)
+  | null
 type DateRange = [offsetBefore: number, offsetAfter: number]
 export type FormattedDateRange = {
   dateStart: string
@@ -60,7 +61,7 @@ export type ArticleInfo = {
 export interface ExtractorInterface {
   shouldExtract(): boolean
   extractArticleInfo(): ArticleInfo
-  runSelectorQuery(StringSelector): string
+  runSelectorQuery(arg0: StringSelector): string
   getMainContentArea(): HTMLElement
   hasPaywall(): boolean
 }
@@ -70,7 +71,7 @@ export interface SiteBotInterface {
   start(): void
   hideBot(): void
   startInfoExtraction(): ArticleInfo
-  runSelectorQuery(StringSelector): string
+  runSelectorQuery(arg0: StringSelector): string
 }
 
 export interface PartialSite {
