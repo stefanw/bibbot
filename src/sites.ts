@@ -1409,6 +1409,9 @@ const sites: Sites = {
         'Capital',
       ],
     },
+    mimic: (content) => {
+     return content.replace(/<p>/g, '<p style="margin-block: revert !important;">')
+    },
   },
   'www.mittelbayerische.de': {
     testSetup: consentShadowRoot({}),
