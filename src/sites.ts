@@ -1526,8 +1526,8 @@ const sites: Sites = {
   },
   'www.shz.de': {
     selectors: {
-      query: makeQueryFunc('h1 span:nth-child(2)'),
-      headline: 'h1 span:nth-child(2)',
+      query: makeQueryFunc('article span.headline-icon-wrapper > span'),
+      headline: 'article span.headline-icon-wrapper > span',
       date: '.meta-box__meta',
       main: '.content--group__article section p',
       paywall: '.paywall',
