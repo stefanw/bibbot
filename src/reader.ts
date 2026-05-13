@@ -24,6 +24,7 @@ function retrieveStorage() {
       providerOptions: items.providerOptions,
       saveArticle: items.saveArticle,
       disabledSites: items.disabledSites,
+      manualTrigger: items.manualTrigger,
     }
   })
 }

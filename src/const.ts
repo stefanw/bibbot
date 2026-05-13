@@ -18,4 +18,5 @@ export const storageDefaults: StorageItems = {
   providerOptions: {},
   saveArticle: null,
   disabledSites: [],
+  manualTrigger: false,
 }

@@ -120,6 +120,7 @@ export interface BibbotOptions {
   providerOptions: ProviderStorageOptions
   saveArticle: string | null
   disabledSites: string[]
+  manualTrigger: boolean
 }
 
 export interface StorageItems extends BibbotOptions {

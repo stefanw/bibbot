@@ -10,6 +10,7 @@ type InputOptions = {
   keepStats?: HTMLInputElement
   saveArticle?: HTMLInputElement
   disableSites?: HTMLSelectElement
+  manualTrigger?: HTMLInputElement
 }
 
 let currentPermissions: browser.Permissions.AnyPermissions | null = null
@@ -27,7 +28,7 @@ function showOptions() {
 
 function getInputs() {
   const inputs: InputOptions = {}
-  ;['provider', 'keepStats', 'saveArticle', 'disableSites'].forEach((id) => {
+  ;['provider', 'keepStats', 'saveArticle', 'disableSites', 'manualTrigger'].forEach((id) => {
     inputs[id] = <HTMLInputElement | HTMLSelectElement>(
       document.getElementById(id)
     )
@@ -41,6 +42,9 @@ function restore() {
     inputs.provider.value = items.provider
     inputs.keepStats.checked = items.keepStats
     inputs.saveArticle.value = items.saveArticle || ''
+    if (inputs.manualTrigger) {
+      inputs.manualTrigger.checked = !!items.manualTrigger
+    }
 
     if (items.providerOptions) {
       for (const providerKey in providers) {
@@ -176,6 +180,7 @@ function save() {
     providerOptions,
     saveArticle: inputs.saveArticle.value,
     disabledSites,
+    manualTrigger: !!inputs.manualTrigger && inputs.manualTrigger.checked,
   }
   if (!values.keepStats) {
     values.stats = {}
