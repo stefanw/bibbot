@@ -1099,6 +1099,20 @@ const providers: Providers = {
     ],
     permissions: ['https://*.webopac.wuppertal.de:1443/*'],
   },
+  'thi.de': {
+    name: 'Technische Hochschule Ingolstadt',
+    web: 'https://www.thi.de/service/bibliothek/',
+    defaultSource: 'genios.de',
+    params: {
+      'genios.de': {
+        domain: 'www-wiso-net-de.thi.idm.oclc.org',
+        searchResultsPath: '/searchResult/Alle%20Quellen',
+      },
+    },
+    login: [],
+    options: [],
+    permissions: ['https://www-wiso-net-de.thi.idm.oclc.org/*'],
+  },
 }
 
 export default providers

@@ -40,7 +40,8 @@
     "https://*.bonn.idm.oclc.org/*",
     "https://online-service2.nuernberg.de/*",
     "https://*.webopac.wuppertal.de:1443/*",
-    "https://ssl.muenchen.de/*"
+    "https://ssl.muenchen.de/*",
+    "https://www-wiso-net-de.thi.idm.oclc.org/*"
   ],
   "background": {
     "service_worker": "build/background.js",
