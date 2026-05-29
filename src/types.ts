@@ -14,6 +14,7 @@ export type SourceIdentifier =
 export type DefaultSourceParams = {
   domain?: string
   scheme?: string
+  searchResultsPath?: string
   portalId?: ''
 }
 type GeniosSourceParams = {
@@ -291,6 +292,7 @@ export type ProviderSourceParams = {
   scheme?: string
   portalId?: string
   startUrl?: string
+  searchResultsPath?: string
 }
 
 export interface DefaultProvider {

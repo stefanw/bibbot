@@ -39,6 +39,7 @@ const sources: Sources = {
     defaultParams: {
       domain: 'www.genios.de',
       scheme: 'https://',
+      searchResultsPath: '/searchResult/Alle',
     },
     login: [
       [
@@ -75,7 +76,7 @@ const sources: Sources = {
               params.push(`source=${encodeURIComponent(sourceName)}`)
             })
 
-            return `${sourceParams.scheme}${sourceParams.domain}/searchResult/Alle?${params.join('&')}`
+            return `${sourceParams.scheme}${sourceParams.domain}${sourceParams.searchResultsPath}?${params.join('&')}`
           },
         },
       ],
