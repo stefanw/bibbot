@@ -15,12 +15,14 @@ const extractQuery = (
   quoted = true,
   startSlice = START_SLICE,
   endSlice = END_SLICE,
-) => createQuery(node.innerText, quoted, startSlice, endSlice)
+  removeQuotes = false,
+) => createQuery(node.innerText, quoted, startSlice, endSlice, removeQuotes)
 const createQuery = (
   text: string,
   quoted = true,
   startSlice = START_SLICE,
   endSlice = END_SLICE,
+  removeQuotes = false,
 ) => {
   let query = text
     .split(' ')
@@ -32,6 +34,11 @@ const createQuery = (
     .replace(/[!:?;'/()]/g, ' ')
     .replace(/(((?<!\d)[,.])|([,.](?!\d)))/g, ' ')
     .replace(/ {1,}/g, ' ')
+
+  if (removeQuotes) {
+    query = query.replace(/[„“]/g, '')
+  }
+
   // remove non-leading/trailing quotes
   let queryParts = query
     .split(QUOTES)
@@ -49,6 +56,7 @@ const makeQueryFunc = (
   quoted = true,
   startSlice = START_SLICE,
   endSlice = END_SLICE,
+  removeQuotes = false,
 ) => {
   if (!Array.isArray(selector)) {
     selector = [selector]
@@ -57,7 +65,7 @@ const makeQueryFunc = (
     for (const sel of selector) {
       const el = node.querySelector(sel)
       if (el) {
-        return extractQuery(el as HTMLElement, quoted, startSlice, endSlice)
+        return extractQuery(el as HTMLElement, quoted, startSlice, endSlice, removeQuotes)
       }
     }
     return ''
@@ -1088,6 +1096,54 @@ const sites: Sites = {
     sourceParams: {
       dbShortcut: 'TA',
       sourceNames: ['Thüringer Allgemeine'],
+    },
+  },
+  'www.otz.de': {
+    testSetup: getCmpBoxConsent(),
+    examples: [
+      {
+        url: 'https://www.otz.de/sport/science-city-jena/article411265264/der-beste-verein-in-jena-praktikantin-clara-gibt-einblicke-zum-alltag-bei-science-city.html',
+        selectors: {
+          query:
+            'beste Verein in Jena Praktikantin Clara gibt Einblicke zum Alltag bei Science City',
+        },
+      },
+    ],
+    selectors: {
+      query: makeQueryFunc('article h2', false, START_SLICE, END_SLICE, true),
+      date: 'time',
+      paywall: '#paywall-container',
+      main: '.article-body',
+    },
+    source: 'genios.de',
+    sourceParams: {
+      sourceNames: ['Ostthüringer Zeitung', 'Ostthüringer Zeitung online'],
+    },
+    insertContent: (siteBot, main, content) => {
+      siteBot.hideBot()
+
+      const div = document.createElement('div')
+      div.innerHTML = content
+
+      // fix heading formatting
+      const headings = div.querySelectorAll('.sub-header.h-1')
+      for (const divHeading of headings) {
+        const headingText = divHeading.textContent
+        const heading = document.createElement('h3')
+        heading.textContent = headingText
+        divHeading.outerHTML = heading.outerHTML
+      }
+
+      // add genios host to image urls
+      const images = div.querySelectorAll('img')
+      for (const image of images) {
+        image.src = image.src.replace(
+          'https://www.otz.de/',
+          'https://genios.de/',
+        )
+      }
+
+      main.innerHTML = div.innerHTML
     },
   },
   'www.mopo.de': {
