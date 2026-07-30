@@ -2,6 +2,7 @@ import {
   consentShadowRoot,
   getCmpBoxConsent,
   getConsentCdnSetup,
+  getContentPassConsent,
 } from './test_utils.js'
 
 import { PartialSite, Sites } from './types.js'
@@ -1723,6 +1724,28 @@ const sites: Sites = {
     sourceParams: {
       dbShortcut: 'NN',
       sourceNames: ['Nürnberger Nachrichten'],
+    },
+  },
+  'www.augsburger-allgemeine.de': {
+    testSetup: getContentPassConsent({}),
+    examples: [
+      {
+        url: 'https://www.augsburger-allgemeine.de/augsburg/nahverkehr-oepnv-augsburg-takt-city-zone-gratis-parkgebuehren-114901170',
+        selectors: {
+          query:
+            '"Entscheidung zur Zukunft des Nahverkehrs in Augsburg wird vor der Sommerpause nicht mehr"',
+        },
+      },
+    ],
+    selectors: {
+      query: makeQueryFunc('#article-body-paid-content > p'),
+      date: 'time',
+      paywall: '#piano-inline-paywall',
+      main: '#article-body-paid-content',
+    },
+    source: 'genios.de',
+    sourceParams: {
+      sourceNames: ['Augsburger Allgemeine'],
     },
   },
 }
