@@ -1,10 +1,12 @@
-import {
+import type {
   Actions,
   DefaultProvider,
   Provider,
   Providers,
   SourceIdentifier,
 } from './types.js'
+import { createAstecProvider } from './astec_provider.js'
+import { voebbProviderData } from './voebb_provider.js'
 
 type PartialProviderData = {
   id: string
@@ -680,18 +682,7 @@ hanData.forEach((d) => {
 })
 
 const astecData = [
-  {
-    id: 'voebb.de',
-    name: 'VÖBB - Verbund der öffenlichen Bibliotheken Berlins',
-    web: 'https://voebb.de/',
-    params: {
-      'www.munzinger.de': {
-        portalId: '50158',
-      },
-    },
-    domain: 'bib-voebb.genios.de',
-    permissions: ['https://www.voebb.de/*'],
-  },
+  voebbProviderData,
   {
     id: 'www.nuernberg.de/internet/stadtbibliothek',
     name: 'Stadtbibliothek Nürnberg im Bildungscampus',
@@ -708,49 +699,9 @@ const astecData = [
   },
 ]
 
-function astecFactory(provider) {
-  const defaultSource = provider.defaultSource || 'genios.de'
-  return {
-    name: provider.name,
-    web: provider.web,
-    params: {
-      [defaultSource]: {
-        domain: provider.domain,
-      },
-      ...(provider.params ?? {}),
-    },
-    defaultSource,
-    login: [
-      [{ click: 'input[name="CLOGIN"]', optional: true, skipToNext: true }],
-      [
-        { message: 'Bibliothekskonto wird eingeloggt...' },
-        {
-          fill: {
-            selector: 'input[name="L#AUSW"]',
-            providerKey: `${provider.id}.options.username`,
-          },
-        },
-        {
-          fill: {
-            selector: 'input[name="LPASSW"]',
-            providerKey: `${provider.id}.options.password`,
-          },
-        },
-        { click: 'input[name="LLOGIN"]' },
-      ],
-      [{ click: 'input[name="CLOGIN"]', optional: true }],
-    ],
-    options: [
-      { id: 'username', display: 'Nutzername:', type: 'text' },
-      { id: 'password', display: 'Passwort:', type: 'password' },
-    ],
-    permissions: provider.permissions,
-  }
-}
-
 const astecProviders = {}
 astecData.forEach((d) => {
-  astecProviders[d.id] = <Provider>astecFactory(d)
+  astecProviders[d.id] = <Provider>createAstecProvider(d)
 })
 
 const providers: Providers = {

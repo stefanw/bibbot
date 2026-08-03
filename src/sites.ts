@@ -4,7 +4,7 @@ import {
   getConsentCdnSetup,
 } from './test_utils.js'
 
-import { PartialSite, Sites } from './types.js'
+import type { PartialSite, Sites } from './types.js'
 
 const QUOTES = /["„].*["„]/
 const START_SLICE = 2

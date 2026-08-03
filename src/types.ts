@@ -1,5 +1,5 @@
-import SourceBot from './sourcebot'
-import TabRunner from './tabrunner'
+import type SourceBot from './sourcebot'
+import type TabRunner from './tabrunner'
 
 type TestExample = {
   url: string
