@@ -32,8 +32,10 @@
   "scripts": {
     "start": "rollup --bundleConfigAsCjs -c -w",
     "build": "rollup --bundleConfigAsCjs -c",
+    "build:userscript": "node scripts/build-userscript.mjs",
     "lint": "eslint src tests",
     "check-types": "tsc --noemit",
+    "test:userscript": "npm run build:userscript && USERSCRIPT_TEST=true node scripts/build-userscript.mjs && node test_build/userscript_test.js && node scripts/verify-tampermonkey-ios.mjs",
     "test-sites": "npx playwright test tests/sites.spec.ts --reporter list",
     "test-extension": "npx playwright test tests/extension.spec.ts --reporter dot --headed",
     "test": "npx playwright test",
