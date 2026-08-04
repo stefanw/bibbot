@@ -13,6 +13,24 @@ npm install
 npm start
 ```
 
+### Tampermonkey on iOS
+
+BibBot can run in Safari on iOS through Tampermonkey without a separately
+signed BibBot app. The userscript currently supports VÖBB accounts and all
+publisher sites backed by the existing GENIOS configuration:
+
+```bash
+npm ci
+npm run build:userscript
+```
+
+The resulting `dist/bibbot.user.js` can be installed in Tampermonkey on an
+iPhone or iPad. It reuses BibBot's existing site definitions, GENIOS source
+actions and VÖBB login definition; only the tab coordination and storage
+adapter are specific to Tampermonkey. See
+[docs/tampermonkey-ios.md](docs/tampermonkey-ios.md) for installation,
+permissions, privacy boundaries, tested sites and troubleshooting.
+
 ## Extension overview
 
 The extension has four different entry points:

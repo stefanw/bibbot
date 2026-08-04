@@ -1,0 +1,25 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "outDir": "./build/userscript",
+    "noEmit": false,
+    "declaration": false,
+    "strict": false,
+    "noEmitOnError": true
+  },
+  "include": [
+    "./src/userscript/**/*",
+    "./src/types.ts",
+    "./src/sources.ts",
+    "./src/utils.ts",
+    "./src/converters.ts",
+    "./src/extractor.ts",
+    "./src/ui.ts",
+    "./src/global.d.ts",
+    "./tests/userscript_test.ts"
+  ]
+}

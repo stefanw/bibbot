@@ -3,6 +3,13 @@ import * as browser from 'webextension-polyfill'
 import { FAILED_MESSAGE, STATUS_MESSAGE, SUCCESS_MESSAGE } from './const.js'
 import providers from './providers.js'
 import sources from './sources.js'
+import {
+  buildSourceUserData,
+  getSourceActionList,
+  getSourceActions,
+  getSourceParams,
+  makeSourceUrl,
+} from './source_flow.js'
 import TabRunner from './tabrunner.js'
 import {
   ArticleInfo,
@@ -10,8 +17,8 @@ import {
   Provider,
   SiteSourceParams,
   Source,
+  SourceIdentifier,
 } from './types.js'
-import { interpolate } from './utils.js'
 
 enum PHASE {
   LOGIN = 'login',
@@ -21,13 +28,13 @@ enum PHASE {
 class SourceBot {
   step: number
   phase: PHASE
-  sourceId: string
+  sourceId: SourceIdentifier
   providerId: string
   provider: Provider
   source: Source
   sourceParams: SiteSourceParams
   articleInfo: ArticleInfo
-  providerOptions: object
+  providerOptions: Record<string, unknown>
   userData: object
   callback: (message: Message) => void
   tabId: number
@@ -55,28 +62,21 @@ class SourceBot {
     this.articleInfo = articleInfo
     this.providerOptions = providerOptions
     this.callback = callback
-    this.userData = Object.assign(
-      {
-        bibName: this.provider.bibName || this.provider.name,
-      },
+    this.userData = buildSourceUserData(
+      this.provider,
+      this.providerId,
       this.providerOptions,
     )
-    ;['options.username', 'options.password'].forEach((key) => {
-      const confValue = this.userData[`${this.providerId}.${key}`]
-      if (confValue !== undefined) {
-        this.userData[key] = confValue
-      }
-    })
 
     this.onTabUpdated = this.onTabUpdated.bind(this)
     this.done = false
   }
 
   getParams() {
-    return Object.assign(
-      {},
-      this.source.defaultParams || {},
-      this.provider.params[this.sourceId],
+    return getSourceParams(
+      this.provider,
+      this.sourceId,
+      this.source,
       this.sourceParams,
     )
   }
@@ -136,16 +136,11 @@ class SourceBot {
   }
 
   getActionList() {
-    return this.provider[this.phase] || this.source[this.phase]
+    return getSourceActionList(this.provider, this.source, this.phase)
   }
 
   getActions() {
-    const actionList = this.getActionList()
-    const actions = actionList[this.step]
-    if (Array.isArray(actions)) {
-      return actions
-    }
-    throw new Error('Unknown action in source')
+    return getSourceActions(this.provider, this.source, this.phase, this.step)
   }
 
   isFinalStep() {
@@ -243,13 +238,7 @@ class SourceBot {
   }
 
   makeUrl(url) {
-    if (typeof url === 'function') {
-      return url(this.articleInfo, this.getParams())
-    }
-    url = interpolate(url, this.articleInfo, '', encodeURIComponent)
-    const params = this.getParams()
-    url = interpolate(url, params, 'source', encodeURIComponent)
-    return url
+    return makeSourceUrl(url, this.articleInfo, this.getParams())
   }
 
   activateTab() {

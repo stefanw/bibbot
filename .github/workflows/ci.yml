@@ -19,6 +19,8 @@ jobs:
       run: npm run lint && npm run check-types
     - name: Build project and create dist files
       run: "./dist.sh"
+    - name: Build and test iOS userscript
+      run: npm run test:userscript
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests

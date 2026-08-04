@@ -1,4 +1,4 @@
-import { ArticleInfo, SiteSourceParams, Sources } from './types.js'
+import type { ArticleInfo, SiteSourceParams, Sources } from './types.js'
 
 const sources: Sources = {
   'www.munzinger.de': {
