@@ -5,7 +5,7 @@ import {
 
 export const voebbProviderData = {
   id: 'voebb.de',
-  name: 'VÖBB - Verbund der öffenlichen Bibliotheken Berlins',
+  name: 'VÖBB – Verbund der Öffentlichen Bibliotheken Berlins',
   web: 'https://voebb.de/',
   params: {
     'www.munzinger.de': {

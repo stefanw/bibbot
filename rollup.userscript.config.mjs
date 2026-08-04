@@ -2,6 +2,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import typescript from '@rollup/plugin-typescript'
 import { readFileSync } from 'node:fs'
+import ts from 'typescript'
 
 import { userscriptMatches } from './scripts/userscript-hosts.mjs'
 
@@ -13,7 +14,6 @@ const userscriptVersion =
 const matches = userscriptMatches()
 
 const grants = [
-  'GM_info',
   'GM_getValue',
   'GM_setValue',
   'GM_deleteValue',
@@ -48,7 +48,63 @@ const metadata = [
   '',
 ].join('\n')
 
-const createPlugins = () => [
+const testMetadataNames = new Set(['examples', 'testSetup'])
+
+function propertyName(node) {
+  if (
+    ts.isIdentifier(node) ||
+    ts.isStringLiteral(node) ||
+    ts.isNoSubstitutionTemplateLiteral(node)
+  ) {
+    return node.text
+  }
+  return null
+}
+
+function stripSiteTestMetadata() {
+  return {
+    name: 'strip-site-test-metadata',
+    transform(code, id) {
+      if (!/[/\\]src[/\\]sites\.ts$/.test(id)) {
+        return null
+      }
+      const sourceFile = ts.createSourceFile(
+        id,
+        code,
+        ts.ScriptTarget.Latest,
+        true,
+        ts.ScriptKind.TS,
+      )
+      const transformed = ts.transform(sourceFile, [
+        (context) => {
+          const visit = (node) => {
+            if (
+              ts.isPropertyAssignment(node) &&
+              testMetadataNames.has(propertyName(node.name))
+            ) {
+              return undefined
+            }
+            return ts.visitEachChild(node, visit, context)
+          }
+          return (root) => ts.visitNode(root, visit)
+        },
+      ])
+      try {
+        return {
+          code: ts
+            .createPrinter({ removeComments: true })
+            .printFile(transformed.transformed[0]),
+          map: null,
+        }
+      } finally {
+        transformed.dispose()
+      }
+    },
+  }
+}
+
+const createPlugins = (productionUserscript = false) => [
+  ...(productionUserscript ? [stripSiteTestMetadata()] : []),
   commonjs(),
   nodeResolve(),
   typescript({ tsconfig: './tsconfig.userscript.json' }),
@@ -63,7 +119,7 @@ const userscriptBuild = {
     banner: metadata,
     inlineDynamicImports: true,
   },
-  plugins: createPlugins(),
+  plugins: createPlugins(true),
 }
 
 const testBuild = {

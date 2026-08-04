@@ -15,10 +15,7 @@ import type {
   Source,
   SourceIdentifier,
 } from '../types.js'
-import {
-  PROVIDER_ID,
-  SOURCE_ID,
-} from './constants.js'
+import { PROVIDER_ID, SOURCE_ID } from './constants.js'
 import type { BibbotJob } from './job_store.js'
 
 export type Credentials = {
@@ -78,16 +75,15 @@ export function getParams(flow: VerticalFlow) {
 
 export function makeUrl(
   flow: VerticalFlow,
-  value: string | ((articleInfo: ArticleInfo, sourceParams: SiteSourceParams) => string),
+  value:
+    | string
+    | ((articleInfo: ArticleInfo, sourceParams: SiteSourceParams) => string),
   articleInfo: ArticleInfo,
 ) {
   return makeSourceUrl(value, articleInfo, getParams(flow))
 }
 
-export function buildUserData(
-  flow: VerticalFlow,
-  credentials: Credentials,
-) {
+export function buildUserData(flow: VerticalFlow, credentials: Credentials) {
   const username = credentials.username || ''
   const password = credentials.password || ''
   return buildSourceUserData(flow.provider, flow.providerId, {

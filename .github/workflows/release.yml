@@ -24,8 +24,8 @@ jobs:
       # Run lint, type-checking and tests before release
       - name: Running lint and type check
         run: npm run lint && npm run check-types
-      - name: Create build of test content script
-        run: npm run build && npm run test:userscript
+      - name: Build and test iOS userscript
+        run: npm run test:userscript
 
       # FIXME: Tests too flaky, disabled for release
       # - name: Run the tests

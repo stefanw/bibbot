@@ -1,9 +1,4 @@
-import {
-  mkdtempSync,
-  readFileSync,
-  rmSync,
-  writeFileSync,
-} from 'node:fs'
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -14,13 +9,12 @@ import {
 
 const source = readFileSync('dist/bibbot.user.js', 'utf8')
 const packageVersion = JSON.parse(readFileSync('package.json', 'utf8')).version
-const expectedVersion =
-  process.env.BIBBOT_USERSCRIPT_VERSION || packageVersion
+const expectedVersion = process.env.BIBBOT_USERSCRIPT_VERSION || packageVersion
 
 function metadataValues(name) {
-  return [...source.matchAll(new RegExp(`^// @${name}(?:[ \\t]+(.*))?$`, 'gm'))].map(
-    (match) => match[1] || '',
-  )
+  return [
+    ...source.matchAll(new RegExp(`^// @${name}(?:[ \\t]+(.*))?$`, 'gm')),
+  ].map((match) => match[1] || '')
 }
 
 function assert(condition, message) {
@@ -31,7 +25,6 @@ function assert(condition, message) {
 
 const expectedMatches = userscriptMatches()
 const expectedGrants = [
-  'GM_info',
   'GM_getValue',
   'GM_setValue',
   'GM_deleteValue',
@@ -45,14 +38,26 @@ const expectedGrants = [
   'GM_registerMenuCommand',
 ]
 
-assert(source.startsWith('// ==UserScript=='), 'Userscript metadata must be first')
+assert(
+  source.startsWith('// ==UserScript=='),
+  'Userscript metadata must be first',
+)
 assert(
   metadataValues('version')[0] === expectedVersion,
   'metadata version does not match the project version',
 )
-assert(JSON.stringify(metadataValues('match')) === JSON.stringify(expectedMatches), 'exact @match coverage changed')
-assert(JSON.stringify(metadataValues('grant')) === JSON.stringify(expectedGrants), 'exact @grant surface changed')
-assert(metadataValues('run-at')[0] === 'document-idle', 'document-idle is required')
+assert(
+  JSON.stringify(metadataValues('match')) === JSON.stringify(expectedMatches),
+  'exact @match coverage changed',
+)
+assert(
+  JSON.stringify(metadataValues('grant')) === JSON.stringify(expectedGrants),
+  'exact @grant surface changed',
+)
+assert(
+  metadataValues('run-at')[0] === 'document-idle',
+  'document-idle is required',
+)
 assert(metadataValues('sandbox')[0] === 'DOM', 'DOM sandbox is required')
 assert(metadataValues('noframes').length === 1, '@noframes is required')
 try {
@@ -63,7 +68,20 @@ try {
 
 for (const forbidden of [
   '@connect',
+  'GM_info',
   'GM_xmlhttpRequest',
+  'disableZeit',
+  'disableSpiegel',
+  'disabledSites',
+  'saveArticle',
+  'Später-lesen-URL',
+  'ZEIT-Testartikel',
+  'SPIEGEL-Testartikel',
+  'gespeicherte Tab-Markierungen',
+  'consent setup:',
+  'page never finishes loading',
+  'testSetup:',
+  'examples:',
   'browser.',
   'chrome.',
   'unsafeWindow',
@@ -71,7 +89,10 @@ for (const forbidden of [
   '*://*/*',
   'https://*.genios.de/*',
 ]) {
-  assert(!source.includes(forbidden), `forbidden userscript capability found: ${forbidden}`)
+  assert(
+    !source.includes(forbidden),
+    `forbidden userscript capability found: ${forbidden}`,
+  )
 }
 
 for (const required of [
@@ -81,6 +102,8 @@ for (const required of [
   'GM_getTab',
   'GM_saveTab',
   'GM_openInTab',
+  'BibBot einrichten',
+  'Bibliotheks-Tab sofort im Vordergrund öffnen',
   'data-bibbot-ios-top',
   'pageshow',
   'visibilitychange',
@@ -89,7 +112,10 @@ for (const required of [
   'resultHtml',
   'acknowledgedAt',
 ]) {
-  assert(source.includes(required), `required userscript behavior missing: ${required}`)
+  assert(
+    source.includes(required),
+    `required userscript behavior missing: ${required}`,
+  )
 }
 
 const fixtureDirectory = mkdtempSync(join(tmpdir(), 'bibbot-userscript-hosts-'))
@@ -102,17 +128,24 @@ const SHARED = { source: 'genios.de' }
 const sites = {
   'direct.example': { source: 'genios.de' },
   'shared.example': { ...SHARED },
+  'referenced.example': SHARED,
   'other.example': { source: 'www.munzinger.de' },
 }
 `,
   )
   assert(
     JSON.stringify(readUserscriptOriginHosts(fixturePath)) ===
-      JSON.stringify(['direct.example', 'shared.example']),
+      JSON.stringify([
+        'direct.example',
+        'shared.example',
+        'referenced.example',
+      ]),
     'host derivation must exclude non-GENIOS sites',
   )
 } finally {
   rmSync(fixtureDirectory, { recursive: true, force: true })
 }
 
-console.log('PASS: Tampermonkey-Userscript-Metadaten, Berechtigungsgrenzen und Runtime-Sicherheitschecks validiert.')
+console.log(
+  'PASS: Tampermonkey-Userscript-Metadaten, Berechtigungsgrenzen und Runtime-Sicherheitschecks validiert.',
+)

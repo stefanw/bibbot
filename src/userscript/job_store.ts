@@ -91,8 +91,10 @@ type JobEvent = {
   patch: Record<string, unknown>
 }
 
-const SECRET_KEY = /password|username|credential|provider.?options|user.?data|form.?value/i
-const SENSITIVE_TEXT = /(?:password|passwd|passwort|username|user|credential|token)\s*[:=]\s*[^\s&]+/gi
+const SECRET_KEY =
+  /password|username|credential|provider.?options|user.?data|form.?value/i
+const SENSITIVE_TEXT =
+  /(?:password|passwd|passwort|username|user|credential|token)\s*[:=]\s*[^\s&]+/gi
 const MAX_RESULT_HTML_LENGTH = 2 * 1024 * 1024
 
 export class JobBusyError extends Error {
@@ -134,7 +136,11 @@ function safeUrl(value: string) {
   }
 }
 
-function sanitizeValue(value: unknown, key = '', secrets: string[] = []): unknown {
+function sanitizeValue(
+  value: unknown,
+  key = '',
+  secrets: string[] = [],
+): unknown {
   if (SECRET_KEY.test(key)) {
     return undefined
   }
@@ -159,15 +165,12 @@ function sanitizeValue(value: unknown, key = '', secrets: string[] = []): unknow
   return value
 }
 
-function sanitizePatch(
-  patch: Record<string, unknown>,
-  secrets: string[] = [],
-) {
+function sanitizePatch(patch: Record<string, unknown>, secrets: string[] = []) {
   const { resultHtml, ...otherValues } = patch
   const sanitized = sanitizeValue(otherValues, '', secrets)
-  const output = (sanitized && typeof sanitized === 'object'
-    ? sanitized
-    : {}) as Record<string, unknown>
+  const output = (
+    sanitized && typeof sanitized === 'object' ? sanitized : {}
+  ) as Record<string, unknown>
   if (typeof resultHtml === 'string') {
     let safeResult = resultHtml
     for (const secret of secrets) {
@@ -229,7 +232,10 @@ function applyEvent(job: BibbotJob, event: JobEvent) {
   const next = {
     ...job,
     ...(event.patch as Partial<BibbotJob>),
-    revision: Math.max(job.revision, Number(event.patch.revision) || job.revision),
+    revision: Math.max(
+      job.revision,
+      Number(event.patch.revision) || job.revision,
+    ),
     updatedAt: Math.max(job.updatedAt, event.createdAt),
   }
   if (next.resultHtml && !next.resultRevision) {
@@ -298,8 +304,12 @@ export class JobStore {
       articleFingerprint: input.articleFingerprint,
       providerId: input.providerId,
       sourceId: input.sourceId,
-      sourceParams: clone(sanitizeValue(input.sourceParams) as Record<string, unknown>),
-      articleInfo: clone(sanitizeValue(input.articleInfo) as Record<string, unknown>),
+      sourceParams: clone(
+        sanitizeValue(input.sourceParams) as Record<string, unknown>,
+      ),
+      articleInfo: clone(
+        sanitizeValue(input.articleInfo) as Record<string, unknown>,
+      ),
       phase: 'login',
       step: 0,
       actionIndex: 0,
@@ -323,6 +333,14 @@ export class JobStore {
       return null
     }
     job = await this.reduce(job)
+    if (
+      job.status === 'complete' &&
+      !job.acknowledgedAt &&
+      job.expiresAt <= this.now()
+    ) {
+      await this.remove(job.id)
+      return null
+    }
     if (!isTerminal(job) && job.expiresAt <= this.now()) {
       await this.systemUpdate(job.id, {
         status: 'expired',
@@ -394,6 +412,19 @@ export class JobStore {
   }
 
   async remove(id: string) {
+    const active = asJob(
+      await this.runtime.getValue<unknown>(ACTIVE_JOB_KEY, null),
+    )
+    if (active?.id === id) {
+      await this.runtime.deleteValue(ACTIVE_JOB_KEY)
+    }
+    const hint = await this.runtime.getValue<{ jobId?: string } | null>(
+      EVENT_HINT_KEY,
+      null,
+    )
+    if (hint?.jobId === id) {
+      await this.runtime.deleteValue(EVENT_HINT_KEY)
+    }
     const values = await this.runtime.listValues()
     const prefix = `${EVENT_KEY_PREFIX}${id}:`
     await Promise.all(
@@ -401,12 +432,6 @@ export class JobStore {
         .filter((key) => key.startsWith(prefix))
         .map((key) => this.runtime.deleteValue(key)),
     )
-    const active = asJob(
-      await this.runtime.getValue<unknown>(ACTIVE_JOB_KEY, null),
-    )
-    if (active?.id === id) {
-      await this.runtime.deleteValue(ACTIVE_JOB_KEY)
-    }
   }
 
   private async systemUpdate(id: string, patch: Record<string, unknown>) {
@@ -424,16 +449,10 @@ export class JobStore {
     if (!current) {
       throw new Error('BibBot-Vorgang nicht gefunden.')
     }
-    if (
-      writer === 'origin' &&
-      current.originToken !== ownerToken
-    ) {
+    if (writer === 'origin' && current.originToken !== ownerToken) {
       throw new JobOwnershipError()
     }
-    if (
-      writer === 'worker' &&
-      current.workerToken !== ownerToken
-    ) {
+    if (writer === 'worker' && current.workerToken !== ownerToken) {
       throw new JobOwnershipError()
     }
     if (isTerminal(current) && writer !== 'origin') {

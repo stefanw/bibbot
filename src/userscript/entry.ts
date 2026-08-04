@@ -1,19 +1,22 @@
 import { ArticleController } from './article_controller.js'
-import {
-  isOriginHost,
-  isWorkerLocation,
-  PAGE_MARKER,
-} from './constants.js'
+import { isOriginHost, isWorkerLocation, PAGE_MARKER } from './constants.js'
 import { createDefaultRuntime } from './runtime.js'
-import { registerSettingsMenu } from './settings.js'
+import {
+  consumeSettingsRequest,
+  openSettings,
+  registerSettingsMenu,
+} from './settings.js'
 import { WorkerController } from './worker.js'
 import sites from './site_definitions.js'
 
-function start() {
+async function start() {
   if (window.top !== window.self) {
     return
   }
-  if (!document.documentElement || document.documentElement.hasAttribute(PAGE_MARKER)) {
+  if (
+    !document.documentElement ||
+    document.documentElement.hasAttribute(PAGE_MARKER)
+  ) {
     return
   }
   document.documentElement.setAttribute(PAGE_MARKER, '1')
@@ -22,6 +25,16 @@ function start() {
   registerSettingsMenu(runtime)
 
   if (isWorkerLocation(window.location)) {
+    const settingsRequest = await consumeSettingsRequest(runtime).catch(
+      () => 'none' as const,
+    )
+    if (settingsRequest === 'open') {
+      await openSettings(runtime)
+      return
+    }
+    if (settingsRequest === 'wait') {
+      return
+    }
     new WorkerController(runtime).start()
     return
   }
@@ -46,4 +59,4 @@ function start() {
   }
 }
 
-start()
+start().catch(() => undefined)

@@ -15,13 +15,6 @@ export type OpenTabHandle = {
   onclose?: (callback: () => void) => void
 }
 
-export type RuntimeInfo = {
-  handlerName: string | null
-  isIncognito: boolean | null
-  scriptName: string | null
-  scriptVersion: string | null
-}
-
 export interface UserscriptRuntime {
   getValue<T>(key: string, fallback: T): Promise<T>
   setValue<T>(key: string, value: T): Promise<void>
@@ -40,7 +33,6 @@ export interface UserscriptRuntime {
     caption: string,
     callback: () => void | Promise<void>,
   ): unknown
-  info(): RuntimeInfo
 }
 
 type MaybePromise<T> = T | PromiseLike<T>
@@ -54,7 +46,9 @@ declare function GM_addValueChangeListener(
   listener: ChangeListener,
 ): number
 declare function GM_removeValueChangeListener(listenerId: number): void
-declare function GM_getTab(callback: (data: TabData) => void): MaybePromise<TabData>
+declare function GM_getTab(
+  callback: (data: TabData) => void,
+): MaybePromise<TabData>
 declare function GM_saveTab(data: TabData): MaybePromise<void>
 declare function GM_getTabs(
   callback: (tabs: Record<string, TabData>) => void,
@@ -67,11 +61,6 @@ declare function GM_registerMenuCommand(
   caption: string,
   callback: () => void | Promise<void>,
 ): unknown
-declare const GM_info: {
-  handlerName?: string
-  isIncognito?: boolean
-  script?: { name?: string; version?: string }
-}
 
 // GM APIs have different callback signatures; the loose function boundary is
 // confined to this adapter and never carries job or credential data.
@@ -131,20 +120,15 @@ function getApi<T extends (...args: any[]) => any>(
   return typeof value === 'function' ? value : null
 }
 
-function readInfo(): RuntimeInfo {
-  const info = typeof GM_info === 'object' ? GM_info : null
-  const script = info?.script
-  return {
-    handlerName: typeof info?.handlerName === 'string' ? info.handlerName : null,
-    isIncognito: typeof info?.isIncognito === 'boolean' ? info.isIncognito : null,
-    scriptName: typeof script?.name === 'string' ? script.name : null,
-    scriptVersion: typeof script?.version === 'string' ? script.version : null,
-  }
-}
-
 export function createDefaultRuntime(): UserscriptRuntime {
-  const getValueApi = getApi('GM_getValue', typeof GM_getValue === 'function' ? GM_getValue : undefined)
-  const setValueApi = getApi('GM_setValue', typeof GM_setValue === 'function' ? GM_setValue : undefined)
+  const getValueApi = getApi(
+    'GM_getValue',
+    typeof GM_getValue === 'function' ? GM_getValue : undefined,
+  )
+  const setValueApi = getApi(
+    'GM_setValue',
+    typeof GM_setValue === 'function' ? GM_setValue : undefined,
+  )
   const deleteValueApi = getApi(
     'GM_deleteValue',
     typeof GM_deleteValue === 'function' ? GM_deleteValue : undefined,
@@ -239,7 +223,6 @@ export function createDefaultRuntime(): UserscriptRuntime {
       const api = available('GM_registerMenuCommand', registerMenuApi)
       return api(caption, callback)
     },
-    info: readInfo,
   }
 }
 

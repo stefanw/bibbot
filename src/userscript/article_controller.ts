@@ -1,4 +1,3 @@
-import { addSharingButton } from '../services.js'
 import Extractor from '../extractor.js'
 import {
   BOT_ID,
@@ -9,21 +8,20 @@ import {
   STYLES,
 } from '../ui.js'
 import type { Site, SiteBotInterface, StringSelector } from '../types.js'
+import { POLL_INTERVAL_MS, PROVIDER_ID, TAB_DATA_KEY } from './constants.js'
 import {
-  POLL_INTERVAL_MS,
-  TAB_DATA_KEY,
-} from './constants.js'
-import { fingerprintArticle, JobBusyError, JobStore, type BibbotJob } from './job_store.js'
-import {
-  buildWorkerStartUrl,
-  getVerticalFlow,
-} from './provider_flow.js'
+  fingerprintArticle,
+  JobBusyError,
+  JobStore,
+  type BibbotJob,
+} from './job_store.js'
+import { buildWorkerStartUrl, getVerticalFlow } from './provider_flow.js'
 import {
   randomToken,
   type OpenTabHandle,
   type UserscriptRuntime,
 } from './runtime.js'
-import { loadSettings } from './settings.js'
+import { loadSettings, showSettings } from './settings.js'
 
 export function hasOriginOwner(
   tabs: Record<string, Record<string, unknown>>,
@@ -54,12 +52,14 @@ export class ArticleController implements SiteBotInterface {
   private container: HTMLElement | null = null
   private originToken: string | null = null
   private articleFingerprint: string | null = null
-  private currentJob: BibbotJob | null = null
   private workerTab: OpenTabHandle | null = null
   private appliedJobId: string | null = null
   private removeListener: (() => void) | null = null
   private pollHandle: ReturnType<typeof setInterval> | null = null
   private started = false
+  private readonly resumeHandler = () => {
+    this.resumeJob().catch(() => undefined)
+  }
 
   constructor(
     site: Site,
@@ -90,9 +90,6 @@ export class ArticleController implements SiteBotInterface {
       return
     }
     const settings = await loadSettings(this.runtime)
-    if (settings.disabledSites.includes(this.domain)) {
-      return
-    }
     if (!this.extractor.hasPaywall()) {
       return
     }
@@ -114,7 +111,6 @@ export class ArticleController implements SiteBotInterface {
       existing.articleFingerprint === this.articleFingerprint &&
       !['failed', 'cancelled', 'expired'].includes(existing.status)
     ) {
-      this.currentJob = existing
       this.attachResumeHooks()
       await this.renderJob(existing)
       return
@@ -139,12 +135,11 @@ export class ArticleController implements SiteBotInterface {
         originToken: this.originToken,
         workerToken,
         articleFingerprint: this.articleFingerprint,
-        providerId: settings.provider,
+        providerId: PROVIDER_ID,
         sourceId: this.site.source,
         sourceParams: this.site.sourceParams,
         articleInfo,
       })
-      this.currentJob = job
       this.attachResumeHooks()
       await this.openWorker(job, settings.workerActive)
     } catch (error) {
@@ -243,17 +238,23 @@ export class ArticleController implements SiteBotInterface {
     if (this.removeListener) {
       return
     }
-    this.removeListener = this.store.onChange(() => {
-      this.resumeJob().catch(() => undefined)
-    })
+    this.removeListener = this.store.onChange(this.resumeHandler)
     for (const eventName of ['pageshow', 'visibilitychange', 'focus']) {
-      window.addEventListener(eventName, () => {
-        this.resumeJob().catch(() => undefined)
-      })
+      window.addEventListener(eventName, this.resumeHandler)
     }
-    this.pollHandle = setInterval(() => {
-      this.resumeJob().catch(() => undefined)
-    }, POLL_INTERVAL_MS)
+    this.pollHandle = setInterval(this.resumeHandler, POLL_INTERVAL_MS)
+  }
+
+  private detachResumeHooks() {
+    this.removeListener?.()
+    this.removeListener = null
+    if (this.pollHandle !== null) {
+      clearInterval(this.pollHandle)
+      this.pollHandle = null
+    }
+    for (const eventName of ['pageshow', 'visibilitychange', 'focus']) {
+      window.removeEventListener(eventName, this.resumeHandler)
+    }
   }
 
   private async resumeJob() {
@@ -268,21 +269,31 @@ export class ArticleController implements SiteBotInterface {
     ) {
       return
     }
-    this.currentJob = job
     await this.renderJob(job)
   }
 
   private async renderJob(job: BibbotJob) {
     this.setupUI()
-    if (job.status === 'complete' && job.resultHtml && this.appliedJobId !== job.id) {
-      this.showArticle(job.resultHtml, (await loadSettings(this.runtime)).saveArticle)
+    if (
+      job.status === 'complete' &&
+      job.resultHtml &&
+      this.appliedJobId !== job.id
+    ) {
+      this.showArticle(job.resultHtml)
       this.appliedJobId = job.id
       this.hideBot()
       await this.store.acknowledge(job.id, job.originToken)
       await this.closeWorkerTab()
+      await this.store.remove(job.id)
+      this.detachResumeHooks()
       return
     }
-    if (job.status === 'failed' || job.status === 'expired' || job.status === 'cancelled') {
+    if (
+      job.status === 'failed' ||
+      job.status === 'expired' ||
+      job.status === 'cancelled'
+    ) {
+      this.detachResumeHooks()
       this.hideLoading()
       this.fail(job)
       return
@@ -321,7 +332,7 @@ export class ArticleController implements SiteBotInterface {
     const button = document.createElement('button')
     button.id = 'bibbot-goto'
     button.type = 'button'
-    button.textContent = 'Worker-Tab sichtbar öffnen'
+    button.textContent = 'Bibliotheks-Tab sichtbar öffnen'
     button.addEventListener('click', () => {
       this.openWorker(job, true).catch(() => undefined)
     })
@@ -334,7 +345,10 @@ export class ArticleController implements SiteBotInterface {
     if (!message) {
       return
     }
-    const ageSeconds = Math.max(0, Math.floor((Date.now() - job.createdAt) / 1000))
+    const ageSeconds = Math.max(
+      0,
+      Math.floor((Date.now() - job.createdAt) / 1000),
+    )
     const age =
       ageSeconds < 60
         ? `${ageSeconds} Sekunden`
@@ -423,7 +437,9 @@ export class ArticleController implements SiteBotInterface {
   }
 
   hideLoading() {
-    const loader = this.shadow?.querySelector(`#${LOADER_ID}`) as HTMLElement | null
+    const loader = this.shadow?.querySelector(
+      `#${LOADER_ID}`,
+    ) as HTMLElement | null
     if (loader) {
       loader.style.display = 'none'
     }
@@ -437,14 +453,18 @@ export class ArticleController implements SiteBotInterface {
   }
 
   showUpdate(text: string) {
-    const message = this.shadow?.querySelector(`#${MESSAGE_ID}`) as HTMLElement | null
+    const message = this.shadow?.querySelector(
+      `#${MESSAGE_ID}`,
+    ) as HTMLElement | null
     if (message) {
       message.textContent = text
     }
   }
 
   fail(job?: BibbotJob) {
-    const message = this.shadow?.querySelector(`#${MESSAGE_ID}`) as HTMLElement | null
+    const message = this.shadow?.querySelector(
+      `#${MESSAGE_ID}`,
+    ) as HTMLElement | null
     if (message) {
       message.innerHTML = FAILED_HTML
       if (job?.error?.message) {
@@ -452,6 +472,16 @@ export class ArticleController implements SiteBotInterface {
         details.className = 'bibbot-error-details'
         details.textContent = `Technischer Hinweis: ${job.error.message}`
         message.appendChild(details)
+      }
+      if (job?.error?.message.includes('Zugangsdaten fehlen')) {
+        const settings = document.createElement('button')
+        settings.type = 'button'
+        settings.id = 'bibbot-settings'
+        settings.textContent = 'BibBot einrichten'
+        settings.addEventListener('click', () => {
+          showSettings(this.runtime).catch(() => undefined)
+        })
+        message.appendChild(settings)
       }
       const retry = document.createElement('button')
       retry.type = 'button'
@@ -463,7 +493,7 @@ export class ArticleController implements SiteBotInterface {
     this.showPaywall()
   }
 
-  showArticle(content: string | string[], saveArticleUrl: string | null) {
+  showArticle(content: string | string[]) {
     const main = this.extractor.getMainContentArea()
     let html = Array.isArray(content) ? content.join('') : content
     if (this.site.mimic) {
@@ -480,24 +510,20 @@ export class ArticleController implements SiteBotInterface {
       let className = this.site.paragraphStyle.className || ''
       let style = this.site.paragraphStyle.style || ''
       if (this.site.paragraphStyle.selector) {
-        const example = this.root.querySelector(this.site.paragraphStyle.selector)
+        const example = this.root.querySelector(
+          this.site.paragraphStyle.selector,
+        )
         if (example !== null) {
           className = example.className || className
           style = example.attributes.getNamedItem('style')?.value || style
         }
       }
-      html = html.replace(
-        /<p>/g,
-        `<p class="${className}" style="${style}">`,
-      )
+      html = html.replace(/<p>/g, `<p class="${className}" style="${style}">`)
     }
     if (this.site.insertContent) {
       this.site.insertContent(this, main, html)
     } else {
       main.innerHTML = html
-    }
-    if (saveArticleUrl) {
-      addSharingButton(main, html, saveArticleUrl)
     }
   }
 }

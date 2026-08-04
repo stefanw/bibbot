@@ -19,7 +19,6 @@
     "./src/converters.ts",
     "./src/extractor.ts",
     "./src/ui.ts",
-    "./src/services.ts",
     "./src/global.d.ts",
     "./tests/userscript_test.ts"
   ]

@@ -8,10 +8,13 @@ import {
   ACTIVE_JOB_KEY,
   CREDENTIAL_KEY_PREFIX,
   EVENT_HINT_KEY,
+  EVENT_KEY_PREFIX,
   ORIGIN_HOSTS,
   PROVIDER_ID,
+  SETTINGS_KEY,
+  SETTINGS_REQUEST_KEY,
+  SETTINGS_REQUEST_TTL_MS,
   TAB_DATA_KEY,
-  USERSCRIPT_MATCHES,
 } from '../src/userscript/constants.js'
 import userscriptSites from '../src/userscript/site_definitions.js'
 import {
@@ -26,14 +29,16 @@ import {
   parseWorkerReference,
 } from '../src/userscript/provider_flow.js'
 import {
+  consumeSettingsRequest,
   deleteAllCredentials,
   loadCredentials,
+  loadSettings,
   saveCredentials,
+  saveSettings,
 } from '../src/userscript/settings.js'
 import type {
   ChangeListener,
   OpenTabHandle,
-  RuntimeInfo,
   TabData,
   UserscriptRuntime,
 } from '../src/userscript/runtime.js'
@@ -114,15 +119,6 @@ class FakeRuntime implements UserscriptRuntime {
   registerMenuCommand() {
     return 1
   }
-
-  info(): RuntimeInfo {
-    return {
-      handlerName: 'fake',
-      isIncognito: false,
-      scriptName: 'fake',
-      scriptVersion: 'test',
-    }
-  }
 }
 
 async function testJobStore() {
@@ -148,22 +144,35 @@ async function testJobStore() {
     articleInfo,
   })
   assert.equal(job.status, 'busy')
-  await runtime.setValue(`${CREDENTIAL_KEY_PREFIX}voebb.de:password`, 'never-store-this')
-  await store.workerUpdate(job.id, workerToken, {
-    status: 'login',
-    message: 'status secret=never-store-this',
-  }, ['never-store-this'])
+  await runtime.setValue(
+    `${CREDENTIAL_KEY_PREFIX}voebb.de:password`,
+    'never-store-this',
+  )
+  await store.workerUpdate(
+    job.id,
+    workerToken,
+    {
+      status: 'login',
+      message: 'status secret=never-store-this',
+    },
+    ['never-store-this'],
+  )
   const afterStatus = await store.get(job.id)
   assert.equal(afterStatus?.status, 'login')
   assert(!JSON.stringify(afterStatus).includes('never-store-this'))
   assert(!JSON.stringify(afterStatus).includes('password=never-store-this'))
 
   const longArticle = `<p>${'Langartikel '.repeat(2000)}never-store-this</p>`
-  await store.workerUpdate(job.id, workerToken, {
-    status: 'complete',
-    resultHtml: longArticle,
-    message: 'Artikel gefunden.',
-  }, ['never-store-this'])
+  await store.workerUpdate(
+    job.id,
+    workerToken,
+    {
+      status: 'complete',
+      resultHtml: longArticle,
+      message: 'Artikel gefunden.',
+    },
+    ['never-store-this'],
+  )
   const completed = await store.get(job.id)
   assert.equal(completed?.status, 'complete')
   assert((completed?.resultHtml?.length || 0) > 10_000)
@@ -171,6 +180,15 @@ async function testJobStore() {
   assert(completed?.resultHtml?.includes('[redacted]'))
   await store.acknowledge(job.id, originToken)
   assert((await store.get(job.id))?.acknowledgedAt)
+  await store.remove(job.id)
+  assert.equal(await store.get(job.id), null)
+  assert.equal(runtime.values.has(EVENT_HINT_KEY), false)
+  assert.equal(
+    Array.from(runtime.values.keys()).some((key) =>
+      key.startsWith(`${EVENT_KEY_PREFIX}${job.id}:`),
+    ),
+    false,
+  )
 
   const nextJob = await store.create({
     originUrl: 'https://www.spiegel.de/story',
@@ -201,9 +219,39 @@ async function testJobStore() {
   )
   now += 10
   assert.equal((await store.getActive())?.status, 'expired')
-  assert.equal((await runtime.getValue(ACTIVE_JOB_KEY, null) as { status?: string }).status, 'busy')
+  assert.equal(
+    ((await runtime.getValue(ACTIVE_JOB_KEY, null)) as { status?: string })
+      .status,
+    'busy',
+  )
   assert(runtime.values.has(EVENT_HINT_KEY))
   assert(nextJob.id.length > 0)
+
+  await store.remove(nextJob.id)
+  const unclaimed = await store.create({
+    originUrl: 'https://www.zeit.de/unclaimed',
+    originDomain: 'www.zeit.de',
+    originToken: 'origin-unclaimed',
+    workerToken: 'worker-unclaimed',
+    articleFingerprint: 'article-unclaimed',
+    providerId: PROVIDER_ID,
+    sourceId: 'genios.de',
+    sourceParams: {},
+    articleInfo: { query: 'nicht abgeholter Artikel' },
+    ttlMs: 5,
+  })
+  await store.workerUpdate(unclaimed.id, unclaimed.workerToken, {
+    status: 'complete',
+    resultHtml: '<p>temporärer Inhalt</p>',
+  })
+  now += 10
+  assert.equal(await store.getActive(), null)
+  assert.equal(
+    Array.from(runtime.values.keys()).some((key) =>
+      key.startsWith(`${EVENT_KEY_PREFIX}${unclaimed.id}:`),
+    ),
+    false,
+  )
 }
 
 async function testActionRunner() {
@@ -231,7 +279,15 @@ async function testActionRunner() {
       if (selector === '.article') {
         return content
       }
-      return ({ '#username': input, '#password': input, '#submit': button } as Record<string, unknown>)[selector] || null
+      return (
+        (
+          {
+            '#username': input,
+            '#password': input,
+            '#submit': button,
+          } as Record<string, unknown>
+        )[selector] || null
+      )
     },
     querySelectorAll(selector: string) {
       return selector === '.article' ? [content] : []
@@ -244,7 +300,9 @@ async function testActionRunner() {
       { username: 'user-only-in-memory', password: 'pass-only-in-memory' },
       { selectorTimeoutMs: 5 },
     )
-    await runner.runAction({ fill: { selector: '#username', value: 'user-only-in-memory' } })
+    await runner.runAction({
+      fill: { selector: '#username', value: 'user-only-in-memory' },
+    })
     await runner.runAction({ event: { selector: '#username', event: 'input' } })
     await runner.runAction({ click: '#submit' })
     const result = await runner.runAction({ extract: '.article' })
@@ -253,7 +311,10 @@ async function testActionRunner() {
     assert.deepEqual(input.events, ['input'])
     assert.equal(button.clicked, 1)
 
-    const delayedRunner = new UserscriptActionRunner({}, { selectorTimeoutMs: 300 })
+    const delayedRunner = new UserscriptActionRunner(
+      {},
+      { selectorTimeoutMs: 300 },
+    )
     setTimeout(() => {
       delayedContentVisible = true
     }, 20)
@@ -272,7 +333,9 @@ async function testActionRunner() {
         navigationFragment: 'bibbot-job=job-only&bibbot-worker=worker-only',
       },
     )
-    await navigationRunner.runAction({ url: 'https://bib-voebb.genios.de/search' })
+    await navigationRunner.runAction({
+      url: 'https://bib-voebb.genios.de/search',
+    })
     assert(navigated.includes('#bibbot-job=job-only'))
     assert(!navigated.includes('pass-only-in-memory'))
   } finally {
@@ -282,6 +345,58 @@ async function testActionRunner() {
 
 async function testProviderAndCredentials() {
   const runtime = new FakeRuntime()
+  await runtime.setValue(SETTINGS_KEY, {
+    provider: 'obsolete-provider',
+    workerActive: 'not-a-boolean',
+    saveArticle: 'https://obsolete.example',
+    disabledSites: ['www.zeit.de'],
+  })
+  assert.deepEqual(await loadSettings(runtime), { workerActive: false })
+  await saveSettings(runtime, { workerActive: true })
+  assert.deepEqual(await loadSettings(runtime), { workerActive: true })
+  assert.deepEqual(runtime.values.get(SETTINGS_KEY), { workerActive: true })
+  await runtime.setValue(SETTINGS_REQUEST_KEY, 1000)
+  assert.equal(
+    await consumeSettingsRequest(
+      runtime,
+      1001,
+      'https://bib-voebb.genios.de/#bibbot-settings',
+    ),
+    'open',
+  )
+  assert.equal(runtime.values.has(SETTINGS_REQUEST_KEY), false)
+  await runtime.setValue(SETTINGS_REQUEST_KEY, 1000)
+  assert.equal(
+    await consumeSettingsRequest(
+      runtime,
+      1000 + SETTINGS_REQUEST_TTL_MS + 1,
+      'https://www.voebb.de/oidcp/authorize',
+    ),
+    'none',
+  )
+  assert.equal(runtime.values.has(SETTINGS_REQUEST_KEY), false)
+  await runtime.setValue(SETTINGS_REQUEST_KEY, 1000)
+  assert.equal(
+    await consumeSettingsRequest(
+      runtime,
+      1001,
+      'https://www.voebb.de/oidcp/authorize',
+    ),
+    'wait',
+  )
+  assert.equal(runtime.values.has(SETTINGS_REQUEST_KEY), true)
+  await runtime.setValue(SETTINGS_REQUEST_KEY, 1000)
+  assert.equal(
+    await consumeSettingsRequest(
+      runtime,
+      1001,
+      'https://bib-voebb.genios.de/#bibbot-job=active-job',
+    ),
+    'none',
+  )
+  assert.equal(runtime.values.has(SETTINGS_REQUEST_KEY), true)
+  await runtime.deleteValue(SETTINGS_REQUEST_KEY)
+
   await saveCredentials(runtime, {
     username: 'username-never-in-job',
     password: 'password-never-in-job',
@@ -308,19 +423,27 @@ async function testProviderAndCredentials() {
     workerToken: 'worker-fragment',
   })
   assert.equal(await deleteAllCredentials(runtime), true)
-  assert.equal((await runtime.listValues()).some((key) => key.startsWith(CREDENTIAL_KEY_PREFIX)), false)
+  assert.equal(
+    (await runtime.listValues()).some((key) =>
+      key.startsWith(CREDENTIAL_KEY_PREFIX),
+    ),
+    false,
+  )
 }
 
 function testSiteCoverage() {
   const siteHosts = Object.keys(userscriptSites)
   assert.equal(siteHosts.length, 61)
   assert.deepEqual(ORIGIN_HOSTS, siteHosts)
-  assert(siteHosts.every((host) => userscriptSites[host].source === 'genios.de'))
-  assert.equal(USERSCRIPT_MATCHES.length, siteHosts.length + 2)
+  assert(
+    siteHosts.every((host) => userscriptSites[host].source === 'genios.de'),
+  )
   for (const host of siteHosts) {
-    assert(USERSCRIPT_MATCHES.includes(`https://${host}/*`))
     assert.equal(userscriptSites[host].selectors, completeSites[host].selectors)
-    assert.equal(userscriptSites[host].sourceParams, completeSites[host].sourceParams)
+    assert.equal(
+      userscriptSites[host].sourceParams,
+      completeSites[host].sourceParams,
+    )
     assert.equal('examples' in userscriptSites[host], false)
     assert.equal('testSetup' in userscriptSites[host], false)
   }
@@ -377,7 +500,9 @@ async function main() {
   await testProviderAndCredentials()
   testSiteCoverage()
   testOriginOwnership()
-  console.log('PASS: Userscript-Jobstore, Action Runner, Fragment-Korrelation und Credential-Isolation getestet.')
+  console.log(
+    'PASS: Userscript-Jobstore, Action Runner, Fragment-Korrelation und Credential-Isolation getestet.',
+  )
 }
 
 main().catch((error) => {

@@ -50,7 +50,21 @@ export function readUserscriptOriginHosts(
     throw new Error('Could not find the BibBot site definitions.')
   }
 
-  const usesGenios = (definition, visited = new Set()) => {
+  const resolveDefinition = (expression) => {
+    if (ts.isObjectLiteralExpression(expression)) {
+      return expression
+    }
+    if (ts.isIdentifier(expression)) {
+      return definitions.get(expression.text) || null
+    }
+    return null
+  }
+
+  const usesGenios = (expression, visited = new Set()) => {
+    const definition = resolveDefinition(expression)
+    if (!definition) {
+      return false
+    }
     if (visited.has(definition)) {
       return false
     }
@@ -79,7 +93,10 @@ export function readUserscriptOriginHosts(
   }
 
   const hosts = sites.properties.flatMap((property) => {
-    if (!ts.isPropertyAssignment(property) || !usesGenios(property.initializer)) {
+    if (
+      !ts.isPropertyAssignment(property) ||
+      !usesGenios(property.initializer)
+    ) {
       return []
     }
     const host = propertyName(property.name)

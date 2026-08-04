@@ -20,7 +20,8 @@ Tampermonkey-specific tab coordination, storage adapter and settings UI.
    confirm the installation in Tampermonkey.
 5. Open Tampermonkey's menu on a supported publisher site and select
    **BibBot einrichten**.
-6. Enter your own VÖBB user name and password and save them.
+6. BibBot opens a VÖBB/GENIOS tab for the settings. Enter your own VÖBB user
+   name and password there and save them.
 
 The release download URL used by the userscript is:
 
@@ -42,7 +43,8 @@ tab.
 The job is correlated with random origin and worker tokens. It survives normal
 Safari suspension and navigation through value-change signals, tab markers,
 page lifecycle events and polling. Once the article is inserted, BibBot
-acknowledges the result and closes the helper tab when Tampermonkey permits it.
+acknowledges the result, removes the completed job data and closes the helper
+tab when Tampermonkey permits it.
 
 Only one article job runs at a time. If Safari discarded or navigated away from
 the original article tab, a later article automatically removes the orphaned
@@ -61,7 +63,9 @@ It deliberately does not request `@connect`, `GM_xmlhttpRequest`, wildcard
 GENIOS hosts, cookies or WebExtension APIs.
 
 Credentials are stored as dedicated Tampermonkey values. They are read only in
-the helper tab and are not copied into the article job, status messages, error
+the trusted VÖBB/GENIOS flow, and the credential form is rendered only on
+`bib-voebb.genios.de`—never on a publisher or VÖBB authorization page.
+Credentials are not copied into the article job, status messages, error
 details, result HTML or URLs. **Alle Zugangsdaten löschen** removes all BibBot
 credential keys and verifies the deletion.
 

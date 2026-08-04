@@ -55,7 +55,10 @@ function eventFor(name: string) {
 function elementClick(element: Element) {
   const clickable = element as HTMLElement & { click?: () => void }
   if (typeof clickable.click !== 'function') {
-    throw new ActionRunnerError('not-clickable', 'Das Bibliotheksformular ist nicht klickbar.')
+    throw new ActionRunnerError(
+      'not-clickable',
+      'Das Bibliotheksformular ist nicht klickbar.',
+    )
   }
   clickable.click()
 }
@@ -107,7 +110,10 @@ export class UserscriptActionRunner {
       try {
         await this.find(action.failOnMissing, false)
       } catch (error) {
-        if (!(error instanceof ActionRunnerError) || error.code !== 'missing-selector') {
+        if (
+          !(error instanceof ActionRunnerError) ||
+          error.code !== 'missing-selector'
+        ) {
           throw error
         }
         throw new ActionRunnerError(
@@ -134,9 +140,7 @@ export class UserscriptActionRunner {
 
     if ('url' in action) {
       const url =
-        typeof action.url === 'function'
-          ? action.url({}, {})
-          : action.url
+        typeof action.url === 'function' ? action.url({}, {}) : action.url
       this.navigate(url)
       return { navigates: true }
     }
@@ -145,7 +149,10 @@ export class UserscriptActionRunner {
       const element = await this.find(action.href, false)
       const href = (element as HTMLAnchorElement).href
       if (!href) {
-        throw new ActionRunnerError('missing-href', 'Der Bibliothekslink enthält keine Zieladresse.')
+        throw new ActionRunnerError(
+          'missing-href',
+          'Der Bibliothekslink enthält keine Zieladresse.',
+        )
       }
       this.navigate(href)
       return { navigates: true }
@@ -170,14 +177,20 @@ export class UserscriptActionRunner {
       if (action.convert) {
         const converter = converters[action.convert]
         if (!converter) {
-          throw new ActionRunnerError('unknown-converter', 'Die Artikeldaten konnten nicht umgewandelt werden.')
+          throw new ActionRunnerError(
+            'unknown-converter',
+            'Die Artikeldaten konnten nicht umgewandelt werden.',
+          )
         }
         values = converter(values)
       }
       return { value: values.join('') }
     }
 
-    throw new ActionRunnerError('unknown-action', 'Unbekannte Bibliotheksaktion.')
+    throw new ActionRunnerError(
+      'unknown-action',
+      'Unbekannte Bibliotheksaktion.',
+    )
   }
 
   private resolveFillValue(fill: {
@@ -186,7 +199,10 @@ export class UserscriptActionRunner {
     value?: string
   }) {
     let value: unknown
-    if (fill.key && Object.prototype.hasOwnProperty.call(this.userData, fill.key)) {
+    if (
+      fill.key &&
+      Object.prototype.hasOwnProperty.call(this.userData, fill.key)
+    ) {
       value = this.userData[fill.key]
     } else if (
       fill.providerKey &&
@@ -233,7 +249,10 @@ export class UserscriptActionRunner {
       }
       destination = parsed.toString()
     } catch {
-      throw new ActionRunnerError('invalid-url', 'Die Bibliotheksadresse ist ungültig.')
+      throw new ActionRunnerError(
+        'invalid-url',
+        'Die Bibliotheksadresse ist ungültig.',
+      )
     }
     if (this.options.navigate) {
       this.options.navigate(destination)

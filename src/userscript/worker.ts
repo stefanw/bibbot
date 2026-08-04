@@ -1,8 +1,5 @@
 import type { Action } from '../types.js'
-import {
-  POLL_INTERVAL_MS,
-  TAB_DATA_KEY,
-} from './constants.js'
+import { POLL_INTERVAL_MS, TAB_DATA_KEY } from './constants.js'
 import { UserscriptActionRunner } from './action_runner.js'
 import type { BibbotJob, JobPhase, PendingAction } from './job_store.js'
 import { JobStore, redactError } from './job_store.js'
@@ -97,12 +94,21 @@ export class WorkerController {
       })
 
       if (job.status === 'busy') {
-        job = await this.store.workerUpdate(job.id, resolved.reference.workerToken, {
-          status: 'login',
-          message: 'Bibliothekskonto wird geprüft...',
-        })
+        job = await this.store.workerUpdate(
+          job.id,
+          resolved.reference.workerToken,
+          {
+            status: 'login',
+            message: 'Bibliothekskonto wird geprüft...',
+          },
+        )
       }
-      if (job.status === 'complete' || job.status === 'failed' || job.status === 'cancelled' || job.status === 'expired') {
+      if (
+        job.status === 'complete' ||
+        job.status === 'failed' ||
+        job.status === 'cancelled' ||
+        job.status === 'expired'
+      ) {
         this.stop()
         return
       }
@@ -112,26 +118,25 @@ export class WorkerController {
       }
 
       if (job.phase === 'login' && job.step === 0 && this.isLoggedIn(flow)) {
-        job = await this.store.workerUpdate(job.id, resolved.reference.workerToken, {
-          phase: 'search',
-          step: 0,
-          actionIndex: 0,
-          pendingAction: null,
-          status: 'search',
-          message: 'Pressedatenbank wird aufgerufen...',
-        })
+        job = await this.store.workerUpdate(
+          job.id,
+          resolved.reference.workerToken,
+          {
+            phase: 'search',
+            step: 0,
+            actionIndex: 0,
+            pendingAction: null,
+            status: 'search',
+            message: 'Pressedatenbank wird aufgerufen...',
+          },
+        )
       }
 
       await this.runActions(job, flow, resolved.reference)
     } catch (error) {
       const resolved = await this.findJob().catch(() => null)
       if (resolved) {
-        await this.fail(
-          resolved.job,
-          resolved.reference.workerToken,
-          error,
-          [],
-        )
+        await this.fail(resolved.job, resolved.reference.workerToken, error, [])
       }
     } finally {
       this.running = false
@@ -155,7 +160,8 @@ export class WorkerController {
             workerToken: (marker as Record<string, unknown>).workerToken,
           }
         : null
-    const candidate = reference ||
+    const candidate =
+      reference ||
       (markerReference &&
       typeof markerReference.jobId === 'string' &&
       typeof markerReference.originToken === 'string' &&
@@ -265,7 +271,8 @@ export class WorkerController {
           {
             pendingAction: null,
             status: 'waiting-interaction',
-            message: 'Bitte die CAPTCHA-/Anmeldeprüfung im geöffneten Tab abschließen.',
+            message:
+              'Bitte die CAPTCHA-/Anmeldeprüfung im geöffneten Tab abschließen.',
           },
           secrets,
         )

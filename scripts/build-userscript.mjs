@@ -13,8 +13,8 @@ async function build() {
 
 try {
   await build()
-  // @rollup/plugin-typescript leaves an idle handle open with this isolated
-  // target. All bundle writes and close hooks have completed at this point.
+  // The isolated TypeScript plugin keeps an idle handle after Rollup has
+  // written and closed the bundle. All build work is complete at this point.
   process.exit(0)
 } catch (error) {
   console.error(error)
