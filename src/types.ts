@@ -254,8 +254,8 @@ export type ActionCode =
       args?: string[]
     }
   | {
-      func?: (...args: string[]) => boolean
-      args?: string[]
+      func?: (...args: (string | number)[]) => boolean | Promise<boolean>
+      args?: (string | number)[]
       resultFunc?: (result: boolean) => boolean
     }
   | {

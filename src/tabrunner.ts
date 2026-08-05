@@ -1,6 +1,7 @@
 import * as browser from 'webextension-polyfill'
 import { Action, ActionCode, Actions } from './types.js'
 
+import { getFailOnMissingActionCode } from './actiontarget.js'
 import { STATUS_MESSAGE } from './const.js'
 import converters from './converters.js'
 
@@ -85,16 +86,7 @@ class TabRunner {
         args: [action.event.selector, action.event.event],
       }
     } else if ('failOnMissing' in action) {
-      return {
-        func: (selector) => document.querySelector(selector) !== null,
-        args: [action.failOnMissing],
-        resultFunc: (result) => {
-          if (result === true) {
-            return result
-          }
-          throw new Error(action.failure)
-        },
-      }
+      return getFailOnMissingActionCode(action.failOnMissing, action.failure)
     } else if ('func' in action) {
       return {
         func: action.func,
