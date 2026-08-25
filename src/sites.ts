@@ -804,23 +804,62 @@ const sites: Sites = {
       sourceNames: ['Falter (APA)'],
     },
   },
-  'www.stuttgarter-zeitung.de': {
-    testSetup: getConsentCdnSetup({ pageChanges: false }),
+  'www.faz.net': {
     examples: [
       {
-        url: 'https://www.stuttgarter-zeitung.de/inhalt.probleme-bei-der-abrechnung-warum-ein-stuttgarter-impfarzt-schlaflose-naechte-hatte.98bea27d-f195-4bda-899b-8221d3d7f901.html?reduced=true',
+        url: 'https://www.faz.net/aktuell/wirtschaft/einkommensteuerreform-klingbeils-entwurf-enttaeuscht-201153370.html',
         selectors: {
           query:
-            '"Schlaflose Nächte hat Christian Schweninger hinter sich die vergangenen zweieinhalb Monate seien „heftig“"',
+            '"sortiert auch die schwarz-rote Bundesregierung nach der Sommerpause in einer Kabinettsklausur die Reformaufgaben"',
         },
       },
     ],
     selectors: {
-      query: makeQueryFunc('.article-body > p'),
-      date: 'span[itemprop="datePublished"]',
-      paywall: '.mod-paywall',
-      main: '.article-body > p',
+      query: makeQueryFunc('p[data-selector="body-paragraph"]'),
+      date: 'time',
+      paywall: '.wall.paywall',
+      main: 'div[data-external-selector="body-elements"]',
     },
+    start: (root, paywall) => {
+      // undo the truncated preview (300px height + fade-out)
+      const body = root.querySelector(
+        'div[data-external-selector="body-elements"]',
+      ) as HTMLElement | null
+      if (body) {
+        body.classList.remove('absolute', 'h-[300px]', 'overflow-hidden')
+      }
+      if (paywall) {
+        paywall.style.display = 'none'
+      }
+    },
+    source: 'genios.de',
+    sourceParams: {
+      dbShortcut: 'FAZ,FAS',
+      sourceNames: [
+        'Frankfurter Allgemeine Zeitung',
+        'Frankfurter Allgemeine Sonntagszeitung',
+      ],
+    },
+  },
+  'www.stuttgarter-zeitung.de': {
+    testSetup: getConsentCdnSetup({ framePart: 'cdn.privacy-mgmt.com' }),
+    examples: [
+      {
+        url: 'https://www.stuttgarter-zeitung.de/lokales/stuttgart/probleme-bei-der-abrechnung-warum-ein-stuttgarter-impfarzt-schlaflose-naechte-hatte-78984384.html',
+        selectors: {
+          query:
+            'Arzt Christian Schweninger impft gegen Corona und musste wegen Zahlungsverzögerungen beinahe einen Kredit',
+        },
+      },
+    ],
+    selectors: {
+      query: makeQueryFunc('main article .u-article-header .fw-normal', false),
+      date: 'main article time',
+      paywall: '.u-paywall',
+      main: ['article figure', 'article .u-article-header'],
+    },
+    insertAfterMain: true,
+    waitOnLoad: 1000,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'STZ',
@@ -828,22 +867,24 @@ const sites: Sites = {
     },
   },
   'www.stuttgarter-nachrichten.de': {
-    testSetup: getConsentCdnSetup({ pageChanges: false }),
+    testSetup: getConsentCdnSetup({ framePart: 'cdn.privacy-mgmt.com' }),
     examples: [
       {
-        url: 'https://www.stuttgarter-nachrichten.de/inhalt.e-mobilitaet-in-stuttgart-zahl-privater-e-ladestellen-waechst-deutlich.a3a5609d-b274-4ac3-a2b1-2558da9a1d69.html?reduced=true',
+        url: 'https://www.stuttgarter-nachrichten.de/lokales/stuttgart/geschaeft-im-stuttgarter-westen-wenn-sich-nichts-aendert-ist-bis-zum-ende-des-jahres-feierabend-79395576.html',
         selectors: {
           query:
-            '"8400 E-Autos sind in Stuttgart zugelassen Dazu kommen noch mehr als 22 000 Plug-in-Hybride"',
+            'Farben Nagel in Stuttgart-West kämpft ums Überleben Nach einem besonders erfolgreichen Jahr 2015',
         },
       },
     ],
     selectors: {
-      query: makeQueryFunc('.article-body > p'),
-      date: 'span[itemprop="datePublished"]',
-      paywall: '.mod-paywall',
-      main: '.article-body > p',
+      query: makeQueryFunc('main article .u-article-header .fw-normal', false),
+      date: 'main article time',
+      paywall: '.u-paywall',
+      main: ['article figure', 'article .u-article-header'],
     },
+    insertAfterMain: true,
+    waitOnLoad: 1000,
     source: 'genios.de',
     sourceParams: {
       dbShortcut: 'STN',
